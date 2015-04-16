@@ -1,0 +1,8 @@
+{
+  "esprima": "esprima-fb",
+  "fileExtensions": [".js", ".jsx"],
+  "requireCurlyBraces": true,
+  "validateIndentation": 2,
+  "validateLineBreaks": "LF",
+  "validateQuoteMarks": "\""
+}
