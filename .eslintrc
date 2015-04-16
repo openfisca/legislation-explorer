@@ -1,6 +1,7 @@
 {
   "rules": {
-    "comma-dangle": "always-multiline",
+    "comma-dangle": [1, "always-multiline"],
+    "max-len": [1, 120, 2],
     "no-undef": 1,
     "no-unused-expressions": 1,
     "no-unused-vars": 1,
