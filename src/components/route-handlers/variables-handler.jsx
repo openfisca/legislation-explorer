@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 import React, {PropTypes} from "react";
+import Immutable from "immutable";
 
 import AppPropTypes from "../../prop-types";
 import VariablesPage from "../pages/variables-page";
@@ -33,11 +34,21 @@ var VariablesHandler = React.createClass({
   propTypes: {
     appState: PropTypes.object,
     errors: PropTypes.objectOf(PropTypes.object),
-    variables: PropTypes.objectOf(PropTypes.arrayOf(AppPropTypes.variable)),
+    variables: PropTypes.objectOf(PropTypes.objectOf(PropTypes.arrayOf(AppPropTypes.variable))),
   },
   statics: {
     fetchData() {
-      return webservices.fetchVariables();
+      var byEntityKeyAndSorted = variablesByName => Immutable.fromJS(variablesByName).valueSeq()
+        .groupBy(variable => variable.get("entity"))
+        .mapEntries(([entityKey, entityVariables]) => [
+          entityKey,
+          entityVariables.sortBy(variable => variable.get("name")),
+        ])
+        .toJS();
+      return webservices.fetchVariables().then(data => ({
+        inputVariablesByEntityKey: byEntityKeyAndSorted(data.columns),
+        outputVariablesByEntityKey: byEntityKeyAndSorted(data.prestations),
+      }));
     },
   },
   render() {
@@ -53,8 +64,8 @@ var VariablesHandler = React.createClass({
     } else {
       content = (
         <VariablesPage
-          inputVariables={this.props.variables.inputVariables}
-          outputVariables={this.props.variables.outputVariables}
+          inputVariablesByEntityKey={this.props.variables.inputVariablesByEntityKey}
+          outputVariablesByEntityKey={this.props.variables.outputVariablesByEntityKey}
         />
       );
     }

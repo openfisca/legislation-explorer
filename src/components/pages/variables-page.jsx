@@ -34,8 +34,8 @@ var VariablesPage = React.createClass({
     router: PropTypes.func.isRequired,
   },
   propTypes: {
-    inputVariables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
-    outputVariables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
+    inputVariablesByEntityKey: PropTypes.objectOf(PropTypes.arrayOf(AppPropTypes.variable)).isRequired,
+    outputVariablesByEntityKey: PropTypes.objectOf(PropTypes.arrayOf(AppPropTypes.variable)).isRequired,
   },
   render() {
     return (
@@ -48,11 +48,11 @@ var VariablesPage = React.createClass({
         </p>
         <Tabs panes={[
           {
-            element: this.renderVariablesTabPane(this.props.inputVariables),
+            element: this.renderVariablesTabPane("input", this.props.inputVariablesByEntityKey),
             title: "En entrée",
           },
           {
-            element: this.renderVariablesTabPane(this.props.outputVariables),
+            element: this.renderVariablesTabPane("output", this.props.outputVariablesByEntityKey),
             title: "En sortie (calculées)",
           },
         ]} />
@@ -66,20 +66,39 @@ var VariablesPage = React.createClass({
       </form>
     );
   },
-  renderVariablesTabPane(variables) {
+  renderVariablesTabPane(idPrefix, variablesByEntityKey) {
+    var entityNameByKey = {
+      fam: "Famille",
+      foy: "Foyer fiscal",
+      ind: "Individu",
+      men: "Ménage",
+    };
     return (
-      <ul>
-        {
-          variables.map((variable, idx) =>
-            <li key={idx}>
-              {variable.name}
-              <br/>
-              {variable.label ? variable.label : "Aucune description"}
-              {/*<Link to="variable" params={variable}>{variable.name}</Link>*/}
-            </li>
-          )
+      <Tabs
+        idPrefix={idPrefix}
+        panes={
+          Object.keys(variablesByEntityKey).sort().map(entityKey => {
+            var variables = variablesByEntityKey[entityKey];
+            return {
+              element: (
+                <ul>
+                  {
+                    variables.map((variable, idx) =>
+                      <li key={idx} style={{marginBottom: 10}}>
+                        {variable.name}
+                        <br/>
+                        {variable.label ? variable.label : "Aucune description"}
+                        {/*<Link to="variable" params={variable}>{variable.name}</Link>*/}
+                      </li>
+                    )
+                  }
+                </ul>
+              ),
+              title: entityKey,
+            };
+          })
         }
-      </ul>
+      />
     );
   },
 });

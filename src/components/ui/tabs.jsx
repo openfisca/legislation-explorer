@@ -29,29 +29,46 @@ import React, {PropTypes} from "react";
 
 var Tabs = React.createClass({
   propTypes: {
+    idPrefix: PropTypes.string,
     panes: PropTypes.arrayOf(PropTypes.shape({
       element: PropTypes.element.isRequired,
       title: PropTypes.string.isRequired,
     })).isRequired,
   },
+  getDefaultProps: function() {
+    return {
+      idPrefix: "",
+    };
+  },
   render() {
+    var {idPrefix} = this.props;
     return (
       <div role="tabpanel">
         <ul className="nav nav-tabs" role="tablist">
           {
             this.props.panes.map((pane, idx) =>
               <li className={classNames(idx === 0 && "active")} key={idx} role="presentation">
-                <a aria-controls={idx} data-toggle="tab" href={`#${idx}`} role="tab">
+                <a
+                  aria-controls={`${idPrefix}${idx}`}
+                  data-toggle="tab"
+                  href={`#${idPrefix}${idx}`}
+                  role="tab"
+                >
                   {pane.title}
                 </a>
               </li>
             )
           }
         </ul>
-        <div className="tab-content">
+        <div className="tab-content" style={{margin: 20}}>
           {
             this.props.panes.map((pane, idx) =>
-              <div className={classNames("tab-pane", idx === 0 && "active")} id={idx} key={idx} role="tabpanel">
+              <div
+                className={classNames("tab-pane", idx === 0 && "active")}
+                id={`${idPrefix}${idx}`}
+                key={idx}
+                role="tabpanel"
+              >
                 {pane.element}
               </div>
             )

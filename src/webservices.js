@@ -65,28 +65,11 @@ function loggedFetch(url, ...args) {
 }
 
 
-// Data manipulation
-
-function byProperty(property) {
-  return function byPropertyComparator(a, b) {
-    if (a[property] > b[property]) {
-      return 1;
-    } else if (a[property] < b[property]) {
-      return -1;
-    } else {
-      return 0;
-    }
-  };
-}
-
+// API fetch functions
 
 function fetchVariables() {
   const fieldsUrl = `${config.apiBaseUrl}/fields`;
-  var toArraySortedByName = data => Object.values(data).sort(byProperty("name"));
-  return fetchCachedJSON(fieldsUrl).then(data => ({
-    inputVariables: toArraySortedByName(data.columns),
-    outputVariables: toArraySortedByName(data.prestations),
-  }));
+  return fetchCachedJSON(fieldsUrl);
 }
 
 
