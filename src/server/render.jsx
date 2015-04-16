@@ -36,17 +36,17 @@ function render(req, res, next) {
         // The application component is rendered to static markup and sent as response.
         const css = webpackStats.css.concat([
           process.env.NODE_ENV === "production" ?
-            "/assets/bootstrap/css/bootstrap.min.css" :
-            "/assets/bootstrap/css/bootstrap.css",
+            "assets/bootstrap/css/bootstrap.min.css" :
+            "assets/bootstrap/css/bootstrap.css",
         ]);
         const scripts = webpackStats.script.concat(
           process.env.NODE_ENV === "production" ?
             [
-              "/assets/jquery/jquery.min.js",
-              "/assets/bootstrap/js/bootstrap.min.js",
+              "assets/jquery/jquery.min.js",
+              "assets/bootstrap/js/bootstrap.min.js",
             ] : [
-              "/assets/jquery/jquery.js",
-              "/assets/bootstrap/js/bootstrap.js",
+              "assets/jquery/jquery.js",
+              "assets/bootstrap/js/bootstrap.js",
             ]
         );
         const html = React.renderToStaticMarkup(
