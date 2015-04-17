@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-import React, {PropTypes} from "react";
+import React, {PropTypes, PureRenderMixin} from "react/addons";
 import Immutable from "immutable";
 
 import AppPropTypes from "../../prop-types";
@@ -31,24 +31,21 @@ import webservices from "../../webservices";
 
 
 var VariablesHandler = React.createClass({
+  mixins: [PureRenderMixin],
   propTypes: {
     appState: PropTypes.object,
     errors: PropTypes.objectOf(PropTypes.object),
-    variables: PropTypes.objectOf(PropTypes.objectOf(PropTypes.arrayOf(AppPropTypes.variable))),
+    variables: PropTypes.arrayOf(AppPropTypes.variable),
   },
   statics: {
     fetchData() {
-      var byEntityKeyAndSorted = variablesByName => Immutable.fromJS(variablesByName).valueSeq()
-        .groupBy(variable => variable.get("entity"))
-        .mapEntries(([entityKey, entityVariables]) => [
-          entityKey,
-          entityVariables.sortBy(variable => variable.get("name")),
-        ])
-        .toJS();
-      return webservices.fetchVariables().then(data => ({
-        inputVariablesByEntityKey: byEntityKeyAndSorted(data.columns),
-        outputVariablesByEntityKey: byEntityKeyAndSorted(data.prestations),
-      }));
+      return webservices.fetchVariables().then(data => Immutable.fromJS(data.columns)
+        .map(variable => variable.set("is_input", true))
+        .merge(data.prestations)
+        .valueSeq()
+        .sortBy(variable => variable.get("name"))
+        .toJS()
+      );
     },
   },
   render() {
@@ -63,10 +60,7 @@ var VariablesHandler = React.createClass({
       );
     } else {
       content = (
-        <VariablesPage
-          inputVariablesByEntityKey={this.props.variables.inputVariablesByEntityKey}
-          outputVariablesByEntityKey={this.props.variables.outputVariablesByEntityKey}
-        />
+        <VariablesPage variables={this.props.variables} />
       );
     }
     return content;

@@ -22,10 +22,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
+import DocumentTitle from "react-document-title";
 import {Link} from "react-router";
 import React from "react";
+import url from "url";
 
 import AppPropTypes from "../../prop-types";
+import config from "../../config";
 
 
 var VariablesPage = React.createClass({
@@ -33,16 +36,37 @@ var VariablesPage = React.createClass({
     variable: AppPropTypes.variable.isRequired,
   },
   render() {
+    var {label, name} = this.props.variable;
     return (
-      <div>
-        <div className="page-header">
-          <h1>{this.props.variable.name}</h1>
+      <DocumentTitle title={`${label} (${name}) - Explorateur de la légisation`}>
+        <div>
+          {this.renderBreadcrumb()}
+          <div className="page-header">
+            <h1>{`${label} (${name})`}</h1>
+          </div>
+          <Link to="variables">Retour</Link>
+          <p>
+            {JSON.stringify(this.props.variable)}
+          </p>
         </div>
-        <Link to="variables">Retour</Link>
-        <p>
-          {JSON.stringify(this.props.variable)}
-        </p>
-      </div>
+      </DocumentTitle>
+    );
+  },
+  renderBreadcrumb() {
+    var {label, name} = this.props.variable;
+    return (
+      <ul className="breadcrumb">
+        <li>
+          <a href={config.websiteUrl}>Accueil</a>
+        </li>
+        <li>
+          <a href={url.resolve(config.websiteUrl, "/outils")}>Outils</a>
+        </li>
+        <li>
+          <Link to="variables">Explorateur de la législation</Link>
+        </li>
+        <li className="active">{`${label} (${name})`}</li>
+      </ul>
     );
   },
 });
