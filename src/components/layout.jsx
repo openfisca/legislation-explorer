@@ -22,8 +22,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
+import DocumentTitle from "react-document-title";
 import React, {PropTypes} from "react";
 
+import NavBar from "./navbar";
 
 
 var Layout = React.createClass({
@@ -32,10 +34,14 @@ var Layout = React.createClass({
   },
   render() {
     return (
-      <div className="container">
-        <p>navbar</p>
-        {this.props.children}
-      </div>
+      <DocumentTitle title="Explorateur de la légisation">
+        <div>
+          <NavBar />
+          <div className="container">
+            {this.props.children}
+          </div>
+        </div>
+      </DocumentTitle>
     );
   },
 });

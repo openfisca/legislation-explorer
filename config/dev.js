@@ -4,4 +4,5 @@
 
 export default {
   apiBaseUrl: "http://localhost:2000/api/1",
-}
+  websiteUrl: "http://localhost:2010/",
+};

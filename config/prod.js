@@ -4,4 +4,5 @@
 
 export default {
   apiBaseUrl: "http://api.openfisca.fr/api/1",
-}
+  websiteUrl: "http://www.openfisca.fr/",
+};
