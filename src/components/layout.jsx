@@ -36,8 +36,9 @@ var Layout = React.createClass({
     return (
       <DocumentTitle title="Explorateur de la légisation">
         <div>
+          <a className="sr-only" href="#content">Sauter au contenu principal</a>
           <NavBar />
-          <div className="container">
+          <div className="container" id="content">
             {this.props.children}
           </div>
         </div>
