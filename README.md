@@ -37,3 +37,8 @@ version 3 or later (see COPYING).
 
 Feel free to join the OpenFisca development team on [GitHub](https://github.com/openfisca) or contact us by email at
 contact@openfisca.fr
+
+## Inspiration
+
+Thanks to the [isomorphic500](https://github.com/gpbl/isomorphic500) project for inspiration
+about the JavaScript build system and React server-side rendering!
