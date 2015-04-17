@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-// import {Link} from "react-router";
+import {Link} from "react-router";
 import React, {PropTypes} from "react";
 
 import AppPropTypes from "../../prop-types";
@@ -30,9 +30,6 @@ import Tabs from "../ui/tabs";
 
 
 var VariablesPage = React.createClass({
-  contextTypes: {
-    router: PropTypes.func.isRequired,
-  },
   propTypes: {
     inputVariablesByEntityKey: PropTypes.objectOf(PropTypes.arrayOf(AppPropTypes.variable)).isRequired,
     outputVariablesByEntityKey: PropTypes.objectOf(PropTypes.arrayOf(AppPropTypes.variable)).isRequired,
@@ -85,16 +82,15 @@ var VariablesPage = React.createClass({
                   {
                     variables.map((variable, idx) =>
                       <li key={idx} style={{marginBottom: 10}}>
-                        {variable.name}
+                        <Link params={variable} to="variable">{variable.name}</Link>
                         <br/>
                         {variable.label ? variable.label : "Aucune description"}
-                        {/*<Link to="variable" params={variable}>{variable.name}</Link>*/}
                       </li>
                     )
                   }
                 </ul>
               ),
-              title: entityKey,
+              title: entityNameByKey[entityKey],
             };
           })
         }

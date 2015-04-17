@@ -28,6 +28,7 @@ import {DefaultRoute, NotFoundRoute, Route} from "react-router";
 
 import App from "./components/app";
 import NotFoundPage from "./components/pages/not-found-page";
+import VariableHandler from "./components/route-handlers/variable-handler";
 import VariablesHandler from "./components/route-handlers/variables-handler";
 
 
@@ -60,6 +61,7 @@ function fetchData(matchedRoutes, params, query) {
 var routes = (
   <Route handler={App}>
     <NotFoundRoute handler={NotFoundPage} />
+    <Route handler={VariableHandler} name="variable" path=":name" />
     <DefaultRoute handler={VariablesHandler} name="variables" />
   </Route>
 );
