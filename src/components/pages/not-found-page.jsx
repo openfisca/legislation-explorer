@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
+import DocumentTitle from "react-document-title";
 import React from "react";
 
 
@@ -29,9 +30,9 @@ import React from "react";
 var NotFoundPage = React.createClass({
   render() {
     return (
-      <div>
-        <h1>Not found</h1>
-      </div>
+      <DocumentTitle title="Page non trouvée">
+        <h1>Page non trouvée</h1>
+      </DocumentTitle>
     );
   },
 });
