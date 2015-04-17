@@ -30,7 +30,7 @@ import React from "react";
 var NotFoundPage = React.createClass({
   render() {
     return (
-      <DocumentTitle title="Page non trouvée">
+      <DocumentTitle title="Page non trouvée - Explorateur de la légisation">
         <h1>Page non trouvée</h1>
       </DocumentTitle>
     );
