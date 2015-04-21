@@ -32,7 +32,7 @@ import webservices from "../../webservices";
 var VariableHandler = React.createClass({
   propTypes: {
     appState: PropTypes.object,
-    errors: PropTypes.objectOf(PropTypes.object),
+    errorByRouteName: PropTypes.objectOf(PropTypes.object),
     variable: AppPropTypes.variable,
   },
   statics: {
@@ -46,7 +46,7 @@ var VariableHandler = React.createClass({
       content = this.props.appState.loading === "slow" ? (
         <p>Loading…</p>
       ) : null;
-    } else if (this.props.errors && this.props.errors.variable) {
+    } else if (this.props.errorByRouteName && this.props.errorByRouteName.variable) {
       content = (
         <p>Unable to fetch data from API.</p>
       );

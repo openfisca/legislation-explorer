@@ -51,7 +51,7 @@ function renderApp() {
     global.loadingEvents.emit("loadStart");
     fetchData(state.routes, state.params, state.query).then(
       data => React.render(<Handler {...data} />, appMountNode),
-      errors => React.render(<Handler errorByRouteName={errors} />, appMountNode)
+      errorByRouteName => React.render(<Handler errorByRouteName={errorByRouteName} />, appMountNode)
     ).then(
       () => global.loadingEvents.emit("loadEnd")
     );

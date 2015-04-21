@@ -34,7 +34,7 @@ var VariablesHandler = React.createClass({
   mixins: [PureRenderMixin],
   propTypes: {
     appState: PropTypes.object,
-    errors: PropTypes.objectOf(PropTypes.object),
+    errorByRouteName: PropTypes.objectOf(PropTypes.object),
     variables: PropTypes.arrayOf(AppPropTypes.variable),
   },
   statics: {
@@ -54,7 +54,7 @@ var VariablesHandler = React.createClass({
       content = this.props.appState.loading === "slow" ? (
         <p>Loading…</p>
       ) : null;
-    } else if (this.props.errors && this.props.errors.variables) {
+    } else if (this.props.errorByRouteName && this.props.errorByRouteName.variables) {
       content = (
         <p>Unable to fetch data from API.</p>
       );
