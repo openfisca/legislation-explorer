@@ -27,6 +27,7 @@ import React from "react";
 import {DefaultRoute, NotFoundRoute, Route} from "react-router";
 
 import App from "./components/app";
+import HomePage from "./components/pages/home-page";
 import NotFoundPage from "./components/pages/not-found-page";
 import VariableHandler from "./components/route-handlers/variable-handler";
 import VariablesHandler from "./components/route-handlers/variables-handler";
@@ -60,9 +61,12 @@ function fetchData(matchedRoutes, params, query) {
 
 var routes = (
   <Route handler={App}>
+    <Route path="variables">
+      <Route handler={VariableHandler} name="variable" path=":name" />
+      <DefaultRoute handler={VariablesHandler} name="variables" />
+    </Route>
+    <DefaultRoute handler={HomePage} name="home" />
     <NotFoundRoute handler={NotFoundPage} />
-    <Route handler={VariableHandler} name="variable" path=":name" />
-    <DefaultRoute handler={VariablesHandler} name="variables" />
   </Route>
 );
 

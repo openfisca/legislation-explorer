@@ -38,7 +38,7 @@ var VariableHandler = React.createClass({
   },
   statics: {
     fetchData(params) {
-      return webservices.fetchVariables().then(data => data.columns[params.name]);
+      return webservices.fetchVariable(params.name).then(data => data.value);
     },
   },
   render() {

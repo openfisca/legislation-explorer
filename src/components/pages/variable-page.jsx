@@ -31,30 +31,32 @@ import AppPropTypes from "../../prop-types";
 import config from "../../config";
 
 
-var VariablesPage = React.createClass({
+var VariablePage = React.createClass({
   mixins: [PureRenderMixin],
   propTypes: {
     variable: AppPropTypes.variable.isRequired,
   },
   render() {
-    var {label, name} = this.props.variable;
+    var {formula, label, name} = this.props.variable;
     return (
       <DocumentTitle title={`${label} (${name}) - Explorateur de la légisation`}>
         <div>
           {this.renderBreadcrumb()}
           <div className="page-header">
-            <h1>{`${label} (${name})`}</h1>
+            <h1>{name}</h1>
           </div>
-          <Link to="variables">Retour</Link>
           <p>
-            {JSON.stringify(this.props.variable)}
+            {label}
+            {label === name && " (à compléter)"}
           </p>
+          {this.renderVariableHeader()}
+          {formula && this.renderFormula()}
         </div>
       </DocumentTitle>
     );
   },
   renderBreadcrumb() {
-    var {label, name} = this.props.variable;
+    var {name} = this.props.variable;
     return (
       <ul className="breadcrumb">
         <li>
@@ -64,13 +66,68 @@ var VariablesPage = React.createClass({
           <a href={url.resolve(config.websiteUrl, "/outils")}>Outils</a>
         </li>
         <li>
-          <Link to="variables">Explorateur de la législation</Link>
+          <Link to="home">Explorateur de la législation</Link>
         </li>
-        <li className="active">{`${label} (${name})`}</li>
+        <li>
+          <Link to="variables">Variables</Link>
+        </li>
+        <li className="active">{name}</li>
       </ul>
+    );
+  },
+  renderFormula() {
+    var {formula} = this.props.variable;
+    var githubUrl = "https://github.com/openfisca/openfisca-france/tree/master/" +
+      formula.module.split(".").join("/") + ".py#L" + formula.line_number + "-" +
+      (formula.line_number + formula.source.trim().split("\n").length - 1);
+    return (
+      <div>
+        <pre>{formula.source}</pre>
+        <a href={githubUrl} rel="external" target="_blank">Voir dans GitHub</a>
+      </div>
+    );
+  },
+  renderVariableHeader() {
+    var {variable} = this.props;
+    var entityLabelByNamePlural = {
+      familles: "Famille",
+      "foyers_fiscaux": "Foyer fiscal",
+      individus: "Individu",
+      menages: "Ménage",
+    };
+    return (
+      <dl className="dl-horizontal">
+        <dt>Type</dt>
+        <dd>
+          <code>{variable["@type"]}</code>
+          {variable.val_type && ` (${variable.val_type})`}
+        </dd>
+        <dt>Valeur par défaut</dt>
+        <dd><samp>{variable.default}</samp></dd>
+        <dt>Entité</dt>
+        <dd>{entityLabelByNamePlural[variable.entity]}</dd>
+        {
+          variable.cerfa_field && [
+            <dt key="cerfa-dt">Cellules CERFA</dt>,
+            <dd key="cerfa-dd">
+              {
+                typeof variable.cerfa_field === "string" ?
+                  variable.cerfa_field :
+                  Object.values(variable.cerfa_field).join(", ")
+              }
+            </dd>,
+          ]
+        }
+        {
+          variable.start && [
+            <dt key="start-dt">Démarre le</dt>,
+            <dd key="start-dd">{variable.start}</dd>,
+          ]
+        }
+      </dl>
     );
   },
 });
 
 
-export default VariablesPage;
+export default VariablePage;

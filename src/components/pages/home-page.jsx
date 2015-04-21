@@ -23,28 +23,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 import {Link} from "react-router";
-import DocumentTitle from "react-document-title";
 import React, {PureRenderMixin} from "react/addons";
 
 
-
-var NotFoundPage = React.createClass({
+var HomePage = React.createClass({
   mixins: [PureRenderMixin],
   render() {
     return (
-      <DocumentTitle title="Page non trouvée - Explorateur de la légisation">
-        <div>
-          <div className="page-header">
-            <h1>Page non trouvée</h1>
-          </div>
-          <p>
-            <Link to="home">Retour à l'explorateur de variables</Link>
-          </p>
+      <section>
+        <div className="page-header">
+          <h1>Explorateur de la législation</h1>
         </div>
-      </DocumentTitle>
+        <Link to="variables">Variables socio-fiscales</Link>
+      </section>
     );
   },
 });
 
 
-export default NotFoundPage;
+export default HomePage;

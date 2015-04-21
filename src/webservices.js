@@ -22,6 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
+import nodeUrl from "url";
+
 import fetch from "isomorphic-fetch";
 
 import config from "./config";
@@ -67,10 +69,19 @@ function loggedFetch(url, ...args) {
 
 // API fetch functions
 
+function fetchVariable(variableName) {
+  const fieldsUrl = config.apiBaseUrl + "/" + nodeUrl.format({
+    pathname: "field",
+    query: {variable: variableName},
+  });
+  return fetchCachedJSON(fieldsUrl);
+}
+
+
 function fetchVariables() {
   const fieldsUrl = `${config.apiBaseUrl}/fields`;
   return fetchCachedJSON(fieldsUrl);
 }
 
 
-export default {fetchVariables};
+export default {fetchVariable, fetchVariables};
