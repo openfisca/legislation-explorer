@@ -5,8 +5,8 @@ import React, { PropTypes } from "react";
 class HtmlDocument extends React.Component {
 
   static propTypes = {
+    appHtml: PropTypes.string.isRequired,
     css: PropTypes.arrayOf(PropTypes.string),
-    markup: PropTypes.string.isRequired,
     scripts: PropTypes.arrayOf(PropTypes.string),
   }
 
@@ -16,7 +16,7 @@ class HtmlDocument extends React.Component {
   }
 
   render() {
-    const { markup, scripts, css } = this.props;
+    const {appHtml, css, scripts} = this.props;
     return (
       <html>
         <head>
@@ -25,7 +25,7 @@ class HtmlDocument extends React.Component {
           {css.map((href, k) => <link key={k} rel="stylesheet" type="text/css" href={href} />)}
         </head>
         <body>
-          <div dangerouslySetInnerHTML={{__html: markup}} id="app-mount-node" />
+          <div dangerouslySetInnerHTML={{__html: appHtml}} id="app-mount-node" />
           {scripts.map((src, idx) => <script key={idx} src={src} />)}
         </body>
       </html>

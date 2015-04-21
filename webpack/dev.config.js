@@ -19,14 +19,14 @@ export default {
     "main": [
       `webpack-dev-server/client?http://${WEBPACK_HOST}:${WEBPACK_PORT}`,
       "webpack/hot/only-dev-server",
-      "./src/client.js"
-    ]
+      "./src/client.js",
+    ],
   },
   output: {
     path: assetsPath,
     filename: "[name]-[chunkhash].js",
     chunkFilename: "[name]-[chunkhash].js",
-    publicPath: `http://${WEBPACK_HOST}:${WEBPACK_PORT}/assets/`
+    publicPath: `http://${WEBPACK_HOST}:${WEBPACK_PORT}/assets/`,
   },
   module: {
     loaders: [
@@ -35,10 +35,10 @@ export default {
         loaders: ["react-hot", "babel"],
         test: /\.jsx?$/,
       },
-    ]
+    ],
   },
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: ["", ".js", ".jsx"],
   },
   progress: true,
   plugins: [
@@ -54,9 +54,9 @@ export default {
       process.stdout.write(`${CLEAR_LINE}${Math.round(percentage * 100)}%: ${message}${MOVE_LEFT}`);
     }),
 
-    new ErrorNotificationPlugin(process.platform === 'linux' && function(msg) {
+    new ErrorNotificationPlugin(process.platform === "linux" && function(msg) {
       if (!this.lastBuildSucceeded) {
-        require('child_process').exec('notify-send --hint=int:transient:1 Webpack ' + msg);
+        require("child_process").exec("notify-send --hint=int:transient:1 Webpack " + msg);
       }
     }),
 
@@ -64,7 +64,7 @@ export default {
       "process.env": {
         BROWSER: JSON.stringify(true),
         NODE_ENV: JSON.stringify("development"),
-      }
+      },
     }),
 
     new webpack.optimize.DedupePlugin(),
@@ -73,6 +73,5 @@ export default {
     // stats
     function() { this.plugin("done", notifyStats); },
     function() { this.plugin("done", writeStats); },
-
-  ]
+  ],
 };
