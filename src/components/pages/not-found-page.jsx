@@ -23,11 +23,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 import DocumentTitle from "react-document-title";
-import React from "react";
+import React, {PureRenderMixin} from "react/addons";
 
 
 
 var NotFoundPage = React.createClass({
+  mixins: [PureRenderMixin],
   render() {
     return (
       <DocumentTitle title="Page non trouvée - Explorateur de la légisation">
