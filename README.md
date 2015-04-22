@@ -20,8 +20,10 @@ Open http://localhost:2030/
 
 ### Production server
 
+    npm run clean
+    npm run assets
     npm run build
-    npm run prod
+    npm start
 
 Open http://localhost:2030/
 

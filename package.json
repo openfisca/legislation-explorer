@@ -8,8 +8,7 @@
     "clean": "rm -rf public",
     "dev": "npm run assets; NODE_ENV=development DEBUG=app:* node index",
     "linter": "eslint src && jscs src",
-    "prod": "npm run assets; NODE_ENV=production PORT=2030 DEBUG=app:* node index",
-    "start": "npm run assets; NODE_ENV=production node index"
+    "start": "npm run assets; NODE_ENV=production PORT=2030 DEBUG=app:* node index"
   },
   "repository": {
     "type": "git",
