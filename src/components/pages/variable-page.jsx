@@ -82,7 +82,12 @@ var VariablePage = React.createClass({
       (formula.line_number + formula.source.trim().split("\n").length - 1);
     return (
       <div>
-        <pre>{formula.source}</pre>
+        <pre style={{overflowX: "auto"}}>
+          <code className="python" style={{
+            overflowWrap: "normal",
+            whiteSpace: "pre",
+          }}>{formula.source}</code>
+        </pre>
         <a href={githubUrl} rel="external" target="_blank">Voir dans GitHub</a>
       </div>
     );
