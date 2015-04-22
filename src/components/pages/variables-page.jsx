@@ -207,12 +207,14 @@ var VariablesPage = React.createClass({
         (
           !query.name || (
             this.guessBool(query.fuzzy) ? (
-              fuzzysearch(query.name, variable.name) || (
-                this.guessBool(query.search_in_description) && fuzzysearch(query.name, variable.label)
+              fuzzysearch(query.name.toLowerCase(), variable.name.toLowerCase()) || (
+                this.guessBool(query.search_in_description) &&
+                fuzzysearch(query.name.toLowerCase(), variable.label.toLowerCase())
               )
             ) : (
-              variable.name.includes(query.name) || (
-                this.guessBool(query.search_in_description) && variable.label.includes(query.name)
+              variable.name.toLowerCase().includes(query.name.toLowerCase()) || (
+                this.guessBool(query.search_in_description) &&
+                variable.label.toLowerCase().includes(query.name.toLowerCase())
               )
             )
           )
