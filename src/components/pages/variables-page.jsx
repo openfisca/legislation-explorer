@@ -32,17 +32,42 @@ import config from "../../config";
 
 
 var VariablesPage = React.createClass({
+  contextTypes: {
+    router: PropTypes.func.isRequired,
+  },
   mixins: [PureRenderMixin],
   propTypes: {
     variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
   },
-  getInitialState: function() {
+  getInitialState() {
+    var {router} = this.context;
+    var query = router.getCurrentQuery();
     return {
-      fuzzySearch: false,
-      nameFilter: null,
-      nameFilterIncludesLabel: false,
-      typeFilter: "all",
+      fuzzy: this.guessBool(query.fuzzy),
+      name: query.name,
+      "search_in_description": this.guessBool(query.search_in_description),
+      type: query.type,
     };
+  },
+  guessBool(value) {
+    return ["true", "1"].includes(value);
+  },
+  handleFormSubmit(event) {
+    event.preventDefault();
+    var {router} = this.context;
+    router.transitionTo("variables", null, this.state);
+  },
+  handleFuzzySearchChange(value) {
+    this.setState({fuzzy: value});
+  },
+  handleNameFilterChange(newNameFilter) {
+    this.setState({name: newNameFilter});
+  },
+  handleSearchInDescription(value) {
+    this.setState({"search_in_description": value});
+  },
+  handleTypeFilterChange(newTypeFilter) {
+    this.setState({type: newTypeFilter});
   },
   render() {
     return (
@@ -76,20 +101,21 @@ var VariablesPage = React.createClass({
   },
   renderSearchForm() {
     return (
-      <form role="search">
+      <form onSubmit={this.handleFormSubmit} role="search">
         <div className="input-group">
           <input
             className="form-control"
-            onChange={(event) => this.setState({nameFilter: event.target.value})}
+            name="name"
+            onChange={(event) => this.handleNameFilterChange(event.target.value)}
             placeholder="Rechercher par nom de variable"
             type="search"
-            value={this.state.nameFilter}
+            value={this.state.name}
           />
           <span className="input-group-btn">
             <button
               className="btn btn-default"
-              disabled={this.state.nameFilter === null}
-              onClick={() => this.setState({nameFilter: null})}
+              disabled={!this.state.name}
+              onClick={() => this.handleNameFilterChange(null)}
               type="button"
             >
               Effacer
@@ -101,9 +127,11 @@ var VariablesPage = React.createClass({
             <div className="radio">
               <label>
                 <input
-                  checked={this.state.typeFilter === "all"}
-                  onChange={() => this.setState({typeFilter: "all"})}
+                  checked={!this.state.type}
+                  name="type"
+                  onChange={() => this.handleTypeFilterChange(null)}
                   type="radio"
+                  value=""
                 />
                 Toutes les variables
               </label>
@@ -111,9 +139,11 @@ var VariablesPage = React.createClass({
             <div className="radio">
               <label>
                 <input
-                  checked={this.state.typeFilter === "input"}
-                  onChange={() => this.setState({typeFilter: "input"})}
+                  checked={this.state.type === "input"}
+                  name="type"
+                  onChange={() => this.handleTypeFilterChange("input")}
                   type="radio"
+                  value="input"
                 />
                 Variables d'entrée
               </label>
@@ -121,9 +151,11 @@ var VariablesPage = React.createClass({
             <div className="radio">
               <label>
                 <input
-                  checked={this.state.typeFilter === "output"}
-                  onChange={() => this.setState({typeFilter: "output"})}
+                  checked={this.state.type === "output"}
+                  name="type"
+                  onChange={() => this.handleTypeFilterChange("output")}
                   type="radio"
+                  value="output"
                 />
                 Variables de sortie (avec formules)
               </label>
@@ -133,22 +165,24 @@ var VariablesPage = React.createClass({
             <div className="checkbox">
               <label>
                 <input
-                  checked={this.state.nameFilterIncludesLabel}
-                  disabled={this.state.nameFilter === null}
-                  onChange={(event) => this.setState({nameFilterIncludesLabel: event.target.checked})}
+                  checked={this.state.search_in_description}
+                  name="search_in_description"
+                  onChange={(event) => this.handleSearchInDescription(event.target.checked)}
                   type="checkbox"
+                  value="true"
                 />
                 {" "}
-                Inclure la description
+                Rechercher aussi dans la description
               </label>
             </div>
             <div className="checkbox">
               <label>
                 <input
-                  checked={this.state.fuzzySearch}
-                  disabled={this.state.nameFilter === null}
-                  onChange={(event) => this.setState({fuzzySearch: event.target.checked})}
+                  checked={this.state.fuzzy}
+                  name="fuzzy"
+                  onChange={(event) => this.handleFuzzySearchChange(event.target.checked)}
                   type="checkbox"
+                  value="true"
                 />
                 {" "}
                 Recherche approximative
@@ -156,29 +190,34 @@ var VariablesPage = React.createClass({
             </div>
           </div>
         </div>
+        <button
+          className="btn btn-primary"
+          type="submit"
+        >
+          Rechercher
+        </button>
       </form>
     );
   },
   renderVariablesList(variables) {
-    var applyFilters = (memo, variable) => {
-      var {nameFilter, typeFilter} = this.state;
+    var applyFiltersReducer = (memo, variable) => {
+      var {router} = this.context;
+      var query = router.getCurrentQuery();
       if (
         (
-          !nameFilter || (
-            this.state.fuzzySearch ? (
-              fuzzysearch(nameFilter, variable.name) || (
-                this.state.nameFilterIncludesLabel && fuzzysearch(nameFilter, variable.label)
+          !query.name || (
+            this.guessBool(query.fuzzy) ? (
+              fuzzysearch(query.name, variable.name) || (
+                this.guessBool(query.search_in_description) && fuzzysearch(query.name, variable.label)
               )
             ) : (
-              variable.name.includes(nameFilter) || (
-                this.state.nameFilterIncludesLabel && variable.label.includes(nameFilter)
+              variable.name.includes(query.name) || (
+                this.guessBool(query.search_in_description) && variable.label.includes(query.name)
               )
             )
           )
         ) && (
-          typeFilter === "all" ||
-          typeFilter === "output" && !variable.is_input ||
-          typeFilter === "input" && variable.is_input
+          !query.type || query.type === "output" && !variable.is_input || query.type === "input" && variable.is_input
         )
       ) {
         memo.push(variable);
@@ -188,7 +227,7 @@ var VariablesPage = React.createClass({
     return (
       <ul>
         {
-          variables.reduce(applyFilters, []).map((variable, idx) =>
+          variables.reduce(applyFiltersReducer, []).map((variable, idx) =>
             <li key={idx} style={{marginBottom: 10}}>
               <Link params={variable} to="variable">{variable.name}</Link>
               <br/>
