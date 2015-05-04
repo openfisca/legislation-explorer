@@ -24,12 +24,27 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import nodeUrl from "url";
 
-import fetch from "isomorphic-fetch";
-
 import config from "./config";
 
 
 const debug = require("debug")("app:webservices");
+
+
+// Fetch polyfill
+
+function loadFetch() {
+  if (process.env.BROWSER) {
+    if (window.fetch) {
+      return window.fetch;
+    } else {
+      require("whatwg-fetch");
+      return window.fetch;
+    }
+  } else {
+    return require("node-fetch");
+  }
+}
+var fetch = loadFetch();
 
 
 // Generic fetch functions

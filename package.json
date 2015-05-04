@@ -26,12 +26,13 @@
     "express": "^4.12.3",
     "fuzzysearch": "^1.0.3",
     "immutable": "^3.7.2",
-    "isomorphic-fetch": "^2.0.2",
     "morgan": "^1.5.2",
+    "node-fetch": "^1.2.1",
     "react": "^0.13.1",
     "react-document-title": "^1.0.2",
     "react-router": "^0.13.2",
-    "serve-favicon": "^2.2.0"
+    "serve-favicon": "^2.2.0",
+    "whatwg-fetch": "git://github.com/matthew-andrews/fetch#ie9"
   },
   "devDependencies": {
     "babel-eslint": "^3.0.1",
