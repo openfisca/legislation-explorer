@@ -32,10 +32,7 @@ function render(req, res, next) {
     fetchData(state.routes, state.params, state.query)
       .then(
         data => React.renderToString(<Handler loading={false} {...data} />),
-        errors => {
-          debug("errors", errors);
-          return React.renderToString(<Handler errors={errors} loading={false} />);
-        }
+        errorByRouteName => React.renderToString(<Handler errorByRouteName={errorByRouteName} loading={false} />)
       )
       .then(appHtml => res.send(renderMarkup(appHtml)))
       .catch(error => next(error));
