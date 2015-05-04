@@ -22,10 +22,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-import React, {PropTypes, PureRenderMixin} from "react/addons";
+import url from "url";
+
+import {Link} from "react-router";
 import Immutable from "immutable";
+import React, {PropTypes, PureRenderMixin} from "react/addons";
 
 import AppPropTypes from "../../prop-types";
+import config from "../../config";
 import VariablesPage from "../pages/variables-page";
 import webservices from "../../webservices";
 
@@ -49,6 +53,33 @@ var VariablesHandler = React.createClass({
     },
   },
   render() {
+    return (
+      <div>
+        {this.renderBreadcrumb()}
+        <div className="page-header">
+          <h1>Variables et formules socio-fiscales</h1>
+        </div>
+        {this.renderContent()}
+      </div>
+    );
+  },
+  renderBreadcrumb() {
+    return (
+      <ul className="breadcrumb">
+        <li>
+          <a href={config.websiteUrl}>Accueil</a>
+        </li>
+        <li>
+          <a href={url.resolve(config.websiteUrl, "/outils")}>Outils</a>
+        </li>
+        <li>
+          <Link to="home">Explorateur de la législation</Link>
+        </li>
+        <li className="active">Variables</li>
+      </ul>
+    );
+  },
+  renderContent() {
     var content;
     if (this.props.appState.loading) {
       content = this.props.appState.loading === "slow" ? (
