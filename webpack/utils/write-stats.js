@@ -27,17 +27,14 @@ function writeStats(stats) {
     }
 
     return chunk
-      .filter(chunk => path.extname(chunk) === `.${ext}`) // filter by extension
-      .map(chunk => `${publicPath}${chunk}`); // add public path to it
+      .filter(chunk2 => path.extname(chunk2) === `.${ext}`) // filter by extension
+      .map(chunk2 => `${publicPath}${chunk2}`); // add public path to it
   }
 
   const script = getChunks("main", "js");
   const css = getChunks("main", "css");
 
-  const content = {
-    script: script,
-    css: css
-  };
+  const content = {css, script};
 
   fs.writeFileSync(filepath, JSON.stringify(content));
 

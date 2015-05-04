@@ -20,9 +20,9 @@ class HtmlDocument extends React.Component {
     return (
       <html>
         <head>
-          <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+          <meta content="width=device-width, initial-scale=1.0, user-scalable=no" name="viewport" />
           <title>{ DocumentTitle.rewind() }</title>
-          {css.map((href, k) => <link key={k} rel="stylesheet" type="text/css" href={href} />)}
+          {css.map((href, k) => <link href={href} key={k} rel="stylesheet" type="text/css" />)}
         </head>
         <body>
           <div dangerouslySetInnerHTML={{__html: appHtml}} id="app-mount-node" />

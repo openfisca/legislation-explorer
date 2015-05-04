@@ -18,7 +18,7 @@ function notifyStats(stats) {
   } else {
     console.log(stats.toString({
       chunks: false,
-      colors: true
+      colors: true,
     }));
   }
 }
