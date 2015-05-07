@@ -23,63 +23,129 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 import fuzzysearch from "fuzzysearch";
+import Immutable from "immutable";
 import React, {PropTypes} from "react/addons";
 
 import AppPropTypes from "../../app-prop-types";
+import VariablesTree from "./variables-tree";
+
+
+// const debug = require("debug")("app:VariablesPage");
 
 
 var VariablesPage = React.createClass({
-  contextTypes: {
-    router: PropTypes.func.isRequired,
-  },
   propTypes: {
     variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
   },
+  buildVariablesTreeData(variables) {
+    var data = Immutable.fromJS(variables)
+      .reduce(
+        (reduction, variable) => reduction.updateIn(
+          variable.get("modulePath").interpose("children").unshift("children"),
+          new Immutable.Map(),
+          node => node.update("variables", new Immutable.List(), nodeVariables => nodeVariables.push(variable))
+        ),
+        new Immutable.Map({opened: true})
+      );
+    Object.keys(this.state.closedByPath).forEach(pathStr => {
+      var isOpened = !this.state.closedByPath[pathStr];
+      var path = Immutable.fromJS(pathStr.split(".")).interpose("children").unshift("children").toJS();
+      data = data.setIn(path.concat("opened"), isOpened);
+    });
+    return data.toJS();
+  },
+  findVariables() {
+    var name = this.state.name && this.state.name.length ? this.state.name.trim().toLowerCase() : "";
+    var applyFiltersReducer = (memo, variable) => {
+      if (
+        (
+          !name || (
+            this.state.fuzzy ? (
+              fuzzysearch(name, variable.name.toLowerCase()) || (
+                this.state.searchInDescription && fuzzysearch(name, variable.label.toLowerCase())
+              )
+            ) : (
+              variable.name.toLowerCase().includes(name) || (
+                this.state.searchInDescription && variable.label.toLowerCase().includes(name)
+              )
+            )
+          )
+        ) && (
+          this.state.type === "" ||
+          // TODO Replace is_input with variable.formula?
+          this.state.type === "output" && !variable.is_input ||
+          this.state.type === "input" && variable.is_input
+        )
+      ) {
+        memo.push(variable);
+      }
+      return memo;
+    };
+    return this.props.variables.reduce(applyFiltersReducer, []);
+  },
   getInitialState() {
-    var {router} = this.context;
-    var query = router.getCurrentQuery();
     return {
-      fuzzy: this.guessBool(query.fuzzy),
-      name: query.name,
-      "search_in_description": this.guessBool(query.search_in_description),
-      type: query.type,
+      closeAll: false,
+      closedByPath: {},
+      fuzzy: false,
+      name: "",
+      searchInDescription: false,
+      type: "",
     };
   },
-  guessBool(value) {
-    return ["true", "1"].includes(value);
+  handleChildToggle(childPath) {
+    var childPathStr = childPath.join(".");
+    var newClosedByPath = Immutable.fromJS(this.state.closedByPath)
+      .set(childPathStr, !this.state.closedByPath[childPathStr]).toJS();
+    this.setState({
+      closeAll: false,
+      closedByPath: newClosedByPath,
+    });
   },
-  handleFormSubmit(event) {
-    event.preventDefault();
-    var {router} = this.context;
-    router.transitionTo("variables", null, this.state);
+  handleFuzzySearchChange(event) {
+    this.setState({fuzzy: event.target.checked});
   },
-  handleFuzzySearchChange(value) {
-    this.setState({fuzzy: value});
+  handleNameChange(event) {
+    this.setState({name: event.target.value});
   },
-  handleNameFilterChange(newNameFilter) {
-    this.setState({name: newNameFilter});
+  handleNameClear() {
+    this.setState({name: null});
   },
-  handleSearchInDescription(value) {
-    this.setState({"search_in_description": value});
+  handleSearchInDescription(event) {
+    this.setState({searchInDescription: event.target.checked});
   },
-  handleTypeFilterChange(newTypeFilter) {
-    this.setState({type: newTypeFilter});
+  handleTypeChange(event) {
+    this.setState({type: event.target.value});
+  },
+  handleVariablesTreeCloseAll() {
+    this.setState({
+      closeAll: true,
+      closedByPath: {"openfisca_france": true},
+    });
+  },
+  handleVariablesTreeOpenAll() {
+    this.setState({
+      closeAll: false,
+      closedByPath: {},
+    });
   },
   render() {
     return (
       <div>
         {this.renderSearchForm()}
+        <hr />
+        {this.renderVariablesTree()}
       </div>
     );
   },
   renderSearchForm() {
     return (
-      <form onSubmit={this.handleFormSubmit} role="search">
+      <form role="search">
         <div className="input-group">
           <input
             className="form-control"
             name="name"
-            onChange={(event) => this.handleNameFilterChange(event.target.value)}
+            onChange={this.handleNameChange}
             placeholder="Rechercher par nom de variable"
             type="search"
             value={this.state.name}
@@ -88,7 +154,7 @@ var VariablesPage = React.createClass({
             <button
               className="btn btn-default"
               disabled={!this.state.name}
-              onClick={() => this.handleNameFilterChange(null)}
+              onClick={this.handleNameClear}
               type="button"
             >
               Effacer
@@ -100,9 +166,9 @@ var VariablesPage = React.createClass({
             <div className="radio">
               <label>
                 <input
-                  checked={!this.state.type}
+                  checked={this.state.type === ""}
                   name="type"
-                  onChange={() => this.handleTypeFilterChange(null)}
+                  onChange={this.handleTypeChange}
                   type="radio"
                   value=""
                 />
@@ -114,7 +180,7 @@ var VariablesPage = React.createClass({
                 <input
                   checked={this.state.type === "input"}
                   name="type"
-                  onChange={() => this.handleTypeFilterChange("input")}
+                  onChange={this.handleTypeChange}
                   type="radio"
                   value="input"
                 />
@@ -126,7 +192,7 @@ var VariablesPage = React.createClass({
                 <input
                   checked={this.state.type === "output"}
                   name="type"
-                  onChange={() => this.handleTypeFilterChange("output")}
+                  onChange={this.handleTypeChange}
                   type="radio"
                   value="output"
                 />
@@ -138,9 +204,9 @@ var VariablesPage = React.createClass({
             <div className="checkbox">
               <label>
                 <input
-                  checked={this.state.search_in_description}
+                  checked={this.state.searchInDescription}
                   name="search_in_description"
-                  onChange={(event) => this.handleSearchInDescription(event.target.checked)}
+                  onChange={this.handleSearchInDescription}
                   type="checkbox"
                   value="true"
                 />
@@ -153,7 +219,7 @@ var VariablesPage = React.createClass({
                 <input
                   checked={this.state.fuzzy}
                   name="fuzzy"
-                  onChange={(event) => this.handleFuzzySearchChange(event.target.checked)}
+                  onChange={this.handleFuzzySearchChange}
                   type="checkbox"
                   value="true"
                 />
@@ -163,54 +229,30 @@ var VariablesPage = React.createClass({
             </div>
           </div>
         </div>
-        <button
-          className="btn btn-primary"
-          type="submit"
-        >
-          Rechercher
-        </button>
       </form>
     );
   },
-  renderVariablesList(variables) {
-    var applyFiltersReducer = (memo, variable) => {
-      var {router} = this.context;
-      var query = router.getCurrentQuery();
-      if (
-        (
-          !query.name || (
-            this.guessBool(query.fuzzy) ? (
-              fuzzysearch(query.name.toLowerCase(), variable.name.toLowerCase()) || (
-                this.guessBool(query.search_in_description) &&
-                fuzzysearch(query.name.toLowerCase(), variable.label.toLowerCase())
-              )
-            ) : (
-              variable.name.toLowerCase().includes(query.name.toLowerCase()) || (
-                this.guessBool(query.search_in_description) &&
-                variable.label.toLowerCase().includes(query.name.toLowerCase())
-              )
-            )
-          )
-        ) && (
-          !query.type || query.type === "output" && !variable.is_input || query.type === "input" && variable.is_input
-        )
-      ) {
-        memo.push(variable);
-      }
-      return memo;
-    };
+  renderVariablesTree() {
+    var foundVariables = this.findVariables();
+    var variablesTreeData = this.buildVariablesTreeData(foundVariables);
     return (
-      <ul>
-        {
-          variables.reduce(applyFiltersReducer, []).map((variable, idx) =>
-            <li key={idx} style={{marginBottom: 10}}>
-              <Link params={variable} to="variable">{variable.name}</Link>
-              <br/>
-              {variable.label ? variable.label : "Aucune description"}
-            </li>
-          )
-        }
-      </ul>
+      <div>
+        <div style={{marginBottom: 10, marginTop: 10}}>
+          <button
+            className="btn btn-default"
+            onClick={this.handleVariablesTreeOpenAll}
+            style={{marginRight: 10}}
+          >
+            Tout ouvrir
+          </button>
+          <button className="btn btn-default" onClick={this.handleVariablesTreeCloseAll}>Tout fermer</button>
+        </div>
+        <VariablesTree
+          children={variablesTreeData.children}
+          onChildToggle={this.handleChildToggle}
+          variables={variablesTreeData.variables}
+        />
+      </div>
     );
   },
 });

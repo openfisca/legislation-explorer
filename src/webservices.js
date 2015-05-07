@@ -84,19 +84,19 @@ function loggedFetch(url, ...args) {
 
 // API fetch functions
 
-function fetchVariable(variableName) {
-  const fieldsUrl = config.apiBaseUrl + "/" + nodeUrl.format({
+function fetchField(variableName) {
+  const fieldUrl = config.apiBaseUrl + "/" + nodeUrl.format({
     pathname: "field",
     query: {variable: variableName},
   });
-  return fetchCachedJSON(fieldsUrl);
+  return fetchCachedJSON(fieldUrl);
 }
 
 
-function fetchVariables() {
+function fetchFields() {
   const fieldsUrl = `${config.apiBaseUrl}/fields`;
   return fetchCachedJSON(fieldsUrl);
 }
 
 
-export default {fetchVariable, fetchVariables};
+export default {fetchField, fetchFields};

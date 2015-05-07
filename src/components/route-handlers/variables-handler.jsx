@@ -42,11 +42,13 @@ var VariablesHandler = React.createClass({
   },
   statics: {
     fetchData() {
-      return webservices.fetchVariables().then(data => Immutable.fromJS(data.columns)
+      return webservices.fetchFields().then(data => Immutable.fromJS(data.columns)
+        // TODO Replace is_input with variable.formula?
         .map(variable => variable.set("is_input", true))
         .merge(data.prestations)
         .valueSeq()
         .sortBy(variable => variable.get("name"))
+        .map(variable => variable.set("modulePath", variable.get("module").split(".")))
         .toJS()
       );
     },
