@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 import fuzzysearch from "fuzzysearch";
-import React, {PropTypes, PureRenderMixin} from "react/addons";
+import React, {PropTypes} from "react/addons";
 
 import AppPropTypes from "../../prop-types";
 
@@ -32,7 +32,6 @@ var VariablesPage = React.createClass({
   contextTypes: {
     router: PropTypes.func.isRequired,
   },
-  mixins: [PureRenderMixin],
   propTypes: {
     variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
   },

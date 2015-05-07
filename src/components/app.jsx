@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 import {RouteHandler} from "react-router";
-import React, {PropTypes, PureRenderMixin} from "react/addons";
+import React, {PropTypes} from "react/addons";
 
 import Layout from "./layout";
 
@@ -32,7 +32,6 @@ var App = React.createClass({
   contextTypes: {
     router: PropTypes.func,
   },
-  mixins: [PureRenderMixin],
   propTypes: {
     loading: PropTypes.bool,
   },

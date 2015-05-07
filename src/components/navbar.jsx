@@ -22,14 +22,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-import React, {PureRenderMixin} from "react/addons";
+import React from "react/addons";
 import url from "url";
 
 import config from "../config";
 
 
 var NavBar = React.createClass({
-  mixins: [PureRenderMixin],
   render() {
     return (
       <div className="navbar navbar-inverse navbar-static-top" role="navigation">

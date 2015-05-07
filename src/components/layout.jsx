@@ -23,13 +23,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 import DocumentTitle from "react-document-title";
-import React, {PropTypes, PureRenderMixin} from "react/addons";
+import React, {PropTypes} from "react/addons";
 
 import NavBar from "./navbar";
 
 
 var Layout = React.createClass({
-  mixins: [PureRenderMixin],
   propTypes: {
     children: PropTypes.node.isRequired,
   },

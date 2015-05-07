@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-import React, {PropTypes, PureRenderMixin} from "react/addons";
+import React, {PropTypes} from "react/addons";
 
 import AppPropTypes from "../../prop-types";
 import VariablePage from "../pages/variable-page";
@@ -30,7 +30,6 @@ import webservices from "../../webservices";
 
 
 var VariableHandler = React.createClass({
-  mixins: [PureRenderMixin],
   propTypes: {
     appState: PropTypes.object,
     errorByRouteName: PropTypes.objectOf(PropTypes.object),

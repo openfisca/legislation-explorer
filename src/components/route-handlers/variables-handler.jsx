@@ -26,7 +26,7 @@ import url from "url";
 
 import {Link} from "react-router";
 import Immutable from "immutable";
-import React, {PropTypes, PureRenderMixin} from "react/addons";
+import React, {PropTypes} from "react/addons";
 
 import AppPropTypes from "../../prop-types";
 import config from "../../config";
@@ -35,7 +35,6 @@ import webservices from "../../webservices";
 
 
 var VariablesHandler = React.createClass({
-  mixins: [PureRenderMixin],
   propTypes: {
     appState: PropTypes.object,
     errorByRouteName: PropTypes.objectOf(PropTypes.object),
