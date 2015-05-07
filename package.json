@@ -32,7 +32,7 @@
     "react-document-title": "^1.0.2",
     "react-router": "^0.13.3",
     "serve-favicon": "^2.2.0",
-    "whatwg-fetch": "git://github.com/matthew-andrews/fetch#ie9"
+    "whatwg-fetch": "^0.8.1"
   },
   "devDependencies": {
     "babel-eslint": "^3.0.1",
