@@ -46,12 +46,12 @@ if (process.env.NODE_ENV === "development") {
 function renderApp() {
   global.loadingEvents = new EventEmitter();
   const appMountNode = document.getElementById("app-mount-node");
-  Router.run(routes, Router.HistoryLocation, (Handler, state) => {
+  Router.run(routes, Router.HistoryLocation, (Root, state) => {
     debug("Matched routes", state.routes);
     global.loadingEvents.emit("loadStart");
     fetchData(state.routes, state.params, state.query).then(
-      data => React.render(<Handler {...data} />, appMountNode),
-      errorByRouteName => React.render(<Handler errorByRouteName={errorByRouteName} />, appMountNode)
+      data => React.render(<Root {...data} />, appMountNode),
+      errorByRouteName => React.render(<Root errorByRouteName={errorByRouteName} />, appMountNode)
     ).then(
       () => global.loadingEvents.emit("loadEnd")
     );

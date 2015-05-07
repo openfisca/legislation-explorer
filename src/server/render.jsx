@@ -23,16 +23,16 @@ function render(req, res, next) {
     },
     routes: routes,
   });
-  router.run((Handler, state) => {
+  router.run((Root, state) => {
     if (state.routes[0].name === "not-found") {
-      const appHtml = React.renderToString(<Handler/>);
+      const appHtml = React.renderToString(<Root/>);
       res.status(404).send(renderMarkup(appHtml));
       return;
     }
     fetchData(state.routes, state.params, state.query)
       .then(
-        data => React.renderToString(<Handler loading={false} {...data} />),
-        errorByRouteName => React.renderToString(<Handler errorByRouteName={errorByRouteName} loading={false} />)
+        data => React.renderToString(<Root loading={false} {...data} />),
+        errorByRouteName => React.renderToString(<Root errorByRouteName={errorByRouteName} loading={false} />)
       )
       .then(appHtml => res.send(renderMarkup(appHtml)))
       .catch(error => next(error));
