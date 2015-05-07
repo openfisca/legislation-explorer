@@ -26,9 +26,20 @@ import {PropTypes} from "react";
 
 
 var variable = PropTypes.shape({
+  // TODO Replace is_input with variable.formula?
+  is_input: PropTypes.bool,
   label: PropTypes.string,
+  module: PropTypes.string.isRequired,
+  modulePath: PropTypes.arrayOf(PropTypes.string).isRequired,
   name: PropTypes.string.isRequired,
 });
 
+var variablesTree = PropTypes.shape({
+  children: PropTypes.objectOf(variablesTree),
+  opened: PropTypes.bool,
+  path: PropTypes.arrayOf(PropTypes.string),
+  variables: PropTypes.arrayOf(variable),
+});
 
-export default {variable};
+
+export default {variable, variablesTree};

@@ -27,7 +27,7 @@ import {Link} from "react-router";
 import React from "react/addons";
 import url from "url";
 
-import AppPropTypes from "../../prop-types";
+import AppPropTypes from "../../app-prop-types";
 import config from "../../config";
 
 

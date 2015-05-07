@@ -28,7 +28,7 @@ import {Link} from "react-router";
 import Immutable from "immutable";
 import React, {PropTypes} from "react/addons";
 
-import AppPropTypes from "../../prop-types";
+import AppPropTypes from "../../app-prop-types";
 import config from "../../config";
 import VariablesPage from "../pages/variables-page";
 import webservices from "../../webservices";

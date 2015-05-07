@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import fuzzysearch from "fuzzysearch";
 import React, {PropTypes} from "react/addons";
 
-import AppPropTypes from "../../prop-types";
+import AppPropTypes from "../../app-prop-types";
 
 
 var VariablesPage = React.createClass({
