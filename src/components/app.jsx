@@ -30,7 +30,7 @@ import Layout from "./layout";
 
 var App = React.createClass({
   contextTypes: {
-    router: PropTypes.func.isRequired,
+    router: PropTypes.func,
   },
   mixins: [PureRenderMixin],
   propTypes: {
