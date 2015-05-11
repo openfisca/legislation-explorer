@@ -30,6 +30,8 @@
     "node-fetch": "^1.2.1",
     "react": "^0.13.2",
     "react-document-title": "^1.0.2",
+    "react-immutable-proptypes": "^0.1.6",
+    "react-immutable-render-mixin": "^0.8.1",
     "react-router": "^0.13.3",
     "serve-favicon": "^2.2.0",
     "whatwg-fetch": "^0.8.1"

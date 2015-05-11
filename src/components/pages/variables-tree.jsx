@@ -24,6 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import {Link} from "react-router";
 import classNames from "classnames";
+import ImmutablePropTypes from "react-immutable-proptypes";
+import ImmutableRenderMixin from "react-immutable-render-mixin";
 import React, {PropTypes} from "react/addons";
 
 import AppPropTypes from "../../app-prop-types";
@@ -33,55 +35,35 @@ import AppPropTypes from "../../app-prop-types";
 
 
 var VariablesTree = React.createClass({
+  mixins: [ImmutableRenderMixin],
   propTypes: {
-    children: PropTypes.objectOf(AppPropTypes.variablesTree),
+    children: AppPropTypes.immutableChildren,
     onChildToggle: PropTypes.func,
-    path: PropTypes.arrayOf(PropTypes.string),
-    variables: PropTypes.arrayOf(AppPropTypes.variable),
+    path: PropTypes.string,
+    variables: AppPropTypes.immutableVariables,
+  },
+  getChildPath(childName) {
+    return (this.props.path ? this.props.path + "." : "") + childName;
   },
   handleChildClick(event, childName) {
     event.preventDefault();
-    var childPath = (this.props.path || []).concat(childName);
-    this.props.onChildToggle(childPath);
+    this.props.onChildToggle(this.getChildPath(childName));
   },
   render() {
     return (
       <div>
         {
-          this.props.children && Object.keys(this.props.children).map(
-            (childName, idx) => <div key={idx}>{this.renderChild(childName, this.props.children[childName])}</div>
-          )
+          this.props.children && this.props.children.mapEntries(
+            (kv, idx) => [kv[0], this.renderChild(kv[0], kv[1], idx)]
+          ).toArray()
         }
         {
           this.props.variables && (
             <ul style={{paddingLeft: 20}}>
               {
-                this.props.variables.map((variable, idx) => (
-                  <li key={idx} style={{marginBottom: 10}}>
-                    <Link params={variable} to="variable">{variable.name}</Link>
-                    {" : "}
-                    {variable.label || "Aucune description"}
-                    <br/>
-                    {
-                      variable.input_variables && variable.input_variables.length && (
-                        <div className="clearfix">
-                          <span className="pull-left">Dépend de </span>
-                          <ul className="list-inline">
-                            {
-                              variable.input_variables.map((variableName, variableNameIdx) => (
-                                <li key={variableNameIdx}>
-                                  <Link params={{name: variableName}} to="variable">
-                                    {variableName}
-                                  </Link>
-                                </li>
-                              ))
-                            }
-                          </ul>
-                        </div>
-                      )
-                    }
-                  </li>
-                ))
+                this.props.variables.map(
+                  (variable, idx) => this.renderVariableListItem(variable.toJS(), idx)
+                )
               }
             </ul>
           )
@@ -89,10 +71,10 @@ var VariablesTree = React.createClass({
       </div>
     );
   },
-  renderChild(childName, child) {
-    var isOpened = child.opened || typeof child.opened === "undefined";
+  renderChild(childName, child, idx) {
+    var isOpened = child.get("opened") || typeof child.get("opened") === "undefined";
     return (
-      <div>
+      <div key={idx}>
         <a href="#" onClick={event => this.handleChildClick(event, childName)}>
           <span
             aria-hidden="true"
@@ -107,15 +89,43 @@ var VariablesTree = React.createClass({
           isOpened && (
             <div style={{marginLeft: 20}}>
               <VariablesTree
-                children={child.children}
+                children={child.get("children")}
                 onChildToggle={this.props.onChildToggle}
-                path={(this.props.path || []).concat(childName)}
-                variables={child.variables}
+                path={this.getChildPath(childName)}
+                variables={child.get("variables")}
               />
             </div>
           )
         }
       </div>
+    );
+  },
+  renderVariableListItem(variable, idx) {
+    return (
+      <li key={idx} style={{marginBottom: 10}}>
+        <Link params={variable} to="variable">{variable.name}</Link>
+        {" : "}
+        {variable.label || "Aucune description"}
+        <br/>
+        {
+          variable.input_variables && variable.input_variables.length && (
+            <div className="clearfix">
+              <span className="pull-left">Dépend de </span>
+              <ul className="list-inline">
+                {
+                  variable.input_variables.map((variableName, variableNameIdx) => (
+                    <li key={variableNameIdx}>
+                      <Link params={{name: variableName}} to="variable">
+                        {variableName}
+                      </Link>
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
+          )
+        }
+      </li>
     );
   },
 });

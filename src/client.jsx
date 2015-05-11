@@ -27,13 +27,13 @@ require("babel-core/polyfill");
 
 
 import {EventEmitter} from "events";
-import React from "react";
+import React from "react/addons";
 import Router from "react-router";
 
 import {fetchData, routes} from "./routes";
 
 
-const debug = require("debug")("app:client");
+// const debug = require("debug")("app:client");
 
 
 if (process.env.NODE_ENV === "development") {
@@ -47,10 +47,26 @@ function renderApp() {
   global.loadingEvents = new EventEmitter();
   const appMountNode = document.getElementById("app-mount-node");
   Router.run(routes, Router.HistoryLocation, (Root, state) => {
-    debug("Matched routes", state.routes);
     global.loadingEvents.emit("loadStart");
+    var render = data => React.render(<Root {...data} />, appMountNode);
+    // var measurePerf = data => {
+    //   const Perf = React.addons.Perf;
+    //   Perf.start();
+    //   var appHtml = render(data);
+    //   Perf.stop();
+    //   debug("inclusive");
+    //   Perf.printInclusive();
+    //   debug("exclusive");
+    //   Perf.printExclusive();
+    //   debug("wasted");
+    //   Perf.printWasted();
+    //   debug("DOM");
+    //   Perf.printDOM();
+    //   return appHtml;
+    // };
     fetchData(state.routes, state.params, state.query).then(
-      data => React.render(<Root {...data} />, appMountNode),
+      // data => measurePerf(data),
+      data => render(data),
       errorByRouteName => React.render(<Root errorByRouteName={errorByRouteName} />, appMountNode)
     ).then(
       () => global.loadingEvents.emit("loadEnd")

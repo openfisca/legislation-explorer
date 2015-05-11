@@ -52,7 +52,7 @@ var VariablesPage = React.createClass({
       var path = Immutable.fromJS(pathStr.split(".")).interpose("children").unshift("children").toJS();
       data = data.setIn(path.concat("opened"), isOpened);
     });
-    return data.toJS();
+    return data;
   },
   findVariables() {
     var name = this.state.name && this.state.name.length ? this.state.name.trim().toLowerCase() : "";
@@ -93,10 +93,9 @@ var VariablesPage = React.createClass({
       type: "",
     };
   },
-  handleChildToggle(childPath) {
-    var childPathStr = childPath.join(".");
+  handleChildToggle(path) {
     var newClosedByPath = Immutable.fromJS(this.state.closedByPath)
-      .set(childPathStr, !this.state.closedByPath[childPathStr]).toJS();
+      .set(path, !this.state.closedByPath[path]).toJS();
     this.setState({
       closeAll: false,
       closedByPath: newClosedByPath,
@@ -245,12 +244,14 @@ var VariablesPage = React.createClass({
           >
             Tout ouvrir
           </button>
-          <button className="btn btn-default" onClick={this.handleVariablesTreeCloseAll}>Tout fermer</button>
+          <button className="btn btn-default" onClick={this.handleVariablesTreeCloseAll}>
+            Tout fermer
+          </button>
         </div>
         <VariablesTree
-          children={variablesTreeData.children}
+          children={variablesTreeData.get("children")}
           onChildToggle={this.handleChildToggle}
-          variables={variablesTreeData.variables}
+          variables={variablesTreeData.get("variables")}
         />
       </div>
     );

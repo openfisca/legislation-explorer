@@ -23,7 +23,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 import {PropTypes} from "react";
+import ImmutablePropTypes from "react-immutable-proptypes";
 
+
+var immutableChildren = ImmutablePropTypes.mapOf(variablesTree);
+
+var immutableVariables = ImmutablePropTypes.listOf(variable);
 
 var variable = PropTypes.shape({
   // TODO Replace is_input with variable.formula?
@@ -34,12 +39,12 @@ var variable = PropTypes.shape({
   name: PropTypes.string.isRequired,
 });
 
-var variablesTree = PropTypes.shape({
-  children: PropTypes.objectOf(variablesTree),
+var variablesTree = ImmutablePropTypes.shape({
+  immutableChildren,
   opened: PropTypes.bool,
   path: PropTypes.arrayOf(PropTypes.string),
-  variables: PropTypes.arrayOf(variable),
+  immutableVariables,
 });
 
 
-export default {variable, variablesTree};
+export default {immutableChildren, immutableVariables, variable, variablesTree};
