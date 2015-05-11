@@ -14,7 +14,7 @@ var writeStats = require("./utils/write-stats");
 module.exports = {
   devtool: "source-map",
   entry: {
-    "main": "./src/client.js",
+    "main": "./src/client.jsx",
   },
   output: {
     path: assetsPath,
