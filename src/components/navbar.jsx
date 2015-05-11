@@ -29,6 +29,7 @@ import config from "../config";
 
 
 var NavBar = React.createClass({
+  mixins: [React.addons.PureRenderMixin],
   render() {
     return (
       <div className="navbar navbar-inverse navbar-static-top" role="navigation">
