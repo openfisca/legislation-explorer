@@ -32,7 +32,7 @@ var immutableVariables = ImmutablePropTypes.listOf(variable);
 
 var variable = PropTypes.shape({
   // TODO Replace is_input with variable.formula?
-  is_input: PropTypes.bool,
+  is_input: PropTypes.bool, // eslint-disable-line
   label: PropTypes.string,
   module: PropTypes.string.isRequired,
   modulePath: PropTypes.arrayOf(PropTypes.string).isRequired,

@@ -24,7 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import {Link} from "react-router";
 import classNames from "classnames";
-import ImmutablePropTypes from "react-immutable-proptypes";
 import ImmutableRenderMixin from "react-immutable-render-mixin";
 import React, {PropTypes} from "react/addons";
 
