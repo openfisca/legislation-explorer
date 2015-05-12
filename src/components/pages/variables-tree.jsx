@@ -84,18 +84,14 @@ var VariablesTree = React.createClass({
           {" "}
           {childName}
         </a>
-        {
-          isOpened && (
-            <div style={{marginLeft: 20}}>
-              <VariablesTree
-                children={child.get("children")}
-                onChildToggle={this.props.onChildToggle}
-                path={this.getChildPath(childName)}
-                variables={child.get("variables")}
-              />
-            </div>
-          )
-        }
+        <div className={isOpened ? null : "hide"} style={{marginLeft: 20}}>
+          <VariablesTree
+            children={child.get("children")}
+            onChildToggle={this.props.onChildToggle}
+            path={this.getChildPath(childName)}
+            variables={child.get("variables")}
+          />
+        </div>
       </div>
     );
   },
