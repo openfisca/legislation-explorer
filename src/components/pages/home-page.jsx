@@ -33,7 +33,20 @@ var HomePage = React.createClass({
         <div className="page-header">
           <h1>Explorateur de la législation</h1>
         </div>
-        <Link to="variables">Variables socio-fiscales</Link>
+        <div className="col-lg-4">
+          <div className="thumbnail">
+            <div className="caption">
+              <h4>Variables et formules socio-fiscales</h4>
+              <p>
+                Pour visualiser et rechercher les variables d'entrée, les variables calculées (avec formule)
+                et leurs dépendences.
+              </p>
+              <p>
+                <Link className="btn btn-primary" to="variables">Voir »</Link>
+              </p>
+            </div>
+          </div>
+        </div>
       </section>
     );
   },
