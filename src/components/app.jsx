@@ -29,9 +29,6 @@ import Layout from "./layout";
 
 
 var App = React.createClass({
-  contextTypes: {
-    router: PropTypes.func,
-  },
   propTypes: {
     loading: PropTypes.bool,
   },
