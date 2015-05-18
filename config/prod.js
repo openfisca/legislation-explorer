@@ -4,5 +4,6 @@
 
 export default {
   apiBaseUrl: "http://api-test.openfisca.fr/api/1",
+  gitWebpageUrl: "https://git.framasoft.org/openfisca/legislation-explorer",
   websiteUrl: "http://www.openfisca.fr/",
 };

@@ -2,7 +2,11 @@
 // Do not require this directly. Use ./src/config instead.
 
 
+import prodConfig from "./prod";
+
+
 export default {
   apiBaseUrl: "http://localhost:2000/api/1",
+  gitWebpageUrl: prodConfig.gitWebpageUrl,
   websiteUrl: "http://localhost:2010/",
 };

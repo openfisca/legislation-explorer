@@ -66,7 +66,7 @@ var VariablePage = React.createClass({
   },
   renderFormula() {
     var {formula} = this.props.variable;
-    var githubUrl = "https://github.com/openfisca/openfisca-france/tree/master/" +
+    var gitWebpageUrl = "https://github.com/openfisca/openfisca-france/tree/master/" +
       formula.module.split(".").join("/") + ".py#L" + formula.line_number + "-" +
       (formula.line_number + formula.source.trim().split("\n").length - 1);
     return (
@@ -77,7 +77,7 @@ var VariablePage = React.createClass({
             whiteSpace: "pre",
           }}>{formula.source}</code>
         </pre>
-        <a href={githubUrl} rel="external" target="_blank">Voir dans GitHub</a>
+        <a href={gitWebpageUrl} rel="external" target="_blank">Voir dans GitHub</a>
       </div>
     );
   },

@@ -27,6 +27,7 @@ import React from "react";
 import {DefaultRoute, NotFoundRoute, Route} from "react-router";
 
 import App from "./components/app";
+import AboutPage from "./components/pages/about-page";
 import HomePage from "./components/pages/home-page";
 import NotFoundPage from "./components/pages/not-found-page";
 import VariableHandler from "./components/route-handlers/variable-handler";
@@ -65,6 +66,7 @@ var routes = (
       <Route handler={VariableHandler} name="variable" path=":name" />
       <DefaultRoute handler={VariablesHandler} name="variables" />
     </Route>
+    <Route handler={AboutPage} name="about" />
     <DefaultRoute handler={HomePage} name="home" />
     <NotFoundRoute handler={NotFoundPage} />
   </Route>

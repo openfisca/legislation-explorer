@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
+import {Link} from "react-router";
 import React from "react/addons";
 import url from "url";
 
@@ -55,7 +56,7 @@ var NavBar = React.createClass({
               <li><a href={url.resolve(config.websiteUrl, "/outils")}>Outils</a></li>
             </ul>
             <ul className="nav navbar-nav navbar-right">
-              <li><a href={url.resolve(config.websiteUrl, "/a-propos")}>À propos</a></li>
+              <li><Link to="about">À propos</Link></li>
               <li><a href={url.resolve(config.websiteUrl, "/contact")}>Contact</a></li>
             </ul>
           </div>
