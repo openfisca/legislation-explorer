@@ -38,7 +38,7 @@ var Layout = React.createClass({
         <div>
           <a className="sr-only" href="#content">Sauter au contenu principal</a>
           <NavBar />
-          <div className="container" id="content">
+          <div className="container" id="content" style={{marginBottom: 100}}>
             {this.props.children}
           </div>
         </div>
