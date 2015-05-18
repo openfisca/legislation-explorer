@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import React from "react/addons";
 import url from "url";
 
+import BreadCrumb from "../breadcrumb";
 import config from "../../config";
 
 
@@ -32,6 +33,9 @@ var AboutPage = React.createClass({
   render() {
     return (
       <section>
+        <BreadCrumb>
+          <li className="active">À propos</li>
+        </BreadCrumb>
         <div className="page-header">
           <h1>À propos</h1>
         </div>

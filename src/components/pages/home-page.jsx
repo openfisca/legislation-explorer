@@ -25,11 +25,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import {Link} from "react-router";
 import React from "react/addons";
 
+import BreadCrumb from "../breadcrumb";
+
 
 var HomePage = React.createClass({
   render() {
     return (
       <section>
+        <BreadCrumb />
         <div className="page-header">
           <h1>Explorateur de la législation</h1>
         </div>

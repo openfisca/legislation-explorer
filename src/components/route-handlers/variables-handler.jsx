@@ -53,19 +53,14 @@ var VariablesHandler = React.createClass({
   render() {
     return (
       <div>
-        {this.renderBreadcrumb()}
+        <BreadCrumb>
+          <li className="active">Variables</li>
+        </BreadCrumb>
         <div className="page-header">
           <h1>Variables et formules socio-fiscales</h1>
         </div>
         {this.renderContent()}
       </div>
-    );
-  },
-  renderBreadcrumb() {
-    return (
-      <BreadCrumb>
-        <li className="active">Variables</li>
-      </BreadCrumb>
     );
   },
   renderContent() {

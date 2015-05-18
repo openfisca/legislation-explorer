@@ -39,7 +39,12 @@ var VariablePage = React.createClass({
     return (
       <DocumentTitle title={`${label} (${name}) - Explorateur de la légisation`}>
         <div>
-          {this.renderBreadcrumb()}
+          <BreadCrumb>
+            <li>
+              <Link to="variables">Variables</Link>
+            </li>
+            <li className="active">{name}</li>
+          </BreadCrumb>
           <div className="page-header">
             <h1>{name}</h1>
           </div>
@@ -51,17 +56,6 @@ var VariablePage = React.createClass({
           {formula && this.renderFormula()}
         </div>
       </DocumentTitle>
-    );
-  },
-  renderBreadcrumb() {
-    var {name} = this.props.variable;
-    return (
-      <BreadCrumb>
-        <li>
-          <Link to="variables">Variables</Link>
-        </li>
-        <li className="active">{name}</li>
-      </BreadCrumb>
     );
   },
   renderFormula() {

@@ -22,8 +22,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-import React, {PropTypes} from "react/addons";
 import {Link} from "react-router";
+import classNames from "classnames";
+import React, {PropTypes} from "react/addons";
 import url from "url";
 
 import config from "../config";
@@ -42,8 +43,14 @@ var BreadCrumb = React.createClass({
         <li>
           <a href={url.resolve(config.websiteUrl, "/outils")}>Outils</a>
         </li>
-        <li>
-          <Link to="home">Explorateur de la législation</Link>
+        <li className={classNames({active: !this.props.children})}>
+          {
+            this.props.children ? (
+              <Link to="home">Explorateur de la législation</Link>
+            ) : (
+              "Explorateur de la législation"
+            )
+          }
         </li>
         {this.props.children}
       </ul>
