@@ -22,8 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-import DocumentTitle from "react-document-title";
 import {Link} from "react-router";
+import DocumentTitle from "react-document-title";
 import React from "react/addons";
 
 import AppPropTypes from "../../app-prop-types";
