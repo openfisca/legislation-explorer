@@ -79,8 +79,17 @@ var VariablesHandler = React.createClass({
         <p>Unable to fetch data from API.</p>
       );
     } else {
+      var variablesTree = Immutable.fromJS(this.props.variables)
+        .reduce(
+          (reduction, variable) => reduction.updateIn(
+            variable.get("modulePath").interpose("children").unshift("children"),
+            new Immutable.Map(),
+            node => node.update("variables", new Immutable.List(), nodeVariables => nodeVariables.push(variable))
+          ),
+          new Immutable.Map({opened: true})
+        );
       content = (
-        <VariablesPage variables={this.props.variables} />
+        <VariablesPage variablesTree={variablesTree} />
       );
     }
     return content;

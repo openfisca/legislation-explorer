@@ -26,9 +26,15 @@ import {PropTypes} from "react";
 import ImmutablePropTypes from "react-immutable-proptypes";
 
 
-var immutableChildren = ImmutablePropTypes.mapOf(variablesTree);
+var immutableChildren = ImmutablePropTypes.mapOf(immutableVariablesTree);
 
 var immutableVariables = ImmutablePropTypes.listOf(variable);
+
+var immutableVariablesTree = ImmutablePropTypes.shape({
+  immutableChildren,
+  opened: PropTypes.bool,
+  immutableVariables,
+});
 
 var variable = PropTypes.shape({
   // TODO Replace is_input with variable.formula?
@@ -39,12 +45,5 @@ var variable = PropTypes.shape({
   name: PropTypes.string.isRequired,
 });
 
-var variablesTree = ImmutablePropTypes.shape({
-  immutableChildren,
-  opened: PropTypes.bool,
-  path: PropTypes.arrayOf(PropTypes.string),
-  immutableVariables,
-});
 
-
-export default {immutableChildren, immutableVariables, variable, variablesTree};
+export default {immutableChildren, immutableVariables, immutableVariablesTree, variable};

@@ -27,8 +27,6 @@ import classNames from "classnames";
 import ImmutableRenderMixin from "react-immutable-render-mixin";
 import React, {PropTypes} from "react/addons";
 
-import AppPropTypes from "../../app-prop-types";
-
 
 // const debug = require("debug")("app:VariablesTree");
 
@@ -36,33 +34,32 @@ import AppPropTypes from "../../app-prop-types";
 var VariablesTree = React.createClass({
   mixins: [ImmutableRenderMixin],
   propTypes: {
-    children: AppPropTypes.immutableChildren,
-    onChildToggle: PropTypes.func,
-    path: PropTypes.string,
-    variables: AppPropTypes.immutableVariables,
-  },
-  getChildPath(childName) {
-    return (this.props.path ? this.props.path + "." : "") + childName;
+    cursor: PropTypes.object.isRequired,
   },
   handleChildClick(event, childName) {
     event.preventDefault();
-    this.props.onChildToggle(this.getChildPath(childName));
+    var {cursor} = this.props;
+    var openedPath = ["children", childName, "opened"];
+    cursor.updateIn(openedPath, opened => !(opened || typeof opened === "undefined"));
   },
   render() {
+    var {cursor} = this.props;
+    var children = cursor.get("children");
+    var variables = cursor.get("variables");
     return (
       <div>
         {
-          this.props.children && this.props.children.mapEntries(
+          children && children.mapEntries(
             (kv, idx) => [kv[0], this.renderChild(kv[0], kv[1], idx)]
           ).toArray()
         }
         {
-          this.props.variables && (
-            <ul style={{paddingLeft: 20}}>
+          variables && (
+            <ul style={{margin: 0, paddingLeft: 20}}>
               {
-                this.props.variables.map(
+                variables.map(
                   (variable, idx) => this.renderVariableListItem(variable.toJS(), idx)
-                )
+                ).toArray()
               }
             </ul>
           )
@@ -73,7 +70,7 @@ var VariablesTree = React.createClass({
   renderChild(childName, child, idx) {
     var isOpened = child.get("opened") || typeof child.get("opened") === "undefined";
     return (
-      <div key={idx}>
+      <div className={classNames({hide: !child.get("hasMatchingVariables")})} key={idx}>
         <a href="#" onClick={event => this.handleChildClick(event, childName)}>
           <span
             aria-hidden="true"
@@ -84,20 +81,15 @@ var VariablesTree = React.createClass({
           {" "}
           {childName}
         </a>
-        <div className={isOpened ? null : "hide"} style={{marginLeft: 20}}>
-          <VariablesTree
-            children={child.get("children")}
-            onChildToggle={this.props.onChildToggle}
-            path={this.getChildPath(childName)}
-            variables={child.get("variables")}
-          />
+        <div className={classNames({hide: !isOpened})} style={{marginLeft: 20}}>
+          <VariablesTree cursor={this.props.cursor.cursor(["children", childName])} />
         </div>
       </div>
     );
   },
   renderVariableListItem(variable, idx) {
     return (
-      <li key={idx} style={{marginBottom: 10}}>
+      <li className={classNames({hide: !variable.matches})} key={idx}>
         <Link params={variable} to="variable">{variable.name}</Link>
         {" : "}
         {variable.label || "Aucune description"}
