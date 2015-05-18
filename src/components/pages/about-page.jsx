@@ -47,7 +47,7 @@ var AboutPage = React.createClass({
           sur GitLab, merci à <a href="http://framasoft.org" rel="external" target="_blank">Framasoft</a> !
         </p>
         <p>
-          <a href={url.resolve(config.websiteUrl, "/a-propos")} rel="external" target="_blank">
+          <a href={url.resolve(config.websiteUrl, "/a-propos")}>
             À propos du projet OpenFisca
           </a>
         </p>
