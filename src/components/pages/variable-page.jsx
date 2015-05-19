@@ -22,25 +22,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
+import {FormattedDate, FormattedMessage} from "react-intl";
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
-import {FormattedDate, FormattedMessage} from "react-intl";
-import React from "react/addons";
+import React, {PropTypes} from "react/addons";
 
 import AppPropTypes from "../../app-prop-types";
 import BreadCrumb from "../breadcrumb";
-import config from "../../config";
 
 
 var VariablePage = React.createClass({
   propTypes: {
+    gitCommitSha: PropTypes.string.isRequired,
     variable: AppPropTypes.variable.isRequired,
   },
   githubSourceFileUrl(formula) {
     const moduleAndFileUrlPath = formula.module.split(".").join("/");
     const lastLine = formula.line_number + formula.source.trim().split("\n").length - 1;
-    return `https://github.com/openfisca/openfisca-france/tree/${config.githubBranchName}/${moduleAndFileUrlPath}.py\
-#L${formula.line_number}-${lastLine}`;
+    return `https://github.com/openfisca/openfisca-france/blob/${this.props.gitCommitSha}/\
+${moduleAndFileUrlPath}.py#L${formula.line_number}-${lastLine}`;
   },
   render() {
     var {formula, label, name} = this.props.variable;
@@ -93,7 +93,7 @@ var VariablePage = React.createClass({
             whiteSpace: "pre",
           }}>{formula.source}</code>
         </pre>
-        <a href={this.githubSourceFileUrl(formula)} rel="external" target="_blank">Voir dans GitHub</a>
+        <a href={this.githubSourceFileUrl(formula)} rel="external" target="_blank">Voir sur GitHub</a>
       </div>
     );
   },

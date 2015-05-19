@@ -33,13 +33,18 @@ var VariableHandler = React.createClass({
   propTypes: {
     appState: PropTypes.object,
     errorByRouteName: PropTypes.objectOf(PropTypes.object),
-    variable: AppPropTypes.variable,
+    variable: PropTypes.shape({
+      gitCommitSha: PropTypes.string.isRequired,
+      variable: AppPropTypes.variable.isRequired,
+    }),
   },
   statics: {
     fetchData(params) {
       return webservices.fetchField(params.name)
-        .then(data => data.value)
-        .then(variable => Object.assign(variable, {modulePath: variable.module.split(".")}));
+        .then(data => ({
+          gitCommitSha: data.git_commit_sha,
+          variable: Object.assign(data.value, {modulePath: data.value.module.split(".")}),
+        }));
     },
   },
   render() {
@@ -53,8 +58,9 @@ var VariableHandler = React.createClass({
         <p>Unable to fetch data from API.</p>
       );
     } else {
+      var {gitCommitSha, variable} = this.props.variable;
       content = (
-        <VariablePage variable={this.props.variable} />
+        <VariablePage gitCommitSha={gitCommitSha} variable={variable} />
       );
     }
     return content;
