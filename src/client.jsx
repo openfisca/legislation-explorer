@@ -31,6 +31,7 @@ import React from "react/addons";
 import Router from "react-router";
 
 import {fetchData, routes} from "./routes";
+import {intlData} from "./intl";
 
 
 // const debug = require("debug")("app:client");
@@ -48,7 +49,7 @@ function renderApp() {
   const appMountNode = document.getElementById("app-mount-node");
   Router.run(routes, Router.HistoryLocation, (Root, state) => {
     global.loadingEvents.emit("loadStart");
-    var render = data => React.render(<Root {...data} />, appMountNode);
+    var render = data => React.render(<Root {...data} {...intlData} />, appMountNode);
     // var measurePerf = data => {
     //   const Perf = React.addons.Perf;
     //   Perf.start();
@@ -67,7 +68,7 @@ function renderApp() {
     fetchData(state.routes, state.params, state.query).then(
       // data => measurePerf(data),
       data => render(data),
-      errorByRouteName => React.render(<Root errorByRouteName={errorByRouteName} />, appMountNode)
+      errorByRouteName => React.render(<Root errorByRouteName={errorByRouteName} {...intlData} />, appMountNode)
     ).then(
       () => global.loadingEvents.emit("loadEnd")
     );

@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import {Link} from "react-router";
 import DocumentTitle from "react-document-title";
+import {FormattedDate, FormattedMessage} from "react-intl";
 import React from "react/addons";
 
 import AppPropTypes from "../../app-prop-types";
@@ -60,13 +61,30 @@ var VariablePage = React.createClass({
             {label === name && " (à compléter)"}
           </p>
           {this.renderVariableHeader()}
-          {formula && this.renderFormula()}
+          {
+            formula && formula["@type"] === "DatedFormula" ?
+              this.renderDatedFormula(formula) :
+              this.renderFormula(formula)
+          }
         </div>
       </DocumentTitle>
     );
   },
-  renderFormula() {
-    var {formula} = this.props.variable;
+  renderDatedFormula(formula) {
+    return formula.dated_formulas.map((datedFormula, idx) => (
+      <div key={idx}>
+        <h4>
+          <FormattedMessage
+            message="Du {start} au {stop}"
+            start={<FormattedDate format="short" value={datedFormula.start_instant} />}
+            stop={<FormattedDate format="short" value={datedFormula.stop_instant} />}
+          />
+        </h4>
+        {this.renderFormula(datedFormula.formula)}
+      </div>
+    ));
+  },
+  renderFormula(formula) {
     return (
       <div>
         <pre style={{overflowX: "auto"}}>

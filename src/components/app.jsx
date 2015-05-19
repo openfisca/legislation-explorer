@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
+import {IntlMixin} from "react-intl";
 import {RouteHandler} from "react-router";
 import React, {PropTypes} from "react/addons";
 
@@ -29,6 +30,7 @@ import Layout from "./layout";
 
 
 var App = React.createClass({
+  mixins: [IntlMixin],
   propTypes: {
     loading: PropTypes.bool,
   },
@@ -55,7 +57,7 @@ var App = React.createClass({
   render() {
     return (
       <Layout>
-        <RouteHandler {...this.props} appState={this.state} />
+        <RouteHandler appState={this.state} {...this.props} />
       </Layout>
     );
   },

@@ -4,8 +4,9 @@
 import React from "react";
 import Router from "react-router";
 
-import HtmlDocument from "./HtmlDocument";
 import {fetchData, routes} from "../routes";
+import {intlData} from "../intl";
+import HtmlDocument from "./HtmlDocument";
 
 
 const debug = require("debug")("app:render");
@@ -25,14 +26,16 @@ function render(req, res, next) {
   });
   router.run((Root, state) => {
     if (state.routes[0].name === "not-found") {
-      const appHtml = React.renderToString(<Root/>);
+      const appHtml = React.renderToString(<Root {...intlData} />);
       res.status(404).send(renderMarkup(appHtml));
       return;
     }
     fetchData(state.routes, state.params, state.query)
       .then(
-        data => React.renderToString(<Root loading={false} {...data} />),
-        errorByRouteName => React.renderToString(<Root errorByRouteName={errorByRouteName} loading={false} />)
+        data => React.renderToString(<Root loading={false} {...data} {...intlData} />),
+        errorByRouteName => React.renderToString(
+          <Root errorByRouteName={errorByRouteName} loading={false} {...intlData} />
+        )
       )
       .then(appHtml => res.send(renderMarkup(appHtml)))
       .catch(error => next(error));
