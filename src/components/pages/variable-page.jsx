@@ -62,9 +62,11 @@ ${moduleAndFileUrlPath}.py#L${formula.line_number}-${lastLine}`;
           </p>
           {this.renderVariableHeader()}
           {
-            formula && formula["@type"] === "DatedFormula" ?
-              this.renderDatedFormula(formula) :
-              this.renderFormula(formula)
+            formula && (
+              formula["@type"] === "DatedFormula" ?
+                this.renderDatedFormula(formula) :
+                this.renderFormula(formula)
+              )
           }
         </div>
       </DocumentTitle>
