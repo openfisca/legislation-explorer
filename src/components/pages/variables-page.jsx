@@ -36,23 +36,36 @@ var VariablesPage = React.createClass({
   propTypes: {
     variablesTree: AppPropTypes.immutableVariablesTree.isRequired,
   },
-  filterVariablesTree(variablesTree, nameFilter) {
-    var isMatchingVariable = variable => !nameFilter || variable.get("name").toLowerCase().includes(nameFilter);
-    if (variablesTree.has("children")) {
-      var newChildren = variablesTree.get("children").map(child => this.filterVariablesTree(child, nameFilter));
-      return variablesTree.merge({
-        children: newChildren,
-        hasMatchingVariables: newChildren.some(node => node.get("hasMatchingVariables")),
-      });
-    } else {
-      var newVariables = variablesTree.get("variables").map(
-        variable => variable.set("matches", isMatchingVariable(variable))
+  filterVariablesTree(variablesTreeRoot, nameInput, searchInDescription, type) {
+    var nameFilter = nameInput && nameInput.length ? nameInput.trim().toLowerCase() : null;
+    var walk = variablesTree => {
+      var isMatchingVariable = variable => (
+        !nameFilter ||
+        variable.get("name").toLowerCase().includes(nameFilter) ||
+        searchInDescription && variable.get("label").toLowerCase().includes(nameFilter)
+      ) && (
+        type === "" ||
+        // TODO Replace is_input with variable.formula?
+        type === "output" && !variable.get("is_input") ||
+        type === "input" && variable.get("is_input")
       );
-      return variablesTree.merge({
-        hasMatchingVariables: newVariables.some(variable => variable.get("matches")),
-        variables: newVariables,
-      });
-    }
+      if (variablesTree.has("children")) {
+        var newChildren = variablesTree.get("children").map(child => walk(child));
+        return variablesTree.merge({
+          children: newChildren,
+          hasMatchingVariables: newChildren.some(node => node.get("hasMatchingVariables")),
+        });
+      } else {
+        var newVariables = variablesTree.get("variables").map(
+          variable => variable.set("matches", isMatchingVariable(variable))
+        );
+        return variablesTree.merge({
+          hasMatchingVariables: newVariables.some(variable => variable.get("matches")),
+          variables: newVariables,
+        });
+      }
+    };
+    return walk(variablesTreeRoot);
   },
   forceOpenCloseAll(variablesTree, newEntries) {
     var newVariablesTree = variablesTree.merge(newEntries);
@@ -63,31 +76,50 @@ var VariablesPage = React.createClass({
     return newVariablesTree;
   },
   getInitialState() {
+    const nameInput = "";
+    const searchInDescription = false;
+    const type = "";
     return {
-      nameFilter: "",
-      searchInDescription: false,
-      type: "",
-      variablesTree: this.filterVariablesTree(this.props.variablesTree),
+      nameInput,
+      searchInDescription,
+      type,
+      variablesTree: this.filterVariablesTree(this.props.variablesTree, nameInput, searchInDescription, type),
     };
   },
-  handleCursorUpdate(newData) {
-    this.setState({variablesTree: newData});
+  handleCursorUpdate(newVariablesTree) {
+    this.setState({variablesTree: newVariablesTree});
   },
   handleNameChange(event) {
-    var nameFilter = event.target.value;
-    var cleanNameFilter = nameFilter && nameFilter.length ? nameFilter.trim().toLowerCase() : "";
-    var {variablesTree} = this.state;
-    var filteredVariablesTree = this.filterVariablesTree(variablesTree, cleanNameFilter);
-    this.setState({nameFilter, variablesTree: filteredVariablesTree});
+    const nameInput = event.target.value;
+    const {searchInDescription, type} = this.state;
+    this.setState({
+      nameInput,
+      variablesTree: this.filterVariablesTree(this.state.variablesTree, nameInput, searchInDescription, type),
+    });
   },
   handleNameClear() {
-    this.setState({nameFilter: ""});
+    const nameInput = "";
+    const {searchInDescription, type} = this.state;
+    this.setState({
+      nameInput,
+      variablesTree: this.filterVariablesTree(this.state.variablesTree, nameInput, searchInDescription, type),
+    });
   },
   handleSearchInDescription(event) {
-    this.setState({searchInDescription: event.target.checked});
+    const searchInDescription = event.target.checked;
+    const {nameInput, type} = this.state;
+    this.setState({
+      searchInDescription,
+      variablesTree: this.filterVariablesTree(this.state.variablesTree, nameInput, searchInDescription, type),
+    });
   },
   handleTypeChange(event) {
-    this.setState({type: event.target.value});
+    const type = event.target.value;
+    const {nameInput, searchInDescription} = this.state;
+    this.setState({
+      type,
+      variablesTree: this.filterVariablesTree(this.state.variablesTree, nameInput, searchInDescription, type),
+    });
   },
   handleVariablesTreeCloseAll() {
     var newVariablesTree = this.forceOpenCloseAll(this.state.variablesTree, {opened: false});
@@ -116,12 +148,12 @@ var VariablesPage = React.createClass({
             onChange={this.handleNameChange}
             placeholder="Rechercher par nom de variable"
             type="search"
-            value={this.state.nameFilter}
+            value={this.state.nameInput}
           />
           <span className="input-group-btn">
             <button
               className="btn btn-default"
-              disabled={!this.state.nameFilter}
+              disabled={!this.state.nameInput}
               onClick={this.handleNameClear}
               type="button"
             >
