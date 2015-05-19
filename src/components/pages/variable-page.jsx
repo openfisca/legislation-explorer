@@ -28,11 +28,18 @@ import React from "react/addons";
 
 import AppPropTypes from "../../app-prop-types";
 import BreadCrumb from "../breadcrumb";
+import config from "../../config";
 
 
 var VariablePage = React.createClass({
   propTypes: {
     variable: AppPropTypes.variable.isRequired,
+  },
+  githubSourceFileUrl(formula) {
+    const moduleAndFileUrlPath = formula.module.split(".").join("/");
+    const lastLine = formula.line_number + formula.source.trim().split("\n").length - 1;
+    return `https://github.com/openfisca/openfisca-france/tree/${config.githubBranchName}/${moduleAndFileUrlPath}.py\
+#L${formula.line_number}-${lastLine}`;
   },
   render() {
     var {formula, label, name} = this.props.variable;
@@ -60,9 +67,6 @@ var VariablePage = React.createClass({
   },
   renderFormula() {
     var {formula} = this.props.variable;
-    var gitWebpageUrl = "https://github.com/openfisca/openfisca-france/tree/master/" +
-      formula.module.split(".").join("/") + ".py#L" + formula.line_number + "-" +
-      (formula.line_number + formula.source.trim().split("\n").length - 1);
     return (
       <div>
         <pre style={{overflowX: "auto"}}>
@@ -71,7 +75,7 @@ var VariablePage = React.createClass({
             whiteSpace: "pre",
           }}>{formula.source}</code>
         </pre>
-        <a href={gitWebpageUrl} rel="external" target="_blank">Voir dans GitHub</a>
+        <a href={this.githubSourceFileUrl(formula)} rel="external" target="_blank">Voir dans GitHub</a>
       </div>
     );
   },
