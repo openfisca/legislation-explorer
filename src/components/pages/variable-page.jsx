@@ -89,6 +89,7 @@ ${moduleAndFileUrlPath}.py#L${formula.line_number}-${lastLine}`;
   renderFormula(formula) {
     return (
       <div>
+        <h4>Formule de calcul</h4>
         <pre style={{overflowX: "auto"}}>
           <code className="python" style={{
             overflowWrap: "normal",
