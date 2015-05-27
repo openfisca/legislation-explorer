@@ -136,6 +136,22 @@ ${moduleAndFileUrlPath}.py#L${formula.line_number}-${lastLine}`;
             <dd key="start-dd">{variable.start}</dd>,
           ]
         }
+        {
+          variable.input_variables && variable.input_variables.length ? [
+            <dt key="input-variables-dt">Dépend de</dt>,
+            <dd key="input-variables-dd">
+              <ul className="list-inline">
+                {
+                  variable.input_variables.map((name, idx) => (
+                    <li key={idx}>
+                      <Link params={{name}} to="variable">{name}</Link>
+                    </li>
+                  ))
+                }
+              </ul>
+            </dd>,
+          ] : null
+        }
       </dl>
     );
   },

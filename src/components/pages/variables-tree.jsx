@@ -93,25 +93,6 @@ var VariablesTree = React.createClass({
         <Link params={variable} to="variable">{variable.name}</Link>
         {" : "}
         {variable.label || "Aucune description"}
-        <br/>
-        {
-          variable.input_variables && variable.input_variables.length && (
-            <div className="clearfix">
-              <span className="pull-left">Dépend de </span>
-              <ul className="list-inline">
-                {
-                  variable.input_variables.map((variableName, variableNameIdx) => (
-                    <li key={variableNameIdx}>
-                      <Link params={{name: variableName}} to="variable">
-                        {variableName}
-                      </Link>
-                    </li>
-                  ))
-                }
-              </ul>
-            </div>
-          )
-        }
       </li>
     );
   },
