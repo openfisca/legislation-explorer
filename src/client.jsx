@@ -53,25 +53,8 @@ function renderApp() {
   const appMountNode = document.getElementById("app-mount-node");
   Router.run(routes, Router.HistoryLocation, (Root, state) => {
     global.loadingEvents.emit("loadStart");
-    var render = data => React.render(<Root {...data} {...intlData} />, appMountNode);
-    // var measurePerf = data => {
-    //   const Perf = React.addons.Perf;
-    //   Perf.start();
-    //   var appHtml = render(data);
-    //   Perf.stop();
-    //   debug("inclusive");
-    //   Perf.printInclusive();
-    //   debug("exclusive");
-    //   Perf.printExclusive();
-    //   debug("wasted");
-    //   Perf.printWasted();
-    //   debug("DOM");
-    //   Perf.printDOM();
-    //   return appHtml;
-    // };
     fetchData(state.routes, state.params, state.query).then(
-      // data => measurePerf(data),
-      data => render(data),
+      data => React.render(<Root {...data} {...intlData} />, appMountNode),
       errorByRouteName => React.render(<Root errorByRouteName={errorByRouteName} {...intlData} />, appMountNode)
     ).then(
       () => global.loadingEvents.emit("loadEnd")
