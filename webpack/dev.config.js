@@ -33,7 +33,7 @@ export default {
       {
         exclude: /node_modules/,
         loaders: ["react-hot", "babel"],
-        test: /\.jsx?$/,
+        test: /\.(js|jsx)$/,
       },
     ],
   },
