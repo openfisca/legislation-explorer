@@ -52,6 +52,7 @@ function renderApp() {
   global.loadingEvents = new EventEmitter();
   const appMountNode = document.getElementById("app-mount-node");
   Router.run(routes, Router.HistoryLocation, (Root, state) => {
+    // React.render(<Root {...intlData} />, appMountNode); // TODO render but avoid flickering effect on client load.
     global.loadingEvents.emit("loadStart");
     fetchData(state.routes, state.params, state.query)
       .then(
