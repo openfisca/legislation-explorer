@@ -73,9 +73,9 @@ var VariableHandler = React.createClass({
   renderContent() {
     var content;
     if (this.props.appState.loading) {
-      content = this.props.appState.loading === "slow" ? (
+      content = (
         <p>Chargement…</p>
-      ) : null;
+      );
     } else if (this.props.errorByRouteName && this.props.errorByRouteName.variable) {
       content = (
         <p>Unable to fetch data from API.</p>
