@@ -53,12 +53,14 @@ function renderApp() {
   const appMountNode = document.getElementById("app-mount-node");
   Router.run(routes, Router.HistoryLocation, (Root, state) => {
     global.loadingEvents.emit("loadStart");
-    fetchData(state.routes, state.params, state.query).then(
-      data => React.render(<Root {...data} {...intlData} />, appMountNode),
-      errorByRouteName => React.render(<Root errorByRouteName={errorByRouteName} {...intlData} />, appMountNode)
-    ).then(
-      () => global.loadingEvents.emit("loadEnd")
-    );
+    fetchData(state.routes, state.params, state.query)
+      .then(
+        data => React.render(<Root {...data} {...intlData} />, appMountNode),
+        errorByRouteName => React.render(<Root errorByRouteName={errorByRouteName} {...intlData} />, appMountNode)
+      )
+      .then(
+        () => global.loadingEvents.emit("loadEnd")
+      );
   });
 }
 
