@@ -80,7 +80,7 @@ var VariableHandler = React.createClass({
       content = (
         <p>Unable to fetch data from API.</p>
       );
-    } else {
+    } else if (this.props.variable) {
       var {gitCommitSha, variable} = this.props.variable;
       content = (
         <VariablePage gitCommitSha={gitCommitSha} variable={variable} />

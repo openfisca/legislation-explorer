@@ -73,7 +73,7 @@ var VariablesHandler = React.createClass({
       content = (
         <p>Unable to fetch data from API.</p>
       );
-    } else {
+    } else if (this.props.variables) {
       var variablesTree = Immutable.fromJS(this.props.variables)
         .reduce(
           (reduction, variable) => reduction.updateIn(
