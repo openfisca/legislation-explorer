@@ -51,7 +51,7 @@ var VariableHandler = React.createClass({
     var content;
     if (this.props.appState.loading) {
       content = this.props.appState.loading === "slow" ? (
-        <p>Loading…</p>
+        <p>Chargement…</p>
       ) : null;
     } else if (this.props.errorByRouteName && this.props.errorByRouteName.variable) {
       content = (
