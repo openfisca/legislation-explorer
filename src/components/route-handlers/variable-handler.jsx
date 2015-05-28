@@ -22,14 +22,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
+import {Link, State} from "react-router";
+import DocumentTitle from "react-document-title";
 import React, {PropTypes} from "react/addons";
 
 import AppPropTypes from "../../app-prop-types";
+import BreadCrumb from "../breadcrumb";
 import VariablePage from "../pages/variable-page";
 import webservices from "../../webservices";
 
 
 var VariableHandler = React.createClass({
+  mixins: [State],
   propTypes: {
     appState: PropTypes.object,
     errorByRouteName: PropTypes.objectOf(PropTypes.object),
@@ -48,6 +52,25 @@ var VariableHandler = React.createClass({
     },
   },
   render() {
+    var name = this.getParams().name;
+    return (
+      <DocumentTitle title={`${name} - Explorateur de la légisation`}>
+        <div>
+          <BreadCrumb>
+            <li>
+              <Link to="variables">Variables</Link>
+            </li>
+            <li className="active">{name}</li>
+          </BreadCrumb>
+          <div className="page-header">
+            <h1>{name}</h1>
+          </div>
+          {this.renderContent()}
+        </div>
+      </DocumentTitle>
+    );
+  },
+  renderContent() {
     var content;
     if (this.props.appState.loading) {
       content = this.props.appState.loading === "slow" ? (

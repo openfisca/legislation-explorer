@@ -24,12 +24,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import {FormattedDate, FormattedMessage} from "react-intl";
 import {Link} from "react-router";
-import DocumentTitle from "react-document-title";
 import React, {PropTypes} from "react/addons";
 
 import AppPropTypes from "../../app-prop-types";
 import Highlight from "../highlight";
-import BreadCrumb from "../breadcrumb";
 
 
 var VariablePage = React.createClass({
@@ -46,31 +44,20 @@ ${moduleAndFileUrlPath}.py#L${formula.line_number}-${lastLine}`;
   render() {
     var {formula, label, name} = this.props.variable;
     return (
-      <DocumentTitle title={`${label} (${name}) - Explorateur de la légisation`}>
-        <div>
-          <BreadCrumb>
-            <li>
-              <Link to="variables">Variables</Link>
-            </li>
-            <li className="active">{name}</li>
-          </BreadCrumb>
-          <div className="page-header">
-            <h1>{name}</h1>
-          </div>
-          <p>
-            {label}
-            {label === name && " (à compléter)"}
-          </p>
-          {this.renderVariableHeader()}
-          {
-            formula && (
-              formula["@type"] === "DatedFormula" ?
-                this.renderDatedFormula(formula) :
-                this.renderFormula(formula)
-              )
-          }
-        </div>
-      </DocumentTitle>
+      <div>
+        <p>
+          {label}
+          {label === name && " (à compléter)"}
+        </p>
+        {this.renderVariableHeader()}
+        {
+          formula && (
+            formula["@type"] === "DatedFormula" ?
+              this.renderDatedFormula(formula) :
+              this.renderFormula(formula)
+            )
+        }
+      </div>
     );
   },
   renderDatedFormula(formula) {
