@@ -44,6 +44,10 @@ if (process.env.NODE_ENV === "development") {
 }
 
 
+import hljs from "highlight.js/lib/highlight";
+hljs.registerLanguage("python", require("highlight.js/lib/languages/python"));
+
+
 function renderApp() {
   global.loadingEvents = new EventEmitter();
   const appMountNode = document.getElementById("app-mount-node");

@@ -58,6 +58,7 @@ function renderMarkup(appHtml) {
     process.env.NODE_ENV === "production" ?
       "/assets/bootstrap/css/bootstrap.min.css" :
       "/assets/bootstrap/css/bootstrap.css",
+    "/assets/highlight.js/styles/solarized_light.css",
   ]);
   const html = React.renderToStaticMarkup(
     <HtmlDocument appHtml={appHtml} css={css} scripts={webpackStats.script} />

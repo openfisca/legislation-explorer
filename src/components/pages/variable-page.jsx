@@ -28,6 +28,7 @@ import DocumentTitle from "react-document-title";
 import React, {PropTypes} from "react/addons";
 
 import AppPropTypes from "../../app-prop-types";
+import Highlight from "../highlight";
 import BreadCrumb from "../breadcrumb";
 
 
@@ -90,12 +91,7 @@ ${moduleAndFileUrlPath}.py#L${formula.line_number}-${lastLine}`;
     return (
       <div>
         <h4>Formule de calcul</h4>
-        <pre style={{overflowX: "auto"}}>
-          <code className="python" style={{
-            overflowWrap: "normal",
-            whiteSpace: "pre",
-          }}>{formula.source}</code>
-        </pre>
+        <Highlight language="python">{formula.source}</Highlight>
         <a href={this.githubSourceFileUrl(formula)} rel="external" target="_blank">Voir sur GitHub</a>
       </div>
     );
