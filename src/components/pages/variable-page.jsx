@@ -63,16 +63,38 @@ ${moduleAndFileUrlPath}.py#L${formula.line_number}-${lastLine}`;
   renderDatedFormula(formula) {
     return formula.dated_formulas.map((datedFormula, idx) => (
       <div key={idx}>
-        <h4>
-          <FormattedMessage
-            message="Du {start} au {stop}"
-            start={<FormattedDate format="short" value={datedFormula.start_instant} />}
-            stop={<FormattedDate format="short" value={datedFormula.stop_instant} />}
-          />
-        </h4>
-        {this.renderFormula(datedFormula.formula)}
+        <h4>{this.renderDatedFormulaHeading(datedFormula)}</h4>
+        <Highlight language="python">{datedFormula.formula.source}</Highlight>
+        <a href={this.githubSourceFileUrl(datedFormula.formula)} rel="external" target="_blank">Voir sur GitHub</a>
       </div>
     ));
+  },
+  renderDatedFormulaHeading(formula) {
+    var heading;
+    if (formula.start_instant && formula.stop_instant) {
+      heading = (
+        <FormattedMessage
+          message="Formule de calcul du {start} au {stop}"
+          start={<FormattedDate format="short" value={formula.start_instant} />}
+          stop={<FormattedDate format="short" value={formula.stop_instant} />}
+        />
+      );
+    } else if (formula.start_instant) {
+      heading = (
+        <FormattedMessage
+          message="Formule de calcul depuis le {start}"
+          start={<FormattedDate format="short" value={formula.start_instant} />}
+        />
+      );
+    } else if (formula.stop_instant) {
+      heading = (
+        <FormattedMessage
+          message="Formule de calcul jusqu'au {stop}"
+          stop={<FormattedDate format="short" value={formula.stop_instant} />}
+        />
+      );
+    }
+    return heading;
   },
   renderFormula(formula) {
     return (
