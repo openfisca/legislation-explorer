@@ -62,9 +62,13 @@ var VariableHandler = React.createClass({
             </li>
             <li className="active">{name}</li>
           </BreadCrumb>
-          <div className="page-header">
-            <h1>{name}</h1>
-          </div>
+          {
+            !this.props.variable && (
+              <div className="page-header">
+                <h1>{name}</h1>
+              </div>
+            )
+          }
           {this.renderContent()}
         </div>
       </DocumentTitle>
