@@ -14,7 +14,10 @@ The following `npm run` commands are declared in `package.json`.
 
 ### Development server
 
+    npm run assets
     npm run dev
+
+> The "assets" command must be run the first time only (it just copies some files).
 
 Open http://localhost:2030/
 

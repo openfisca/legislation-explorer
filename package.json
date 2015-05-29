@@ -6,9 +6,9 @@
     "assets": "./webpack/copy_assets.sh",
     "build": "webpack --stats --config ./webpack/prod.config.js",
     "clean": "rm -rf public",
-    "dev": "npm run assets; NODE_ENV=development DEBUG=app:* node index",
+    "dev": "NODE_ENV=development DEBUG=app:* node index",
     "linter": "eslint --ext .js,.jsx .",
-    "start": "npm run assets; NODE_ENV=production PORT=2030 DEBUG=app:* node index"
+    "start": "NODE_ENV=production PORT=2030 DEBUG=app:* node index"
   },
   "repository": {
     "type": "git",
