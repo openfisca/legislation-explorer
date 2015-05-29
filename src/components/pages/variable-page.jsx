@@ -121,27 +121,36 @@ var VariablePage = React.createClass({
   },
   renderFormula(formula) {
     var inputVariables = formula.input_variables;
-    var hasInputVariables = inputVariables && inputVariables.length;
+    var hasInputVariables = Boolean(inputVariables && inputVariables.length);
+    var {parameters} = formula;
+    var hasParameters = Boolean(parameters && parameters.length);
     return (
       <div>
         {
-          hasInputVariables && (
+          (hasInputVariables || hasParameters) && (
             <dl className="dl-horizontal">
-              <dt>Variables d'entrée</dt>
-              <dd>
-                <ul className="list-inline">
-                  {
-                    inputVariables.map((inputVariable, idx) => (
-                      <li key={idx}>
-                        <Link params={inputVariable} to="variable">
-                          {inputVariable.name}
-                        </Link>
-                        {idx < inputVariables.length - 1 && ", "}
-                      </li>
-                    ))
-                  }
-                </ul>
-              </dd>
+              {
+                React.addons.createFragment({
+                  inputVariablesDt: hasInputVariables && <dt>Variables d'entrée</dt>,
+                  inputVariablesDd: hasInputVariables && (
+                    <dd>
+                      {
+                        this.renderInlineList(inputVariables, inputVariable => (
+                          <Link params={inputVariable} to="variable">
+                            {inputVariable.name}
+                          </Link>
+                        ))
+                      }
+                    </dd>
+                  ),
+                  parametersDt: hasParameters && <dt>Paramètres</dt>,
+                  parametersDd: hasParameters && (
+                    <dd>
+                      {this.renderInlineList(parameters)}
+                    </dd>
+                  ),
+                })
+              }
             </dl>
           )
         }
@@ -154,6 +163,20 @@ var VariablePage = React.createClass({
       <GitHubLink {...props} style={{marginLeft: "1em"}}>
         <small></small>
       </GitHubLink>
+    );
+  },
+  renderInlineList(items, renderLiChildren) {
+    return (
+      <ul className="list-inline">
+        {
+          items.map((item, idx) => (
+            <li key={idx}>
+              {renderLiChildren ? renderLiChildren(item) : item}
+              {idx < items.length - 1 && ", "}
+            </li>
+          ))
+        }
+      </ul>
     );
   },
   renderSimpleFormula(formula) {
