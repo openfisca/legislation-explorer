@@ -87,10 +87,7 @@ function loggedFetch(url, ...args) {
 function fetchField(variableName) {
   const fieldUrl = config.apiBaseUrl + "/" + nodeUrl.format({
     pathname: "field",
-    query: {
-      input_variables: true,
-      variable: variableName,
-    },
+    query: {variable: variableName},
   });
   return fetchCachedJSON(fieldUrl);
 }
