@@ -39,16 +39,25 @@ var VariablesHandler = React.createClass({
   },
   statics: {
     fetchData() {
-      return webservices.fetchFields().then(data => Immutable.fromJS(data.columns)
-        // TODO Replace is_input with variable.formula?
-        .map(variable => variable.set("is_input", true))
-        .merge(data.prestations)
-        .valueSeq()
-        .sortBy(variable => variable.get("name"))
-        .map(variable => variable.set("modulePath", variable.get("module").split(".")))
-        .toJS()
-      );
+      return webservices.fetchFields();
     },
+  },
+  buildVariablesTree(variables) {
+    return Immutable.fromJS(variables.columns)
+      // TODO Replace is_input with variable.formula?
+      .map(variable => variable.set("is_input", true))
+      .merge(variables.prestations)
+      .valueSeq()
+      .sortBy(variable => variable.get("name"))
+      .map(variable => variable.set("modulePath", variable.get("module").split(".")))
+      .reduce(
+        (reduction, variable) => reduction.updateIn(
+          variable.get("modulePath").interpose("children").unshift("children"),
+          new Immutable.Map(),
+          node => node.update("variables", new Immutable.List(), nodeVariables => nodeVariables.push(variable))
+        ),
+        new Immutable.Map({opened: true})
+      );
   },
   render() {
     return (
@@ -74,15 +83,7 @@ var VariablesHandler = React.createClass({
         <p>Unable to fetch data from API.</p>
       );
     } else if (this.props.variables) {
-      var variablesTree = Immutable.fromJS(this.props.variables)
-        .reduce(
-          (reduction, variable) => reduction.updateIn(
-            variable.get("modulePath").interpose("children").unshift("children"),
-            new Immutable.Map(),
-            node => node.update("variables", new Immutable.List(), nodeVariables => nodeVariables.push(variable))
-          ),
-          new Immutable.Map({opened: true})
-        );
+      var variablesTree = this.buildVariablesTree(this.props.variables);
       content = (
         <VariablesPage variablesTree={variablesTree} />
       );
