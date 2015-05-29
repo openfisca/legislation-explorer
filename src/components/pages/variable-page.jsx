@@ -61,12 +61,13 @@ var VariablePage = React.createClass({
           {label}
           {label === name && " (à compléter)"}
         </p>
-        {this.renderVariableHeader()}
+        {this.renderVariableDefinitionsList()}
+        <hr />
         {
           formula && (
             formula["@type"] === "DatedFormula" ?
               this.renderDatedFormula(formula) :
-              this.renderFormula(formula)
+              this.renderSimpleFormula(formula)
             )
         }
       </div>
@@ -86,7 +87,8 @@ var VariablePage = React.createClass({
             lineNumber: datedFormula.formula.line_number,
           })
         }
-        <Highlight language="python">{datedFormula.formula.source}</Highlight>
+        {this.renderFormula(datedFormula.formula)}
+        <hr />
       </div>
     ));
   },
@@ -118,6 +120,35 @@ var VariablePage = React.createClass({
     return heading;
   },
   renderFormula(formula) {
+    var inputVariables = formula.input_variables;
+    var hasInputVariables = inputVariables && inputVariables.length;
+    return (
+      <div>
+        {
+          hasInputVariables && (
+            <dl className="dl-horizontal">
+              <dt>Variables d'entrée</dt>
+              <dd>
+                <ul className="list-inline">
+                  {
+                    inputVariables.map((inputVariable, idx) => (
+                      <li key={idx}>
+                        <Link params={inputVariable} to="variable">
+                          {inputVariable.name}
+                        </Link>
+                        {idx < inputVariables.length - 1 && ", "}
+                      </li>
+                    ))
+                  }
+                </ul>
+              </dd>
+            </dl>
+          )
+        }
+        <Highlight language="python">{formula.source}</Highlight>
+      </div>
+    );
+  },
   renderGitHubLink(props) {
     return (
       <GitHubLink {...props} style={{marginLeft: "1em"}}>
@@ -125,6 +156,7 @@ var VariablePage = React.createClass({
       </GitHubLink>
     );
   },
+  renderSimpleFormula(formula) {
     return (
       <div>
         <h4 style={{display: "inline-block"}}>Formule de calcul</h4>
@@ -136,11 +168,11 @@ var VariablePage = React.createClass({
             lineNumber: formula.line_number,
           })
         }
-        <Highlight language="python">{formula.source}</Highlight>
+        {this.renderFormula(formula)}
       </div>
     );
   },
-  renderVariableHeader() {
+  renderVariableDefinitionsList() {
     var {variable} = this.props;
     var entityLabelByNamePlural = {
       familles: "Famille",
@@ -176,22 +208,6 @@ var VariablePage = React.createClass({
             <dt key="start-dt">Démarre le</dt>,
             <dd key="start-dd">{variable.start}</dd>,
           ]
-        }
-        {
-          variable.input_variables && variable.input_variables.length ? [
-            <dt key="input-variables-dt">Dépend de</dt>,
-            <dd key="input-variables-dd">
-              <ul className="list-inline">
-                {
-                  variable.input_variables.map((name, idx) => (
-                    <li key={idx}>
-                      <Link params={{name}} to="variable">{name}</Link>
-                    </li>
-                  ))
-                }
-              </ul>
-            </dd>,
-          ] : null
         }
       </dl>
     );
