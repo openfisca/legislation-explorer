@@ -49,13 +49,14 @@ var VariablePage = React.createClass({
       <div>
         <div className="page-header">
           <h1 style={{display: "inline-block"}}>{name}</h1>
-          {
-            this.renderGitHubLink({
-              blobUrlPath: this.buildBlobUrlPath(module),
-              commitReference: this.props.gitCommitSha,
-              lineNumber: line_number,
-            })
-          }
+          <GitHubLink
+            blobUrlPath={this.buildBlobUrlPath(module)}
+            commitReference={this.props.gitCommitSha}
+            lineNumber={line_number}
+            style={{marginLeft: "1em"}}
+          >
+            <small></small>
+          </GitHubLink>
         </div>
         <p>
           {label}
@@ -79,14 +80,6 @@ var VariablePage = React.createClass({
         <h4 style={{display: "inline-block"}}>
           {this.renderDatedFormulaHeading(datedFormula)}
         </h4>
-        {
-          this.renderGitHubLink({
-            blobUrlPath: this.buildBlobUrlPath(datedFormula.formula.module),
-            commitReference: this.props.gitCommitSha,
-            lastLineNumber: this.buildLastLineNumber(datedFormula.formula),
-            lineNumber: datedFormula.formula.line_number,
-          })
-        }
         {this.renderFormula(datedFormula.formula)}
         <hr />
       </div>
@@ -154,15 +147,23 @@ var VariablePage = React.createClass({
             </dl>
           )
         }
-        <Highlight language="python">{formula.source}</Highlight>
+        <div style={{position: "relative"}}>
+          <Highlight language="python">{formula.source}</Highlight>
+          <GitHubLink
+            blobUrlPath={this.buildBlobUrlPath(formula.module)}
+            commitReference={this.props.gitCommitSha}
+            lastLineNumber={this.buildLastLineNumber(formula)}
+            lineNumber={formula.line_number}
+            style={{
+              position: "absolute",
+              right: "1em",
+              top: "0.5em",
+            }}
+          >
+            <small></small>
+          </GitHubLink>
+        </div>
       </div>
-    );
-  },
-  renderGitHubLink(props) {
-    return (
-      <GitHubLink {...props} style={{marginLeft: "1em"}}>
-        <small></small>
-      </GitHubLink>
     );
   },
   renderInlineList(items, renderLiChildren) {
@@ -183,14 +184,6 @@ var VariablePage = React.createClass({
     return (
       <div>
         <h4 style={{display: "inline-block"}}>Formule de calcul</h4>
-        {
-          this.renderGitHubLink({
-            blobUrlPath: this.buildBlobUrlPath(formula.module),
-            commitReference: this.props.gitCommitSha,
-            lastLineNumber: this.buildLastLineNumber(formula),
-            lineNumber: formula.line_number,
-          })
-        }
         {this.renderFormula(formula)}
       </div>
     );
