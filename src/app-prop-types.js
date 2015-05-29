@@ -26,6 +26,29 @@ import {PropTypes} from "react";
 import ImmutablePropTypes from "react-immutable-proptypes";
 
 
+var formula = PropTypes.shape({
+  input_variables: PropTypes.arrayOf(
+    PropTypes.shape({
+      entity: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    })
+  ),
+  line_number: PropTypes.number,
+  module: PropTypes.string.isRequired,
+  parameters: PropTypes.arrayOf(PropTypes.string),
+});
+
+var datedFormula = PropTypes.shape({
+  dated_formulas: PropTypes.arrayOf(
+    PropTypes.shape({
+      formula: formula.isRequired,
+      start_instant: PropTypes.string,
+      stop_instant: PropTypes.string,
+    })
+  ).isRequired,
+});
+
 var immutableChildren = ImmutablePropTypes.mapOf(immutableVariablesTree);
 
 var immutableVariables = ImmutablePropTypes.listOf(variable);
@@ -37,11 +60,12 @@ var immutableVariablesTree = ImmutablePropTypes.shape({
 });
 
 var variable = PropTypes.shape({
+  formula: PropTypes.oneOfType([formula, datedFormula]),
   // TODO Replace is_input with variable.formula?
-  is_input: PropTypes.bool, // eslint-disable-line
+  is_input: PropTypes.bool,
   label: PropTypes.string,
+  line_number: PropTypes.number,
   module: PropTypes.string.isRequired,
-  modulePath: PropTypes.arrayOf(PropTypes.string).isRequired,
   name: PropTypes.string.isRequired,
 });
 

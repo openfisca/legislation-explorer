@@ -27,6 +27,7 @@ import {Link} from "react-router";
 import React, {PropTypes} from "react/addons";
 
 import AppPropTypes from "../../app-prop-types";
+import GitHubLink from "../github-link";
 import Highlight from "../highlight";
 
 
@@ -35,16 +36,26 @@ var VariablePage = React.createClass({
     gitCommitSha: PropTypes.string.isRequired,
     variable: AppPropTypes.variable.isRequired,
   },
-  githubSourceFileUrl(formula) {
-    const moduleAndFileUrlPath = formula.module.split(".").join("/");
-    const lastLine = formula.line_number + formula.source.trim().split("\n").length - 1;
-    return `https://github.com/openfisca/openfisca-france/blob/${this.props.gitCommitSha}/\
-${moduleAndFileUrlPath}.py#L${formula.line_number}-${lastLine}`;
+  buildBlobUrlPath(module) {
+    const moduleAndFileUrlPath = module.split(".").join("/");
+    return `${moduleAndFileUrlPath}.py`;
+  },
+  buildLastLineNumber(formula) {
+    return formula.line_number + formula.source.trim().split("\n").length - 1;
   },
   render() {
-    var {formula, label, name} = this.props.variable;
+    var {formula, label, line_number, module, name} = this.props.variable;
     return (
       <div>
+        <div className="page-header">
+          <h1 style={{display: "inline-block"}}>{name}</h1>
+          <GitHubLink
+            blobUrlPath={this.buildBlobUrlPath(module)}
+            commitReference={this.props.gitCommitSha}
+            lineNumber={line_number}
+            style={{marginLeft: "1em"}}
+          />
+        </div>
         <p>
           {label}
           {label === name && " (à compléter)"}
@@ -63,9 +74,17 @@ ${moduleAndFileUrlPath}.py#L${formula.line_number}-${lastLine}`;
   renderDatedFormula(formula) {
     return formula.dated_formulas.map((datedFormula, idx) => (
       <div key={idx}>
-        <h4>{this.renderDatedFormulaHeading(datedFormula)}</h4>
+        <h4 style={{display: "inline-block"}}>
+          {this.renderDatedFormulaHeading(datedFormula)}
+        </h4>
+        <GitHubLink
+          blobUrlPath={this.buildBlobUrlPath(datedFormula.formula.module)}
+          commitReference={this.props.gitCommitSha}
+          lastLineNumber={this.buildLastLineNumber(datedFormula.formula)}
+          lineNumber={datedFormula.formula.line_number}
+          style={{marginLeft: "1em"}}
+        />
         <Highlight language="python">{datedFormula.formula.source}</Highlight>
-        <a href={this.githubSourceFileUrl(datedFormula.formula)} rel="external" target="_blank">Voir sur GitHub</a>
       </div>
     ));
   },
@@ -99,9 +118,15 @@ ${moduleAndFileUrlPath}.py#L${formula.line_number}-${lastLine}`;
   renderFormula(formula) {
     return (
       <div>
-        <h4>Formule de calcul</h4>
+        <h4 style={{display: "inline-block"}}>Formule de calcul</h4>
+        <GitHubLink
+          blobUrlPath={this.buildBlobUrlPath(formula.module)}
+          commitReference={this.props.gitCommitSha}
+          lastLineNumber={this.buildLastLineNumber(formula)}
+          lineNumber={formula.line_number}
+          style={{marginLeft: "1em"}}
+        />
         <Highlight language="python">{formula.source}</Highlight>
-        <a href={this.githubSourceFileUrl(formula)} rel="external" target="_blank">Voir sur GitHub</a>
       </div>
     );
   },
