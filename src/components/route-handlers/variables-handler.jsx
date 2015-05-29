@@ -35,21 +35,24 @@ var VariablesHandler = React.createClass({
   propTypes: {
     appState: PropTypes.object,
     errorByRouteName: PropTypes.objectOf(PropTypes.object),
-    variables: PropTypes.arrayOf(AppPropTypes.variable),
+    variables: PropTypes.shape({
+      columns: PropTypes.objectOf(AppPropTypes.variable).isRequired,
+      prestations: PropTypes.objectOf(AppPropTypes.variable).isRequired,
+    }),
   },
   statics: {
     fetchData() {
       return webservices.fetchFields();
     },
   },
-  buildVariablesTree(variables) {
-    return Immutable.fromJS(variables.columns)
+  buildVariablesTree(variablesData) {
+    return Immutable.fromJS(variablesData.columns)
       // TODO Replace is_input with variable.formula?
       .map(variable => variable.set("is_input", true))
-      .merge(variables.prestations)
+      .merge(variablesData.prestations)
       .valueSeq()
       .sortBy(variable => variable.get("name"))
-      .map(variable => variable.set("modulePath", variable.get("module").split(".")))
+      .map(variable => variable.set("modulePath", new Immutable.List(variable.get("module").split("."))))
       .reduce(
         (reduction, variable) => reduction.updateIn(
           variable.get("modulePath").interpose("children").unshift("children"),
