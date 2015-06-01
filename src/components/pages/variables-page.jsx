@@ -45,9 +45,8 @@ var VariablesPage = React.createClass({
         searchInDescription && variable.get("label").toLowerCase().includes(nameFilter)
       ) && (
         type === "" ||
-        // TODO Replace is_input with variable.formula?
-        type === "output" && !variable.get("is_input") ||
-        type === "input" && variable.get("is_input")
+        type === "formula" && variable.get("formula") ||
+        type === "input" && !variable.get("formula")
       );
       if (variablesTree.has("children")) {
         var newChildren = variablesTree.get("children").map(child => walk(child));
@@ -190,11 +189,11 @@ var VariablesPage = React.createClass({
             <div className="radio">
               <label>
                 <input
-                  checked={this.state.type === "output"}
+                  checked={this.state.type === "formula"}
                   name="type"
                   onChange={this.handleTypeChange}
                   type="radio"
-                  value="output"
+                  value="formula"
                 />
                 Formules de calcul
               </label>

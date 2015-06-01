@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import {Link, State} from "react-router";
 import DocumentTitle from "react-document-title";
+import Immutable from "immutable";
 import React, {PropTypes} from "react/addons";
 
 import AppPropTypes from "../../app-prop-types";
@@ -39,12 +40,17 @@ var VariableHandler = React.createClass({
     errorByRouteName: PropTypes.objectOf(PropTypes.object),
     variable: PropTypes.shape({
       git_commit_sha: PropTypes.string.isRequired,
-      value: AppPropTypes.variable.isRequired,
+      variable: AppPropTypes.variable.isRequired,
     }),
   },
   statics: {
     fetchData(params) {
-      return webservices.fetchField(params.name);
+      return webservices.fetchVariables()
+        .then(
+          responseData => Immutable.fromJS(responseData)
+            .set("variable", responseData.variables.find(variable => variable.name === params.name))
+            .toJS()
+        );
     },
   },
   render() {
@@ -82,7 +88,9 @@ var VariableHandler = React.createClass({
       );
     } else if (this.props.variable) {
       var routeData = this.props.variable;
-      var variable = Object.assign(routeData.value, {modulePath: routeData.value.module.split(".")});
+      var variable = Immutable.fromJS(routeData.variable)
+        .merge({modulePath: routeData.variable.module.split(".")})
+        .toJS();
       content = (
         <VariablePage gitCommitSha={routeData.git_commit_sha} variable={variable} />
       );

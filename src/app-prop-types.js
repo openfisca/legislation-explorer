@@ -27,13 +27,7 @@ import ImmutablePropTypes from "react-immutable-proptypes";
 
 
 var formula = PropTypes.shape({
-  input_variables: PropTypes.arrayOf(
-    PropTypes.shape({
-      entity: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-    })
-  ),
+  input_variables: PropTypes.arrayOf(PropTypes.string),
   line_number: PropTypes.number,
   module: PropTypes.string.isRequired,
   parameters: PropTypes.arrayOf(PropTypes.string),
@@ -61,8 +55,6 @@ var immutableVariablesTree = ImmutablePropTypes.shape({
 
 var variable = PropTypes.shape({
   formula: PropTypes.oneOfType([formula, datedFormula]),
-  // TODO Replace is_input with variable.formula?
-  is_input: PropTypes.bool,
   label: PropTypes.string,
   line_number: PropTypes.number,
   module: PropTypes.string.isRequired,

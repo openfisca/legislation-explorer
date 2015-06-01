@@ -114,30 +114,26 @@ var VariablePage = React.createClass({
   },
   renderFormula(formula) {
     var inputVariables = formula.input_variables;
-    var hasInputVariables = Boolean(inputVariables && inputVariables.length);
     var {parameters} = formula;
-    var hasParameters = Boolean(parameters && parameters.length);
     return (
       <div>
         {
-          (hasInputVariables || hasParameters) && (
+          (inputVariables || parameters) && (
             <dl className="dl-horizontal">
               {
                 React.addons.createFragment({
-                  inputVariablesDt: hasInputVariables && <dt>Variables d'entrée</dt>,
-                  inputVariablesDd: hasInputVariables && (
+                  inputVariablesDt: inputVariables && <dt>Variables d'entrée</dt>,
+                  inputVariablesDd: inputVariables && (
                     <dd>
                       {
-                        this.renderInlineList(inputVariables, inputVariable => (
-                          <Link params={inputVariable} to="variable">
-                            {inputVariable.name}
-                          </Link>
+                        this.renderInlineList(inputVariables, name => (
+                          <Link params={{name}} to="variable">{name}</Link>
                         ))
                       }
                     </dd>
                   ),
-                  parametersDt: hasParameters && <dt>Paramètres</dt>,
-                  parametersDd: hasParameters && (
+                  parametersDt: parameters && <dt>Paramètres</dt>,
+                  parametersDd: parameters && (
                     <dd>
                       {this.renderInlineList(parameters)}
                     </dd>

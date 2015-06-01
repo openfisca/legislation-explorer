@@ -22,8 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-import nodeUrl from "url";
-
 import config from "./config";
 
 
@@ -84,19 +82,10 @@ function loggedFetch(url, ...args) {
 
 // API fetch functions
 
-function fetchField(variableName) {
-  const fieldUrl = config.apiBaseUrl + "/" + nodeUrl.format({
-    pathname: "field",
-    query: {variable: variableName},
-  });
-  return fetchCachedJSON(fieldUrl);
+function fetchVariables() {
+  const variablesUrl = `${config.apiBaseUrl}/variables`;
+  return fetchCachedJSON(variablesUrl);
 }
 
 
-function fetchFields() {
-  const fieldsUrl = `${config.apiBaseUrl}/fields`;
-  return fetchCachedJSON(fieldsUrl);
-}
-
-
-export default {fetchField, fetchFields};
+export default {fetchVariables};
