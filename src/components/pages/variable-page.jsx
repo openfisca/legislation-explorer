@@ -156,8 +156,8 @@ var VariablePage = React.createClass({
             lineNumber={formula.line_number}
             style={{
               position: "absolute",
-              right: "1em",
-              top: "0.5em",
+              right: "0.5em",
+              top: "0.3em",
             }}
           >
             <small></small>
