@@ -39,7 +39,7 @@ var VariableHandler = React.createClass({
     appState: PropTypes.object,
     errorByRouteName: PropTypes.objectOf(PropTypes.object),
     variable: PropTypes.shape({
-      git_commit_sha: PropTypes.string.isRequired,
+      country_package_git_head_sha: PropTypes.string.isRequired,
       variable: AppPropTypes.variable.isRequired,
     }),
   },
@@ -92,7 +92,7 @@ var VariableHandler = React.createClass({
         .merge({modulePath: routeData.variable.module.split(".")})
         .toJS();
       content = (
-        <VariablePage gitCommitSha={routeData.git_commit_sha} variable={variable} />
+        <VariablePage countryPackageGitHeadSha={routeData.country_package_git_head_sha} variable={variable} />
       );
     }
     return content;

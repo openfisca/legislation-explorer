@@ -33,7 +33,7 @@ import Highlight from "../highlight";
 
 var VariablePage = React.createClass({
   propTypes: {
-    gitCommitSha: PropTypes.string.isRequired,
+    countryPackageGitHeadSha: PropTypes.string.isRequired,
     variable: AppPropTypes.variable.isRequired,
   },
   buildBlobUrlPath(module) {
@@ -51,7 +51,7 @@ var VariablePage = React.createClass({
           <h1 style={{display: "inline-block"}}>{name}</h1>
           <GitHubLink
             blobUrlPath={this.buildBlobUrlPath(module)}
-            commitReference={this.props.gitCommitSha}
+            commitReference={this.props.countryPackageGitHeadSha}
             lineNumber={line_number}
             style={{marginLeft: "1em"}}
           >
@@ -147,7 +147,7 @@ var VariablePage = React.createClass({
           <Highlight language="python">{formula.source}</Highlight>
           <GitHubLink
             blobUrlPath={this.buildBlobUrlPath(formula.module)}
-            commitReference={this.props.gitCommitSha}
+            commitReference={this.props.countryPackageGitHeadSha}
             lastLineNumber={this.buildLastLineNumber(formula)}
             lineNumber={formula.line_number}
             style={{
