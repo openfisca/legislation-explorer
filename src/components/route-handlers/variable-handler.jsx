@@ -47,7 +47,7 @@ var VariableHandler = React.createClass({
     errorByRouteName: PropTypes.shape({
       variable: PropTypes.instanceOf(Error),
     }),
-    loading: PropTypes.string,
+    loading: AppPropTypes.loading,
   },
   statics: {
     fetchData(params) {

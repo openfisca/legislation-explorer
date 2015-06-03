@@ -32,7 +32,6 @@ import webservices from "../../webservices";
 
 var VariablesHandler = React.createClass({
   propTypes: {
-    loading: PropTypes.string,
     dataByRouteName: PropTypes.shape({
       variables: PropTypes.shape({
         variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
@@ -41,6 +40,7 @@ var VariablesHandler = React.createClass({
     errorByRouteName: PropTypes.shape({
       variables: PropTypes.instanceOf(Error),
     }),
+    loading: AppPropTypes.loading,
   },
   statics: {
     fetchData() {

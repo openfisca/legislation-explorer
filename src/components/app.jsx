@@ -26,6 +26,7 @@ import {IntlMixin} from "react-intl";
 import {RouteHandler} from "react-router";
 import React, {PropTypes} from "react/addons";
 
+import AppPropTypes from "../app-prop-types";
 import Layout from "./layout";
 
 
@@ -34,7 +35,7 @@ var App = React.createClass({
   propTypes: {
     dataByRouteName: PropTypes.object,
     errorByRouteName: PropTypes.objectOf(PropTypes.instanceOf(Error)),
-    loading: PropTypes.string,
+    loading: AppPropTypes.loading,
   },
   componentDidMount() {
     var timer;
