@@ -26,15 +26,15 @@ import React from "react";
 // React is used or JSX routes transformed into React.createElement().
 import {DefaultRoute, NotFoundRoute, Route} from "react-router";
 
-import App from "./components/app";
 import AboutPage from "./components/pages/about-page";
+import App from "./components/app";
 import HomePage from "./components/pages/home-page";
 import NotFoundHandler from "./components/route-handlers/not-found-handler";
 import VariableHandler from "./components/route-handlers/variable-handler";
 import VariablesHandler from "./components/route-handlers/variables-handler";
 
 
-const debug = require("debug")("app:routes");
+// const debug = require("debug")("app:routes");
 
 
 function fetchData(matchedRoutes, params, query) {
