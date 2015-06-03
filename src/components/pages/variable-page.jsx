@@ -29,6 +29,7 @@ import React, {PropTypes} from "react/addons";
 import AppPropTypes from "../../app-prop-types";
 import GitHubLink from "../github-link";
 import Highlight from "../highlight";
+import ListInline from "../list-inline";
 
 
 var VariablePage = React.createClass({
@@ -107,21 +108,17 @@ var VariablePage = React.createClass({
                   inputVariablesDt: inputVariables && <dt>Variables d'entrée</dt>,
                   inputVariablesDd: inputVariables && (
                     <dd>
-                      {
-                        this.renderInlineList(inputVariables, name => (
-                          <Link params={{name}} to="variable">{name}</Link>
-                        ))
-                      }
+                      <ListInline items={inputVariables}>
+                        {name => <Link params={{name}} to="variable">{name}</Link>}
+                      </ListInline>
                     </dd>
                   ),
                   parametersDt: parameters && <dt>Paramètres</dt>,
                   parametersDd: parameters && (
                     <dd>
-                      {
-                        this.renderInlineList(parameters, name => (
-                          <Link params={{name}} to="parameter">{name}</Link>
-                        ))
-                      }
+                      <ListInline items={parameters}>
+                        {name => <Link params={{name}} to="parameter">{name}</Link>}
+                      </ListInline>
                     </dd>
                   ),
                 })
@@ -146,20 +143,6 @@ var VariablePage = React.createClass({
           </GitHubLink>
         </div>
       </div>
-    );
-  },
-  renderInlineList(items, renderLiChildren) {
-    return (
-      <ul className="list-inline">
-        {
-          items.map((item, idx) => (
-            <li key={idx}>
-              {renderLiChildren ? renderLiChildren(item) : item}
-              {idx < items.length - 1 && ", "}
-            </li>
-          ))
-        }
-      </ul>
     );
   },
   renderSimpleFormula(formula) {
