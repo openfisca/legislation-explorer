@@ -23,7 +23,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 import Cursor from "immutable/contrib/cursor";
-import React from "react/addons";
+import Immutable from "immutable";
+import React, {PropTypes} from "react/addons";
 
 import AppPropTypes from "../../app-prop-types";
 import VariablesTree from "./variables-tree";
@@ -34,7 +35,19 @@ import VariablesTree from "./variables-tree";
 
 var VariablesPage = React.createClass({
   propTypes: {
-    variablesTree: AppPropTypes.immutableVariablesTree.isRequired,
+    variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
+  },
+  buildVariablesTree(variables) {
+    return Immutable.fromJS(variables)
+      .sortBy(variable => variable.get("name"))
+      .reduce(
+        (reduction, variable) => reduction.updateIn(
+          Immutable.List(variable.get("module").split(".")).interpose("children").unshift("children"),
+          Immutable.Map(),
+          node => node.update("variables", Immutable.List(), nodeVariables => nodeVariables.push(variable))
+        ),
+        Immutable.Map({opened: true})
+      );
   },
   filterVariablesTree(variablesTreeRoot, nameInput, searchInDescription, type) {
     var nameFilter = nameInput && nameInput.length ? nameInput.trim().toLowerCase() : null;
@@ -78,12 +91,9 @@ var VariablesPage = React.createClass({
     const nameInput = "";
     const searchInDescription = false;
     const type = "";
-    return {
-      nameInput,
-      searchInDescription,
-      type,
-      variablesTree: this.filterVariablesTree(this.props.variablesTree, nameInput, searchInDescription, type),
-    };
+    var variablesTree = this.buildVariablesTree(this.props.variables);
+    variablesTree = this.filterVariablesTree(variablesTree, nameInput, searchInDescription, type);
+    return {nameInput, searchInDescription, type, variablesTree};
   },
   handleCursorUpdate(newVariablesTree) {
     this.setState({variablesTree: newVariablesTree});

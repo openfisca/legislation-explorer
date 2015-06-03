@@ -22,7 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-import Immutable from "immutable";
 import React, {PropTypes} from "react/addons";
 
 import AppPropTypes from "../../app-prop-types";
@@ -48,20 +47,10 @@ var VariablesHandler = React.createClass({
       return webservices.fetchVariables();
     },
   },
-  buildVariablesTree(variablesData) {
-    return Immutable.fromJS(variablesData.variables)
-      .sortBy(variable => variable.get("name"))
-      .map(variable => variable.set("modulePath", new Immutable.List(variable.get("module").split("."))))
-      .reduce(
-        (reduction, variable) => reduction.updateIn(
-          variable.get("modulePath").interpose("children").unshift("children"),
-          new Immutable.Map(),
-          node => node.update("variables", new Immutable.List(), nodeVariables => nodeVariables.push(variable))
-        ),
-        new Immutable.Map({opened: true})
-      );
-  },
   render() {
+    var {dataByRouteName, errorByRouteName} = this.props;
+    var error = errorByRouteName && errorByRouteName.variables;
+    var data = dataByRouteName && dataByRouteName.variables;
     return (
       <div>
         <BreadCrumb>
@@ -70,24 +59,25 @@ var VariablesHandler = React.createClass({
         <div className="page-header">
           <h1>Variables et formules socio-fiscales</h1>
         </div>
-        {this.renderContent()}
+        {this.renderContent(error, data)}
       </div>
     );
   },
-  renderContent() {
+  renderContent(error, data) {
     var content;
-    if (this.props.appState.loading) {
+    if (error) {
       content = (
-        <p>Chargement…</p>
+        <div className="alert alert-danger">
+          Impossible de charger les données depuis l'API.
+        </div>
       );
-    } else if (this.props.errorByRouteName && this.props.errorByRouteName.variables) {
+    } else if (this.props.loading) {
       content = (
-        <p>Unable to fetch data from API.</p>
+        <p>Chargement en cours…</p>
       );
-    } else if (this.props.variables) {
-      var variablesTree = this.buildVariablesTree(this.props.variables);
+    } else if (data) {
       content = (
-        <VariablesPage variablesTree={variablesTree} />
+        <VariablesPage variables={data.variables} />
       );
     }
     return content;

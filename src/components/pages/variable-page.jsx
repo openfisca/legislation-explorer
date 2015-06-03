@@ -36,28 +36,10 @@ var VariablePage = React.createClass({
     countryPackageGitHeadSha: PropTypes.string.isRequired,
     variable: AppPropTypes.variable.isRequired,
   },
-  buildBlobUrlPath(module) {
-    const moduleAndFileUrlPath = module.split(".").join("/");
-    return `${moduleAndFileUrlPath}.py`;
-  },
-  buildLastLineNumber(formula) {
-    return formula.line_number + formula.source.trim().split("\n").length - 1;
-  },
   render() {
-    var {formula, label, line_number, module, name} = this.props.variable;
+    var {formula, label, name} = this.props.variable;
     return (
       <div>
-        <div className="page-header">
-          <h1 style={{display: "inline-block"}}>{name}</h1>
-          <GitHubLink
-            blobUrlPath={this.buildBlobUrlPath(module)}
-            commitReference={this.props.countryPackageGitHeadSha}
-            lineNumber={line_number}
-            style={{marginLeft: "1em"}}
-          >
-            <small></small>
-          </GitHubLink>
-        </div>
         <p>
           {label}
           {label === name && " (à compléter)"}
@@ -135,7 +117,11 @@ var VariablePage = React.createClass({
                   parametersDt: parameters && <dt>Paramètres</dt>,
                   parametersDd: parameters && (
                     <dd>
-                      {this.renderInlineList(parameters)}
+                      {
+                        this.renderInlineList(parameters, name => (
+                          <Link params={{name}} to="parameter">{name}</Link>
+                        ))
+                      }
                     </dd>
                   ),
                 })
@@ -146,9 +132,9 @@ var VariablePage = React.createClass({
         <div style={{position: "relative"}}>
           <Highlight language="python">{formula.source}</Highlight>
           <GitHubLink
-            blobUrlPath={this.buildBlobUrlPath(formula.module)}
+            blobUrlPath={`${formula.module.split(".").join("/")}.py`}
             commitReference={this.props.countryPackageGitHeadSha}
-            lastLineNumber={this.buildLastLineNumber(formula)}
+            lastLineNumber={formula.line_number + formula.source.trim().split("\n").length - 1}
             lineNumber={formula.line_number}
             style={{
               position: "absolute",

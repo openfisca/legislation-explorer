@@ -27,8 +27,11 @@ import DocumentTitle from "react-document-title";
 import Immutable from "immutable";
 import React, {PropTypes} from "react/addons";
 
+import {NotFound} from "../../errors";
 import AppPropTypes from "../../app-prop-types";
 import BreadCrumb from "../breadcrumb";
+import GitHubLink from "../github-link";
+import NotFoundPage from "../pages/not-found-page";
 import VariablePage from "../pages/variable-page";
 import webservices from "../../webservices";
 
@@ -50,55 +53,102 @@ var VariableHandler = React.createClass({
     fetchData(params) {
       return webservices.fetchVariables()
         .then(
-          responseData => Immutable.fromJS(responseData)
-            .set("variable", responseData.variables.find(variable => variable.name === params.name))
-            .toJS()
+          responseData => {
+            var foundVariable = responseData.variables.find(variable => variable.name === params.name);
+            if (!foundVariable) {
+              throw new NotFound(`variable \"${params.name}\" not found`);
+            }
+            return Immutable.Map(responseData).set("variable", foundVariable).toJS();
+          }
         );
     },
   },
+  getNotFoundMessage() {
+    return "Variable non trouvée";
+  },
   render() {
     var name = this.getParams().name;
+    var {dataByRouteName, errorByRouteName} = this.props;
+    var error = errorByRouteName && errorByRouteName.variable;
+    var data = dataByRouteName && dataByRouteName.variable;
+    var variable;
+    if (data) {
+      variable = data.variable;
+      variable = Immutable.Map(variable).set("module_fragments", variable.module.split(".")).toJS();
+    }
     return (
       <DocumentTitle title={`${name} - Explorateur de la législation`}>
         <div>
-          <BreadCrumb>
-            <li>
-              <Link to="variables">Variables</Link>
-            </li>
-            <li className="active">{name}</li>
-          </BreadCrumb>
-          {
-            !this.props.variable && (
-              <div className="page-header">
-                <h1>{name}</h1>
-              </div>
-            )
-          }
-          {this.renderContent()}
+          {this.renderBreadCrumb(error, name)}
+          {this.renderPageHeader(error, data, name, variable)}
+          {this.renderContent(error, data, name, variable)}
         </div>
       </DocumentTitle>
     );
   },
-  renderContent() {
+  renderBreadCrumb(error, name) {
+    return (
+      <BreadCrumb>
+        <li key="variables">
+          <Link to="variables">Variables</Link>
+        </li>
+        <li className="active">
+          {error instanceof NotFound ? this.getNotFoundMessage() : name}
+        </li>
+      </BreadCrumb>
+    );
+  },
+  renderContent(error, data, name, variable) {
     var content;
-    if (this.props.appState.loading) {
-      content = (
-        <p>Chargement…</p>
+    if (error) {
+      content = error instanceof NotFound ? (
+        <NotFoundPage message={this.getNotFoundMessage()}>
+          <div className="alert alert-danger">
+            {`La variable « ${name} » n'existe pas.`}
+          </div>
+          <Link to="variables">
+            Retour aux variables et formules socio-fiscales
+          </Link>
+        </NotFoundPage>
+      ) : (
+        <div className="alert alert-danger">
+          Impossible de charger les données depuis l'API.
+        </div>
       );
-    } else if (this.props.errorByRouteName && this.props.errorByRouteName.variable) {
+    } else if (this.props.loading) {
       content = (
-        <p>Unable to fetch data from API.</p>
+        <p>Chargement en cours…</p>
       );
-    } else if (this.props.variable) {
-      var routeData = this.props.variable;
-      var variable = Immutable.fromJS(routeData.variable)
-        .merge({modulePath: routeData.variable.module.split(".")})
-        .toJS();
+    } else if (data) {
       content = (
-        <VariablePage countryPackageGitHeadSha={routeData.country_package_git_head_sha} variable={variable} />
+        <VariablePage
+          countryPackageGitHeadSha={data.country_package_git_head_sha}
+          variable={variable}
+        />
       );
     }
     return content;
+  },
+  renderPageHeader(error, data, name, variable) {
+    return (
+      <div className="page-header">
+        <h1 style={{display: "inline-block"}}>
+          {error instanceof NotFound ? this.getNotFoundMessage() : name}
+        </h1>
+        {
+          variable && (
+            <GitHubLink
+              blobUrlPath={`${variable.module_fragments.join("/")}.py`}
+              commitReference={data.country_package_git_head_sha}
+              lineNumber={variable.line_number}
+              style={{marginLeft: "1em"}}
+            >
+              {children => <small>{children}</small>}
+            </GitHubLink>
+          )
+        }
+      </div>
+    );
   },
 });
 
