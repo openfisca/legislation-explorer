@@ -32,7 +32,9 @@ import Layout from "./layout";
 var App = React.createClass({
   mixins: [IntlMixin],
   propTypes: {
-    loading: PropTypes.bool,
+    dataByRouteName: PropTypes.object,
+    errorByRouteName: PropTypes.objectOf(PropTypes.instanceOf(Error)),
+    loading: PropTypes.string,
   },
   componentDidMount() {
     var timer;
@@ -57,7 +59,11 @@ var App = React.createClass({
   render() {
     return (
       <Layout>
-        <RouteHandler appState={this.state} {...this.props} />
+        <RouteHandler
+          dataByRouteName={this.props.dataByRouteName}
+          errorByRouteName={this.props.errorByRouteName}
+          loading={this.state.loading}
+        />
       </Layout>
     );
   },

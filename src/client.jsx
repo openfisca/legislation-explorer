@@ -56,7 +56,7 @@ function renderApp() {
     global.loadingEvents.emit("loadStart");
     fetchData(state.routes, state.params, state.query)
       .then(
-        data => React.render(<Root {...data} {...intlData} />, appMountNode),
+        dataByRouteName => React.render(<Root dataByRouteName={dataByRouteName} {...intlData} />, appMountNode),
         errorByRouteName => React.render(<Root errorByRouteName={errorByRouteName} {...intlData} />, appMountNode)
       )
       .then(

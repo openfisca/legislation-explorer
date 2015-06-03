@@ -36,12 +36,15 @@ import webservices from "../../webservices";
 var VariableHandler = React.createClass({
   mixins: [State],
   propTypes: {
-    appState: PropTypes.object,
-    errorByRouteName: PropTypes.objectOf(PropTypes.object),
-    variable: PropTypes.shape({
-      country_package_git_head_sha: PropTypes.string.isRequired,
-      variable: AppPropTypes.variable.isRequired,
+    dataByRouteName: PropTypes.shape({
+      variable: PropTypes.shape({
+        variable: AppPropTypes.variable.isRequired,
+      }),
     }),
+    errorByRouteName: PropTypes.shape({
+      variable: PropTypes.instanceOf(Error),
+    }),
+    loading: PropTypes.string,
   },
   statics: {
     fetchData(params) {

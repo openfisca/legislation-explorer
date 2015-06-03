@@ -38,24 +38,21 @@ const debug = require("debug")("app:routes");
 
 
 function fetchData(matchedRoutes, params, query) {
-  var data = {};
-  var errors = {};
+  var dataByRouteName = {};
+  var errorByRouteName = {};
   return Promise.all(
     matchedRoutes
       .filter(route => route.handler.fetchData)
       .map(
         route => route.handler.fetchData(params, query)
-          .then(handlerData => { data[route.name] = handlerData; })
-          .catch(error => {
-            debug("error", error);
-            errors[route.name] = error;
-          })
+          .then(handlerData => { dataByRouteName[route.name] = handlerData; })
+          .catch(handlerError => { errorByRouteName[route.name] = handlerError; })
       )
   ).then(() => {
-    if (Object.keys(errors).length > 0) {
-      throw errors;
+    if (Object.keys(errorByRouteName).length > 0) {
+      throw errorByRouteName;
     }
-    return data;
+    return dataByRouteName;
   });
 }
 
