@@ -22,32 +22,37 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-import DocumentTitle from "react-document-title";
-import React, {PropTypes} from "react/addons";
+import {Link, State} from "react-router";
+import React from "react/addons";
+
+import BreadCrumb from "../breadcrumb";
+import NotFoundPage from "../pages/not-found-page";
 
 
-
-var NotFoundPage = React.createClass({
-  propTypes: {
-    children: PropTypes.node,
-    message: PropTypes.string,
-  },
-  getDefaultProps() {
-    return {
-      message: "Page non trouvée",
-    };
-  },
+var NotFoundHandler = React.createClass({
+  mixins: [State],
   render() {
-    var {children, message} = this.props;
+    var message = "Page non trouvée";
     return (
-      <DocumentTitle title={`${message} - Explorateur de la législation`}>
-        <div>
-          {children}
+      <div>
+        <BreadCrumb>
+          <li className="active">{message}</li>
+        </BreadCrumb>
+        <div className="page-header">
+          <h1>{message}</h1>
         </div>
-      </DocumentTitle>
+        <NotFoundPage message={message}>
+          <div className="alert alert-danger">
+            {`La page « ${this.getPathname()} » n'existe pas.`}
+          </div>
+          <Link to="home">
+            Retour à l'explorateur de la législation
+          </Link>
+        </NotFoundPage>
+      </div>
     );
   },
 });
 
 
-export default NotFoundPage;
+export default NotFoundHandler;
