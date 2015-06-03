@@ -26,7 +26,7 @@ function render(req, res, next) {
     routes: routes,
   });
   router.run((Root, state) => {
-    if (state.routes[0].name === "not-found") {
+    if (state.routes.some(route => route.isNotFound)) {
       const appHtml = React.renderToString(<Root {...intlData} />);
       res.status(404).send(renderMarkup(appHtml));
       return;
