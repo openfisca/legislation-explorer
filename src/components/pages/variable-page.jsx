@@ -156,7 +156,7 @@ var VariablePage = React.createClass({
               top: "0.3em",
             }}
           >
-            <small></small>
+            {children => <small>{children}</small>}
           </GitHubLink>
         </div>
       </div>

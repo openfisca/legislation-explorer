@@ -28,7 +28,7 @@ import React, {PropTypes} from "react/addons";
 var GitHubLink = React.createClass({
   propTypes: {
     blobUrlPath: PropTypes.string,
-    children: PropTypes.element,
+    children: PropTypes.func,
     commitReference: PropTypes.string,
     external: PropTypes.bool,
     lastLineNumber: PropTypes.number,
@@ -59,7 +59,11 @@ var GitHubLink = React.createClass({
     } : {};
     return (
       <a {...externalProps} href={this.buildHref()} style={this.props.style}>
-        {this.props.children ? this.renderPropsChildren() : this.renderDefaultChildren()}
+        {
+          this.props.children ?
+            this.props.children(this.renderDefaultChildren()) :
+            this.renderDefaultChildren()
+        }
       </a>
     );
   },
@@ -69,9 +73,6 @@ var GitHubLink = React.createClass({
       space: this.props.external && " ",
       text: "GitHub",
     });
-  },
-  renderPropsChildren() {
-    return React.cloneElement(this.props.children, null, this.renderDefaultChildren());
   },
 });
 
