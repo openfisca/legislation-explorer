@@ -59,7 +59,7 @@ var VariableHandler = React.createClass({
   render() {
     var name = this.getParams().name;
     return (
-      <DocumentTitle title={`${name} - Explorateur de la légisation`}>
+      <DocumentTitle title={`${name} - Explorateur de la législation`}>
         <div>
           <BreadCrumb>
             <li>
