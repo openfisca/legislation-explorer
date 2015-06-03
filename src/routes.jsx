@@ -30,6 +30,8 @@ import AboutPage from "./components/pages/about-page";
 import App from "./components/app";
 import HomePage from "./components/pages/home-page";
 import NotFoundHandler from "./components/route-handlers/not-found-handler";
+import ParameterHandler from "./components/route-handlers/parameter-handler";
+import ParametersHandler from "./components/route-handlers/parameters-handler";
 import VariableHandler from "./components/route-handlers/variable-handler";
 import VariablesHandler from "./components/route-handlers/variables-handler";
 
@@ -59,6 +61,10 @@ function fetchData(matchedRoutes, params, query) {
 
 var routes = (
   <Route handler={App}>
+    <Route path="parameters">
+      <Route handler={ParameterHandler} name="parameter" path=":name" />
+      <DefaultRoute handler={ParametersHandler} name="parameters" />
+    </Route>
     <Route path="variables">
       <Route handler={VariableHandler} name="variable" path=":name" />
       <DefaultRoute handler={VariablesHandler} name="variables" />

@@ -82,10 +82,16 @@ function loggedFetch(url, ...args) {
 
 // API fetch functions
 
+function fetchParameters() {
+  const parametersUrl = `${config.apiBaseUrl}/parameters`;
+  return fetchCachedJSON(parametersUrl);
+}
+
+
 function fetchVariables() {
   const variablesUrl = `${config.apiBaseUrl}/variables`;
   return fetchCachedJSON(variablesUrl);
 }
 
 
-export default {fetchVariables};
+export default {fetchParameters, fetchVariables};

@@ -53,6 +53,16 @@ var immutableVariablesTree = ImmutablePropTypes.shape({
   immutableVariables,
 });
 
+var loading = PropTypes.oneOfType([
+  PropTypes.bool,
+  PropTypes.string,
+]);
+
+var parameter = PropTypes.shape({
+  // TODO
+});
+
+
 var variable = PropTypes.shape({
   formula: PropTypes.oneOfType([formula, datedFormula]),
   label: PropTypes.string,
@@ -62,4 +72,4 @@ var variable = PropTypes.shape({
 });
 
 
-export default {immutableChildren, immutableVariables, immutableVariablesTree, variable};
+export default {immutableChildren, immutableVariables, immutableVariablesTree, loading, parameter, variable};

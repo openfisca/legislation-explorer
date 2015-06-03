@@ -57,7 +57,7 @@ var HomePage = React.createClass({
                 Visualiser et rechercher les paramètres de la législation et les formules qui les utilisent.
               </p>
               <p>
-                <span className="btn btn-primary disabled">Bientôt disponible</span>
+                <Link className="btn btn-primary" to="parameters">Voir »</Link>
               </p>
             </div>
           </div>
