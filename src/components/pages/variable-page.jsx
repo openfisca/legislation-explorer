@@ -29,7 +29,7 @@ import React, {PropTypes} from "react/addons";
 import AppPropTypes from "../../app-prop-types";
 import GitHubLink from "../github-link";
 import Highlight from "../highlight";
-import ListInline from "../list-inline";
+import List from "../list";
 
 
 var VariablePage = React.createClass({
@@ -108,17 +108,17 @@ var VariablePage = React.createClass({
                   inputVariablesDt: inputVariables && <dt>Variables d'entrée</dt>,
                   inputVariablesDd: inputVariables && (
                     <dd>
-                      <ListInline items={inputVariables}>
+                      <List items={inputVariables} type="inline">
                         {name => <Link params={{name}} to="variable">{name}</Link>}
-                      </ListInline>
+                      </List>
                     </dd>
                   ),
                   parametersDt: parameters && <dt>Paramètres</dt>,
                   parametersDd: parameters && (
                     <dd>
-                      <ListInline items={parameters}>
+                      <List items={parameters} type="inline">
                         {name => <Link params={{name}} to="parameter">{name}</Link>}
-                      </ListInline>
+                      </List>
                     </dd>
                   ),
                 })

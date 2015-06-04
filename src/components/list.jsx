@@ -22,23 +22,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-import React, {PropTypes} from "react/addons";
+import React, {PropTypes} from "react";
 
 
-var ListInline = React.createClass({
+var List = React.createClass({
   propTypes: {
     children: PropTypes.func,
+    type: PropTypes.string,
     items: PropTypes.array.isRequired,
   },
   render() {
-    var {children, items} = this.props;
+    var {children, items, type} = this.props;
     return (
-      <ul className="list-inline">
+      <ul className={type ? `list-${type}` : null}>
         {
           items.map((item, idx) => (
             <li key={idx}>
-              {children ? children(item) : item}
-              {idx < items.length - 1 && ", "}
+              {children ? children(item, idx, items) : item}
+              {type === "inline" && idx < items.length - 1 ? ", " : null}
             </li>
           ))
         }
@@ -48,4 +49,4 @@ var ListInline = React.createClass({
 });
 
 
-export default ListInline;
+export default List;
