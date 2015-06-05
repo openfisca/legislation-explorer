@@ -30,10 +30,11 @@ import List from "../list";
 
 var ParameterPage = React.createClass({
   propTypes: {
+    currency: PropTypes.string.isRequired,
     parameter: AppPropTypes.parameter.isRequired,
   },
   render() {
-    var {parameter} = this.props;
+    var {currency, parameter} = this.props;
     var {brackets, description, format, unit, values} = parameter;
     return (
       <div>
@@ -54,6 +55,7 @@ var ParameterPage = React.createClass({
                 unitDd: unit && (
                   <dd>
                     <samp>{unit}</samp>
+                    {unit === "currency" && ` - ${currency}`}
                   </dd>
                 ),
               })
@@ -71,15 +73,11 @@ var ParameterPage = React.createClass({
         <dl className="dl-horizontal">
           <dt>Seuils</dt>
           <dd style={{marginBottom: "1em"}}>
-            <List items={bracket.threshold} type="unstyled">
-              {this.renderStartStopValue}
-            </List>
+            {this.renderStartStopValues(bracket.threshold)}
           </dd>
           <dt>Taux</dt>
           <dd>
-            <List items={bracket.rate} type="unstyled">
-              {this.renderStartStopValue}
-            </List>
+            {this.renderStartStopValues(bracket.rate)}
           </dd>
         </dl>
         {idx < items.length - 1 && <hr />}
@@ -96,23 +94,66 @@ var ParameterPage = React.createClass({
       </div>
     );
   },
-  renderStartStopValue(value) {
+  renderStartStopValue(start, stop, value, idx) {
+    if (typeof value === "number") {
+      var [integerPart, decimalPart] = value.toString().split(".");
+      var {currency, parameter} = this.props;
+      var {unit} = parameter;
+    }
     return (
-      <FormattedMessage
-        message="du {start} au {stop} : {value}"
-        start={<FormattedDate format="short" value={value.start} />}
-        stop={<FormattedDate format="short" value={value.stop} />}
-        value={<samp>{JSON.stringify(value.value)}</samp>}
-      />
+      <tr key={idx}>
+        <td>
+          <FormattedMessage
+            message="du {start} au {stop}"
+            start={<FormattedDate format="short" value={start} />}
+            stop={<FormattedDate format="short" value={stop} />}
+          />
+        </td>
+        <td style={{width: "15em"}}>
+          <samp>
+            {
+              typeof value === "number" ? React.addons.createFragment({
+                integerPart: (
+                  <span style={{
+                    display: "inline-block",
+                    textAlign: "right",
+                    width: "5em",
+                  }}>
+                    {integerPart}
+                  </span>
+                ),
+                separator: decimalPart && ".",
+                decimalPart,
+              }) : JSON.stringify(value)
+            }
+          </samp>
+          {
+            unit === "currency" && (
+              <span className="pull-right" style={{marginRight: "1em"}}>
+                {" "}
+                <samp>{currency}</samp>
+              </span>
+            )
+          }
+        </td>
+      </tr>
     );
+  },
+  renderStartStopValues(values) {
+    return (
+      <table className="table table-bordered table-hover table-striped">
+        <tbody>
+          {values.map((value, idx) => this.renderStartStopValue(value.start, value.stop, value.value, idx))}
+        </tbody>
+      </table>
+    );
+
   },
   renderValues(values) {
     return (
       <div>
         <h4>Valeurs</h4>
-        <List items={values} type="unstyled">
-          {this.renderStartStopValue}
-        </List>
+        {this.renderStartStopValues(values)}
       </div>
     );
   },

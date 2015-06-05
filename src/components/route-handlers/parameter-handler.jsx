@@ -40,6 +40,7 @@ var ParameterHandler = React.createClass({
   propTypes: {
     dataByRouteName: PropTypes.shape({
       parameter: PropTypes.shape({
+        currency: PropTypes.string.isRequired,
         parameter: AppPropTypes.parameter.isRequired,
       }),
     }),
@@ -122,7 +123,10 @@ var ParameterHandler = React.createClass({
       );
     } else if (data) {
       content = (
-        <ParameterPage parameter={data.parameter} />
+        <ParameterPage
+          currency={data.currency}
+          parameter={data.parameter}
+        />
       );
     }
     return content;
