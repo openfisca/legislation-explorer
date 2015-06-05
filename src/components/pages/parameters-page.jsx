@@ -27,6 +27,7 @@ import Immutable from "immutable";
 import React, {PropTypes} from "react/addons";
 
 import AppPropTypes from "../../app-prop-types";
+import List from "../list";
 
 
 var ParametersPage = React.createClass({
@@ -40,20 +41,24 @@ var ParametersPage = React.createClass({
       <div>
         {
           parameters && (
-            <ul>
-              {
-                parameters.map((parameter, idx) => (
-                  <li key={idx}>
-                    <Link params={parameter} to="parameter">{parameter.name}</Link>
-                    {" : "}
-                    {parameter.description || "Aucune description"}
-                  </li>
-                ))
-              }
-            </ul>
+            <List items={parameters}>
+              {this.renderParameter}
+            </List>
           )
         }
       </div>
+    );
+  },
+  renderParameter(parameter) {
+    var type = parameter["@type"];
+    return (
+      <span>
+        <Link params={parameter} to="parameter">{parameter.name}</Link>
+        {" "}
+        {type === "Scale" && <span className="label label-info">Barème</span>}
+        {" : "}
+        {parameter.description || "Aucune description"}
+      </span>
     );
   },
 });
