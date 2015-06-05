@@ -40,7 +40,9 @@ var ParameterHandler = React.createClass({
   propTypes: {
     dataByRouteName: PropTypes.shape({
       parameter: PropTypes.shape({
+        country_package_git_head_sha: PropTypes.string.isRequired,
         currency: PropTypes.string.isRequired,
+        parameters_file_path: PropTypes.string.isRequired,
         parameter: AppPropTypes.parameter.isRequired,
       }),
     }),
@@ -124,8 +126,10 @@ var ParameterHandler = React.createClass({
     } else if (data) {
       content = (
         <ParameterPage
+          countryPackageGitHeadSha={data.country_package_git_head_sha}
           currency={data.currency}
           parameter={data.parameter}
+          parametersUrlPath={data.parameters_file_path}
         />
       );
     }

@@ -30,8 +30,8 @@ var GitHubLink = React.createClass({
     blobUrlPath: PropTypes.string,
     children: PropTypes.func,
     commitReference: PropTypes.string,
+    endLineNumber: PropTypes.number,
     external: PropTypes.bool,
-    lastLineNumber: PropTypes.number,
     lineNumber: PropTypes.number,
     style: PropTypes.object,
   },
@@ -40,8 +40,8 @@ var GitHubLink = React.createClass({
     if (this.props.lineNumber) {
       line = `#L${this.props.lineNumber}`;
     }
-    if (this.props.lastLineNumber) {
-      line = `${line}-${this.props.lastLineNumber}`;
+    if (this.props.endLineNumber) {
+      line = `${line}-${this.props.endLineNumber}`;
     }
     var {blobUrlPath, commitReference} = this.props;
     return `https://github.com/openfisca/openfisca-france/blob/${commitReference}/${blobUrlPath}${line}`;
@@ -58,7 +58,12 @@ var GitHubLink = React.createClass({
       target: "_blank",
     } : {};
     return (
-      <a {...externalProps} href={this.buildHref()} style={this.props.style}>
+      <a
+        {...externalProps}
+        href={this.buildHref()}
+        style={this.props.style}
+        title="Voir le fichier source sur GitHub"
+      >
         {
           this.props.children ?
             this.props.children(this.renderDefaultChildren()) :

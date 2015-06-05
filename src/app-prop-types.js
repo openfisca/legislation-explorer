@@ -58,8 +58,44 @@ var loading = PropTypes.oneOfType([
   PropTypes.string,
 ]);
 
+var startStopValue = PropTypes.shape({
+  end_line_number: PropTypes.number.isRequired,
+  start: PropTypes.string.isRequired,
+  start_line_number: PropTypes.number.isRequired,
+  stop: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.number,
+  ]).isRequired,
+});
+
 var parameter = PropTypes.shape({
-  // TODO
+  "@type": PropTypes.oneOf(["Parameter", "Scale"]).isRequired,
+  brackets: PropTypes.arrayOf(
+    PropTypes.shape({
+      end_line_number: PropTypes.number.isRequired,
+      rate: PropTypes.arrayOf(startStopValue).isRequired,
+      start_line_number: PropTypes.number.isRequired,
+      threshold: PropTypes.arrayOf(startStopValue).isRequired,
+    }),
+  ),
+  description: PropTypes.string,
+  end_line_number: PropTypes.number.isRequired,
+  format: PropTypes.oneOf([
+    "boolean",
+    "float",
+    "integer",
+    "rate",
+  ]).isRequired,
+  start_line_number: PropTypes.number.isRequired,
+  unit: PropTypes.oneOf([
+    "currency",
+    "day",
+    "hour",
+    "month",
+    "year",
+  ]),
+  values: PropTypes.arrayOf(startStopValue),
 });
 
 

@@ -22,37 +22,39 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 import {FormattedDate, FormattedMessage} from "react-intl";
-import React from "react/addons";
+import React, {PropTypes} from "react/addons";
 
 import AppPropTypes from "../../app-prop-types";
+import GitHubLink from "../github-link";
 import List from "../list";
 
 
 var ParameterPage = React.createClass({
   propTypes: {
+    countryPackageGitHeadSha: PropTypes.string.isRequired,
     currency: PropTypes.string.isRequired,
     parameter: AppPropTypes.parameter.isRequired,
+    parametersUrlPath: PropTypes.string.isRequired,
   },
   render() {
-    var {currency, parameter} = this.props;
-    var {brackets, description, format, unit, values} = parameter;
+    var {countryPackageGitHeadSha, currency, parameter, parametersUrlPath} = this.props;
+    var {brackets, description, end_line_number, format, start_line_number, unit, values} = parameter;
+    var type = parameter["@type"];
     return (
       <div>
         <p>{description}</p>
         {
           <dl className="dl-horizontal">
             <dt>Type</dt>
-            <dd>{values ? "Paramètre" : "Barème"}</dd>
+            <dd>{type === "Parameter" ? "Paramètre" : "Barème"}</dd>
+            <dt>Format</dt>
+            <dd>
+              <samp>{format}</samp>
+            </dd>
             {
-              (format || unit) && React.addons.createFragment({
-                formatDt: format && <dt>Format</dt>,
-                formatDd: format && (
-                  <dd>
-                    <samp>{format}</samp>
-                  </dd>
-                ),
-                unitDt: unit && <dt>Unité</dt>,
-                unitDd: unit && (
+              unit && React.addons.createFragment({
+                unitDt: <dt>Unité</dt>,
+                unitDd: (
                   <dd>
                     <samp>{unit}</samp>
                     {unit === "currency" && ` - ${currency}`}
@@ -60,10 +62,26 @@ var ParameterPage = React.createClass({
                 ),
               })
             }
+            <dt>Origine</dt>
+            <dd>
+              {`${parametersUrlPath.split("/").splice(-1)} ligne ${start_line_number} à ${end_line_number}`}
+              <GitHubLink
+                blobUrlPath={parametersUrlPath}
+                commitReference={countryPackageGitHeadSha}
+                endLineNumber={end_line_number}
+                lineNumber={start_line_number}
+                style={{marginLeft: "1em"}}
+              >
+                {children => <small>{children}</small>}
+              </GitHubLink>
+            </dd>
           </dl>
         }
-        {brackets && this.renderBrackets(brackets)}
-        {values && this.renderValues(values)}
+        <div className="row">
+          <div className="col-lg-8">
+            {type === "Parameter" ? this.renderValues(values) : this.renderBrackets(brackets)}
+          </div>
+        </div>
       </div>
     );
   },
@@ -94,12 +112,26 @@ var ParameterPage = React.createClass({
       </div>
     );
   },
-  renderStartStopValue(start, stop, value, idx) {
-    if (typeof value === "number") {
-      var [integerPart, decimalPart] = value.toString().split(".");
-      var {currency, parameter} = this.props;
-      var {unit} = parameter;
-    }
+  renderFloatValue(value) {
+    var [integerPart, decimalPart] = value.toString().split(".");
+    return React.addons.createFragment({
+      integerPart: (
+        <span style={{
+          display: "inline-block",
+          textAlign: "right",
+          width: "5em",
+        }}>
+          {integerPart}
+        </span>
+      ),
+      separator: decimalPart && ".",
+      decimalPart,
+    });
+  },
+  renderStartStopValue(valueJson, idx) {
+    var {end_line_number, start, start_line_number, stop, value} = valueJson;
+    var {countryPackageGitHeadSha, currency, parameter, parametersUrlPath} = this.props;
+    var {format, unit} = parameter;
     return (
       <tr key={idx}>
         <td>
@@ -111,30 +143,25 @@ var ParameterPage = React.createClass({
         </td>
         <td style={{width: "15em"}}>
           <samp>
-            {
-              typeof value === "number" ? React.addons.createFragment({
-                integerPart: (
-                  <span style={{
-                    display: "inline-block",
-                    textAlign: "right",
-                    width: "5em",
-                  }}>
-                    {integerPart}
-                  </span>
-                ),
-                separator: decimalPart && ".",
-                decimalPart,
-              }) : JSON.stringify(value)
-            }
+            {["float", "rate"].includes(format) ? this.renderFloatValue(value) : JSON.stringify(value)}
           </samp>
           {
-            unit === "currency" && (
-              <span className="pull-right" style={{marginRight: "1em"}}>
-                {" "}
-                <samp>{currency}</samp>
-              </span>
+            (format === "rate" || unit === "currency") && (
+              <samp className="pull-right" style={{marginRight: "1em"}}>
+                {format === "rate" ? "%" : currency}
+              </samp>
             )
           }
+        </td>
+        <td>
+          <GitHubLink
+            blobUrlPath={parametersUrlPath}
+            commitReference={countryPackageGitHeadSha}
+            endLineNumber={end_line_number}
+            lineNumber={start_line_number}
+          >
+            {children => <small>{children}</small>}
+          </GitHubLink>
         </td>
       </tr>
     );
@@ -143,7 +170,7 @@ var ParameterPage = React.createClass({
     return (
       <table className="table table-bordered table-hover table-striped">
         <tbody>
-          {values.map((value, idx) => this.renderStartStopValue(value.start, value.stop, value.value, idx))}
+          {values.map(this.renderStartStopValue)}
         </tbody>
       </table>
     );

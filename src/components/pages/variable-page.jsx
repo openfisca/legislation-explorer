@@ -131,7 +131,7 @@ var VariablePage = React.createClass({
           <GitHubLink
             blobUrlPath={`${formula.module.split(".").join("/")}.py`}
             commitReference={this.props.countryPackageGitHeadSha}
-            lastLineNumber={formula.line_number + formula.source.trim().split("\n").length - 1}
+            endLineNumber={formula.line_number + formula.source.trim().split("\n").length - 1}
             lineNumber={formula.line_number}
             style={{
               position: "absolute",
