@@ -41,6 +41,7 @@ var VariableHandler = React.createClass({
   propTypes: {
     dataByRouteName: PropTypes.shape({
       variable: PropTypes.shape({
+        country_package_git_head_sha: PropTypes.string.isRequired,
         variable: AppPropTypes.variable.isRequired,
       }),
     }),
