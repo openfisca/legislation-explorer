@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 import {Link} from "react-router";
-import React from "react/addons";
+import React from "react";
 
 import BreadCrumb from "../breadcrumb";
 

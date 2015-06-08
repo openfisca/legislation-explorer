@@ -27,7 +27,7 @@ require("babel-core/polyfill");
 
 
 import {EventEmitter} from "events";
-import React from "react/addons";
+import React from "react";
 import Router from "react-router";
 
 import {fetchData, routes} from "./routes";

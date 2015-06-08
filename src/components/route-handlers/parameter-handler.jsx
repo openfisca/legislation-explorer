@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import {Link, State} from "react-router";
 import DocumentTitle from "react-document-title";
 import Immutable from "immutable";
-import React, {PropTypes} from "react/addons";
+import React, {PropTypes} from "react";
 
 import {NotFound} from "../../errors";
 import AppPropTypes from "../../app-prop-types";

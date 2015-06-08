@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-import React from "react/addons";
+import React from "react";
 import url from "url";
 
 import BreadCrumb from "../breadcrumb";

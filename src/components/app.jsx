@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import {IntlMixin} from "react-intl";
 import {RouteHandler} from "react-router";
-import React, {PropTypes} from "react/addons";
+import React, {PropTypes} from "react";
 
 import AppPropTypes from "../app-prop-types";
 import Layout from "./layout";
