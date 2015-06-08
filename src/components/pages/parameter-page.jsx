@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 import {FormattedDate, FormattedMessage} from "react-intl";
-import React, {PropTypes} from "react/addons";
+import React, {PropTypes} from "react";
 
 import AppPropTypes from "../../app-prop-types";
 import GitHubLink from "../github-link";
@@ -51,16 +51,14 @@ var ParameterPage = React.createClass({
             <dd>
               <samp>{format}</samp>
             </dd>
+            {unit && <dt>Unité</dt>}
             {
-              unit && React.addons.createFragment({
-                unitDt: <dt>Unité</dt>,
-                unitDd: (
-                  <dd>
-                    <samp>{unit}</samp>
-                    {unit === "currency" && ` - ${currency}`}
-                  </dd>
-                ),
-              })
+              unit && (
+                <dd>
+                  <samp>{unit}</samp>
+                  {unit === "currency" && ` - ${currency}`}
+                </dd>
+              )
             }
             <dt>Origine</dt>
             <dd>
@@ -114,8 +112,8 @@ var ParameterPage = React.createClass({
   },
   renderFloatValue(value) {
     var [integerPart, decimalPart] = value.toString().split(".");
-    return React.addons.createFragment({
-      integerPart: (
+    return (
+      <span>
         <span style={{
           display: "inline-block",
           textAlign: "right",
@@ -123,10 +121,10 @@ var ParameterPage = React.createClass({
         }}>
           {integerPart}
         </span>
-      ),
-      separator: decimalPart && ".",
-      decimalPart,
-    });
+        {decimalPart && "."}
+        {decimalPart}
+      </span>
+    );
   },
   renderStartStopValue(valueJson, idx) {
     var {end_line_number, start, start_line_number, stop, value} = valueJson;

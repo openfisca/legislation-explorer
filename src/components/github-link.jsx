@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-import React, {PropTypes} from "react/addons";
+import React, {PropTypes} from "react";
 
 
 var GitHubLink = React.createClass({
@@ -73,11 +73,13 @@ var GitHubLink = React.createClass({
     );
   },
   renderDefaultChildren() {
-    return React.addons.createFragment({
-      glyphicon: this.props.external && <span aria-hidden="true" className="glyphicon glyphicon-new-window"></span>,
-      space: this.props.external && " ",
-      text: "GitHub",
-    });
+    return (
+      <span>
+        {this.props.external && <span aria-hidden="true" className="glyphicon glyphicon-new-window"></span>}
+        {this.props.external && " "}
+        GitHub
+      </span>
+    );
   },
 });
 

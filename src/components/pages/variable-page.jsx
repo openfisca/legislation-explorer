@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import {FormattedDate, FormattedMessage} from "react-intl";
 import {Link} from "react-router";
-import React, {PropTypes} from "react/addons";
+import React, {PropTypes} from "react";
 
 import AppPropTypes from "../../app-prop-types";
 import GitHubLink from "../github-link";
@@ -103,25 +103,25 @@ var VariablePage = React.createClass({
         {
           (inputVariables || parameters) && (
             <dl className="dl-horizontal">
+              {inputVariables && <dt>Variables d'entrée</dt>}
               {
-                React.addons.createFragment({
-                  inputVariablesDt: inputVariables && <dt>Variables d'entrée</dt>,
-                  inputVariablesDd: inputVariables && (
-                    <dd>
-                      <List items={inputVariables} type="inline">
-                        {name => <Link params={{name}} to="variable">{name}</Link>}
-                      </List>
-                    </dd>
-                  ),
-                  parametersDt: parameters && <dt>Paramètres</dt>,
-                  parametersDd: parameters && (
-                    <dd>
-                      <List items={parameters} type="inline">
-                        {name => <Link params={{name}} to="parameter">{name}</Link>}
-                      </List>
-                    </dd>
-                  ),
-                })
+                inputVariables && (
+                  <dd>
+                    <List items={inputVariables} type="inline">
+                      {name => <Link params={{name}} to="variable">{name}</Link>}
+                    </List>
+                  </dd>
+                )
+              }
+              {parameters && <dt>Paramètres</dt>}
+              {
+                parameters && (
+                  <dd>
+                    <List items={parameters} type="inline">
+                      {name => <Link params={{name}} to="parameter">{name}</Link>}
+                    </List>
+                  </dd>
+                )
               }
             </dl>
           )
