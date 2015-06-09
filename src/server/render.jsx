@@ -53,14 +53,15 @@ function render(req, res, next) {
 
 
 function renderMarkup(appHtml) {
+  let webpackStatsPath = "../../webpack/webpack-stats.json";
   let webpackStats;
   if (process.env.NODE_ENV === "production") {
-    webpackStats = require("./webpack-stats.json");
+    webpackStats = require(webpackStatsPath);
   } else if (process.env.NODE_ENV === "development") {
-    webpackStats = require("./webpack-stats.json");
+    webpackStats = require(webpackStatsPath);
     // Do not cache webpack stats: the script file would change since
     // hot module replacement is enabled in the development env
-    delete require.cache[require.resolve("./webpack-stats.json")];
+    delete require.cache[require.resolve(webpackStatsPath)];
   }
   const doctype = "<!DOCTYPE html>";
   const css = webpackStats.css.concat([

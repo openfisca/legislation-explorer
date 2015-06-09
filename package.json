@@ -6,7 +6,7 @@
     "assets": "./webpack/copy_assets.sh",
     "build": "webpack --stats --config ./webpack/prod.config.js",
     "clean": "rm -rf public",
-    "dev": "NODE_ENV=development DEBUG=app:* nodemon index",
+    "dev": "NODE_ENV=development DEBUG=app:* node index",
     "linter": "eslint --ext .js,.jsx .",
     "start": "NODE_ENV=production PORT=2030 DEBUG=app:* node index"
   },
@@ -44,7 +44,7 @@
     "babel-loader": "^5.0.0",
     "eslint": "^0.21.0",
     "eslint-plugin-react": "^2.2.0",
-    "nodemon": "^1.3.7",
+    "json-loader": "^0.5.2",
     "react-hot-loader": "^1.2.7",
     "strip-loader": "^0.1.0",
     "webpack": "^1.9.4",
