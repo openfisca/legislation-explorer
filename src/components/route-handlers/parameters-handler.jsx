@@ -34,7 +34,7 @@ var ParametersHandler = React.createClass({
   propTypes: {
     dataByRouteName: PropTypes.shape({
       parameters: PropTypes.shape({
-        parameters: PropTypes.arrayOf(AppPropTypes.parameter).isRequired,
+        parameters: PropTypes.arrayOf(AppPropTypes.parameterOrScale).isRequired,
       }),
     }),
     errorByRouteName: PropTypes.shape({

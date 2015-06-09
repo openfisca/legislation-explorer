@@ -32,7 +32,7 @@ import List from "../list";
 
 var ParametersPage = React.createClass({
   propTypes: {
-    parameters: PropTypes.arrayOf(AppPropTypes.parameter).isRequired,
+    parameters: PropTypes.arrayOf(AppPropTypes.parameterOrScale).isRequired,
   },
   render() {
     var {parameters} = this.props;

@@ -33,7 +33,7 @@ var ParameterPage = React.createClass({
   propTypes: {
     countryPackageGitHeadSha: PropTypes.string.isRequired,
     currency: PropTypes.string.isRequired,
-    parameter: AppPropTypes.parameter.isRequired,
+    parameter: AppPropTypes.parameterOrScale.isRequired,
     parametersUrlPath: PropTypes.string.isRequired,
   },
   render() {
@@ -103,6 +103,7 @@ var ParameterPage = React.createClass({
   renderBrackets(brackets) {
     return (
       <div>
+        <h4>Barèmes</h4>
         <h4>Tranches</h4>
         <List items={brackets} type="unstyled">
           {this.renderBracket}

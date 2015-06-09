@@ -42,8 +42,8 @@ var ParameterHandler = React.createClass({
       parameter: PropTypes.shape({
         country_package_git_head_sha: PropTypes.string.isRequired,
         currency: PropTypes.string.isRequired,
+        parameter: AppPropTypes.parameterOrScale.isRequired,
         parameters_file_path: PropTypes.string.isRequired,
-        parameter: AppPropTypes.parameter.isRequired,
       }),
     }),
     errorByRouteName: PropTypes.shape({

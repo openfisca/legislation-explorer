@@ -26,12 +26,36 @@ import {PropTypes} from "react";
 import ImmutablePropTypes from "react-immutable-proptypes";
 
 
+// Level 0 PropTypes
+
+var unit = PropTypes.oneOf([
+  "currency",
+  "day",
+  "hour",
+  "month",
+  "year",
+]);
+
 var formula = PropTypes.shape({
   input_variables: PropTypes.arrayOf(PropTypes.string),
   line_number: PropTypes.number,
   module: PropTypes.string.isRequired,
   parameters: PropTypes.arrayOf(PropTypes.string),
 });
+
+var startStopValue = PropTypes.shape({
+  end_line_number: PropTypes.number.isRequired,
+  start: PropTypes.string.isRequired,
+  start_line_number: PropTypes.number.isRequired,
+  stop: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.number,
+  ]).isRequired,
+});
+
+
+// Level 1 PropTypes
 
 var datedFormula = PropTypes.shape({
   dated_formulas: PropTypes.arrayOf(
@@ -58,19 +82,23 @@ var loading = PropTypes.oneOfType([
   PropTypes.string,
 ]);
 
-var startStopValue = PropTypes.shape({
+var parameter = PropTypes.shape({
+  "@type": PropTypes.oneOf(["Parameter"]).isRequired,
+  description: PropTypes.string,
   end_line_number: PropTypes.number.isRequired,
-  start: PropTypes.string.isRequired,
-  start_line_number: PropTypes.number.isRequired,
-  stop: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.number,
+  format: PropTypes.oneOf([
+    "boolean",
+    "float",
+    "integer",
+    "rate",
   ]).isRequired,
+  start_line_number: PropTypes.number.isRequired,
+  unit,
+  values: PropTypes.arrayOf(startStopValue),
 });
 
-var parameter = PropTypes.shape({
-  "@type": PropTypes.oneOf(["Parameter", "Scale"]).isRequired,
+var scale = PropTypes.shape({
+  "@type": PropTypes.oneOf(["Scale"]).isRequired,
   brackets: PropTypes.arrayOf(
     PropTypes.shape({
       end_line_number: PropTypes.number.isRequired,
@@ -81,23 +109,9 @@ var parameter = PropTypes.shape({
   ),
   description: PropTypes.string,
   end_line_number: PropTypes.number.isRequired,
-  format: PropTypes.oneOf([
-    "boolean",
-    "float",
-    "integer",
-    "rate",
-  ]).isRequired,
   start_line_number: PropTypes.number.isRequired,
-  unit: PropTypes.oneOf([
-    "currency",
-    "day",
-    "hour",
-    "month",
-    "year",
-  ]),
-  values: PropTypes.arrayOf(startStopValue),
+  unit,
 });
-
 
 var variable = PropTypes.shape({
   formula: PropTypes.oneOfType([formula, datedFormula]),
@@ -108,4 +122,12 @@ var variable = PropTypes.shape({
 });
 
 
-export default {immutableChildren, immutableVariables, immutableVariablesTree, loading, parameter, variable};
+// Level 2 PropTypes
+
+var parameterOrScale = PropTypes.oneOfType([
+  parameter,
+  scale,
+]);
+
+
+export default {immutableChildren, immutableVariables, immutableVariablesTree, loading, parameterOrScale, variable};
