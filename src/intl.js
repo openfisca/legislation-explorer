@@ -36,4 +36,20 @@ const intlData = {
 };
 
 
-export default {intlData};
+// shim for Intl needs to be loaded dynamically
+// so we callback when we"re done to represent
+// some kind of "shimReady" event
+function polyfillIntl(callback) {
+  if (!window.Intl) {
+    require(["intl/Intl", "intl/locale-data/json/fr-FR.json"], (Intl, frJson) => {
+      Intl.__addLocaleData(frJson); // eslint-disable-line no-underscore-dangle
+      window.Intl = Intl;
+      callback();
+    });
+  } else {
+    process.nextTick(callback);
+  }
+}
+
+
+export default {intlData, polyfillIntl};

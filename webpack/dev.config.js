@@ -35,6 +35,10 @@ export default {
         loaders: ["react-hot", "babel"],
         test: /\.(js|jsx)$/,
       },
+      {
+        loaders: ["json"],
+        test: /\.json$/,
+      },
     ],
   },
   resolve: {

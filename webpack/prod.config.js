@@ -29,6 +29,10 @@ module.exports = {
         loaders: [strip.loader("debug"), "babel"],
         test: /\.jsx?$/,
       },
+      {
+        loaders: ["json"],
+        test: /\.json$/,
+      },
     ],
   },
   resolve: {

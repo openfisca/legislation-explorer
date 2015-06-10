@@ -31,7 +31,7 @@ import React from "react";
 import Router from "react-router";
 
 import {fetchData, routes} from "./routes";
-import {intlData} from "./intl";
+import {intlData, polyfillIntl} from "./intl";
 
 
 // const debug = require("debug")("app:client");
@@ -66,4 +66,4 @@ function renderApp() {
 }
 
 
-renderApp();
+polyfillIntl(renderApp);
