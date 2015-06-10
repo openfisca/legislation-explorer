@@ -30,7 +30,6 @@ import React, {PropTypes} from "react";
 import {NotFound} from "../../errors";
 import AppPropTypes from "../../app-prop-types";
 import BreadCrumb from "../breadcrumb";
-import GitHubLink from "../github-link";
 import NotFoundPage from "../pages/not-found-page";
 import VariablePage from "../pages/variable-page";
 import webservices from "../../webservices";
@@ -81,7 +80,7 @@ var VariableHandler = React.createClass({
       <DocumentTitle title={`${name} - Explorateur de la législation`}>
         <div>
           {this.renderBreadCrumb(error, name)}
-          {this.renderPageHeader(error, data, name, variable)}
+          {this.renderPageHeader(error, data, name)}
           {this.renderContent(error, data, name, variable)}
         </div>
       </DocumentTitle>
@@ -130,7 +129,8 @@ var VariableHandler = React.createClass({
     }
     return content;
   },
-  renderPageHeader(error, data, name, variable) {
+  renderPageHeader(error, data, name) {
+    var {variable} = data;
     return (
       <div className="page-header">
         <h1 style={{display: "inline-block"}}>
@@ -138,14 +138,9 @@ var VariableHandler = React.createClass({
         </h1>
         {
           variable && (
-            <GitHubLink
-              blobUrlPath={`${variable.module_fragments.join("/")}.py`}
-              commitReference={data.country_package_git_head_sha}
-              lineNumber={variable.line_number}
-              style={{marginLeft: "1em"}}
-            >
-              {children => <small>{children}</small>}
-            </GitHubLink>
+            <div className="label label-info" style={{marginLeft: "1em"}}>
+              {variable.formula ? "Variable calculée" : "Variable d'entrée"}
+            </div>
           )
         }
       </div>

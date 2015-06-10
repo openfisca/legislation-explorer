@@ -48,10 +48,14 @@ var ParameterPage = React.createClass({
           <dl className="dl-horizontal">
             <dt>Type</dt>
             <dd>{type === "Parameter" ? "Paramètre" : "Barème"}</dd>
-            <dt>Format</dt>
-            <dd>
-              <samp>{format}</samp>
-            </dd>
+            {format && <dt>Format</dt>}
+            {
+              format && (
+                <dd>
+                  <samp>{format}</samp>
+                </dd>
+              )
+            }
             {unit && <dt>Unité</dt>}
             {
               unit && (
@@ -61,7 +65,7 @@ var ParameterPage = React.createClass({
                 </dd>
               )
             }
-            <dt>Origine</dt>
+            <dt>Code source</dt>
             <dd>
               {
                 end_line_number ?

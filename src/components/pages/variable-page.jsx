@@ -52,7 +52,7 @@ var VariablePage = React.createClass({
             formula["@type"] === "DatedFormula" ?
               this.renderDatedFormula(formula) :
               this.renderSimpleFormula(formula)
-            )
+          )
         }
       </div>
     );
@@ -154,24 +154,35 @@ var VariablePage = React.createClass({
     );
   },
   renderVariableDefinitionsList() {
-    var {variable} = this.props;
+    var {countryPackageGitHeadSha, variable} = this.props;
     var entityLabelByNamePlural = {
       familles: "Famille",
       "foyers_fiscaux": "Foyer fiscal",
       individus: "Individu",
       menages: "Ménage",
     };
+    var type = variable["@type"];
     return (
       <dl className="dl-horizontal">
-        <dt>Type</dt>
-        <dd>
-          <code>{variable["@type"]}</code>
-          {variable.val_type && ` (${variable.val_type})`}
-        </dd>
-        <dt>Valeur par défaut</dt>
-        <dd><samp>{variable.default}</samp></dd>
         <dt>Entité</dt>
         <dd>{entityLabelByNamePlural[variable.entity]}</dd>
+        <dt>Type</dt>
+        <dd>
+          <code>{type}</code>
+          {variable.val_type && ` (${variable.val_type})`}
+        </dd>
+        {type === "Enumeration" && <dt>Labels</dt>}
+        {
+          type === "Enumeration" && (
+            <dd>
+              <List items={Object.entries(variable.labels)} type="inline">
+                {entry => `${entry[0]} = ${entry[1]}`}
+              </List>
+            </dd>
+          )
+        }
+        <dt>Valeur par défaut</dt>
+        <dd><samp>{variable.default}</samp></dd>
         {
           variable.cerfa_field && [
             <dt key="cerfa-dt">Cellules CERFA</dt>,
@@ -190,6 +201,18 @@ var VariablePage = React.createClass({
             <dd key="start-dd">{variable.start}</dd>,
           ]
         }
+        <dt>Code source</dt>
+        <dd>
+          {`${variable.module} ligne ${variable.line_number}`}
+          <GitHubLink
+            blobUrlPath={`${variable.module_fragments.join("/")}.py`}
+            commitReference={countryPackageGitHeadSha}
+            lineNumber={variable.line_number}
+            style={{marginLeft: "1em"}}
+          >
+            {children => <small>{children}</small>}
+          </GitHubLink>
+        </dd>
       </dl>
     );
   },

@@ -41,7 +41,7 @@ var HomePage = React.createClass({
             <div className="caption">
               <h4>Variables et formules socio-fiscales</h4>
               <p>
-                Visualiser et rechercher les variables d'entrée, les formules de calcul et leurs dépendences.
+                Visualiser et rechercher les variables d'entrée, les variables calculées et leurs dépendences.
               </p>
               <p>
                 <Link className="btn btn-primary" to="variables">Voir »</Link>

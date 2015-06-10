@@ -205,7 +205,7 @@ var VariablesPage = React.createClass({
                   type="radio"
                   value="formula"
                 />
-                Formules de calcul
+                Variables calculées
               </label>
             </div>
           </div>
