@@ -106,7 +106,7 @@ var VariablePage = React.createClass({
               {inputVariables && <dt>Variables d'entrée</dt>}
               {
                 inputVariables && (
-                  <dd>
+                  <dd style={{marginBottom: "1em"}}>
                     <List items={inputVariables} type="inline">
                       {name => <Link params={{name}} to="variable">{name}</Link>}
                     </List>

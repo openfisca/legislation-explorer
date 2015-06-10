@@ -88,7 +88,8 @@ var ParameterPage = React.createClass({
       </div>
     );
   },
-  renderBracket(bracket, idx, items) {
+  renderBracket(bracket, idx) {
+    var {brackets} = this.props.parameter;
     return (
       <div>
         <dl className="dl-horizontal">
@@ -101,7 +102,7 @@ var ParameterPage = React.createClass({
             {this.renderStartStopValues(bracket.rate)}
           </dd>
         </dl>
-        {idx < items.length - 1 && <hr />}
+        {idx < brackets.length - 1 && <hr />}
       </div>
     );
   },

@@ -34,11 +34,11 @@ var List = React.createClass({
   render() {
     var {children, items, type} = this.props;
     return (
-      <ul className={type ? `list-${type}` : null}>
+      <ul className={type ? `list-${type}` : null} style={{marginBottom: type === "inline" && 0}}>
         {
           items.map((item, idx) => (
             <li key={idx}>
-              {children ? children(item, idx, items) : item}
+              {children ? children(item, idx) : item}
               {type === "inline" && idx < items.length - 1 ? ", " : null}
             </li>
           ))
