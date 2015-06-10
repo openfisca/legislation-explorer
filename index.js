@@ -2,11 +2,16 @@
 
 require("babel/register");
 
+var moment = require("moment");
+
+var intlData = require("./src/intl").intlData;
+
 
 // Polyfill, loaded at the very first.
 
 function loadPolyfillForLocales(localesMyAppSupports) {
   // From http://formatjs.io/guides/runtime-environments/#server
+  // Keep this function outside webpack bundle.
   if (global.Intl) {
     // Determine if the built-in `Intl` has the locale data we need.
     var hasBuiltInLocaleData = localesMyAppSupports.every(function (locale) {
@@ -27,6 +32,8 @@ function loadPolyfillForLocales(localesMyAppSupports) {
 }
 
 loadPolyfillForLocales(["fr-FR"]);
+
+moment.locale(intlData.locales.slice(0, 2));
 
 
 // Start the server app

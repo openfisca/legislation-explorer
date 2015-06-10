@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 import {EventEmitter} from "events";
+import moment from "moment";
 import React from "react";
 import Router from "react-router";
 
@@ -35,6 +36,8 @@ hljs.registerLanguage("python", require("highlight.js/lib/languages/python"));
 
 import {intlData, polyfillIntl} from "./intl";
 polyfillIntl(renderApp);
+
+moment.locale(intlData.locales.slice(0, 2));
 
 
 function renderApp() {
