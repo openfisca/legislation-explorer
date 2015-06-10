@@ -40,6 +40,7 @@ var ParameterPage = React.createClass({
     var {countryPackageGitHeadSha, currency, parameter, parametersUrlPath} = this.props;
     var {brackets, description, end_line_number, format, start_line_number, unit, values} = parameter;
     var type = parameter["@type"];
+    var fileName = parametersUrlPath.split("/").splice(-1);
     return (
       <div>
         <p>{description}</p>
@@ -62,7 +63,11 @@ var ParameterPage = React.createClass({
             }
             <dt>Origine</dt>
             <dd>
-              {`${parametersUrlPath.split("/").splice(-1)} ligne ${start_line_number} à ${end_line_number}`}
+              {
+                end_line_number ?
+                  `${fileName} ligne ${start_line_number} à ${end_line_number}` :
+                  `${fileName} ligne ${start_line_number}`
+                }
               <GitHubLink
                 blobUrlPath={parametersUrlPath}
                 commitReference={countryPackageGitHeadSha}

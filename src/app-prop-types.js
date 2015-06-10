@@ -44,7 +44,7 @@ var formula = PropTypes.shape({
 });
 
 var startStopValue = PropTypes.shape({
-  end_line_number: PropTypes.number.isRequired,
+  end_line_number: PropTypes.number,
   start: PropTypes.string.isRequired,
   start_line_number: PropTypes.number.isRequired,
   stop: PropTypes.string.isRequired,
@@ -85,7 +85,7 @@ var loading = PropTypes.oneOfType([
 var parameter = PropTypes.shape({
   "@type": PropTypes.oneOf(["Parameter"]).isRequired,
   description: PropTypes.string,
-  end_line_number: PropTypes.number.isRequired,
+  end_line_number: PropTypes.number,
   format: PropTypes.oneOf([
     "boolean",
     "float",
@@ -101,14 +101,14 @@ var scale = PropTypes.shape({
   "@type": PropTypes.oneOf(["Scale"]).isRequired,
   brackets: PropTypes.arrayOf(
     PropTypes.shape({
-      end_line_number: PropTypes.number.isRequired,
+      end_line_number: PropTypes.number,
       rate: PropTypes.arrayOf(startStopValue).isRequired,
       start_line_number: PropTypes.number.isRequired,
       threshold: PropTypes.arrayOf(startStopValue).isRequired,
     }),
   ),
   description: PropTypes.string,
-  end_line_number: PropTypes.number.isRequired,
+  end_line_number: PropTypes.number,
   start_line_number: PropTypes.number.isRequired,
   unit,
 });
