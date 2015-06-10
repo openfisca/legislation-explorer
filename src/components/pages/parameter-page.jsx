@@ -86,7 +86,7 @@ var ParameterPage = React.createClass({
         }
         <div className="row">
           <div className="col-lg-8">
-            {type === "Parameter" ? this.renderValues(values) : this.renderBrackets(brackets)}
+            {type === "Parameter" ? this.renderParameter(values) : this.renderScale(brackets)}
           </div>
         </div>
       </div>
@@ -110,17 +110,6 @@ var ParameterPage = React.createClass({
       </div>
     );
   },
-  renderBrackets(brackets) {
-    return (
-      <div>
-        <h4>Barèmes</h4>
-        <h4>Tranches</h4>
-        <List items={brackets} type="unstyled">
-          {this.renderBracket}
-        </List>
-      </div>
-    );
-  },
   renderFloatValue(value) {
     var [integerPart, decimalPart] = value.toString().split(".");
     return (
@@ -135,6 +124,24 @@ var ParameterPage = React.createClass({
         {decimalPart && "."}
         {decimalPart}
       </span>
+    );
+  },
+  renderParameter(values) {
+    return (
+      <div>
+        <h4>Valeurs</h4>
+        {this.renderStartStopValues(values)}
+      </div>
+    );
+  },
+  renderScale(brackets) {
+    return (
+      <div>
+        <h4>Tranches</h4>
+        <List items={brackets} type="unstyled">
+          {this.renderBracket}
+        </List>
+      </div>
     );
   },
   renderStartStopValue(valueJson, idx) {
@@ -184,14 +191,6 @@ var ParameterPage = React.createClass({
       </table>
     );
 
-  },
-  renderValues(values) {
-    return (
-      <div>
-        <h4>Valeurs</h4>
-        {this.renderStartStopValues(values)}
-      </div>
-    );
   },
 });
 
