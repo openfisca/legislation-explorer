@@ -84,27 +84,28 @@ var ParameterHandler = React.createClass({
       <DocumentTitle title={`${name} - Explorateur de la législation`}>
         <div>
           {this.renderBreadCrumb(error, hyphenatedName)}
-          {this.renderPageHeader(error, hyphenatedName)}
-          {this.renderContent(error, data, hyphenatedName)}
+          {this.renderPageHeader(data, error, hyphenatedName)}
+          {this.renderContent(data, error)}
         </div>
       </DocumentTitle>
     );
   },
-  renderBreadCrumb(error, name) {
+  renderBreadCrumb(error, hyphenatedName) {
     return (
       <BreadCrumb>
         <li key="parameters">
           <Link to="parameters">Paramètres</Link>
         </li>
         <li className="active">
-          {error instanceof NotFound ? this.getNotFoundMessage() : name}
+          {error instanceof NotFound ? this.getNotFoundMessage() : hyphenatedName}
         </li>
       </BreadCrumb>
     );
   },
-  renderContent(error, data, name) {
+  renderContent(data, error) {
     var content;
     if (error) {
+      var name = this.getParams().name;
       content = error instanceof NotFound ? (
         <NotFoundPage message={this.getNotFoundMessage()}>
           <div className="alert alert-danger">
@@ -135,12 +136,24 @@ var ParameterHandler = React.createClass({
     }
     return content;
   },
-  renderPageHeader(error, name) {
+  renderPageHeader(data, error, hyphenatedName) {
     return (
       <div className="page-header">
-        <h1>
-          {error instanceof NotFound ? this.getNotFoundMessage() : name}
+        <h1 style={{display: "inline-block"}}>
+          {
+            error instanceof NotFound ?
+              this.getNotFoundMessage() : (
+                <p>{hyphenatedName}</p>
+              )
+          }
         </h1>
+        {
+          !(error instanceof NotFound) && (
+            <div className="label label-info" style={{marginLeft: "1em"}}>
+              Paramètre
+            </div>
+          )
+        }
       </div>
     );
   },

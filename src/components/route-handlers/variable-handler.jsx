@@ -80,8 +80,8 @@ var VariableHandler = React.createClass({
       <DocumentTitle title={`${name} - Explorateur de la législation`}>
         <div>
           {this.renderBreadCrumb(error, name)}
-          {this.renderPageHeader(error, data, name)}
-          {this.renderContent(error, data, name, variable)}
+          {this.renderPageHeader(data, error, name)}
+          {this.renderContent(data, error, name, variable)}
         </div>
       </DocumentTitle>
     );
@@ -98,7 +98,7 @@ var VariableHandler = React.createClass({
       </BreadCrumb>
     );
   },
-  renderContent(error, data, name, variable) {
+  renderContent(data, error, name, variable) {
     var content;
     if (error) {
       content = error instanceof NotFound ? (
@@ -129,12 +129,17 @@ var VariableHandler = React.createClass({
     }
     return content;
   },
-  renderPageHeader(error, data, name) {
+  renderPageHeader(data, error, name) {
     var {variable} = data;
     return (
       <div className="page-header">
         <h1 style={{display: "inline-block"}}>
-          {error instanceof NotFound ? this.getNotFoundMessage() : name}
+          {
+            error instanceof NotFound ?
+              this.getNotFoundMessage() : (
+                <p>{name}</p>
+              )
+          }
         </h1>
         {
           variable && (
