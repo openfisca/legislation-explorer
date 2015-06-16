@@ -171,7 +171,7 @@ var VariablePage = React.createClass({
           <code>{type}</code>
           {variable.val_type && ` (${variable.val_type})`}
         </dd>
-        {type === "Enumeration" && <dt>Labels</dt>}
+        {type === "Enumeration" && <dt>Libellés</dt>}
         {
           type === "Enumeration" && (
             <dd>
