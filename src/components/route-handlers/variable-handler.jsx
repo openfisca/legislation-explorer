@@ -126,7 +126,6 @@ var VariableHandler = React.createClass({
     return content;
   },
   renderPageHeader(data, error, name) {
-    var {variable} = data;
     return (
       <div className="page-header">
         <h1 style={{display: "inline-block"}}>
@@ -138,9 +137,13 @@ var VariableHandler = React.createClass({
           }
         </h1>
         {
-          variable && (
+          !(error instanceof NotFound) && (
             <div className="label label-info" style={{marginLeft: "1em"}}>
-              {variable.formula ? "Variable calculée" : "Variable d'entrée"}
+              {
+                data ?
+                  (data.variable.formula ? "Variable calculée" : "Variable d'entrée") :
+                  "Variable"
+              }
             </div>
           )
         }
