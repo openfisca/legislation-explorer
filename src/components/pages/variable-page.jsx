@@ -203,7 +203,15 @@ var VariablePage = React.createClass({
         }
         <dt>Code source</dt>
         <dd>
-          {`${variable.module} ligne ${variable.line_number}`}
+          {
+            () => {
+              var sourceCodeText = variable.module;
+              if (variable.line_number) {
+                sourceCodeText += ` ligne ${variable.line_number}`;
+              }
+              return sourceCodeText;
+            }()
+          }
           <GitHubLink
             blobUrlPath={`${variable.module_fragments.join("/")}.py`}
             commitReference={countryPackageGitHeadSha}
