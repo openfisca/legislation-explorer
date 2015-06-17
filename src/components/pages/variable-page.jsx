@@ -213,7 +213,7 @@ var VariablePage = React.createClass({
             }()
           }
           <GitHubLink
-            blobUrlPath={`${variable.module_fragments.join("/")}.py`}
+            blobUrlPath={`${variable.module.split(".").join("/")}.py`}
             commitReference={countryPackageGitHeadSha}
             lineNumber={variable.line_number}
             style={{marginLeft: "1em"}}

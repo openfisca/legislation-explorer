@@ -71,17 +71,12 @@ var VariableHandler = React.createClass({
     var {dataByRouteName, errorByRouteName} = this.props;
     var error = errorByRouteName && errorByRouteName.variable;
     var data = dataByRouteName && dataByRouteName.variable;
-    var variable;
-    if (data) {
-      variable = data.variable;
-      variable = Immutable.Map(variable).set("module_fragments", variable.module.split(".")).toJS();
-    }
     return (
       <DocumentTitle title={`${name} - Explorateur de la législation`}>
         <div>
           {this.renderBreadCrumb(error, name)}
           {this.renderPageHeader(data, error, name)}
-          {this.renderContent(data, error, name, variable)}
+          {this.renderContent(data, error, name)}
         </div>
       </DocumentTitle>
     );
@@ -98,7 +93,7 @@ var VariableHandler = React.createClass({
       </BreadCrumb>
     );
   },
-  renderContent(data, error, name, variable) {
+  renderContent(data, error, name) {
     var content;
     if (error) {
       content = error instanceof NotFound ? (
@@ -120,6 +115,7 @@ var VariableHandler = React.createClass({
         <p>Chargement en cours…</p>
       );
     } else if (data) {
+      var variable = data.variable;
       content = (
         <VariablePage
           countryPackageGitHeadSha={data.country_package_git_head_sha}
