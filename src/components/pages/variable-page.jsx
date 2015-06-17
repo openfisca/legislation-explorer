@@ -185,7 +185,7 @@ var VariablePage = React.createClass({
         <dd><samp>{variable.default}</samp></dd>
         {
           variable.cerfa_field && [
-            <dt key="cerfa-dt">Cellules CERFA</dt>,
+            <dt key="cerfa-dt">Cases CERFA</dt>,
             <dd key="cerfa-dd">
               {
                 typeof variable.cerfa_field === "string" ?
