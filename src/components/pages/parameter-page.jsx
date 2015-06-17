@@ -111,7 +111,11 @@ var ParameterPage = React.createClass({
     );
   },
   renderFloatValue(value) {
-    var [integerPart, decimalPart] = value.toString().split(".");
+    const decimalPartLength = 3;
+    var [integerPart, decimalPart] = value.toFixed(decimalPartLength).toString().split(".");
+    if (decimalPart === "0".repeat(decimalPartLength)) {
+      decimalPart = null;
+    }
     return (
       <span>
         <span style={{
@@ -159,7 +163,11 @@ var ParameterPage = React.createClass({
         </td>
         <td style={{width: "15em"}}>
           <samp>
-            {["float", "rate"].includes(format) ? this.renderFloatValue(value) : JSON.stringify(value)}
+            {
+              format === "float" ? this.renderFloatValue(value) :
+              format === "rate" ? this.renderFloatValue(value * 100) :
+              value.toString()
+            }
           </samp>
           {
             (format === "rate" || unit === "currency") && (
@@ -190,7 +198,6 @@ var ParameterPage = React.createClass({
         </tbody>
       </table>
     );
-
   },
 });
 
