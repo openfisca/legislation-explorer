@@ -49,7 +49,7 @@ var VariablesPage = React.createClass({
         Immutable.Map({opened: true})
       );
   },
-  filterVariablesTree(variablesTreeRoot, nameInput, searchInDescription, type) {
+  filterVariablesTree(variablesTreeRoot, formulaType, nameInput, searchInDescription, variableType) {
     var nameFilter = nameInput && nameInput.length ? nameInput.trim().toLowerCase() : null;
     var walk = variablesTree => {
       var isMatchingVariable = variable => (
@@ -57,9 +57,12 @@ var VariablesPage = React.createClass({
         variable.get("name").toLowerCase().includes(nameFilter) ||
         searchInDescription && variable.get("label").toLowerCase().includes(nameFilter)
       ) && (
-        type === "" ||
-        type === "formula" && variable.get("formula") ||
-        type === "input" && !variable.get("formula")
+        formulaType === "" ||
+        formulaType === variable.getIn(["formula", "@type"])
+      ) && (
+        variableType === "" ||
+        variableType === "formula" && variable.get("formula") ||
+        variableType === "input" && !variable.get("formula")
       );
       if (variablesTree.has("children")) {
         var newChildren = variablesTree.get("children").map(child => walk(child));
@@ -90,44 +93,45 @@ var VariablesPage = React.createClass({
   getInitialState() {
     const nameInput = "";
     const searchInDescription = false;
-    const type = "";
+    const formulaType = "";
+    const variableType = "";
     var variablesTree = this.buildVariablesTree(this.props.variables);
-    variablesTree = this.filterVariablesTree(variablesTree, nameInput, searchInDescription, type);
-    return {nameInput, searchInDescription, type, variablesTree};
+    variablesTree = this.filterVariablesTree(variablesTree, formulaType, nameInput, searchInDescription, variableType);
+    return {formulaType, nameInput, searchInDescription, variableType, variablesTree};
   },
   handleCursorUpdate(newVariablesTree) {
     this.setState({variablesTree: newVariablesTree});
   },
   handleNameChange(event) {
     const nameInput = event.target.value;
-    const {searchInDescription, type} = this.state;
+    const {formulaType, searchInDescription, variablesTree, variableType} = this.state;
     this.setState({
       nameInput,
-      variablesTree: this.filterVariablesTree(this.state.variablesTree, nameInput, searchInDescription, type),
+      variablesTree: this.filterVariablesTree(variablesTree, formulaType, nameInput, searchInDescription, variableType),
+    });
+  },
+  handleFormulaTypeChange(event) {
+    const formulaType = event.target.value;
+    const {nameInput, searchInDescription, variablesTree, variableType} = this.state;
+    this.setState({
+      formulaType,
+      variablesTree: this.filterVariablesTree(variablesTree, formulaType, nameInput, searchInDescription, variableType),
     });
   },
   handleNameClear() {
     const nameInput = "";
-    const {searchInDescription, type} = this.state;
+    const {formulaType, searchInDescription, variablesTree, variableType} = this.state;
     this.setState({
       nameInput,
-      variablesTree: this.filterVariablesTree(this.state.variablesTree, nameInput, searchInDescription, type),
+      variablesTree: this.filterVariablesTree(variablesTree, formulaType, nameInput, searchInDescription, variableType),
     });
   },
   handleSearchInDescription(event) {
     const searchInDescription = event.target.checked;
-    const {nameInput, type} = this.state;
+    const {formulaType, nameInput, variablesTree, variableType} = this.state;
     this.setState({
       searchInDescription,
-      variablesTree: this.filterVariablesTree(this.state.variablesTree, nameInput, searchInDescription, type),
-    });
-  },
-  handleTypeChange(event) {
-    const type = event.target.value;
-    const {nameInput, searchInDescription} = this.state;
-    this.setState({
-      type,
-      variablesTree: this.filterVariablesTree(this.state.variablesTree, nameInput, searchInDescription, type),
+      variablesTree: this.filterVariablesTree(variablesTree, formulaType, nameInput, searchInDescription, variableType),
     });
   },
   handleVariablesTreeCloseAll() {
@@ -137,6 +141,14 @@ var VariablesPage = React.createClass({
   handleVariablesTreeOpenAll() {
     var newVariablesTree = this.forceOpenCloseAll(this.state.variablesTree, {opened: true});
     this.setState({variablesTree: newVariablesTree});
+  },
+  handleVariableTypeChange(event) {
+    const variableType = event.target.value;
+    const {formulaType, nameInput, searchInDescription, variablesTree} = this.state;
+    this.setState({
+      variableType,
+      variablesTree: this.filterVariablesTree(variablesTree, formulaType, nameInput, searchInDescription, variableType),
+    });
   },
   render() {
     return (
@@ -171,13 +183,13 @@ var VariablesPage = React.createClass({
           </span>
         </div>
         <div className="row">
-          <div className="col-sm-6">
+          <div className="col-sm-4">
             <div className="radio">
               <label>
                 <input
-                  checked={this.state.type === ""}
-                  name="type"
-                  onChange={this.handleTypeChange}
+                  checked={this.state.variableType === ""}
+                  name="variableType"
+                  onChange={this.handleVariableTypeChange}
                   type="radio"
                   value=""
                 />
@@ -187,9 +199,9 @@ var VariablesPage = React.createClass({
             <div className="radio">
               <label>
                 <input
-                  checked={this.state.type === "input"}
-                  name="type"
-                  onChange={this.handleTypeChange}
+                  checked={this.state.variableType === "input"}
+                  name="variableType"
+                  onChange={this.handleVariableTypeChange}
                   type="radio"
                   value="input"
                 />
@@ -199,9 +211,9 @@ var VariablesPage = React.createClass({
             <div className="radio">
               <label>
                 <input
-                  checked={this.state.type === "formula"}
-                  name="type"
-                  onChange={this.handleTypeChange}
+                  checked={this.state.variableType === "formula"}
+                  name="variableType"
+                  onChange={this.handleVariableTypeChange}
                   type="radio"
                   value="formula"
                 />
@@ -209,7 +221,73 @@ var VariablesPage = React.createClass({
               </label>
             </div>
           </div>
-          <div className="col-sm-6">
+          {
+            this.state.variableType === "formula" && (
+              <div className="col-sm-4">
+                <div className="radio">
+                  <label>
+                    <input
+                      checked={this.state.formulaType === ""}
+                      name="formulaType"
+                      onChange={this.handleFormulaTypeChange}
+                      type="radio"
+                      value=""
+                    />
+                    Toutes les formules
+                  </label>
+                </div>
+                <div className="radio">
+                  <label>
+                    <input
+                      checked={this.state.formulaType === "SimpleFormula"}
+                      name="formulaType"
+                      onChange={this.handleFormulaTypeChange}
+                      type="radio"
+                      value="SimpleFormula"
+                    />
+                    Formules simples
+                  </label>
+                </div>
+                <div className="radio">
+                  <label>
+                    <input
+                      checked={this.state.formulaType === "DatedFormula"}
+                      name="formulaType"
+                      onChange={this.handleFormulaTypeChange}
+                      type="radio"
+                      value="DatedFormula"
+                    />
+                    Formules datées
+                  </label>
+                </div>
+                <div className="radio">
+                  <label>
+                    <input
+                    checked={this.state.formulaType === "PersonToEntity"}
+                      name="formulaType"
+                      onChange={this.handleFormulaTypeChange}
+                      type="radio"
+                      value="PersonToEntity"
+                    />
+                    Personne vers entité
+                  </label>
+                </div>
+                <div className="radio">
+                  <label>
+                    <input
+                      checked={this.state.formulaType === "EntityToPerson"}
+                      name="formulaType"
+                      onChange={this.handleFormulaTypeChange}
+                      type="radio"
+                      value="EntityToPerson"
+                    />
+                    Entité vers personne
+                  </label>
+                </div>
+              </div>
+            )
+          }
+          <div className="col-sm-4">
             <div className="checkbox">
               <label>
                 <input
