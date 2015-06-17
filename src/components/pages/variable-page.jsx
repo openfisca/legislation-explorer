@@ -175,7 +175,7 @@ var VariablePage = React.createClass({
         {
           type === "Enumeration" && (
             <dd>
-              <List items={Object.entries(variable.labels)} type="inline">
+              <List items={Object.entries(variable.labels)} type="unstyled">
                 {entry => `${entry[0]} = ${entry[1]}`}
               </List>
             </dd>
