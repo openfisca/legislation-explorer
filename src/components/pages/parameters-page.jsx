@@ -34,31 +34,151 @@ var ParametersPage = React.createClass({
   propTypes: {
     parameters: PropTypes.arrayOf(AppPropTypes.parameterOrScale).isRequired,
   },
+  filterParameters() {
+    var {nameInput, parameterType, searchInDescription} = this.state;
+    var nameFilter = nameInput && nameInput.length ? nameInput.trim().toLowerCase() : null;
+    var isMatchingParameter = parameter => (
+      !nameFilter ||
+      parameter.get("name").toLowerCase().includes(nameFilter) ||
+      searchInDescription && parameter.get("description") &&
+        parameter.get("description").toLowerCase().includes(nameFilter)
+    ) && (
+      parameterType === "" ||
+      parameterType === parameter.get("@type")
+    );
+    return Immutable.fromJS(this.props.parameters)
+      .filter(isMatchingParameter)
+      .sortBy(parameter => parameter.get("name"))
+      .toJS();
+  },
+  getInitialState() {
+    const nameInput = "";
+    const searchInDescription = false;
+    const parameterType = "";
+    return {nameInput, parameterType, searchInDescription};
+  },
+  handleNameChange(event) {
+    const nameInput = event.target.value;
+    this.setState({nameInput});
+  },
+  handleNameClear() {
+    const nameInput = "";
+    this.setState({nameInput});
+  },
+  handleParameterTypeChange(event) {
+    const parameterType = event.target.value;
+    this.setState({parameterType});
+  },
+  handleSearchInDescription(event) {
+    const searchInDescription = event.target.checked;
+    this.setState({searchInDescription});
+  },
   render() {
-    var {parameters} = this.props;
-    parameters = Immutable.fromJS(parameters).sortBy(parameter => parameter.get("name")).toJS();
     return (
       <div>
-        {
-          parameters && (
-            <List items={parameters}>
-              {this.renderParameter}
-            </List>
-          )
-        }
+        {this.renderSearchForm()}
+        <hr />
+        {this.renderParameters()}
       </div>
     );
   },
   renderParameter(parameter) {
-    var type = parameter["@type"];
     return (
       <span>
         <Link params={parameter} to="parameter">{parameter.name}</Link>
-        {" "}
-        {type === "Scale" && <span className="label label-info">Barème</span>}
         {" : "}
         {parameter.description || "Aucune description"}
       </span>
+    );
+  },
+  renderParameters() {
+    var {parameters} = this.props;
+    parameters = this.filterParameters();
+    return (
+      <List items={parameters}>
+        {this.renderParameter}
+      </List>
+    );
+  },
+  renderSearchForm() {
+    return (
+      <form onSubmit={event => event.preventDefault()} role="search">
+        <div className="input-group">
+          <input
+            className="form-control"
+            name="name"
+            onChange={this.handleNameChange}
+            placeholder="Rechercher par nom de paramètre"
+            type="search"
+            value={this.state.nameInput}
+          />
+          <span className="input-group-btn">
+            <button
+              className="btn btn-default"
+              disabled={!this.state.nameInput}
+              onClick={this.handleNameClear}
+              type="button"
+            >
+              Effacer
+            </button>
+          </span>
+        </div>
+        <div className="row">
+          <div className="col-sm-4">
+            <div className="checkbox">
+              <label>
+                <input
+                  checked={this.state.searchInDescription}
+                  name="search_in_description"
+                  onChange={this.handleSearchInDescription}
+                  type="checkbox"
+                  value="true"
+                />
+                {" "}
+                Rechercher aussi dans la description
+              </label>
+            </div>
+          </div>
+          <div className="col-sm-4">
+            <div className="radio">
+              <label>
+                <input
+                  checked={this.state.parameterType === ""}
+                  name="parameterType"
+                  onChange={this.handleParameterTypeChange}
+                  type="radio"
+                  value=""
+                />
+                Toutes les paramètres
+              </label>
+            </div>
+            <div className="radio">
+              <label>
+                <input
+                  checked={this.state.parameterType === "Parameter"}
+                  name="parameterType"
+                  onChange={this.handleParameterTypeChange}
+                  type="radio"
+                  value="Parameter"
+                />
+                Paramètres simples
+              </label>
+            </div>
+            <div className="radio">
+              <label>
+                <input
+                  checked={this.state.parameterType === "Scale"}
+                  name="parameterType"
+                  onChange={this.handleParameterTypeChange}
+                  type="radio"
+                  value="Scale"
+                />
+                Barèmes
+              </label>
+            </div>
+          </div>
+        </div>
+      </form>
     );
   },
 });

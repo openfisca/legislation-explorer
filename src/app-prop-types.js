@@ -144,7 +144,7 @@ var scale = PropTypes.shape({
 
 var variable = PropTypes.shape({
   formula,
-  label: PropTypes.string,
+  label: PropTypes.string.isRequired,
   line_number: PropTypes.number,
   module: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
