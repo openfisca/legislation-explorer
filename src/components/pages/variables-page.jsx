@@ -57,6 +57,7 @@ var VariablesPage = React.createClass({
         variable.get("name").toLowerCase().includes(nameFilter) ||
         searchInDescription && variable.get("label").toLowerCase().includes(nameFilter)
       ) && (
+        variableType !== "formula" ||
         formulaType === "" ||
         formulaType === variable.getIn(["formula", "@type"])
       ) && (
