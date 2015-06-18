@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
+import DocumentTitle from "react-document-title";
 import React, {PropTypes} from "react";
 
 import AppPropTypes from "../../app-prop-types";
@@ -52,15 +53,17 @@ var ParametersHandler = React.createClass({
     var error = errorByRouteName && errorByRouteName.parameters;
     var data = dataByRouteName && dataByRouteName.parameters;
     return (
-      <div>
-        <BreadCrumb>
-          <li className="active">Paramètres</li>
-        </BreadCrumb>
-        <div className="page-header">
-          <h1>Paramètres de la législation</h1>
+      <DocumentTitle title="Paramètres - Explorateur de la législation">
+        <div>
+          <BreadCrumb>
+            <li className="active">Paramètres</li>
+          </BreadCrumb>
+          <div className="page-header">
+            <h1>Paramètres de la législation</h1>
+          </div>
+          {this.renderContent(error, data)}
         </div>
-        {this.renderContent(error, data)}
-      </div>
+      </DocumentTitle>
     );
   },
   renderContent(error, data) {

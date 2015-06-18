@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
+import DocumentTitle from "react-document-title";
 import React, {PropTypes} from "react";
 
 import AppPropTypes from "../../app-prop-types";
@@ -52,15 +53,17 @@ var VariablesHandler = React.createClass({
     var error = errorByRouteName && errorByRouteName.variables;
     var data = dataByRouteName && dataByRouteName.variables;
     return (
-      <div>
-        <BreadCrumb>
-          <li className="active">Variables</li>
-        </BreadCrumb>
-        <div className="page-header">
-          <h1>Variables et formules socio-fiscales</h1>
+      <DocumentTitle title="Variables - Explorateur de la législation">
+        <div>
+          <BreadCrumb>
+            <li className="active">Variables</li>
+          </BreadCrumb>
+          <div className="page-header">
+            <h1>Variables et formules socio-fiscales</h1>
+          </div>
+          {this.renderContent(error, data)}
         </div>
-        {this.renderContent(error, data)}
-      </div>
+      </DocumentTitle>
     );
   },
   renderContent(error, data) {
