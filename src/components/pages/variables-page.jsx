@@ -185,6 +185,21 @@ var VariablesPage = React.createClass({
         </div>
         <div className="row">
           <div className="col-sm-4">
+            <div className="checkbox">
+              <label>
+                <input
+                  checked={this.state.searchInDescription}
+                  name="search_in_description"
+                  onChange={this.handleSearchInDescription}
+                  type="checkbox"
+                  value="true"
+                />
+                {" "}
+                Rechercher aussi dans la description
+              </label>
+            </div>
+          </div>
+          <div className="col-sm-4">
             <div className="radio">
               <label>
                 <input
@@ -288,21 +303,6 @@ var VariablesPage = React.createClass({
               </div>
             )
           }
-          <div className="col-sm-4">
-            <div className="checkbox">
-              <label>
-                <input
-                  checked={this.state.searchInDescription}
-                  name="search_in_description"
-                  onChange={this.handleSearchInDescription}
-                  type="checkbox"
-                  value="true"
-                />
-                {" "}
-                Rechercher aussi dans la description
-              </label>
-            </div>
-          </div>
         </div>
       </form>
     );
