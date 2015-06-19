@@ -36,6 +36,7 @@
     "react-immutable-render-mixin": "^0.8.1",
     "react-intl": "^1.2.0",
     "react-router": "^0.13.3",
+    "react-text-filter": "^1.0.1",
     "serve-favicon": "^2.2.0",
     "whatwg-fetch": "^0.8.1"
   },

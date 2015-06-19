@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import Cursor from "immutable/contrib/cursor";
 import Immutable from "immutable";
 import React, {PropTypes} from "react";
+import TextFilter from "react-text-filter";
 
 import AppPropTypes from "../../app-prop-types";
 import VariablesTree from "./variables-tree";
@@ -103,8 +104,7 @@ var VariablesPage = React.createClass({
   handleCursorUpdate(newVariablesTree) {
     this.setState({variablesTree: newVariablesTree});
   },
-  handleNameChange(event) {
-    const nameInput = event.target.value;
+  handleNameChange(nameInput) {
     const {formulaType, searchInDescription, variablesTree, variableType} = this.state;
     this.setState({
       nameInput,
@@ -116,14 +116,6 @@ var VariablesPage = React.createClass({
     const {nameInput, searchInDescription, variablesTree, variableType} = this.state;
     this.setState({
       formulaType,
-      variablesTree: this.filterVariablesTree(variablesTree, formulaType, nameInput, searchInDescription, variableType),
-    });
-  },
-  handleNameClear() {
-    const nameInput = "";
-    const {formulaType, searchInDescription, variablesTree, variableType} = this.state;
-    this.setState({
-      nameInput,
       variablesTree: this.filterVariablesTree(variablesTree, formulaType, nameInput, searchInDescription, variableType),
     });
   },
@@ -163,26 +155,14 @@ var VariablesPage = React.createClass({
   renderSearchForm() {
     return (
       <form onSubmit={event => event.preventDefault()} role="search">
-        <div className="input-group">
-          <input
-            className="form-control"
-            name="name"
-            onChange={this.handleNameChange}
-            placeholder="Rechercher par nom de variable"
-            type="search"
-            value={this.state.nameInput}
-          />
-          <span className="input-group-btn">
-            <button
-              className="btn btn-default"
-              disabled={!this.state.nameInput}
-              onClick={this.handleNameClear}
-              type="button"
-            >
-              Effacer
-            </button>
-          </span>
-        </div>
+        <TextFilter
+          className="form-control"
+          minLength={1}
+          name="name"
+          onFilter={this.handleNameChange}
+          placeholder="Rechercher par nom de variable"
+          type="search"
+        />
         <div className="row">
           <div className="col-sm-4">
             <div className="checkbox">

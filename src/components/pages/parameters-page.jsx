@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import {Link} from "react-router";
 import Immutable from "immutable";
 import React, {PropTypes} from "react";
+import TextFilter from "react-text-filter";
 
 import AppPropTypes from "../../app-prop-types";
 import List from "../list";
@@ -57,12 +58,7 @@ var ParametersPage = React.createClass({
     const parameterType = "";
     return {nameInput, parameterType, searchInDescription};
   },
-  handleNameChange(event) {
-    const nameInput = event.target.value;
-    this.setState({nameInput});
-  },
-  handleNameClear() {
-    const nameInput = "";
+  handleNameChange(nameInput) {
     this.setState({nameInput});
   },
   handleParameterTypeChange(event) {
@@ -92,10 +88,9 @@ var ParametersPage = React.createClass({
     );
   },
   renderParameters() {
-    var {parameters} = this.props;
-    parameters = this.filterParameters();
+    const filteredParameters = this.filterParameters();
     return (
-      <List items={parameters} keyProperty="name">
+      <List items={filteredParameters} keyProperty="name">
         {this.renderParameter}
       </List>
     );
@@ -103,26 +98,14 @@ var ParametersPage = React.createClass({
   renderSearchForm() {
     return (
       <form onSubmit={event => event.preventDefault()} role="search">
-        <div className="input-group">
-          <input
-            className="form-control"
-            name="name"
-            onChange={this.handleNameChange}
-            placeholder="Rechercher par nom de paramètre"
-            type="search"
-            value={this.state.nameInput}
-          />
-          <span className="input-group-btn">
-            <button
-              className="btn btn-default"
-              disabled={!this.state.nameInput}
-              onClick={this.handleNameClear}
-              type="button"
-            >
-              Effacer
-            </button>
-          </span>
-        </div>
+        <TextFilter
+          className="form-control"
+          minLength={1}
+          name="name"
+          onFilter={this.handleNameChange}
+          placeholder="Rechercher par nom de paramètre"
+          type="search"
+        />
         <div className="row">
           <div className="col-sm-4">
             <div className="checkbox">
