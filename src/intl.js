@@ -41,7 +41,7 @@ const intlData = {
 // some kind of "shimReady" event
 function polyfillIntl(callback) {
   if (!window.Intl) {
-    require(["intl/Intl", "intl/locale-data/json/fr-FR.json"], (Intl, frJson) => {
+    require(["intl/dist/Intl", "intl/locale-data/json/fr-FR.json"], (Intl, frJson) => {
       Intl.__addLocaleData(frJson); // eslint-disable-line no-underscore-dangle
       window.Intl = Intl;
       callback();
