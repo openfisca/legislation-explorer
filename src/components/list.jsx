@@ -28,16 +28,17 @@ import React, {PropTypes} from "react";
 var List = React.createClass({
   propTypes: {
     children: PropTypes.func,
+    keyProperty: PropTypes.string,
     type: PropTypes.string,
     items: PropTypes.array.isRequired,
   },
   render() {
-    var {children, items, type} = this.props;
+    var {children, keyProperty, items, type} = this.props;
     return (
       <ul className={type ? `list-${type}` : null} style={{marginBottom: type === "inline" && 0}}>
         {
           items.map((item, idx) => (
-            <li key={idx}>
+            <li key={keyProperty ? item[keyProperty] : idx}>
               {children ? children(item, idx) : item}
               {type === "inline" && idx < items.length - 1 ? ", " : null}
             </li>

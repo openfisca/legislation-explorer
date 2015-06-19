@@ -95,7 +95,7 @@ var ParametersPage = React.createClass({
     var {parameters} = this.props;
     parameters = this.filterParameters();
     return (
-      <List items={parameters}>
+      <List items={parameters} keyProperty="name">
         {this.renderParameter}
       </List>
     );
