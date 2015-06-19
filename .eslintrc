@@ -10,7 +10,7 @@
     "no-undef": 2,
     "no-unused-expressions": 2,
     "no-unused-vars": 2,
-    "no-use-before-define": "nofunc",
+    "no-use-before-define": [2, "nofunc"],
     "react/jsx-boolean-value": [2, "never"],
     "react/jsx-no-undef": 2,
     "react/jsx-quotes": [2, "double"],
