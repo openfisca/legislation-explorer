@@ -157,6 +157,7 @@ var VariablesPage = React.createClass({
       <form onSubmit={event => event.preventDefault()} role="search">
         <TextFilter
           className="form-control"
+          debounceTimeout={500}
           minLength={1}
           name="name"
           onFilter={this.handleNameChange}
