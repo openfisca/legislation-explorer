@@ -9,7 +9,7 @@ const assetsPath = path.resolve(__dirname, "../public/assets");
 import notifyStats from "./utils/notify-stats";
 import writeStats from "./utils/write-stats";
 
-const WEBPACK_HOST = "localhost";
+const WEBPACK_HOST = process.env.HOST || "localhost";
 const WEBPACK_PORT = parseInt(process.env.PORT) + 1 || 2031;
 
 
@@ -67,6 +67,7 @@ export default {
     new webpack.DefinePlugin({
       "process.env": {
         BROWSER: JSON.stringify(true),
+        HOST: JSON.stringify(process.env.HOST),
         NODE_ENV: JSON.stringify("development"),
       },
     }),

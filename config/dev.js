@@ -5,8 +5,11 @@
 import prodConfig from "./prod";
 
 
+const WEBPACK_HOST = process.env.HOST || "localhost";
+
+
 export default {
-  apiBaseUrl: "http://localhost:2000/api/1",
+  apiBaseUrl: `http://${WEBPACK_HOST}:2000/api/1`,
   gitWebpageUrl: prodConfig.gitWebpageUrl,
-  websiteUrl: "http://localhost:2010/",
+  websiteUrl: `http://${WEBPACK_HOST}:2010/`,
 };
