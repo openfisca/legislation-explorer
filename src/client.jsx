@@ -21,34 +21,26 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
-// Polyfill, loaded at the very first.
-require("babel-core/polyfill");
-
-
 import {EventEmitter} from "events";
 import React from "react";
 import Router from "react-router";
 
-import {fetchData, routes} from "./routes";
-import {intlData, polyfillIntl} from "./intl";
 
+// Polyfills, loaded at the very first.
 
-// const debug = require("debug")("app:client");
-
-
-if (process.env.NODE_ENV === "development") {
-  var myDebug = require("debug");
-  myDebug.enable("app:*");
-  window.myDebug = myDebug;
-}
-
+require("babel-core/polyfill");
 
 import hljs from "highlight.js/lib/highlight";
 hljs.registerLanguage("python", require("highlight.js/lib/languages/python"));
 
+import {intlData, polyfillIntl} from "./intl";
+polyfillIntl(renderApp);
+
 
 function renderApp() {
+  // Load routes after Intl polyfill since App component imports Intl mixin.
+  var {fetchData, routes} = require("./routes");
+
   global.loadingEvents = new EventEmitter();
   const appMountNode = document.getElementById("app-mount-node");
   Router.run(routes, Router.HistoryLocation, (Root, state) => {
@@ -64,6 +56,3 @@ function renderApp() {
       );
   });
 }
-
-
-polyfillIntl(renderApp);
