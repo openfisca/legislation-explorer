@@ -27,6 +27,7 @@ import moment from "moment";
 import React, {PropTypes} from "react";
 
 import AppPropTypes from "../../app-prop-types";
+import Collapse from "../collapse";
 import Dropdown from "../dropdown";
 import GitHubLink from "../github-link";
 import List from "../list";
@@ -40,13 +41,15 @@ var ParameterPage = React.createClass({
     parameter: AppPropTypes.parameterOrScale.isRequired,
     parametersUrlPath: PropTypes.string.isRequired,
   },
-  findLastKnownInstant(brackets) {
+  findLastKnownStartInstant(brackets) {
     return brackets.reduce((memo, bracket) => {
-      const rateLastInstant = bracket.rate[0].stop;
-      const thresholdLastInstant = bracket.threshold[0].stop;
-      var bracketLastInstant = rateLastInstant > thresholdLastInstant ? rateLastInstant : thresholdLastInstant;
-      if (memo) {
-        bracketLastInstant = memo > bracketLastInstant ? memo : bracketLastInstant;
+      const bracketLastRateStart = bracket.rate[0].start;
+      const bracketLastThresholdStart = bracket.threshold[0].start;
+      var bracketLastInstant = bracketLastRateStart > bracketLastThresholdStart ?
+        bracketLastRateStart :
+        bracketLastThresholdStart;
+      if (memo && memo > bracketLastInstant) {
+        bracketLastInstant = memo;
       }
       return bracketLastInstant;
     }, null);
@@ -64,7 +67,14 @@ var ParameterPage = React.createClass({
     return datedScale.length ? datedScale : null;
   },
   getInitialState() {
-    const datedScaleInstant = this.getTodayInstant();
+    var datedScaleInstant = this.getTodayInstant();
+    const {parameter} = this.props;
+    const {brackets} = parameter;
+    const datedScale = this.getDatedScale(brackets, datedScaleInstant);
+    if (!datedScale) {
+      const lastKnownStartInstant = this.findLastKnownStartInstant(brackets);
+      datedScaleInstant = lastKnownStartInstant;
+    }
     return {
       datedScaleInstant,
       datedScaleInstantText: this.formatDate(datedScaleInstant),
@@ -95,10 +105,10 @@ var ParameterPage = React.createClass({
   handleDatedScaleLastKnownInstantClick() {
     const {parameter} = this.props;
     const {brackets} = parameter;
-    const lastKnownInstant = this.findLastKnownInstant(brackets);
+    const datedScaleInstant = this.findLastKnownStartInstant(brackets);
     this.setState({
-      datedScaleInstant: lastKnownInstant,
-      datedScaleInstantText: this.formatDate(lastKnownInstant),
+      datedScaleInstant,
+      datedScaleInstantText: this.formatDate(datedScaleInstant),
     });
   },
   handleDatedScaleTodayClick() {
@@ -184,7 +194,11 @@ var ParameterPage = React.createClass({
             {this.renderStartStopValues(bracket.rate, "rate")}
           </dd>
         </dl>
-        {idx < brackets.length - 1 && <hr />}
+        {
+          idx < brackets.length - 1 && (
+            <hr style={{marginBottom: "3em"}} />
+          )
+        }
       </div>
     );
   },
@@ -320,20 +334,20 @@ var ParameterPage = React.createClass({
           datedScale ?
             this.renderDatedScale(datedScale) : (
               <div className="alert alert-info" role="alert">
-                <strong>Aucune tranche n'est définie à cette date.</strong>
-                <p>Vous pouvez :</p>
-                <ul>
-                  <li>cliquer sur une date dans les tranches ci-dessous</li>
-                  <li>ou trouver la dernière date connue en utilisant le menu déroulant ci-dessus</li>
-                </ul>
+                Aucune tranche n'est définie à cette date.
               </div>
             )
         }
         <hr style={{marginBottom: "3em", marginTop: "3em"}} />
-        <h4 style={{marginBottom: "2em"}}>Tranches</h4>
-        <List items={brackets} type="unstyled">
-          {this.renderBracket}
-        </List>
+        <Collapse
+          title={
+            <h4 style={{marginBottom: "2em"}}>Historique exhaustif par tranche</h4>
+          }
+        >
+          <List items={brackets} type="unstyled">
+            {this.renderBracket}
+          </List>
+        </Collapse>
       </div>
     );
   },
