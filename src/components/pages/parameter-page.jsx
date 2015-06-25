@@ -27,6 +27,7 @@ import moment from "moment";
 import React, {PropTypes} from "react";
 
 import AppPropTypes from "../../app-prop-types";
+import Dropdown from "../dropdown";
 import GitHubLink from "../github-link";
 import List from "../list";
 
@@ -39,20 +40,20 @@ var ParameterPage = React.createClass({
     parameter: AppPropTypes.parameterOrScale.isRequired,
     parametersUrlPath: PropTypes.string.isRequired,
   },
-  getBracketsForPeriod(brackets, period) {
-    var doesPeriodMatch = bracket => bracket.start === period.start && bracket.stop === period.stop;
-    var rates = [];
-    var thresholds = [];
-    brackets.forEach(bracket => {
-      rates = rates.concat(bracket.rate.filter(doesPeriodMatch).map(rate => rate.value));
-      thresholds = thresholds.concat(bracket.threshold.filter(doesPeriodMatch).map(rate => rate.value));
-    });
-    var bracketsForPeriod = rates.map((rate, idx) => ({rate, threshold: thresholds[idx]}));
-    return bracketsForPeriod;
+  findLastKnownInstant(brackets) {
+    return brackets.reduce((memo, bracket) => {
+      const rateLastInstant = bracket.rate[0].stop;
+      const thresholdLastInstant = bracket.threshold[0].stop;
+      var bracketLastInstant = rateLastInstant > thresholdLastInstant ? rateLastInstant : thresholdLastInstant;
+      if (memo) {
+        bracketLastInstant = memo > bracketLastInstant ? memo : bracketLastInstant;
+      }
+      return bracketLastInstant;
+    }, null);
   },
   getDatedScale(brackets, instant) {
     const isBetween = item => item.start <= instant && item.stop >= instant;
-    return brackets.reduce((memo, bracket) => {
+    const datedScale = brackets.reduce((memo, bracket) => {
       const rate = bracket.rate.find(isBetween);
       const threshold = bracket.threshold.find(isBetween);
       if (rate && threshold) {
@@ -60,23 +61,52 @@ var ParameterPage = React.createClass({
       }
       return memo;
     }, []);
+    return datedScale.length ? datedScale : null;
   },
   getInitialState() {
-    const datedScaleInstant = new Date().toJSON().slice(0, 10);
+    const datedScaleInstant = this.getTodayInstant();
     return {
       datedScaleInstant,
       datedScaleInstantText: this.formatDate(datedScaleInstant),
     };
   },
-  handleDatedScaleInstantChange(event) {
-    const datedScaleInstantText = event.target.value;
-    this.setState({datedScaleInstantText});
+  getTodayInstant() {
+    return new Date().toJSON().slice(0, 10);
   },
-  handleDatedScaleInstantSubmit(event) {
-    event.preventDefault();
+  handleDatedScaleInstantApply() {
     const {datedScaleInstantText} = this.state;
     const datedScaleInstant = moment(datedScaleInstantText, "DD/MM/YYYY").format("YYYY-MM-DD");
     this.setState({datedScaleInstant});
+  },
+  handleDatedScaleInstantSet(datedScaleInstant) {
+    this.setState({
+      datedScaleInstant,
+      datedScaleInstantText: this.formatDate(datedScaleInstant),
+    });
+  },
+  handleDatedScaleInstantSubmit(event) {
+    event.preventDefault();
+    this.handleDatedScaleInstantApply();
+  },
+  handleDatedScaleInstantTextChange(event) {
+    const datedScaleInstantText = event.target.value;
+    this.setState({datedScaleInstantText});
+  },
+  handleDatedScaleLastKnownInstantClick() {
+    const {parameter} = this.props;
+    const {brackets} = parameter;
+    const lastKnownInstant = this.findLastKnownInstant(brackets);
+    this.setState({
+      datedScaleInstant: lastKnownInstant,
+      datedScaleInstantText: this.formatDate(lastKnownInstant),
+    });
+  },
+  handleDatedScaleTodayClick() {
+    const datedScaleInstant = this.getTodayInstant();
+    this.setState({
+      datedScaleInstant,
+      datedScaleInstantText: this.formatDate(datedScaleInstant),
+    });
   },
   render() {
     var {countryPackageGitHeadSha, currency, parameter, parametersUrlPath} = this.props;
@@ -126,9 +156,14 @@ var ParameterPage = React.createClass({
             </dd>
           </dl>
         }
+        <hr style={{marginBottom: "3em", marginTop: "3em"}} />
         <div className="row">
           <div className="col-lg-8">
-            {type === "Parameter" ? this.renderParameter(values) : this.renderScale(brackets)}
+            {
+              type === "Parameter" ?
+                this.renderParameter(values) :
+                this.renderScale(brackets)
+            }
           </div>
         </div>
       </div>
@@ -140,11 +175,11 @@ var ParameterPage = React.createClass({
     return (
       <div>
         <dl className="dl-horizontal">
-          <dt>Seuils</dt>
+          <dt>{`Seuils tranche ${idx + 1}`}</dt>
           <dd style={{marginBottom: "1em"}}>
             {this.renderStartStopValues(bracket.threshold, format, unit)}
           </dd>
-          <dt>Taux</dt>
+          <dt>{`Taux tranche ${idx + 1}`}</dt>
           <dd>
             {this.renderStartStopValues(bracket.rate, "rate")}
           </dd>
@@ -169,7 +204,7 @@ var ParameterPage = React.createClass({
             {
               datedScale.map((datedBracket, idx) => (
                 <tr key={idx}>
-                  <td>
+                  <td className="clearfix">
                     {this.renderValue(datedBracket.threshold.value, format, unit)}
                     <GitHubLink
                       blobUrlPath={parametersUrlPath}
@@ -177,13 +212,14 @@ var ParameterPage = React.createClass({
                       commitReference={countryPackageGitHeadSha}
                       endLineNumber={datedBracket.threshold.end_line_number}
                       lineNumber={datedBracket.threshold.start_line_number}
+                      style={{color: "gray"}}
                       text={null}
                       title="Voir la valeur sur GitHub"
                     >
                       {children => <small>{children}</small>}
                     </GitHubLink>
                   </td>
-                  <td>
+                  <td className="clearfix">
                     {this.renderValue(datedBracket.rate.value, "rate")}
                     <GitHubLink
                       blobUrlPath={parametersUrlPath}
@@ -191,6 +227,7 @@ var ParameterPage = React.createClass({
                       commitReference={countryPackageGitHeadSha}
                       endLineNumber={datedBracket.rate.end_line_number}
                       lineNumber={datedBracket.rate.start_line_number}
+                      style={{color: "gray"}}
                       text={null}
                       title="Voir la valeur sur GitHub"
                     >
@@ -240,23 +277,60 @@ var ParameterPage = React.createClass({
     const datedScale = this.getDatedScale(brackets, datedScaleInstant);
     return (
       <div>
-        <h4>
-          <form onSubmit={this.handleDatedScaleInstantSubmit}>
+        <h4 id="bareme" style={{marginBottom: "2em"}}>
+          <form className="form-inline" onSubmit={this.handleDatedScaleInstantSubmit}>
             <FormattedMessage
               instant={
-                <input
-                  onBlur={this.handleDatedScaleInstantSubmit}
-                  onChange={this.handleDatedScaleInstantChange}
-                  type="text"
-                  value={datedScaleInstantText}
-                />
+                <div className="input-group input-group-sm" style={{marginLeft: "0.3em"}}>
+                  <input
+                    className="form-control"
+                    onBlur={this.handleDatedScaleInstantApply}
+                    onChange={this.handleDatedScaleInstantTextChange}
+                    placeholder="dd/mm/YYYY"
+                    type="text"
+                    value={datedScaleInstantText}
+                  />
+                  <Dropdown
+                    className="input-group-btn"
+                    items={[
+                      {
+                        onSelect: this.handleDatedScaleInstantApply,
+                        text: "OK",
+                        title: "Afficher un barême à la date demandée",
+                      },
+                      {
+                        onSelect: this.handleDatedScaleTodayClick,
+                        text: "Aujourd'hui",
+                        title: "Afficher un barême à la date du jour",
+                      },
+                      {
+                        onSelect: this.handleDatedScaleLastKnownInstantClick,
+                        text: "Dernière date connue",
+                        title: "Afficher un barême correspondant à la dernière date connue toutes tranches confondues",
+                      },
+                    ]}
+                  />
+                </div>
               }
               message="Barème au {instant}"
             />
           </form>
         </h4>
-        {this.renderDatedScale(datedScale)}
-        <h4>Tranches</h4>
+        {
+          datedScale ?
+            this.renderDatedScale(datedScale) : (
+              <div className="alert alert-info" role="alert">
+                <strong>Aucune tranche n'est définie à cette date.</strong>
+                <p>Vous pouvez :</p>
+                <ul>
+                  <li>cliquer sur une date dans les tranches ci-dessous</li>
+                  <li>ou trouver la dernière date connue en utilisant le menu déroulant ci-dessus</li>
+                </ul>
+              </div>
+            )
+        }
+        <hr style={{marginBottom: "3em", marginTop: "3em"}} />
+        <h4 style={{marginBottom: "2em"}}>Tranches</h4>
         <List items={brackets} type="unstyled">
           {this.renderBracket}
         </List>
@@ -271,11 +345,27 @@ var ParameterPage = React.createClass({
         <td>
           <FormattedMessage
             message="{start} - {stop}"
-            start={<FormattedDate format="short" value={start} />}
-            stop={<FormattedDate format="short" value={stop} />}
+            start={
+              <a
+                href="#bareme"
+                onClick={() => this.handleDatedScaleInstantSet(start)}
+                title="Afficher le barème à cette date"
+              >
+                <FormattedDate format="short" value={start} />
+              </a>
+            }
+            stop={
+              <a
+                href="#bareme"
+                onClick={() => this.handleDatedScaleInstantSet(stop)}
+                title="Afficher le barème à cette date"
+              >
+                <FormattedDate format="short" value={stop} />
+              </a>
+            }
           />
         </td>
-        <td>
+        <td className="clearfix">
           {this.renderValue(value, format, unit)}
           <GitHubLink
             blobUrlPath={parametersUrlPath}
@@ -283,6 +373,7 @@ var ParameterPage = React.createClass({
             commitReference={countryPackageGitHeadSha}
             endLineNumber={end_line_number}
             lineNumber={start_line_number}
+            style={{color: "gray"}}
             text={null}
             title="Voir la valeur sur GitHub"
           >
