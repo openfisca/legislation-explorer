@@ -67,18 +67,24 @@ var ParameterPage = React.createClass({
     return datedScale.length ? datedScale : null;
   },
   getInitialState() {
-    var datedScaleInstant = this.getTodayInstant();
-    const {parameter} = this.props;
-    const {brackets} = parameter;
-    const datedScale = this.getDatedScale(brackets, datedScaleInstant);
-    if (!datedScale) {
-      const lastKnownStartInstant = this.findLastKnownStartInstant(brackets);
-      datedScaleInstant = lastKnownStartInstant;
+    var {parameter} = this.props;
+    var type = parameter["@type"];
+    if (type === "Scale") {
+      var datedScaleInstant = this.getTodayInstant();
+      const {parameter} = this.props;
+      const {brackets} = parameter;
+      const datedScale = this.getDatedScale(brackets, datedScaleInstant);
+      if (!datedScale) {
+        const lastKnownStartInstant = this.findLastKnownStartInstant(brackets);
+        datedScaleInstant = lastKnownStartInstant;
+      }
+      return {
+        datedScaleInstant,
+        datedScaleInstantText: this.formatDate(datedScaleInstant),
+      };
+    } else {
+      return {};
     }
-    return {
-      datedScaleInstant,
-      datedScaleInstantText: this.formatDate(datedScaleInstant),
-    };
   },
   getTodayInstant() {
     return new Date().toJSON().slice(0, 10);
