@@ -215,46 +215,69 @@ var ParameterPage = React.createClass({
         <table className="table table-bordered table-hover table-striped">
           <thead>
             <tr>
-              <th>Seuils</th>
+              <th colSpan={2}>Seuils</th>
               <th>Taux</th>
             </tr>
           </thead>
           <tbody>
             {
-              datedScale.map((datedBracket, idx) => (
-                <tr key={idx}>
-                  <td className="clearfix">
-                    {this.renderValue(datedBracket.threshold.value, format, unit)}
-                    <GitHubLink
-                      blobUrlPath={parametersUrlPath}
-                      className="pull-right"
-                      commitReference={countryPackageGitHeadSha}
-                      endLineNumber={datedBracket.threshold.end_line_number}
-                      lineNumber={datedBracket.threshold.start_line_number}
-                      style={{color: "gray"}}
-                      text={null}
-                      title="Voir la valeur sur GitHub"
-                    >
-                      {children => <small>{children}</small>}
-                    </GitHubLink>
-                  </td>
-                  <td className="clearfix">
-                    {this.renderValue(datedBracket.rate.value, "rate")}
-                    <GitHubLink
-                      blobUrlPath={parametersUrlPath}
-                      className="pull-right"
-                      commitReference={countryPackageGitHeadSha}
-                      endLineNumber={datedBracket.rate.end_line_number}
-                      lineNumber={datedBracket.rate.start_line_number}
-                      style={{color: "gray"}}
-                      text={null}
-                      title="Voir la valeur sur GitHub"
-                    >
-                      {children => <small>{children}</small>}
-                    </GitHubLink>
-                  </td>
-                </tr>
-              ))
+              datedScale.map((datedBracket, idx) => {
+                const previousValue = idx > 0 ? datedScale[idx - 1].threshold.value + 1 : null;
+                return (
+                  <tr key={idx}>
+                    <td style={{borderRightStyle: "dashed", width: "25%"}}>
+                      {
+                        (previousValue !== null && previousValue !== datedBracket.threshold.value) && (
+                          <div className="text-center text-muted">
+                            <FormattedMessage
+                              message="de {value} à"
+                              value={
+                                <span style={{marginRight: "1em"}}>
+                                  {this.renderValue(previousValue, format)}
+                                </span>
+                              }
+                            />
+                        </div>
+                        )
+                      }
+                    </td>
+                    <td className="clearfix" style={{borderLeft: "none", width: "25%"}}>
+                      <div className="pull-left text-center">
+                        {this.renderValue(datedBracket.threshold.value, format, unit)}
+                      </div>
+                      <GitHubLink
+                        blobUrlPath={parametersUrlPath}
+                        className="pull-right"
+                        commitReference={countryPackageGitHeadSha}
+                        endLineNumber={datedBracket.threshold.end_line_number}
+                        lineNumber={datedBracket.threshold.start_line_number}
+                        style={{color: "gray"}}
+                        text={null}
+                        title="Voir la valeur sur GitHub"
+                      >
+                        {children => <small>{children}</small>}
+                      </GitHubLink>
+                    </td>
+                    <td style={{width: "50%"}}>
+                      <div className="clearfix text-center">
+                        {this.renderValue(datedBracket.rate.value, "rate")}
+                        <GitHubLink
+                          blobUrlPath={parametersUrlPath}
+                          className="pull-right"
+                          commitReference={countryPackageGitHeadSha}
+                          endLineNumber={datedBracket.rate.end_line_number}
+                          lineNumber={datedBracket.rate.start_line_number}
+                          style={{color: "gray"}}
+                          text={null}
+                          title="Voir la valeur sur GitHub"
+                        >
+                          {children => <small>{children}</small>}
+                        </GitHubLink>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })
             }
           </tbody>
         </table>
