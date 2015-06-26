@@ -67,11 +67,10 @@ var ParameterPage = React.createClass({
     return datedScale.length ? datedScale : null;
   },
   getInitialState() {
-    var {parameter} = this.props;
-    var type = parameter["@type"];
+    const {parameter} = this.props;
+    const type = parameter["@type"];
     if (type === "Scale") {
       var datedScaleInstant = this.getTodayInstant();
-      const {parameter} = this.props;
       const {brackets} = parameter;
       const datedScale = this.getDatedScale(brackets, datedScaleInstant);
       if (!datedScale) {
@@ -295,6 +294,8 @@ var ParameterPage = React.createClass({
   renderScale(brackets) {
     const {datedScaleInstant, datedScaleInstantText} = this.state;
     const datedScale = this.getDatedScale(brackets, datedScaleInstant);
+    const todayInstant = this.getTodayInstant();
+    const todayDatedScale = this.getDatedScale(brackets, todayInstant);
     return (
       <div>
         <h4 id="bareme" style={{marginBottom: "2em"}}>
@@ -319,9 +320,12 @@ var ParameterPage = React.createClass({
                         title: "Afficher un barême à la date demandée",
                       },
                       {
+                        disabled: !todayDatedScale,
                         onSelect: this.handleDatedScaleTodayClick,
                         text: "Aujourd'hui",
-                        title: "Afficher un barême à la date du jour",
+                        title: todayDatedScale ?
+                          "Afficher un barême à la date du jour" :
+                          "Aucun barème à afficher à la date du jour",
                       },
                       {
                         onSelect: this.handleDatedScaleLastKnownInstantClick,
@@ -340,7 +344,7 @@ var ParameterPage = React.createClass({
           datedScale ?
             this.renderDatedScale(datedScale) : (
               <div className="alert alert-info" role="alert">
-                Aucune tranche n'est définie à cette date.
+                Aucun barème à afficher, les données ne sont pas définies à cette date.
               </div>
             )
         }

@@ -30,6 +30,7 @@ var Dropdown = React.createClass({
   propTypes: {
     className: PropTypes.string,
     items: PropTypes.arrayOf(PropTypes.shape({
+      disabled: PropTypes.bool,
       onSelect: PropTypes.func.isRequired,
       text: PropTypes.string.isRequired,
       title: PropTypes.string,
@@ -72,7 +73,6 @@ var Dropdown = React.createClass({
               aria-expanded={opened}
               aria-haspopup
               className="btn btn-default dropdown-toggle"
-              data-toggle="dropdown"
               onClick={this.handleDropdownClick}
               type="button"
             >
@@ -95,13 +95,13 @@ var Dropdown = React.createClass({
         }
         {
           otherItems.length && (
-            <ul className="dropdown-menu">
+            <ul className="dropdown-menu dropdown-menu-right">
               {
-                otherItems.map(item => (
-                  <li>
+                otherItems.map((item, idx) => (
+                  <li className={classNames(item.disabled && "disabled")} key={idx}>
                     <a
                       href="#"
-                      onClick={event => this.handleOtherItemClick(event, item)}
+                      onClick={!item.disabled && (event => this.handleOtherItemClick(event, item))}
                       style={{zIndex: opened ? 2 : null}}
                       title={item.title}
                     >
