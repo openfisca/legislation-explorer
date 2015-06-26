@@ -51,7 +51,9 @@ var Dropdown = React.createClass({
   },
   handleOtherItemClick(event, item) {
     event.preventDefault();
-    this.setState({opened: false}, item.onSelect);
+    if (!item.disabled) {
+      this.setState({opened: false}, item.onSelect);
+    }
   },
   render() {
     const {opened} = this.state;
@@ -101,7 +103,7 @@ var Dropdown = React.createClass({
                   <li className={classNames(item.disabled && "disabled")} key={idx}>
                     <a
                       href="#"
-                      onClick={!item.disabled && (event => this.handleOtherItemClick(event, item))}
+                      onClick={event => this.handleOtherItemClick(event, item)}
                       style={{zIndex: opened ? 2 : null}}
                       title={item.title}
                     >
