@@ -358,32 +358,33 @@ var ParameterPage = React.createClass({
     );
   },
   renderStartStopValue(valueJson, format, unit, idx) {
-    var {end_line_number, start, start_line_number, stop, value} = valueJson;
-    var {countryPackageGitHeadSha, parametersUrlPath} = this.props;
+    const {end_line_number, start, start_line_number, stop, value} = valueJson;
+    const {countryPackageGitHeadSha, parameter, parametersUrlPath} = this.props;
+    const type = parameter["@type"];
+    const formattedStartDate = <FormattedDate format="short" value={start} />;
+    const formattedStopDate = <FormattedDate format="short" value={stop} />;
+    const startComponent = type === "Scale" ? (
+      <a
+        href="#bareme"
+        onClick={() => this.handleDatedScaleInstantSet(start)}
+        title="Afficher le barème à cette date"
+      >
+        {formattedStartDate}
+      </a>
+    ) : formattedStartDate;
+    const stopComponent = type === "Scale" ? (
+      <a
+        href="#bareme"
+        onClick={() => this.handleDatedScaleInstantSet(stop)}
+        title="Afficher le barème à cette date"
+      >
+        {formattedStopDate}
+      </a>
+    ) : formattedStopDate;
     return (
       <tr key={idx}>
         <td>
-          <FormattedMessage
-            message="{start} - {stop}"
-            start={
-              <a
-                href="#bareme"
-                onClick={() => this.handleDatedScaleInstantSet(start)}
-                title="Afficher le barème à cette date"
-              >
-                <FormattedDate format="short" value={start} />
-              </a>
-            }
-            stop={
-              <a
-                href="#bareme"
-                onClick={() => this.handleDatedScaleInstantSet(stop)}
-                title="Afficher le barème à cette date"
-              >
-                <FormattedDate format="short" value={stop} />
-              </a>
-            }
-          />
+          <FormattedMessage message="{start} - {stop}" start={startComponent} stop={stopComponent} />
         </td>
         <td className="clearfix">
           {this.renderValue(value, format, unit)}
