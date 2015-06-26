@@ -320,17 +320,17 @@ var ParameterPage = React.createClass({
                         title: "Afficher un barême à la date demandée",
                       },
                       {
+                        onSelect: this.handleDatedScaleLastKnownInstantClick,
+                        text: "Dernière date connue",
+                        title: "Afficher un barême correspondant à la dernière date connue toutes tranches confondues",
+                      },
+                      {
                         disabled: !todayDatedScale,
                         onSelect: this.handleDatedScaleTodayClick,
                         text: "Aujourd'hui",
                         title: todayDatedScale ?
                           "Afficher un barême à la date du jour" :
                           "Aucun barème à afficher à la date du jour",
-                      },
-                      {
-                        onSelect: this.handleDatedScaleLastKnownInstantClick,
-                        text: "Dernière date connue",
-                        title: "Afficher un barême correspondant à la dernière date connue toutes tranches confondues",
                       },
                     ]}
                   />
