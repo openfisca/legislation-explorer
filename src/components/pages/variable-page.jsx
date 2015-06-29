@@ -30,6 +30,7 @@ import {sortAlphabetically} from "trine/iterable/sortAlphabetically";
 import {to} from "trine/iterable/to";
 
 import AppPropTypes from "../../app-prop-types";
+import FormulaSource from "../formula-source";
 import GitHubLink from "../github-link";
 import Highlight from "../highlight";
 import List from "../list";
@@ -151,7 +152,11 @@ var VariablePage = React.createClass({
           )
         }
         <div style={{position: "relative"}}>
-          <Highlight language="python">{formula.source}</Highlight>
+          <Highlight language="python">
+            <FormulaSource inputVariables={inputVariables}>
+              {formula.source}
+            </FormulaSource>
+          </Highlight>
           <GitHubLink
             blobUrlPath={`${formula.module.split(".").join("/")}.py`}
             commitReference={this.props.countryPackageGitHeadSha}
@@ -222,7 +227,9 @@ var VariablePage = React.createClass({
         {
           variable.start && [
             <dt key="start-dt">Démarre le</dt>,
-            <dd key="start-dd">{variable.start}</dd>,
+            <dd key="start-dd">
+              <FormattedDate format="short" value={variable.start} />
+            </dd>,
           ]
         }
         <dt>Code source</dt>

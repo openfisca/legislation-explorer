@@ -42,12 +42,7 @@ var Highlight = React.createClass({
   },
   render() {
     return (
-      <pre className={this.props.language} style={{
-        fontFamily: "monospace",
-        fontSize: 12,
-        overflowWrap: "normal",
-        whiteSpace: "pre",
-      }}>
+      <pre className={this.props.language}>
         {this.props.children}
       </pre>
     );
