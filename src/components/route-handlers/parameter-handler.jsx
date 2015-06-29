@@ -40,10 +40,15 @@ var ParameterHandler = React.createClass({
   propTypes: {
     dataByRouteName: PropTypes.shape({
       parameter: PropTypes.shape({
-        country_package_git_head_sha: PropTypes.string.isRequired,
-        currency: PropTypes.string.isRequired,
-        parameter: AppPropTypes.parameterOrScale.isRequired,
-        parameters_file_path: PropTypes.string.isRequired,
+        parameter: PropTypes.shape({
+          country_package_git_head_sha: PropTypes.string.isRequired,
+          currency: PropTypes.string.isRequired,
+          parameter: AppPropTypes.parameterOrScale.isRequired,
+          parameters_file_path: PropTypes.string.isRequired,
+        }),
+        variables: PropTypes.shape({
+          variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
+        }),
       }),
     }),
     errorByRouteName: PropTypes.shape({
@@ -53,16 +58,24 @@ var ParameterHandler = React.createClass({
   },
   statics: {
     fetchData(params) {
-      return webservices.fetchParameters()
+      const parameterPromise = webservices.fetchParameters()
         .then(
           responseData => {
-            var foundParameter = responseData.parameters.find(parameter => parameter.name === params.name);
+            const foundParameter = responseData.parameters.find(parameter => parameter.name === params.name);
             if (!foundParameter) {
               throw new NotFound(`parameter \"${params.name}\" not found`);
             }
             return Immutable.Map(responseData).set("parameter", foundParameter).toJS();
           }
         );
+      const variablesPromise = webservices.fetchVariables();
+      var dataByPromiseName = {};
+      return Promise.all(
+        [
+          parameterPromise.then(data => { dataByPromiseName.parameter = data; }),
+          variablesPromise.then(data => { dataByPromiseName.variables = data; }),
+        ]
+      ).then(() => dataByPromiseName);
     },
   },
   getHyphenatedName(name) {
@@ -79,13 +92,13 @@ var ParameterHandler = React.createClass({
     var hyphenatedName = this.getHyphenatedName(name);
     var {dataByRouteName, errorByRouteName} = this.props;
     var error = errorByRouteName && errorByRouteName.parameter;
-    var data = dataByRouteName && dataByRouteName.parameter;
+    var dataByPromiseName = dataByRouteName && dataByRouteName.parameter;
     return (
       <DocumentTitle title={`${name} - Explorateur de la législation`}>
         <div>
           {this.renderBreadCrumb(error, hyphenatedName)}
-          {this.renderPageHeader(data, error, hyphenatedName)}
-          {this.renderContent(data, error)}
+          {this.renderPageHeader(error, hyphenatedName)}
+          {this.renderContent(dataByPromiseName, error)}
         </div>
       </DocumentTitle>
     );
@@ -102,7 +115,7 @@ var ParameterHandler = React.createClass({
       </BreadCrumb>
     );
   },
-  renderContent(data, error) {
+  renderContent(dataByPromiseName, error) {
     var content;
     if (error) {
       var name = this.getParams().name;
@@ -124,19 +137,23 @@ var ParameterHandler = React.createClass({
       content = (
         <p>Chargement en cours…</p>
       );
-    } else if (data) {
+    } else if (dataByPromiseName) {
+      const parameterPromiseData = dataByPromiseName.parameter;
+      const variablesPromiseData = dataByPromiseName.variables;
+      const computedVariables = variablesPromiseData.variables.filter(variable => variable.formula);
       content = (
         <ParameterPage
-          countryPackageGitHeadSha={data.country_package_git_head_sha}
-          currency={data.currency}
-          parameter={data.parameter}
-          parametersUrlPath={data.parameters_file_path}
+          computedVariables={computedVariables}
+          countryPackageGitHeadSha={parameterPromiseData.country_package_git_head_sha}
+          currency={parameterPromiseData.currency}
+          parameter={parameterPromiseData.parameter}
+          parametersUrlPath={parameterPromiseData.parameters_file_path}
         />
       );
     }
     return content;
   },
-  renderPageHeader(data, error, hyphenatedName) {
+  renderPageHeader(error, hyphenatedName) {
     return (
       <div className="page-header">
         <h1 style={{display: "inline-block"}}>

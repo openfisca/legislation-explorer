@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import {FormattedDate, FormattedMessage} from "react-intl";
 import {IntlMixin} from "react-intl";
+import {Link} from "react-router";
 import moment from "moment";
 import React, {PropTypes} from "react";
 
@@ -36,6 +37,7 @@ import List from "../list";
 var ParameterPage = React.createClass({
   mixins: [IntlMixin],
   propTypes: {
+    computedVariables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
     countryPackageGitHeadSha: PropTypes.string.isRequired,
     currency: PropTypes.string.isRequired,
     parameter: AppPropTypes.parameterOrScale.isRequired,
@@ -124,53 +126,13 @@ var ParameterPage = React.createClass({
     });
   },
   render() {
-    var {countryPackageGitHeadSha, currency, parameter, parametersUrlPath} = this.props;
-    var {brackets, description, end_line_number, format, start_line_number, unit, values} = parameter;
-    var type = parameter["@type"];
-    var fileName = parametersUrlPath.split("/").splice(-1);
+    const {parameter} = this.props;
+    const {brackets, description, values} = parameter;
+    const type = parameter["@type"];
     return (
       <div>
         <p>{description}</p>
-        {
-          <dl className="dl-horizontal">
-            <dt>Type</dt>
-            <dd>{type === "Parameter" ? "Paramètre" : "Barème"}</dd>
-            {format && <dt>Format</dt>}
-            {
-              format && (
-                <dd>
-                  <samp>{format}</samp>
-                </dd>
-              )
-            }
-            {unit && <dt>{type === "Parameter" ? "Unité" : "Unité des seuils"}</dt>}
-            {
-              unit && (
-                <dd>
-                  <samp>{unit}</samp>
-                  {unit === "currency" && ` - ${currency}`}
-                </dd>
-              )
-            }
-            <dt>Code source</dt>
-            <dd>
-              {
-                end_line_number ?
-                  `${fileName} ligne ${start_line_number} à ${end_line_number}` :
-                  `${fileName} ligne ${start_line_number}`
-                }
-              <GitHubLink
-                blobUrlPath={parametersUrlPath}
-                commitReference={countryPackageGitHeadSha}
-                endLineNumber={end_line_number}
-                lineNumber={start_line_number}
-                style={{marginLeft: "1em"}}
-              >
-                {children => <small>{children}</small>}
-              </GitHubLink>
-            </dd>
-          </dl>
-        }
+        {this.renderParameterDefinitionsList()}
         <hr style={{marginBottom: "3em", marginTop: "3em"}} />
         <div className="row">
           <div className="col-lg-8">
@@ -207,9 +169,29 @@ var ParameterPage = React.createClass({
       </div>
     );
   },
+  renderConsumerVariables() {
+    const {computedVariables, parameter} = this.props;
+    const isConsumerVariable = variable => variable.formula.parameters &&
+      variable.formula.parameters.includes(parameter.name);
+    const consumerVariables = computedVariables.filter(isConsumerVariable);
+    return [
+      <dt key="dt">Variables appelantes</dt>,
+      <dd key="dd">
+        {
+          consumerVariables && consumerVariables.length ? (
+            <List items={consumerVariables} type="inline">
+              {variable => <Link params={variable} to="variable">{variable.name}</Link>}
+            </List>
+          ) : (
+            <span className="label label-danger">Aucune</span>
+          )
+        }
+      </dd>,
+    ];
+  },
   renderDatedScale(datedScale) {
-    var {countryPackageGitHeadSha, parameter, parametersUrlPath} = this.props;
-    var {format, unit} = parameter;
+    const {countryPackageGitHeadSha, parameter, parametersUrlPath} = this.props;
+    const {format, unit} = parameter;
     return (
       <div>
         <table className="table table-bordered table-hover table-striped">
@@ -309,9 +291,56 @@ var ParameterPage = React.createClass({
     var {format, unit} = parameter;
     return (
       <div>
-        <h4>Valeurs</h4>
+        <h4 style={{marginBottom: "2em"}}>Valeurs</h4>
         {this.renderStartStopValues(values, format, unit)}
       </div>
+    );
+  },
+  renderParameterDefinitionsList() {
+    var {countryPackageGitHeadSha, currency, parameter, parametersUrlPath} = this.props;
+    var {brackets, description, end_line_number, format, start_line_number, unit, values} = parameter;
+    var type = parameter["@type"];
+    var fileName = parametersUrlPath.split("/").splice(-1);
+    return (
+      <dl className="dl-horizontal">
+        <dt>Type</dt>
+        <dd>{type === "Parameter" ? "Paramètre" : "Barème"}</dd>
+        {format && <dt>Format</dt>}
+        {
+          format && (
+            <dd>
+              <samp>{format}</samp>
+            </dd>
+          )
+        }
+        {unit && <dt>{type === "Parameter" ? "Unité" : "Unité des seuils"}</dt>}
+        {
+          unit && (
+            <dd>
+              <samp>{unit}</samp>
+              {unit === "currency" && ` - ${currency}`}
+            </dd>
+          )
+        }
+        <dt>Code source</dt>
+        <dd>
+          {
+            end_line_number ?
+              `${fileName} ligne ${start_line_number} à ${end_line_number}` :
+              `${fileName} ligne ${start_line_number}`
+            }
+          <GitHubLink
+            blobUrlPath={parametersUrlPath}
+            commitReference={countryPackageGitHeadSha}
+            endLineNumber={end_line_number}
+            lineNumber={start_line_number}
+            style={{marginLeft: "1em"}}
+          >
+            {children => <small>{children}</small>}
+          </GitHubLink>
+        </dd>
+        {this.renderConsumerVariables()}
+      </dl>
     );
   },
   renderScale(brackets) {
