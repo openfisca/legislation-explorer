@@ -40,6 +40,10 @@ polyfillIntl(renderApp);
 moment.locale(intlData.locales.slice(0, 2));
 
 
+const error = require("debug")("app:client");
+error.log = console.error.bind(console);
+
+
 function renderApp() {
   // Load routes after Intl polyfill since App component imports Intl mixin.
   var {fetchData, routes} = require("./routes");
@@ -51,8 +55,13 @@ function renderApp() {
     global.loadingEvents.emit("loadStart");
     fetchData(state.routes, state.params, state.query)
       .then(
-        dataByRouteName => React.render(<Root dataByRouteName={dataByRouteName} {...intlData} />, appMountNode),
-        errorByRouteName => React.render(<Root errorByRouteName={errorByRouteName} {...intlData} />, appMountNode)
+        dataByRouteName => {
+          React.render(<Root dataByRouteName={dataByRouteName} {...intlData} />, appMountNode);
+        },
+        errorByRouteName => {
+          React.render(<Root errorByRouteName={errorByRouteName} {...intlData} />, appMountNode);
+          error("errorByRouteName", errorByRouteName);
+        }
       )
       .then(
         () => global.loadingEvents.emit("loadEnd")
