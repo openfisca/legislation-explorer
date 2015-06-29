@@ -34,6 +34,7 @@ import List from "../list";
 
 var VariablePage = React.createClass({
   propTypes: {
+    computedVariables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
     countryPackageGitHeadSha: PropTypes.string.isRequired,
     variable: AppPropTypes.variable.isRequired,
   },
@@ -56,6 +57,26 @@ var VariablePage = React.createClass({
         }
       </div>
     );
+  },
+  renderConsumerVariables() {
+    const {computedVariables, variable} = this.props;
+    const isConsumerVariable = variable2 => variable2.formula.parameters &&
+      variable2.formula.input_variables.includes(variable.name);
+    const consumerVariables = computedVariables.filter(isConsumerVariable);
+    return [
+      <dt key="dt">Variables appelantes</dt>,
+      <dd key="dd">
+        {
+          consumerVariables && consumerVariables.length ? (
+            <List items={consumerVariables} type="inline">
+              {variable2 => <Link params={variable2} to="variable">{variable2.name}</Link>}
+            </List>
+          ) : (
+            <span className="label label-default">Aucune</span>
+          )
+        }
+      </dd>,
+    ];
   },
   renderDatedFormula(formula) {
     return formula.dated_formulas.map((datedFormula, idx) => (
@@ -221,6 +242,7 @@ var VariablePage = React.createClass({
             {children => <small>{children}</small>}
           </GitHubLink>
         </dd>
+        {this.renderConsumerVariables()}
       </dl>
     );
   },

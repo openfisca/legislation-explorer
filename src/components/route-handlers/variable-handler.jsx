@@ -115,11 +115,12 @@ var VariableHandler = React.createClass({
         <p>Chargement en cours…</p>
       );
     } else if (data) {
-      var variable = data.variable;
+      const computedVariables = data.variables.filter(variable => variable.formula);
       content = (
         <VariablePage
+          computedVariables={computedVariables}
           countryPackageGitHeadSha={data.country_package_git_head_sha}
-          variable={variable}
+          variable={data.variable}
         />
       );
     }
