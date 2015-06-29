@@ -24,7 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import {Link, State} from "react-router";
 import DocumentTitle from "react-document-title";
-import Immutable from "immutable";
 import React, {PropTypes} from "react";
 
 import {NotFound} from "../../errors";
@@ -58,7 +57,7 @@ var VariableHandler = React.createClass({
             if (!foundVariable) {
               throw new NotFound(`variable \"${params.name}\" not found`);
             }
-            return Immutable.Map(responseData).set("variable", foundVariable).toJS();
+            return Object.assign({}, responseData, {variable: foundVariable});
           }
         );
     },
