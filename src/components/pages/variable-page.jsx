@@ -25,6 +25,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import {FormattedDate, FormattedMessage} from "react-intl";
 import {Link} from "react-router";
 import React, {PropTypes} from "react";
+import {sortAlphabeticallyBy} from "trine/iterable/sortAlphabeticallyBy";
+import {sortAlphabetically} from "trine/iterable/sortAlphabetically";
+import {to} from "trine/iterable/to";
 
 import AppPropTypes from "../../app-prop-types";
 import GitHubLink from "../github-link";
@@ -68,7 +71,7 @@ var VariablePage = React.createClass({
       <dd key="dd">
         {
           consumerVariables && consumerVariables.length ? (
-            <List items={consumerVariables} type="inline">
+            <List items={consumerVariables::sortAlphabeticallyBy(() => this.name)::to(Array)} type="inline">
               {variable2 => <Link params={variable2} to="variable">{variable2.name}</Link>}
             </List>
           ) : (
@@ -128,7 +131,7 @@ var VariablePage = React.createClass({
               {
                 inputVariables && (
                   <dd style={{marginBottom: "1em"}}>
-                    <List items={inputVariables} type="inline">
+                    <List items={inputVariables::sortAlphabetically()::to(Array)} type="inline">
                       {name => <Link params={{name}} to="variable">{name}</Link>}
                     </List>
                   </dd>
@@ -138,7 +141,7 @@ var VariablePage = React.createClass({
               {
                 parameters && (
                   <dd>
-                    <List items={parameters} type="inline">
+                    <List items={parameters::sortAlphabetically()::to(Array)} type="inline">
                       {name => <Link params={{name}} to="parameter">{name}</Link>}
                     </List>
                   </dd>

@@ -24,6 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import {FormattedDate, FormattedMessage} from "react-intl";
 import {IntlMixin} from "react-intl";
 import {Link} from "react-router";
+import {sortAlphabeticallyBy} from "trine/iterable/sortAlphabeticallyBy";
+import {to} from "trine/iterable/to";
 import moment from "moment";
 import React, {PropTypes} from "react";
 
@@ -179,7 +181,7 @@ var ParameterPage = React.createClass({
       <dd key="dd">
         {
           consumerVariables && consumerVariables.length ? (
-            <List items={consumerVariables} type="inline">
+            <List items={consumerVariables::sortAlphabeticallyBy(() => this.name)::to(Array)} type="inline">
               {variable => <Link params={variable} to="variable">{variable.name}</Link>}
             </List>
           ) : (
