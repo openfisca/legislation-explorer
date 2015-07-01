@@ -34,9 +34,6 @@ var Highlight = React.createClass({
   componentDidMount() {
     this.highlightCode();
   },
-  componentDidUpdate() {
-    this.highlightCode();
-  },
   highlightCode() {
     hljs.highlightBlock(this.getDOMNode());
   },
