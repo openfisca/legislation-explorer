@@ -64,7 +64,7 @@ var VariablePage = React.createClass({
   },
   renderConsumerVariables() {
     const {computedVariables, variable} = this.props;
-    const isConsumerVariable = variable2 => variable2.formula.parameters &&
+    const isConsumerVariable = variable2 => variable2.formula.input_variables &&
       variable2.formula.input_variables.includes(variable.name);
     const consumerVariables = computedVariables.filter(isConsumerVariable);
     return [
