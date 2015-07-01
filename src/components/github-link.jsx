@@ -24,6 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import React, {PropTypes} from "react";
 
+import ExternalLink from "./external-link";
+
 
 var GitHubLink = React.createClass({
   propTypes: {
@@ -46,7 +48,7 @@ var GitHubLink = React.createClass({
     if (this.props.endLineNumber) {
       line = `${line}-${this.props.endLineNumber}`;
     }
-    var {blobUrlPath, commitReference} = this.props;
+    const {blobUrlPath, commitReference} = this.props;
     return `https://github.com/openfisca/openfisca-france/blob/${commitReference}/${blobUrlPath}${line}`;
   },
   getDefaultProps() {
@@ -54,37 +56,20 @@ var GitHubLink = React.createClass({
       commitReference: "master",
       external: true,
       text: "GitHub",
+      title: "Voir le fichier source sur GitHub",
     };
   },
   render() {
-    var externalProps = this.props.external ? {
-      rel: "external",
-      target: "_blank",
-    } : {};
+    const {external, text, title} = this.props;
     return (
-      <a
-        {...externalProps}
+      <ExternalLink
         className={this.props.className}
         href={this.buildHref()}
         style={this.props.style}
-        title={this.props.title || "Voir le fichier source sur GitHub"}
+        title={title}
       >
-        {
-          this.props.children ?
-            this.props.children(this.renderDefaultChildren()) :
-            this.renderDefaultChildren()
-        }
-      </a>
-    );
-  },
-  renderDefaultChildren() {
-    const {external, text} = this.props;
-    return (
-      <span>
-        {external && <span aria-hidden="true" className="glyphicon glyphicon-new-window"></span>}
-        {text && external && " "}
-        {text}
-      </span>
+        {this.props.children ? this.props.children(text) : text}
+      </ExternalLink>
     );
   },
 });
