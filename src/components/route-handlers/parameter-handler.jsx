@@ -65,7 +65,7 @@ var ParameterHandler = React.createClass({
             if (!foundParameter) {
               throw new NotFound(`parameter \"${params.name}\" not found`);
             }
-            return Immutable.Map(responseData).set("parameter", foundParameter).toJS();
+            return Object.assign({}, responseData, {parameter: foundParameter});
           }
         );
       const variablesPromise = webservices.fetchVariables();
