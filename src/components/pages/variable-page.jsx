@@ -214,8 +214,8 @@ var VariablePage = React.createClass({
         <dd><samp>{variable.default}</samp></dd>
         {
           variable.cerfa_field && [
-            <dt key="cerfa-dt">Cases CERFA</dt>,
-            <dd key="cerfa-dd">
+            <dt key="dt">Cases CERFA</dt>,
+            <dd key="dd">
               {
                 typeof variable.cerfa_field === "string" ?
                   variable.cerfa_field :
@@ -226,8 +226,8 @@ var VariablePage = React.createClass({
         }
         {
           variable.start && [
-            <dt key="start-dt">Démarre le</dt>,
-            <dd key="start-dd">
+            <dt key="dt">Démarre le</dt>,
+            <dd key="dd">
               <FormattedDate format="short" value={variable.start} />
             </dd>,
           ]
