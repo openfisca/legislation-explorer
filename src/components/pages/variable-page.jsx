@@ -30,6 +30,7 @@ import {to} from "trine/iterable/to";
 import React, {PropTypes} from "react";
 
 import AppPropTypes from "../../app-prop-types";
+import ExternalLink from "../external-link";
 import FormulaSource from "../formula-source";
 import GitHubLink from "../github-link";
 import Highlight from "../highlight";
@@ -237,6 +238,16 @@ var VariablePage = React.createClass({
             <dt key="dt">Démarre le</dt>,
             <dd key="dd">
               <FormattedDate format="short" value={variable.start} />
+            </dd>,
+          ]
+        }
+        {
+          variable.url && [
+            <dt key="dt">URL externe</dt>,
+            <dd key="dd">
+              <ExternalLink href={variable.url}>
+                {variable.url}
+              </ExternalLink>
             </dd>,
           ]
         }
