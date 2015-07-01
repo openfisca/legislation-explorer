@@ -39,8 +39,13 @@ var VariableHandler = React.createClass({
   propTypes: {
     dataByRouteName: PropTypes.shape({
       variable: PropTypes.shape({
-        country_package_git_head_sha: PropTypes.string.isRequired,
-        variable: AppPropTypes.variable.isRequired,
+        parameters: PropTypes.shape({
+          parameters: PropTypes.arrayOf(AppPropTypes.parameterOrScale).isRequired,
+        }),
+        variable: PropTypes.shape({
+          country_package_git_head_sha: PropTypes.string.isRequired,
+          variable: AppPropTypes.variable.isRequired,
+        }),
       }),
     }),
     errorByRouteName: PropTypes.shape({
@@ -50,7 +55,8 @@ var VariableHandler = React.createClass({
   },
   statics: {
     fetchData(params) {
-      return webservices.fetchVariables()
+      const parametersPromise = webservices.fetchParameters();
+      const variablesPromise = webservices.fetchVariables()
         .then(
           responseData => {
             var foundVariable = responseData.variables.find(variable => variable.name === params.name);
@@ -60,6 +66,13 @@ var VariableHandler = React.createClass({
             return Object.assign({}, responseData, {variable: foundVariable});
           }
         );
+      var dataByPromiseName = {};
+      return Promise.all(
+        [
+          parametersPromise.then(data => { dataByPromiseName.parameters = data; }),
+          variablesPromise.then(data => { dataByPromiseName.variables = data; }),
+        ]
+      ).then(() => dataByPromiseName);
     },
   },
   getNotFoundMessage() {
@@ -69,13 +82,13 @@ var VariableHandler = React.createClass({
     var name = this.getParams().name;
     var {dataByRouteName, errorByRouteName} = this.props;
     var error = errorByRouteName && errorByRouteName.variable;
-    var data = dataByRouteName && dataByRouteName.variable;
+    var dataByPromiseName = dataByRouteName && dataByRouteName.variable;
     return (
       <DocumentTitle title={`${name} - Explorateur de la législation`}>
         <div>
           {this.renderBreadCrumb(error, name)}
-          {this.renderPageHeader(data, error, name)}
-          {this.renderContent(data, error, name)}
+          {this.renderPageHeader(dataByPromiseName, error, name)}
+          {this.renderContent(dataByPromiseName, error, name)}
         </div>
       </DocumentTitle>
     );
@@ -92,7 +105,7 @@ var VariableHandler = React.createClass({
       </BreadCrumb>
     );
   },
-  renderContent(data, error, name) {
+  renderContent(dataByPromiseName, error, name) {
     var content;
     if (error) {
       content = error instanceof NotFound ? (
@@ -113,19 +126,22 @@ var VariableHandler = React.createClass({
       content = (
         <p>Chargement en cours…</p>
       );
-    } else if (data) {
-      const computedVariables = data.variables.filter(variable => variable.formula);
+    } else if (dataByPromiseName) {
+      const parametersPromiseData = dataByPromiseName.parameters;
+      const variablesPromiseData = dataByPromiseName.variables;
+      const computedVariables = variablesPromiseData.variables.filter(variable => variable.formula);
       content = (
         <VariablePage
           computedVariables={computedVariables}
-          countryPackageGitHeadSha={data.country_package_git_head_sha}
-          variable={data.variable}
+          countryPackageGitHeadSha={variablesPromiseData.country_package_git_head_sha}
+          parameters={parametersPromiseData.parameters}
+          variable={variablesPromiseData.variable}
         />
       );
     }
     return content;
   },
-  renderPageHeader(data, error, name) {
+  renderPageHeader(dataByPromiseName, error, name) {
     return (
       <div className="page-header">
         <h1 style={{display: "inline-block"}}>
@@ -140,8 +156,8 @@ var VariableHandler = React.createClass({
           !(error instanceof NotFound) && (
             <div className="label label-info" style={{marginLeft: "1em"}}>
               {
-                data ?
-                  (data.variable.formula ? "Variable calculée" : "Variable d'entrée") :
+                dataByPromiseName ?
+                  (dataByPromiseName.variables.variable.formula ? "Variable calculée" : "Variable d'entrée") :
                   "Variable"
               }
             </div>

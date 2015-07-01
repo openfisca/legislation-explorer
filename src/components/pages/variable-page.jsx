@@ -41,7 +41,21 @@ var VariablePage = React.createClass({
   propTypes: {
     computedVariables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
     countryPackageGitHeadSha: PropTypes.string.isRequired,
+    parameters: PropTypes.arrayOf(AppPropTypes.parameterOrScale).isRequired,
     variable: AppPropTypes.variable.isRequired,
+  },
+  getParameterValue(parameter, instant) {
+    const type = parameter["@type"];
+    const isBetween = item => item.start <= instant && item.stop >= instant;
+    if (type === "Parameter") {
+      return (parameter.values.find(isBetween) || parameter.values[0]).value;
+    } else {
+      // type === "Scale"
+      return null;
+    }
+  },
+  getTodayInstant() {
+    return new Date().toJSON().slice(0, 10);
   },
   render() {
     var {formula, label, name} = this.props.variable;
@@ -152,7 +166,13 @@ var VariablePage = React.createClass({
                 parameters && (
                   <dd>
                     <List items={parameters::sortAlphabetically()::to(Array)} type="inline">
-                      {name => <Link params={{name}} to="parameter">{name}</Link>}
+                      {name => (
+                        <span>
+                          <Link params={{name}} to="parameter">{name}</Link>
+                          {" "}
+                          ({this.renderParameterValue(name)})
+                        </span>
+                      )}
                     </List>
                   </dd>
                 )
@@ -181,6 +201,16 @@ var VariablePage = React.createClass({
           </GitHubLink>
         </div>
       </div>
+    );
+  },
+  renderParameterValue(parameterName) {
+    const {parameters} = this.props;
+    const parameter = parameters.find(parameter2 => parameter2.name === parameterName);
+    // TODO extract value component from ParameterPage.renderValue
+    return (
+      <samp>
+        {this.getParameterValue(parameter, this.getTodayInstant())}
+      </samp>
     );
   },
   renderSimpleFormula(formula) {
