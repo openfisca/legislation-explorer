@@ -24,10 +24,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import {FormattedDate, FormattedMessage} from "react-intl";
 import {Link} from "react-router";
-import React, {PropTypes} from "react";
-import {sortAlphabeticallyBy} from "trine/iterable/sortAlphabeticallyBy";
 import {sortAlphabetically} from "trine/iterable/sortAlphabetically";
+import {sortAlphabeticallyBy} from "trine/iterable/sortAlphabeticallyBy";
 import {to} from "trine/iterable/to";
+import React, {PropTypes} from "react";
 
 import AppPropTypes from "../../app-prop-types";
 import FormulaSource from "../formula-source";
@@ -67,12 +67,20 @@ var VariablePage = React.createClass({
     const isConsumerVariable = variable2 => variable2.formula.input_variables &&
       variable2.formula.input_variables.includes(variable.name);
     const consumerVariables = computedVariables.filter(isConsumerVariable);
+    function prop(propName) {
+      return function() {
+        return this[propName];
+      };
+    }
+    function sortByName() {
+      return this::sortAlphabeticallyBy(prop("name"))::to(Array);
+    }
     return [
       <dt key="dt">Variables appelantes</dt>,
       <dd key="dd">
         {
           consumerVariables && consumerVariables.length ? (
-            <List items={consumerVariables::sortAlphabeticallyBy(() => this.name)::to(Array)} type="inline">
+            <List items={consumerVariables::sortByName()} type="inline">
               {variable2 => <Link params={variable2} to="variable">{variable2.name}</Link>}
             </List>
           ) : (

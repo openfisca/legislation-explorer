@@ -176,12 +176,20 @@ var ParameterPage = React.createClass({
     const isConsumerVariable = variable => variable.formula.parameters &&
       variable.formula.parameters.includes(parameter.name);
     const consumerVariables = computedVariables.filter(isConsumerVariable);
+    function prop(propName) {
+      return function() {
+        return this[propName];
+      };
+    }
+    function sortByName() {
+      return this::sortAlphabeticallyBy(prop("name"))::to(Array);
+    }
     return [
       <dt key="dt">Variables appelantes</dt>,
       <dd key="dd">
         {
           consumerVariables && consumerVariables.length ? (
-            <List items={consumerVariables::sortAlphabeticallyBy(() => this.name)::to(Array)} type="inline">
+            <List items={consumerVariables::sortByName()} type="inline">
               {variable => <Link params={variable} to="variable">{variable.name}</Link>}
             </List>
           ) : (
