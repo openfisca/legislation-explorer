@@ -83,7 +83,7 @@ var ParametersPage = React.createClass({
       <span>
         <Link params={parameter} to="parameter">{parameter.name}</Link>
         {" : "}
-        {parameter.description || "Aucune description"}
+        {parameter.description}
       </span>
     );
   },

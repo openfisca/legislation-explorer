@@ -113,7 +113,7 @@ var loading = PropTypes.oneOfType([
 
 var parameter = PropTypes.shape({
   "@type": PropTypes.oneOf(["Parameter"]).isRequired,
-  description: PropTypes.string,
+  description: PropTypes.string.isRequired,
   end_line_number: PropTypes.number,
   format: PropTypes.oneOf([
     "boolean",
@@ -136,7 +136,7 @@ var scale = PropTypes.shape({
       threshold: PropTypes.arrayOf(startStopValue).isRequired,
     }),
   ),
-  description: PropTypes.string,
+  description: PropTypes.string.isRequired,
   end_line_number: PropTypes.number,
   start_line_number: PropTypes.number.isRequired,
   unit,
