@@ -193,7 +193,7 @@ var ParameterPage = React.createClass({
               {variable => <Link params={variable} to="variable">{variable.name}</Link>}
             </List>
           ) : (
-            <span className="label label-danger">Aucune</span>
+            <span className="label label-warning">Aucune</span>
           )
         }
       </dd>,

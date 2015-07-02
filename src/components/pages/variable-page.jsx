@@ -99,7 +99,7 @@ var VariablePage = React.createClass({
               {variable2 => <Link params={variable2} to="variable">{variable2.name}</Link>}
             </List>
           ) : (
-            <span className="label label-default">Aucune</span>
+            <span className="label label-warning">Aucune</span>
           )
         }
       </dd>,
