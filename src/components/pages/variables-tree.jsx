@@ -27,6 +27,8 @@ import classNames from "classnames";
 import ImmutableRenderMixin from "react-immutable-render-mixin";
 import React, {PropTypes} from "react";
 
+import GitHubLink from "../github-link";
+
 
 // const debug = require("debug")("app:VariablesTree");
 
@@ -34,6 +36,7 @@ import React, {PropTypes} from "react";
 var VariablesTree = React.createClass({
   mixins: [ImmutableRenderMixin],
   propTypes: {
+    countryPackageGitHeadSha: PropTypes.string.isRequired,
     cursor: PropTypes.object.isRequired,
   },
   handleChildClick(event, childName) {
@@ -82,17 +85,35 @@ var VariablesTree = React.createClass({
           {childName}
         </a>
         <div className={classNames({hide: !isOpened})} style={{marginLeft: 20}}>
-          <VariablesTree cursor={this.props.cursor.cursor(["children", childName])} />
+          <VariablesTree
+            countryPackageGitHeadSha={this.props.countryPackageGitHeadSha}
+            cursor={this.props.cursor.cursor(["children", childName])}
+          />
         </div>
       </div>
     );
   },
   renderVariableListItem(variable, idx) {
+    const {countryPackageGitHeadSha} = this.props;
+    const {label, line_number, matches, module, name} = variable;
     return (
-      <li className={classNames({hide: !variable.matches})} key={idx}>
-        <Link params={variable} to="variable">{variable.name}</Link>
+      <li className={classNames({hide: !matches})} key={idx}>
+        <Link params={variable} to="variable">{name}</Link>
         {" : "}
-        {variable.label || "Aucune description"}
+        {
+          label && label !== name ?
+            label : (
+              <GitHubLink
+                blobUrlPath={`${module.split(".").join("/")}.py`}
+                className="label label-warning"
+                commitReference={countryPackageGitHeadSha}
+                lineNumber={line_number}
+                style={{marginLeft: "1em"}}
+                text="Aucun libellé"
+                title="Ajouter un libellé via GitHub"
+              />
+            )
+        }
       </li>
     );
   },

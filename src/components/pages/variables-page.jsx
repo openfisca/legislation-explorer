@@ -36,6 +36,7 @@ import VariablesTree from "./variables-tree";
 
 var VariablesPage = React.createClass({
   propTypes: {
+    countryPackageGitHeadSha: PropTypes.string.isRequired,
     variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
   },
   buildVariablesTree(variables) {
@@ -289,6 +290,7 @@ var VariablesPage = React.createClass({
     );
   },
   renderVariablesTree() {
+    const {countryPackageGitHeadSha} = this.props;
     return (
       <div>
         <div style={{marginBottom: 10, marginTop: 10}}>
@@ -303,7 +305,10 @@ var VariablesPage = React.createClass({
             Tout fermer
           </button>
         </div>
-        <VariablesTree cursor={Cursor.from(this.state.variablesTree, this.handleCursorUpdate)} />
+        <VariablesTree
+          countryPackageGitHeadSha={countryPackageGitHeadSha}
+          cursor={Cursor.from(this.state.variablesTree, this.handleCursorUpdate)}
+        />
       </div>
     );
   },

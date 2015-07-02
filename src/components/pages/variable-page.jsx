@@ -58,12 +58,25 @@ var VariablePage = React.createClass({
     return new Date().toJSON().slice(0, 10);
   },
   render() {
-    var {formula, label, name} = this.props.variable;
+    const {countryPackageGitHeadSha, variable} = this.props;
+    var {formula, label, line_number, module, name} = variable;
     return (
       <div>
         <p>
-          {label}
-          {label === name && " (à compléter)"}
+          {
+            label && label !== name ?
+              label : (
+                <GitHubLink
+                  blobUrlPath={`${module.split(".").join("/")}.py`}
+                  className="label label-warning"
+                  commitReference={countryPackageGitHeadSha}
+                  lineNumber={line_number}
+                  style={{marginLeft: "1em"}}
+                  text="Aucun libellé"
+                  title="Ajouter un libellé via GitHub"
+                />
+              )
+          }
         </p>
         {this.renderVariableDefinitionsList()}
         <hr />

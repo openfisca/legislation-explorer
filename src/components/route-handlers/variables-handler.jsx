@@ -35,6 +35,7 @@ var VariablesHandler = React.createClass({
   propTypes: {
     dataByRouteName: PropTypes.shape({
       variables: PropTypes.shape({
+        country_package_git_head_sha: PropTypes.string.isRequired,
         variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
       }),
     }),
@@ -80,7 +81,10 @@ var VariablesHandler = React.createClass({
       );
     } else if (data) {
       content = (
-        <VariablesPage variables={data.variables} />
+        <VariablesPage
+          countryPackageGitHeadSha={data.country_package_git_head_sha}
+          variables={data.variables}
+        />
       );
     }
     return content;
