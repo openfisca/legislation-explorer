@@ -29,10 +29,10 @@ import React, {PropTypes} from "react";
 var FormulaSource = React.createClass({
   propTypes: {
     children: PropTypes.string.isRequired,
-    inputVariables: PropTypes.arrayOf(PropTypes.string),
+    inputVariableNames: PropTypes.arrayOf(PropTypes.string),
   },
-  getSourceFragments(source, inputVariables) {
-    return inputVariables.reduce((memo, inputVariable) => {
+  getSourceFragments(source, inputVariableNames) {
+    return inputVariableNames.reduce((memo, inputVariable) => {
       var idx = 0;
       return memo.reduce((fragmentMemo, fragment) => {
         if (fragment.source) {
@@ -60,9 +60,9 @@ var FormulaSource = React.createClass({
     }
     return fragments;
   },
-  getSourceWithLinks(source, inputVariables) {
-    const sourceFragments = inputVariables ?
-      this.getSourceFragments(source, inputVariables) :
+  getSourceWithLinks(source, inputVariableNames) {
+    const sourceFragments = inputVariableNames ?
+      this.getSourceFragments(source, inputVariableNames) :
       [{source}];
     return (
       <div>
@@ -87,7 +87,7 @@ var FormulaSource = React.createClass({
     );
   },
   render() {
-    const {inputVariables} = this.props;
+    const {inputVariableNames} = this.props;
     const source = this.props.children;
     return (
       <div style={{
@@ -96,7 +96,7 @@ var FormulaSource = React.createClass({
         overflowWrap: "normal",
         whiteSpace: "pre",
       }}>
-        {this.getSourceWithLinks(source, inputVariables)}
+        {this.getSourceWithLinks(source, inputVariableNames)}
       </div>
     );
   },

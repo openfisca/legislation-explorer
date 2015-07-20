@@ -157,35 +157,47 @@ var VariablePage = React.createClass({
     return heading;
   },
   renderFormula(formula) {
-    var inputVariables = formula.input_variables;
-    var {parameters} = formula;
+    const inputVariableNames = formula.input_variables;
+    const formulaParameterNames = formula.parameters;
     return (
       <div>
         {
-          (inputVariables || parameters) && (
+          (inputVariableNames || formulaParameterNames) && (
             <dl className="dl-horizontal">
-              {inputVariables && <dt>Variables d'entrée</dt>}
+              {inputVariableNames && <dt>Variables d'entrée</dt>}
               {
-                inputVariables && (
+                inputVariableNames && (
                   <dd style={{marginBottom: "1em"}}>
-                    <List items={inputVariables::sortAlphabetically()::to(Array)} type="inline">
+                    <List items={inputVariableNames::sortAlphabetically()::to(Array)} type="inline">
                       {name => <Link params={{name}} to="variable">{name}</Link>}
                     </List>
                   </dd>
                 )
               }
-              {parameters && <dt>Paramètres</dt>}
+              {formulaParameterNames && <dt>Paramètres</dt>}
               {
-                parameters && (
+                formulaParameterNames && (
                   <dd>
-                    <List items={parameters::sortAlphabetically()::to(Array)} type="inline">
-                      {name => (
-                        <span>
-                          <Link params={{name}} to="parameter">{name}</Link>
-                          {" "}
-                          ({this.renderParameterValue(name)})
-                        </span>
-                      )}
+                    <List items={formulaParameterNames::sortAlphabetically()::to(Array)} type="inline">
+                      {
+                        (parameterName) => {
+                          const {parameters} = this.props;
+                          const parameter = parameters.find(parameter2 => parameter2.name === parameterName);
+                          return parameter ? (
+                            <span>
+                              <Link params={{name: parameterName}} to="parameter">{parameterName}</Link>
+                              {" "}
+                              ({this.renderParameterValue(parameter)})
+                            </span>
+                          ) : (
+                            <span>
+                              {parameterName}
+                              {" "}
+                              <span className="label label-warning">inexistant</span>
+                            </span>
+                          );
+                        }
+                      }
                     </List>
                   </dd>
                 )
@@ -195,7 +207,7 @@ var VariablePage = React.createClass({
         }
         <div style={{position: "relative"}}>
           <Highlight language="python">
-            <FormulaSource inputVariables={inputVariables}>
+            <FormulaSource inputVariableNames={inputVariableNames}>
               {formula.source}
             </FormulaSource>
           </Highlight>
@@ -216,9 +228,7 @@ var VariablePage = React.createClass({
       </div>
     );
   },
-  renderParameterValue(parameterName) {
-    const {parameters} = this.props;
-    const parameter = parameters.find(parameter2 => parameter2.name === parameterName);
+  renderParameterValue(parameter) {
     // TODO extract value component from ParameterPage.renderValue
     return (
       <samp>
