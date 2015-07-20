@@ -127,6 +127,28 @@ var ParameterPage = React.createClass({
       datedScaleInstantText: this.formatDate(datedScaleInstant),
     });
   },
+  isConsumerFormula(formula, parameter) {
+    return formula.parameters && formula.parameters.length && formula.parameters.includes(parameter.name);
+  },
+  isConsumerVariable(variable, parameter) {
+    const {formula} = variable;
+    if (!formula) {
+      return false;
+    }
+    switch (formula["@type"]) {
+      case "SimpleFormula":
+        return this.isConsumerFormula(formula, parameter);
+      case "DatedFormula":
+        return formula.dated_formulas.some(dated_formula => this.isConsumerFormula(dated_formula.formula, parameter));
+      case "EntityToPerson":
+      case "PersonToEntity":
+        // Ignore those formula types since they have an implicit formula, not using any parameter of the legislation.
+        return false;
+      default:
+        console.error("Unexpected formula type:", formula["@type"]);
+        return false;
+    }
+  },
   render() {
     const {parameter} = this.props;
     const {brackets, description, values} = parameter;
@@ -173,9 +195,7 @@ var ParameterPage = React.createClass({
   },
   renderConsumerVariables() {
     const {computedVariables, parameter} = this.props;
-    const isConsumerVariable = variable => variable.formula.parameters &&
-      variable.formula.parameters.includes(parameter.name);
-    const consumerVariables = computedVariables.filter(isConsumerVariable);
+    const consumerVariables = computedVariables.filter((variable) => this.isConsumerVariable(variable, parameter));
     function prop(propName) {
       return function() {
         return this[propName];
