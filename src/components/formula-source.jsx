@@ -61,7 +61,9 @@ var FormulaSource = React.createClass({
     return fragments;
   },
   getSourceWithLinks(source, inputVariables) {
-    const sourceFragments = this.getSourceFragments(source, inputVariables);
+    const sourceFragments = inputVariables ?
+      this.getSourceFragments(source, inputVariables) :
+      [{source}];
     return (
       <div>
         {
