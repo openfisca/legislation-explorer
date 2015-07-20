@@ -23,7 +23,7 @@ URL: ${fullUrl}
 ${err.stack}
 
 ${JSON.stringify(req.headers, null, 2)}`,
-      to: "christophe.benz@data.gouv.fr",
+      to: "webmaster@openfisca.fr",
     },
     function(sendErr/*, message*/) {
       if (sendErr) {
