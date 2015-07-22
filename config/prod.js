@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 export default {
-  apiBaseUrl: "http://api-test.openfisca.fr/api/1",
+  apiBaseUrl: "http://api-test.openfisca.fr",
   gitWebpageUrl: "https://git.framasoft.org/openfisca/legislation-explorer",
   websiteUrl: "http://www.openfisca.fr/",
 };

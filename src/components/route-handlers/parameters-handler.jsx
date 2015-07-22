@@ -44,8 +44,9 @@ var ParametersHandler = React.createClass({
     loading: AppPropTypes.loading,
   },
   statics: {
-    fetchData() {
-      return webservices.fetchParameters();
+    fetchData(params, query) {
+      const apiBaseUrl = query && query.api_url;
+      return webservices.fetchParameters(apiBaseUrl);
     },
   },
   render() {

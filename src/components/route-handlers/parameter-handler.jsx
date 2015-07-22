@@ -57,8 +57,9 @@ var ParameterHandler = React.createClass({
     loading: AppPropTypes.loading,
   },
   statics: {
-    fetchData(params) {
-      const parameterPromise = webservices.fetchParameters()
+    fetchData(params, query) {
+      const apiBaseUrl = query && query.api_url;
+      const parameterPromise = webservices.fetchParameters(apiBaseUrl)
         .then(
           responseData => {
             const foundParameter = responseData.parameters.find(parameter => parameter.name === params.name);
@@ -68,7 +69,7 @@ var ParameterHandler = React.createClass({
             return Object.assign({}, responseData, {parameter: foundParameter});
           }
         );
-      const variablesPromise = webservices.fetchVariables();
+      const variablesPromise = webservices.fetchVariables(apiBaseUrl);
       var dataByPromiseName = {};
       return Promise.all(
         [

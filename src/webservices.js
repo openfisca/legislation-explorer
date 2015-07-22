@@ -82,15 +82,13 @@ function loggedFetch(url, ...args) {
 
 // API fetch functions
 
-function fetchParameters() {
-  const parametersUrl = `${config.apiBaseUrl}/parameters`;
-  return fetchCachedJSON(parametersUrl);
+function fetchParameters(apiBaseUrl = config.apiBaseUrl) {
+  return fetchCachedJSON(`${apiBaseUrl}/api/1/parameters`);
 }
 
 
-function fetchVariables() {
-  const variablesUrl = `${config.apiBaseUrl}/variables`;
-  return fetchCachedJSON(variablesUrl);
+function fetchVariables(apiBaseUrl = config.apiBaseUrl) {
+  return fetchCachedJSON(`${apiBaseUrl}/api/1/variables`);
 }
 
 

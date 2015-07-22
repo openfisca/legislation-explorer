@@ -54,9 +54,10 @@ var VariableHandler = React.createClass({
     loading: AppPropTypes.loading,
   },
   statics: {
-    fetchData(params) {
-      const parametersPromise = webservices.fetchParameters();
-      const variablesPromise = webservices.fetchVariables()
+    fetchData(params, query) {
+      const apiBaseUrl = query && query.api_url;
+      const parametersPromise = webservices.fetchParameters(apiBaseUrl);
+      const variablesPromise = webservices.fetchVariables(apiBaseUrl)
         .then(
           responseData => {
             var foundVariable = responseData.variables.find(variable => variable.name === params.name);
