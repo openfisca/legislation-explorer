@@ -65,7 +65,9 @@ function fetchCachedJSON(url, options) {
 
 
 function fetchJSON(url, options) {
-  return loggedFetch(url, options).then(json);
+  return loggedFetch(url, options)
+    .then(status)
+    .then(json);
 }
 
 
@@ -77,6 +79,16 @@ function json(response) {
 function loggedFetch(url, ...args) {
   debug("About to fetch URL", url);
   return fetch(url, ...args);
+}
+
+
+async function status(response) {
+  if (response.status >= 200 && response.status < 300) {
+    return response;
+  }
+  const data = await response.json();
+  const errorMessage = JSON.stringify(data.error);
+  throw new Error(errorMessage);
 }
 
 
