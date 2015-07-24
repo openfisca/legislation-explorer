@@ -22,6 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
+import {Navigation, State} from "react-router";
 import Cursor from "immutable/contrib/cursor";
 import Immutable from "immutable";
 import React, {PropTypes} from "react";
@@ -35,6 +36,7 @@ import VariablesTree from "./variables-tree";
 
 
 var VariablesPage = React.createClass({
+  mixins: [Navigation, State],
   propTypes: {
     countryPackageGitHeadSha: PropTypes.string.isRequired,
     variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
@@ -94,13 +96,43 @@ var VariablesPage = React.createClass({
     return newVariablesTree;
   },
   getInitialState() {
-    const nameInput = "";
-    const searchInDescription = false;
-    const formulaType = "";
-    const variableType = "";
+    const emptyValuesState = {
+      formulaType: "",
+      nameInput: "",
+      searchInDescription: "",
+      variableType: "",
+    };
+    const queryState = this.getStateFromQuery();
+    var initialState = Object.assign({}, emptyValuesState, queryState);
     var variablesTree = this.buildVariablesTree(this.props.variables);
-    variablesTree = this.filterVariablesTree(variablesTree, formulaType, nameInput, searchInDescription, variableType);
-    return {formulaType, nameInput, searchInDescription, variableType, variablesTree};
+    variablesTree = this.filterVariablesTree(
+      variablesTree,
+      initialState.formulaType,
+      initialState.nameInput,
+      initialState.searchInDescription,
+      initialState.variableType
+    );
+    initialState = Object.assign(initialState, {variablesTree});
+    return initialState;
+  },
+  getQueryFromState() {
+    const {formulaType, nameInput, searchInDescription, variableType} = this.state;
+    return {
+      formula_type: formulaType,
+      name: nameInput,
+      search_in_description: searchInDescription,
+      variable_type: variableType,
+    };
+  },
+  getStateFromQuery() {
+    const toBoolean = (str) => /^true|t|yes|y|1$/i.test(str);
+    const {formula_type, name, search_in_description, variable_type} = this.getQuery();
+    return {
+      formulaType: formula_type || "",
+      nameInput: name || "",
+      searchInDescription: toBoolean(search_in_description),
+      variableType: variable_type || "",
+    };
   },
   handleCursorUpdate(newVariablesTree) {
     this.setState({variablesTree: newVariablesTree});
@@ -110,7 +142,7 @@ var VariablesPage = React.createClass({
     this.setState({
       nameInput,
       variablesTree: this.filterVariablesTree(variablesTree, formulaType, nameInput, searchInDescription, variableType),
-    });
+    }, this.updateQueryFromState);
   },
   handleFormulaTypeChange(event) {
     const formulaType = event.target.value;
@@ -118,7 +150,7 @@ var VariablesPage = React.createClass({
     this.setState({
       formulaType,
       variablesTree: this.filterVariablesTree(variablesTree, formulaType, nameInput, searchInDescription, variableType),
-    });
+    }, this.updateQueryFromState);
   },
   handleSearchInDescription(event) {
     const searchInDescription = event.target.checked;
@@ -126,7 +158,7 @@ var VariablesPage = React.createClass({
     this.setState({
       searchInDescription,
       variablesTree: this.filterVariablesTree(variablesTree, formulaType, nameInput, searchInDescription, variableType),
-    });
+    }, this.updateQueryFromState);
   },
   handleVariablesTreeCloseAll() {
     var newVariablesTree = this.forceOpenCloseAll(this.state.variablesTree, {opened: false});
@@ -142,7 +174,7 @@ var VariablesPage = React.createClass({
     this.setState({
       variableType,
       variablesTree: this.filterVariablesTree(variablesTree, formulaType, nameInput, searchInDescription, variableType),
-    });
+    }, this.updateQueryFromState);
   },
   render() {
     return (
@@ -159,6 +191,7 @@ var VariablesPage = React.createClass({
         <TextFilter
           className="form-control"
           debounceTimeout={500}
+          filter={this.state.nameInput}
           minLength={1}
           name="name"
           onFilter={this.handleNameChange}
@@ -311,6 +344,13 @@ var VariablesPage = React.createClass({
         />
       </div>
     );
+  },
+  updateQueryFromState() {
+    // Browser only method.
+    const query = this.getQuery();
+    const newQuery = Object.assign({}, query, this.getQueryFromState());
+    const path = this.makePath(this.getPathname(), this.getParams(), newQuery);
+    window.history.replaceState({path}, "", path);
   },
 });
 
