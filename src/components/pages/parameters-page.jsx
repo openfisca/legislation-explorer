@@ -28,6 +28,7 @@ import Immutable from "immutable";
 import React, {PropTypes} from "react";
 import TextFilter from "react-text-filter";
 
+import {withoutAccents} from "../../accents";
 import AppPropTypes from "../../app-prop-types";
 import List from "../list";
 
@@ -38,11 +39,12 @@ var ParametersPage = React.createClass({
     parameters: PropTypes.arrayOf(AppPropTypes.parameterOrScale).isRequired,
   },
   filterParameters() {
-    var {nameInput, parameterType, searchInDescription} = this.state;
-    var nameFilter = nameInput && nameInput.length ? nameInput.trim().toLowerCase() : null;
-    var isMatchingParameter = parameter => (
+    const {nameInput, parameterType, searchInDescription} = this.state;
+    const nameFilter = nameInput && nameInput.length ? nameInput.trim().toLowerCase() : null;
+    const isMatchingParameter = (parameter) => (
       !nameFilter ||
       parameter.get("name").toLowerCase().includes(nameFilter) ||
+      parameter.get("name").toLowerCase().replace(/_/g, " ").includes(withoutAccents(nameFilter)) ||
       searchInDescription && parameter.get("description") &&
         parameter.get("description").toLowerCase().includes(nameFilter)
     ) && (

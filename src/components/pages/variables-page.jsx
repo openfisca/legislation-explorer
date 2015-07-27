@@ -28,6 +28,7 @@ import Immutable from "immutable";
 import React, {PropTypes} from "react";
 import TextFilter from "react-text-filter";
 
+import {withoutAccents} from "../../accents";
 import AppPropTypes from "../../app-prop-types";
 import VariablesTree from "./variables-tree";
 
@@ -59,6 +60,7 @@ var VariablesPage = React.createClass({
       var isMatchingVariable = variable => (
         !nameFilter ||
         variable.get("name").toLowerCase().includes(nameFilter) ||
+        variable.get("name").toLowerCase().replace(/_/g, " ").includes(withoutAccents(nameFilter)) ||
         searchInDescription && variable.get("label").toLowerCase().includes(nameFilter)
       ) && (
         variableType !== "formula" ||
