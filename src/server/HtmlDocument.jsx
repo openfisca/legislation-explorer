@@ -43,7 +43,7 @@ class HtmlDocument extends Component {
         <head>
           <meta content="width=device-width, initial-scale=1.0, user-scalable=no" name="viewport" />
           <title>{DocumentTitle.rewind()}</title>
-          {css.map((href, k) => <link href={href} key={k} rel="stylesheet" type="text/css" />)}
+          {css.map((href, key) => <link href={href} key={key} rel="stylesheet" type="text/css" />)}
         </head>
         <body>
           <div dangerouslySetInnerHTML={{__html: appHtml}} id="app-mount-node" />
