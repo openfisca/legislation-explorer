@@ -109,7 +109,7 @@ var VariablePage = React.createClass({
         {
           consumerVariables && consumerVariables.length ? (
             <List items={consumerVariables::sortByName()} type="inline">
-              {variable2 => <Link params={variable2} to="variable">{variable2.name}</Link>}
+              {variable2 => <Link params={variable2} title={variable2.label} to="variable">{variable2.name}</Link>}
             </List>
           ) : (
             <span className="label label-warning">Aucune</span>
@@ -185,7 +185,9 @@ var VariablePage = React.createClass({
                           const parameter = parameters.find(parameter2 => parameter2.name === parameterName);
                           return parameter ? (
                             <span>
-                              <Link params={{name: parameterName}} to="parameter">{parameterName}</Link>
+                              <Link params={{name: parameterName}} title={parameter.description} to="parameter">
+                                {parameterName}
+                              </Link>
                               {" "}
                               ({this.renderParameterValue(parameter)})
                             </span>

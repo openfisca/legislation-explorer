@@ -210,7 +210,7 @@ var ParameterPage = React.createClass({
         {
           consumerVariables && consumerVariables.length ? (
             <List items={consumerVariables::sortByName()} type="inline">
-              {variable => <Link params={variable} to="variable">{variable.name}</Link>}
+              {variable => <Link params={variable} title={variable.label} to="variable">{variable.name}</Link>}
             </List>
           ) : (
             <span className="label label-warning">Aucune</span>
