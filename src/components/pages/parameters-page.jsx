@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 import {Link} from "react-router";
+import {Navigation, State} from "react-router";
 import Immutable from "immutable";
 import React, {PropTypes} from "react";
 import TextFilter from "react-text-filter";
@@ -32,6 +33,7 @@ import List from "../list";
 
 
 var ParametersPage = React.createClass({
+  mixins: [Navigation, State],
   propTypes: {
     parameters: PropTypes.arrayOf(AppPropTypes.parameterOrScale).isRequired,
   },
@@ -53,21 +55,48 @@ var ParametersPage = React.createClass({
       .toJS();
   },
   getInitialState() {
-    const nameInput = "";
-    const searchInDescription = false;
-    const parameterType = "";
-    return {nameInput, parameterType, searchInDescription};
+    const emptyValuesState = {
+      nameInput: "",
+      parameterType: "",
+      searchInDescription: "",
+    };
+    const queryState = this.getStateFromQuery();
+    const initialState = Object.assign({}, emptyValuesState, queryState);
+    return initialState;
+  },
+  getQueryFromState() {
+    const {nameInput, parameterType, searchInDescription} = this.state;
+    let query = {};
+    if (nameInput) {
+      query.name = nameInput;
+    }
+    if (parameterType) {
+      query.parameter_type = parameterType;
+    }
+    if (searchInDescription) {
+      query.search_in_description = searchInDescription;
+    }
+    return query;
+  },
+  getStateFromQuery() {
+    const toBoolean = (str) => /^true|t|yes|y|1$/i.test(str);
+    const {name, parameter_type, search_in_description} = this.getQuery();
+    return {
+      nameInput: name || "",
+      parameterType: parameter_type || "",
+      searchInDescription: toBoolean(search_in_description),
+    };
   },
   handleNameChange(nameInput) {
-    this.setState({nameInput});
+    this.setState({nameInput}, this.updateQueryFromState);
   },
   handleParameterTypeChange(event) {
     const parameterType = event.target.value;
-    this.setState({parameterType});
+    this.setState({parameterType}, this.updateQueryFromState);
   },
   handleSearchInDescription(event) {
     const searchInDescription = event.target.checked;
-    this.setState({searchInDescription});
+    this.setState({searchInDescription}, this.updateQueryFromState);
   },
   render() {
     return (
@@ -101,6 +130,7 @@ var ParametersPage = React.createClass({
         <TextFilter
           className="form-control"
           debounceTimeout={500}
+          filter={this.state.nameInput}
           minLength={1}
           name="name"
           onFilter={this.handleNameChange}
@@ -164,6 +194,12 @@ var ParametersPage = React.createClass({
         </div>
       </form>
     );
+  },
+  updateQueryFromState() {
+    // Browser only method.
+    const newQuery = this.getQueryFromState();
+    const path = this.makePath(this.getPathname(), this.getParams(), newQuery);
+    window.history.replaceState({path}, "", path);
   },
 });
 

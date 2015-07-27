@@ -103,8 +103,8 @@ var VariablesPage = React.createClass({
       variableType: "",
     };
     const queryState = this.getStateFromQuery();
-    var initialState = Object.assign({}, emptyValuesState, queryState);
-    var variablesTree = this.buildVariablesTree(this.props.variables);
+    let initialState = Object.assign({}, emptyValuesState, queryState);
+    let variablesTree = this.buildVariablesTree(this.props.variables);
     variablesTree = this.filterVariablesTree(
       variablesTree,
       initialState.formulaType,
@@ -117,12 +117,20 @@ var VariablesPage = React.createClass({
   },
   getQueryFromState() {
     const {formulaType, nameInput, searchInDescription, variableType} = this.state;
-    return {
-      formula_type: formulaType,
-      name: nameInput,
-      search_in_description: searchInDescription,
-      variable_type: variableType,
-    };
+    let query = {};
+    if (variableType === "formula" && formulaType) {
+      query.formula_type = formulaType;
+    }
+    if (nameInput) {
+      query.name = nameInput;
+    }
+    if (searchInDescription) {
+      query.search_in_description = searchInDescription;
+    }
+    if (variableType) {
+      query.variable_type = variableType;
+    }
+    return query;
   },
   getStateFromQuery() {
     const toBoolean = (str) => /^true|t|yes|y|1$/i.test(str);
@@ -347,8 +355,7 @@ var VariablesPage = React.createClass({
   },
   updateQueryFromState() {
     // Browser only method.
-    const query = this.getQuery();
-    const newQuery = Object.assign({}, query, this.getQueryFromState());
+    const newQuery = this.getQueryFromState();
     const path = this.makePath(this.getPathname(), this.getParams(), newQuery);
     window.history.replaceState({path}, "", path);
   },
