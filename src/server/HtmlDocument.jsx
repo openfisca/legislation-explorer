@@ -48,6 +48,9 @@ class HtmlDocument extends Component {
         <body>
           <div dangerouslySetInnerHTML={{__html: appHtml}} id="app-mount-node" />
           {scripts.map((src, idx) => <script key={idx} src={src} />)}
+          <script>
+            window.isPageRenderedOnServer = true;
+          </script>
         </body>
       </html>
     );
