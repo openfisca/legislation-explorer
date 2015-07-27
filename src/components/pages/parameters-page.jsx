@@ -197,7 +197,10 @@ var ParametersPage = React.createClass({
   },
   updateQueryFromState() {
     // Browser only method.
-    const newQuery = this.getQueryFromState();
+    const query = this.getQuery();
+    const permanentQuery = {api_url: query.api_url};
+    const stateQuery = this.getQueryFromState();
+    const newQuery = Object.assign({}, permanentQuery, stateQuery);
     const path = this.makePath(this.getPathname(), this.getParams(), newQuery);
     window.history.replaceState({path}, "", path);
   },
