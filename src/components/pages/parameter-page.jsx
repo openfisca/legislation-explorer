@@ -298,7 +298,7 @@ var ParameterPage = React.createClass({
   },
   renderFloatValue(value) {
     const decimalPartLength = 3;
-    var [integerPart, decimalPart] = value.toFixed(decimalPartLength).toString().split(".");
+    var [integerPart, decimalPart] = value.toFixed(decimalPartLength).split(".");
     if (decimalPart === "0".repeat(decimalPartLength)) {
       decimalPart = null;
     }
