@@ -2,11 +2,9 @@
 
 ## Presentation
 
-This application allows to explore the legislation with its parameters and formulas.
-
 [OpenFisca](http://www.openfisca.fr/) is a versatile microsimulation free software.
 
-Please consult http://www.openfisca.fr/presentation
+This application allows to explore the legislation with its parameters and formulas.
 
 ## Run the server
 
