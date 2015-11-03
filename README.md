@@ -6,6 +6,8 @@
 
 This application allows to explore the legislation with its parameters and formulas.
 
+See http://legislation.openfisca.fr/
+
 ## Run the server
 
 The following `npm run` commands are declared in `package.json`.
@@ -30,7 +32,7 @@ Open http://localhost:2030/
 
 ## OpenFisca Documentation
 
-Please consult http://www.openfisca.fr/documentation
+Please consult http://doc.openfisca.fr/
 
 ## Contribute
 
