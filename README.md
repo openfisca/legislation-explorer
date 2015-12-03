@@ -14,6 +14,7 @@ The following `npm run` commands are declared in `package.json`.
 
 ### Development server
 
+    npm install
     npm run assets
     npm run dev
 
@@ -23,6 +24,7 @@ Open http://localhost:2030/
 
 ### Production server
 
+    npm install
     npm run clean
     npm run assets
     npm run build
