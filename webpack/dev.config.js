@@ -24,8 +24,8 @@ export default {
   },
   output: {
     path: assetsPath,
-    filename: "[name]-[chunkhash].js",
-    chunkFilename: "[name]-[chunkhash].js",
+    filename: "[name]-[hash].js",
+    chunkFilename: "[name]-[hash].js",
     publicPath: `http://${WEBPACK_HOST}:${WEBPACK_PORT}/assets/`,
   },
   module: {
