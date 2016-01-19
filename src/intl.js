@@ -37,7 +37,7 @@ const intlData = {
 
 
 // shim for Intl needs to be loaded dynamically
-// so we callback when we"re done to represent
+// so we callback when we're done to represent
 // some kind of "shimReady" event
 function polyfillIntl(callback) {
   if (!window.Intl) {

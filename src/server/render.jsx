@@ -44,7 +44,7 @@ function render(req, res, next) {
             res.status(lastRouteError.status);
           }
           return React.renderToString(<Root errorByRouteName={errorByRouteName} loading={false} {...intlData} />);
-        }
+        },
       )
       .then(appHtml => res.send(renderMarkup(appHtml)))
       .catch(error => next(error));
