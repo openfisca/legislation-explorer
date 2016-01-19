@@ -64,18 +64,19 @@ var VariablePage = React.createClass({
       <div>
         <p>
           {
-            label && label !== name ?
-              label : (
+            label || (
+              <span className="label label-warning">
+                aucun libellé
                 <GitHubLink
                   blobUrlPath={`${module.split(".").join("/")}.py`}
-                  className="label label-warning"
                   commitReference={countryPackageGitHeadSha}
                   lineNumber={line_number}
                   style={{marginLeft: "1em"}}
-                  text="Aucun libellé"
+                  text="ajouter"
                   title="Ajouter un libellé via GitHub"
                 />
-              )
+              </span>
+            )
           }
         </p>
         {this.renderVariableDefinitionsList()}
