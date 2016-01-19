@@ -80,7 +80,7 @@ var VariablePage = React.createClass({
           }
         </p>
         {this.renderVariableDefinitionsList()}
-        <hr />
+        {formula && <hr />}
         {
           formula && (
             formula["@type"] === "DatedFormula" ?
@@ -276,7 +276,15 @@ var VariablePage = React.createClass({
           )
         }
         <dt>Valeur par défaut</dt>
-        <dd><samp>{variable.default}</samp></dd>
+        <dd>
+          <samp>
+            {
+              type === "Boolean" ?
+                JSON.stringify(variable.default) :
+                variable.default
+            }
+          </samp>
+        </dd>
         {
           variable.cerfa_field && [
             <dt key="dt">Cases CERFA</dt>,
