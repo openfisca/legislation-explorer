@@ -50,12 +50,12 @@ var fetch = loadFetch();
 var dataByUrl = new Map();
 
 
-function fetchCachedJSON(url, options) {
+function fetchCachedJson(url, options) {
   if (dataByUrl.has(url)) {
     debug("Found data in cache for URL", url);
     return Promise.resolve(dataByUrl.get(url));
   } else {
-    return fetchJSON(url, options)
+    return fetchJson(url, options)
       .then(data => {
         dataByUrl.set(url, data);
         return data;
@@ -64,15 +64,8 @@ function fetchCachedJSON(url, options) {
 }
 
 
-function fetchJSON(url, options) {
-  return loggedFetch(url, options)
-    .then(status)
-    .then(json);
-}
-
-
-function json(response) {
-  return response.json();
+function fetchJson(url, options) {
+  return loggedFetch(url, options).then(parseJsonResponse);
 }
 
 
@@ -82,25 +75,25 @@ function loggedFetch(url, ...args) {
 }
 
 
-async function status(response) {
-  if (response.status >= 200 && response.status < 300) {
-    return response;
-  }
+async function parseJsonResponse(response) {
   const data = await response.json();
-  const errorMessage = JSON.stringify(data.error);
-  throw new Error(errorMessage);
+  if (response.status >= 200 && response.status < 300) {
+    return data;
+  } else {
+    throw new Error(JSON.stringify(data.error));
+  }
 }
 
 
 // API fetch functions
 
 function fetchParameters(apiBaseUrl = config.apiBaseUrl) {
-  return fetchCachedJSON(`${apiBaseUrl}/api/1/parameters`);
+  return fetchCachedJson(`${apiBaseUrl}/api/1/parameters`);
 }
 
 
 function fetchVariables(apiBaseUrl = config.apiBaseUrl) {
-  return fetchCachedJSON(`${apiBaseUrl}/api/1/variables`);
+  return fetchCachedJson(`${apiBaseUrl}/api/1/variables`);
 }
 
 
