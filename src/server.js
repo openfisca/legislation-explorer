@@ -38,9 +38,9 @@ ${JSON.stringify(req.headers, null, 2)}`,
 
 const server = express()
 
-server.use(favicon(path.resolve(__dirname, "./assets/favicon.png")));
 server.use(morgan(server.get("env") === "production" ? "combined" : "dev"))
 server.use(compression())
+server.use(favicon(path.resolve(__dirname, "./assets/favicon.ico")))
 
 // Use the public directory for static files.
 // This directory is created by webpack on build time (npm run build).
