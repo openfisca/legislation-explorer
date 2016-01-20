@@ -1,14 +1,14 @@
-import {Link, State} from "react-router";
-import React from "react";
+import {Link, State} from "react-router"
+import React from "react"
 
-import BreadCrumb from "../breadcrumb";
-import NotFoundPage from "../pages/not-found-page";
+import BreadCrumb from "../breadcrumb"
+import NotFoundPage from "../pages/not-found-page"
 
 
 var NotFoundHandler = React.createClass({
   mixins: [State],
   render() {
-    var message = "Page non trouvée";
+    var message = "Page non trouvée"
     return (
       <div>
         <BreadCrumb>
@@ -26,9 +26,9 @@ var NotFoundHandler = React.createClass({
           </Link>
         </NotFoundPage>
       </div>
-    );
+    )
   },
-});
+})
 
 
-export default NotFoundHandler;
+export default NotFoundHandler

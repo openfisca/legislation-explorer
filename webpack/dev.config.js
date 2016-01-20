@@ -1,16 +1,16 @@
 // This is the webpack config to use during development.
 // It enables the hot module replacement, the source maps and inline CSS styles.
 
-import ErrorNotificationPlugin from "webpack-error-notification";
-import path from "path";
-import webpack from "webpack";
+import ErrorNotificationPlugin from "webpack-error-notification"
+import path from "path"
+import webpack from "webpack"
 
-const assetsPath = path.resolve(__dirname, "../public/assets");
-import notifyStats from "./utils/notify-stats";
-import writeStats from "./utils/write-stats";
+const assetsPath = path.resolve(__dirname, "../public/assets")
+import notifyStats from "./utils/notify-stats"
+import writeStats from "./utils/write-stats"
 
-const WEBPACK_HOST = process.env.HOST || "localhost";
-const WEBPACK_PORT = parseInt(process.env.PORT) + 1 || 2031;
+const WEBPACK_HOST = process.env.HOST || "localhost"
+const WEBPACK_PORT = parseInt(process.env.PORT) + 1 || 2031
 
 
 export default {
@@ -53,14 +53,14 @@ export default {
 
     // print a webpack progress
     new webpack.ProgressPlugin((percentage, message) => {
-      const MOVE_LEFT = new Buffer("1b5b3130303044", "hex").toString();
-      const CLEAR_LINE = new Buffer("1b5b304b", "hex").toString();
-      process.stdout.write(`${CLEAR_LINE}${Math.round(percentage * 100)}%: ${message}${MOVE_LEFT}`);
+      const MOVE_LEFT = new Buffer("1b5b3130303044", "hex").toString()
+      const CLEAR_LINE = new Buffer("1b5b304b", "hex").toString()
+      process.stdout.write(`${CLEAR_LINE}${Math.round(percentage * 100)}%: ${message}${MOVE_LEFT}`)
     }),
 
     new ErrorNotificationPlugin(process.platform === "linux" && function(msg) {
       if (!this.lastBuildSucceeded) {
-        require("child_process").exec("notify-send --hint=int:transient:1 Webpack " + msg);
+        require("child_process").exec("notify-send --hint=int:transient:1 Webpack " + msg)
       }
     }),
 
@@ -76,7 +76,7 @@ export default {
     // new webpack.optimize.OccurenceOrderPlugin(),
 
     // stats
-    function() { this.plugin("done", notifyStats); },
-    function() { this.plugin("done", writeStats); },
+    function() { this.plugin("done", notifyStats) },
+    function() { this.plugin("done", writeStats) },
   ],
-};
+}

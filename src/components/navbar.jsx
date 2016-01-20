@@ -1,8 +1,8 @@
-import {Link} from "react-router";
-import React from "react/addons";
-import url from "url";
+import {Link} from "react-router"
+import React from "react/addons"
+import url from "url"
 
-import config from "../config";
+import config from "../config"
 
 
 var NavBar = React.createClass({
@@ -38,9 +38,9 @@ var NavBar = React.createClass({
           </div>
         </div>
       </div>
-    );
+    )
   },
-});
+})
 
 
-export default NavBar;
+export default NavBar

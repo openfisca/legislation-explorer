@@ -1,5 +1,5 @@
-import classNames from "classnames";
-import React, {PropTypes} from "react";
+import classNames from "classnames"
+import React, {PropTypes} from "react"
 
 
 var Dropdown = React.createClass({
@@ -15,26 +15,26 @@ var Dropdown = React.createClass({
   getInitialState() {
     return {
       opened: false,
-    };
+    }
   },
   handleBackgroundClick(event) {
-    event.preventDefault();
-    this.setState({opened: false});
+    event.preventDefault()
+    this.setState({opened: false})
   },
   handleDropdownClick() {
-    const {opened} = this.state;
-    this.setState({opened: !opened});
+    const {opened} = this.state
+    this.setState({opened: !opened})
   },
   handleOtherItemClick(event, item) {
-    event.preventDefault();
+    event.preventDefault()
     if (!item.disabled) {
-      this.setState({opened: false}, item.onSelect);
+      this.setState({opened: false}, item.onSelect)
     }
   },
   render() {
-    const {opened} = this.state;
-    const {className, items} = this.props;
-    const [firstItem, ...otherItems] = items;
+    const {opened} = this.state
+    const {className, items} = this.props
+    const [firstItem, ...otherItems] = items
     return (
       <span className={classNames(className, opened && "open")}>
         <button
@@ -92,9 +92,9 @@ var Dropdown = React.createClass({
           )
         }
       </span>
-    );
+    )
   },
-});
+})
 
 
-export default Dropdown;
+export default Dropdown

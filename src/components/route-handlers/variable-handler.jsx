@@ -1,13 +1,13 @@
-import {Link, State} from "react-router";
-import DocumentTitle from "react-document-title";
-import React, {PropTypes} from "react";
+import {Link, State} from "react-router"
+import DocumentTitle from "react-document-title"
+import React, {PropTypes} from "react"
 
-import {NotFound} from "../../errors";
-import AppPropTypes from "../../app-prop-types";
-import BreadCrumb from "../breadcrumb";
-import NotFoundPage from "../pages/not-found-page";
-import VariablePage from "../pages/variable-page";
-import webservices from "../../webservices";
+import {NotFound} from "../../errors"
+import AppPropTypes from "../../app-prop-types"
+import BreadCrumb from "../breadcrumb"
+import NotFoundPage from "../pages/not-found-page"
+import VariablePage from "../pages/variable-page"
+import webservices from "../../webservices"
 
 
 var VariableHandler = React.createClass({
@@ -31,35 +31,35 @@ var VariableHandler = React.createClass({
   },
   statics: {
     fetchData(params, query) {
-      const apiBaseUrl = query && query.api_url;
-      const parametersPromise = webservices.fetchParameters(apiBaseUrl);
+      const apiBaseUrl = query && query.api_url
+      const parametersPromise = webservices.fetchParameters(apiBaseUrl)
       const variablesPromise = webservices.fetchVariables(apiBaseUrl)
         .then(
           responseData => {
-            var foundVariable = responseData.variables.find(variable => variable.name === params.name);
+            var foundVariable = responseData.variables.find(variable => variable.name === params.name)
             if (!foundVariable) {
-              throw new NotFound(`variable \"${params.name}\" not found`);
+              throw new NotFound(`variable \"${params.name}\" not found`)
             }
-            return Object.assign({}, responseData, {variable: foundVariable});
+            return Object.assign({}, responseData, {variable: foundVariable})
           }
-        );
-      var dataByPromiseName = {};
+        )
+      var dataByPromiseName = {}
       return Promise.all(
         [
-          parametersPromise.then(data => { dataByPromiseName.parameters = data; }),
-          variablesPromise.then(data => { dataByPromiseName.variables = data; }),
+          parametersPromise.then(data => { dataByPromiseName.parameters = data }),
+          variablesPromise.then(data => { dataByPromiseName.variables = data }),
         ]
-      ).then(() => dataByPromiseName);
+      ).then(() => dataByPromiseName)
     },
   },
   getNotFoundMessage() {
-    return "Variable non trouvée";
+    return "Variable non trouvée"
   },
   render() {
-    var name = this.getParams().name;
-    var {dataByRouteName, errorByRouteName} = this.props;
-    var error = errorByRouteName && errorByRouteName.variable;
-    var dataByPromiseName = dataByRouteName && dataByRouteName.variable;
+    var name = this.getParams().name
+    var {dataByRouteName, errorByRouteName} = this.props
+    var error = errorByRouteName && errorByRouteName.variable
+    var dataByPromiseName = dataByRouteName && dataByRouteName.variable
     return (
       <DocumentTitle title={`${name} - Explorateur de la législation`}>
         <div>
@@ -68,7 +68,7 @@ var VariableHandler = React.createClass({
           {this.renderContent(dataByPromiseName, error, name)}
         </div>
       </DocumentTitle>
-    );
+    )
   },
   renderBreadCrumb(error, name) {
     return (
@@ -80,10 +80,10 @@ var VariableHandler = React.createClass({
           {error instanceof NotFound ? this.getNotFoundMessage() : name}
         </li>
       </BreadCrumb>
-    );
+    )
   },
   renderContent(dataByPromiseName, error, name) {
-    var content;
+    var content
     if (error) {
       content = error instanceof NotFound ? (
         <NotFoundPage message={this.getNotFoundMessage()}>
@@ -98,15 +98,15 @@ var VariableHandler = React.createClass({
         <div className="alert alert-danger">
           Impossible de charger les données depuis l'API.
         </div>
-      );
+      )
     } else if (this.props.loading) {
       content = (
         <p>Chargement en cours…</p>
-      );
+      )
     } else if (dataByPromiseName) {
-      const parametersPromiseData = dataByPromiseName.parameters;
-      const variablesPromiseData = dataByPromiseName.variables;
-      const computedVariables = variablesPromiseData.variables.filter(variable => variable.formula);
+      const parametersPromiseData = dataByPromiseName.parameters
+      const variablesPromiseData = dataByPromiseName.variables
+      const computedVariables = variablesPromiseData.variables.filter(variable => variable.formula)
       content = (
         <VariablePage
           computedVariables={computedVariables}
@@ -114,9 +114,9 @@ var VariableHandler = React.createClass({
           parameters={parametersPromiseData.parameters}
           variable={variablesPromiseData.variable}
         />
-      );
+      )
     }
-    return content;
+    return content
   },
   renderPageHeader(dataByPromiseName, error, name) {
     return (
@@ -141,9 +141,9 @@ var VariableHandler = React.createClass({
           )
         }
       </div>
-    );
+    )
   },
-});
+})
 
 
-export default VariableHandler;
+export default VariableHandler

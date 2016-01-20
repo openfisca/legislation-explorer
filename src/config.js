@@ -1,11 +1,11 @@
 // Load different configs for production or development
 
-let configFile = "dev.js";
+let configFile = "dev.js"
 
 if (process.env.NODE_ENV === "production") {
-  configFile = "prod.js";
+  configFile = "prod.js"
 }
 
-const config = require("../config/" + configFile);
+const config = require("../config/" + configFile)
 
-export default config;
+export default config

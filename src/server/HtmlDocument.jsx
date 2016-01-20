@@ -1,5 +1,5 @@
-import DocumentTitle from "react-document-title";
-import React, {Component, PropTypes} from "react";
+import DocumentTitle from "react-document-title"
+import React, {Component, PropTypes} from "react"
 
 
 class HtmlDocument extends Component {
@@ -13,7 +13,7 @@ class HtmlDocument extends Component {
     script: [],
   }
   render() {
-    const {appHtml, css, scripts} = this.props;
+    const {appHtml, css, scripts} = this.props
     return (
       <html>
         <head>
@@ -25,12 +25,12 @@ class HtmlDocument extends Component {
           <div dangerouslySetInnerHTML={{__html: appHtml}} id="app-mount-node" />
           {scripts.map((src, idx) => <script key={idx} src={src} />)}
           <script>
-            window.isPageRenderedOnServer = true;
+            window.isPageRenderedOnServer = true
           </script>
         </body>
       </html>
-    );
+    )
   }
 }
 
-export default HtmlDocument;
+export default HtmlDocument

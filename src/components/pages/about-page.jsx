@@ -1,8 +1,8 @@
-import React from "react";
-import url from "url";
+import React from "react"
+import url from "url"
 
-import BreadCrumb from "../breadcrumb";
-import config from "../../config";
+import BreadCrumb from "../breadcrumb"
+import config from "../../config"
 
 
 var AboutPage = React.createClass({
@@ -27,9 +27,9 @@ var AboutPage = React.createClass({
           </a>
         </p>
       </section>
-    );
+    )
   },
-});
+})
 
 
-export default AboutPage;
+export default AboutPage

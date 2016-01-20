@@ -1,15 +1,15 @@
-import {Navigation, State} from "react-router";
-import Cursor from "immutable/contrib/cursor";
-import Immutable from "immutable";
-import React, {PropTypes} from "react";
-import TextFilter from "react-text-filter";
+import {Navigation, State} from "react-router"
+import Cursor from "immutable/contrib/cursor"
+import Immutable from "immutable"
+import React, {PropTypes} from "react"
+import TextFilter from "react-text-filter"
 
-import {withoutAccents} from "../../accents";
-import AppPropTypes from "../../app-prop-types";
-import VariablesTree from "./variables-tree";
+import {withoutAccents} from "../../accents"
+import AppPropTypes from "../../app-prop-types"
+import VariablesTree from "./variables-tree"
 
 
-// const debug = require("debug")("app:VariablesPage");
+// const debug = require("debug")("app:VariablesPage")
 
 
 var VariablesPage = React.createClass({
@@ -28,10 +28,10 @@ var VariablesPage = React.createClass({
           node => node.update("variables", Immutable.List(), nodeVariables => nodeVariables.push(variable))
         ),
         Immutable.Map({opened: true})
-      );
+      )
   },
   filterVariablesTree(variablesTreeRoot, formulaType, nameInput, searchInDescription, variableType) {
-    var nameFilter = nameInput && nameInput.length ? nameInput.trim().toLowerCase() : null;
+    var nameFilter = nameInput && nameInput.length ? nameInput.trim().toLowerCase() : null
     var walk = variablesTree => {
       var isMatchingVariable = variable => (
         !nameFilter ||
@@ -46,32 +46,32 @@ var VariablesPage = React.createClass({
         variableType === "" ||
         variableType === "formula" && variable.get("formula") ||
         variableType === "input" && !variable.get("formula")
-      );
+      )
       if (variablesTree.has("children")) {
-        var newChildren = variablesTree.get("children").map(child => walk(child));
+        var newChildren = variablesTree.get("children").map(child => walk(child))
         return variablesTree.merge({
           children: newChildren,
           hasMatchingVariables: newChildren.some(node => node.get("hasMatchingVariables")),
-        });
+        })
       } else {
         var newVariables = variablesTree.get("variables").map(
           variable => variable.set("matches", isMatchingVariable(variable))
-        );
+        )
         return variablesTree.merge({
           hasMatchingVariables: newVariables.some(variable => variable.get("matches")),
           variables: newVariables,
-        });
+        })
       }
-    };
-    return walk(variablesTreeRoot);
+    }
+    return walk(variablesTreeRoot)
   },
   forceOpenCloseAll(variablesTree, newEntries) {
-    var newVariablesTree = variablesTree.merge(newEntries);
+    var newVariablesTree = variablesTree.merge(newEntries)
     if (variablesTree.has("children")) {
-      var newChildren = newVariablesTree.get("children").map(child => this.forceOpenCloseAll(child, newEntries));
-      newVariablesTree = newVariablesTree.set("children", newChildren);
+      var newChildren = newVariablesTree.get("children").map(child => this.forceOpenCloseAll(child, newEntries))
+      newVariablesTree = newVariablesTree.set("children", newChildren)
     }
-    return newVariablesTree;
+    return newVariablesTree
   },
   getInitialState() {
     const emptyValuesState = {
@@ -79,88 +79,88 @@ var VariablesPage = React.createClass({
       nameInput: "",
       searchInDescription: "",
       variableType: "",
-    };
-    const queryState = this.getStateFromQuery();
-    let initialState = Object.assign({}, emptyValuesState, queryState);
-    let variablesTree = this.buildVariablesTree(this.props.variables);
+    }
+    const queryState = this.getStateFromQuery()
+    let initialState = Object.assign({}, emptyValuesState, queryState)
+    let variablesTree = this.buildVariablesTree(this.props.variables)
     variablesTree = this.filterVariablesTree(
       variablesTree,
       initialState.formulaType,
       initialState.nameInput,
       initialState.searchInDescription,
       initialState.variableType
-    );
-    initialState = Object.assign(initialState, {variablesTree});
-    return initialState;
+    )
+    initialState = Object.assign(initialState, {variablesTree})
+    return initialState
   },
   getQueryFromState() {
-    const {formulaType, nameInput, searchInDescription, variableType} = this.state;
-    let query = {};
+    const {formulaType, nameInput, searchInDescription, variableType} = this.state
+    let query = {}
     if (variableType === "formula" && formulaType) {
-      query.formula_type = formulaType;
+      query.formula_type = formulaType
     }
     if (nameInput) {
-      query.name = nameInput;
+      query.name = nameInput
     }
     if (searchInDescription) {
-      query.search_in_description = searchInDescription;
+      query.search_in_description = searchInDescription
     }
     if (variableType) {
-      query.variable_type = variableType;
+      query.variable_type = variableType
     }
-    return query;
+    return query
   },
   getStateFromQuery() {
-    const toBoolean = (str) => /^true|t|yes|y|1$/i.test(str);
-    const {formula_type, name, search_in_description, variable_type} = this.getQuery();
+    const toBoolean = (str) => /^true|t|yes|y|1$/i.test(str)
+    const {formula_type, name, search_in_description, variable_type} = this.getQuery()
     return {
       formulaType: formula_type || "",
       nameInput: name || "",
       searchInDescription: toBoolean(search_in_description),
       variableType: variable_type || "",
-    };
+    }
   },
   handleCursorUpdate(newVariablesTree) {
-    this.setState({variablesTree: newVariablesTree});
+    this.setState({variablesTree: newVariablesTree})
   },
   handleNameChange(nameInput) {
-    const {formulaType, searchInDescription, variablesTree, variableType} = this.state;
+    const {formulaType, searchInDescription, variablesTree, variableType} = this.state
     this.setState({
       nameInput,
       variablesTree: this.filterVariablesTree(variablesTree, formulaType, nameInput, searchInDescription, variableType),
-    }, this.updateQueryFromState);
+    }, this.updateQueryFromState)
   },
   handleFormulaTypeChange(event) {
-    const formulaType = event.target.value;
-    const {nameInput, searchInDescription, variablesTree, variableType} = this.state;
+    const formulaType = event.target.value
+    const {nameInput, searchInDescription, variablesTree, variableType} = this.state
     this.setState({
       formulaType,
       variablesTree: this.filterVariablesTree(variablesTree, formulaType, nameInput, searchInDescription, variableType),
-    }, this.updateQueryFromState);
+    }, this.updateQueryFromState)
   },
   handleSearchInDescription(event) {
-    const searchInDescription = event.target.checked;
-    const {formulaType, nameInput, variablesTree, variableType} = this.state;
+    const searchInDescription = event.target.checked
+    const {formulaType, nameInput, variablesTree, variableType} = this.state
     this.setState({
       searchInDescription,
       variablesTree: this.filterVariablesTree(variablesTree, formulaType, nameInput, searchInDescription, variableType),
-    }, this.updateQueryFromState);
+    }, this.updateQueryFromState)
   },
   handleVariablesTreeCloseAll() {
-    var newVariablesTree = this.forceOpenCloseAll(this.state.variablesTree, {opened: false});
-    this.setState({variablesTree: newVariablesTree});
+    var newVariablesTree = this.forceOpenCloseAll(this.state.variablesTree, {opened: false})
+    this.setState({variablesTree: newVariablesTree})
   },
   handleVariablesTreeOpenAll() {
-    var newVariablesTree = this.forceOpenCloseAll(this.state.variablesTree, {opened: true});
-    this.setState({variablesTree: newVariablesTree});
+    var newVariablesTree = this.forceOpenCloseAll(this.state.variablesTree, {opened: true})
+    this.setState({variablesTree: newVariablesTree})
   },
   handleVariableTypeChange(event) {
-    const variableType = event.target.value;
-    const {formulaType, nameInput, searchInDescription, variablesTree} = this.state;
+    const variableType = event.target.value
+    const {formulaType, nameInput, searchInDescription, variablesTree} = this.state
     this.setState({
       variableType,
       variablesTree: this.filterVariablesTree(variablesTree, formulaType, nameInput, searchInDescription, variableType),
-    }, this.updateQueryFromState);
+    }, this.updateQueryFromState)
   },
   render() {
     return (
@@ -169,7 +169,7 @@ var VariablesPage = React.createClass({
         <hr />
         {this.renderVariablesTree()}
       </div>
-    );
+    )
   },
   renderSearchForm() {
     return (
@@ -306,10 +306,10 @@ var VariablesPage = React.createClass({
           }
         </div>
       </form>
-    );
+    )
   },
   renderVariablesTree() {
-    const {countryPackageGitHeadSha} = this.props;
+    const {countryPackageGitHeadSha} = this.props
     return (
       <div>
         <div style={{marginBottom: 10, marginTop: 10}}>
@@ -329,18 +329,18 @@ var VariablesPage = React.createClass({
           cursor={Cursor.from(this.state.variablesTree, this.handleCursorUpdate)}
         />
       </div>
-    );
+    )
   },
   updateQueryFromState() {
     // Browser only method.
-    const query = this.getQuery();
-    const permanentQuery = {api_url: query.api_url};
-    const stateQuery = this.getQueryFromState();
-    const newQuery = Object.assign({}, permanentQuery, stateQuery);
-    const path = this.makePath(this.getPathname(), this.getParams(), newQuery);
-    window.history.replaceState({path}, "", path);
+    const query = this.getQuery()
+    const permanentQuery = {api_url: query.api_url}
+    const stateQuery = this.getQueryFromState()
+    const newQuery = Object.assign({}, permanentQuery, stateQuery)
+    const path = this.makePath(this.getPathname(), this.getParams(), newQuery)
+    window.history.replaceState({path}, "", path)
   },
-});
+})
 
 
-export default VariablesPage;
+export default VariablesPage

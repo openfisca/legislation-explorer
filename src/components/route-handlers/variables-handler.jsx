@@ -1,10 +1,10 @@
-import DocumentTitle from "react-document-title";
-import React, {PropTypes} from "react";
+import DocumentTitle from "react-document-title"
+import React, {PropTypes} from "react"
 
-import AppPropTypes from "../../app-prop-types";
-import BreadCrumb from "../breadcrumb";
-import VariablesPage from "../pages/variables-page";
-import webservices from "../../webservices";
+import AppPropTypes from "../../app-prop-types"
+import BreadCrumb from "../breadcrumb"
+import VariablesPage from "../pages/variables-page"
+import webservices from "../../webservices"
 
 
 var VariablesHandler = React.createClass({
@@ -22,14 +22,14 @@ var VariablesHandler = React.createClass({
   },
   statics: {
     fetchData(params, query) {
-      const apiBaseUrl = query && query.api_url;
-      return webservices.fetchVariables(apiBaseUrl);
+      const apiBaseUrl = query && query.api_url
+      return webservices.fetchVariables(apiBaseUrl)
     },
   },
   render() {
-    var {dataByRouteName, errorByRouteName} = this.props;
-    var error = errorByRouteName && errorByRouteName.variables;
-    var data = dataByRouteName && dataByRouteName.variables;
+    var {dataByRouteName, errorByRouteName} = this.props
+    var error = errorByRouteName && errorByRouteName.variables
+    var data = dataByRouteName && dataByRouteName.variables
     return (
       <DocumentTitle title="Variables - Explorateur de la législation">
         <div>
@@ -42,31 +42,31 @@ var VariablesHandler = React.createClass({
           {this.renderContent(error, data)}
         </div>
       </DocumentTitle>
-    );
+    )
   },
   renderContent(error, data) {
-    var content;
+    var content
     if (error) {
       content = (
         <div className="alert alert-danger">
           Impossible de charger les données depuis l'API.
         </div>
-      );
+      )
     } else if (this.props.loading) {
       content = (
         <p>Chargement en cours…</p>
-      );
+      )
     } else if (data) {
       content = (
         <VariablesPage
           countryPackageGitHeadSha={data.country_package_git_head_sha}
           variables={data.variables}
         />
-      );
+      )
     }
-    return content;
+    return content
   },
-});
+})
 
 
-export default VariablesHandler;
+export default VariablesHandler

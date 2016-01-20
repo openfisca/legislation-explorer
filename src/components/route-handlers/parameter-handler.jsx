@@ -1,14 +1,14 @@
-import {Link, State} from "react-router";
-import DocumentTitle from "react-document-title";
-import Immutable from "immutable";
-import React, {PropTypes} from "react";
+import {Link, State} from "react-router"
+import DocumentTitle from "react-document-title"
+import Immutable from "immutable"
+import React, {PropTypes} from "react"
 
-import {NotFound} from "../../errors";
-import AppPropTypes from "../../app-prop-types";
-import BreadCrumb from "../breadcrumb";
-import NotFoundPage from "../pages/not-found-page";
-import ParameterPage from "../pages/parameter-page";
-import webservices from "../../webservices";
+import {NotFound} from "../../errors"
+import AppPropTypes from "../../app-prop-types"
+import BreadCrumb from "../breadcrumb"
+import NotFoundPage from "../pages/not-found-page"
+import ParameterPage from "../pages/parameter-page"
+import webservices from "../../webservices"
 
 
 var ParameterHandler = React.createClass({
@@ -34,42 +34,42 @@ var ParameterHandler = React.createClass({
   },
   statics: {
     fetchData(params, query) {
-      const apiBaseUrl = query && query.api_url;
+      const apiBaseUrl = query && query.api_url
       const parameterPromise = webservices.fetchParameters(apiBaseUrl)
         .then(
           responseData => {
-            const foundParameter = responseData.parameters.find(parameter => parameter.name === params.name);
+            const foundParameter = responseData.parameters.find(parameter => parameter.name === params.name)
             if (!foundParameter) {
-              throw new NotFound(`parameter \"${params.name}\" not found`);
+              throw new NotFound(`parameter \"${params.name}\" not found`)
             }
-            return Object.assign({}, responseData, {parameter: foundParameter});
+            return Object.assign({}, responseData, {parameter: foundParameter})
           }
-        );
-      const variablesPromise = webservices.fetchVariables(apiBaseUrl);
-      var dataByPromiseName = {};
+        )
+      const variablesPromise = webservices.fetchVariables(apiBaseUrl)
+      var dataByPromiseName = {}
       return Promise.all(
         [
-          parameterPromise.then(data => { dataByPromiseName.parameter = data; }),
-          variablesPromise.then(data => { dataByPromiseName.variables = data; }),
+          parameterPromise.then(data => { dataByPromiseName.parameter = data }),
+          variablesPromise.then(data => { dataByPromiseName.variables = data }),
         ]
-      ).then(() => dataByPromiseName);
+      ).then(() => dataByPromiseName)
     },
   },
   getHyphenatedName(name) {
     var hyphenate = (text, separator) => Immutable.List(text.split(separator))
-      .interpose(<span>.<wbr /></span>).toJS();
-    var hyphenatedName = hyphenate(name, ".").map((name_fragment, idx) => <span key={idx}>{name_fragment}</span>);
-    return hyphenatedName;
+      .interpose(<span>.<wbr /></span>).toJS()
+    var hyphenatedName = hyphenate(name, ".").map((name_fragment, idx) => <span key={idx}>{name_fragment}</span>)
+    return hyphenatedName
   },
   getNotFoundMessage() {
-    return "Paramètre non trouvée";
+    return "Paramètre non trouvée"
   },
   render() {
-    var name = this.getParams().name;
-    var hyphenatedName = this.getHyphenatedName(name);
-    var {dataByRouteName, errorByRouteName} = this.props;
-    var error = errorByRouteName && errorByRouteName.parameter;
-    var dataByPromiseName = dataByRouteName && dataByRouteName.parameter;
+    var name = this.getParams().name
+    var hyphenatedName = this.getHyphenatedName(name)
+    var {dataByRouteName, errorByRouteName} = this.props
+    var error = errorByRouteName && errorByRouteName.parameter
+    var dataByPromiseName = dataByRouteName && dataByRouteName.parameter
     return (
       <DocumentTitle title={`${name} - Explorateur de la législation`}>
         <div>
@@ -78,7 +78,7 @@ var ParameterHandler = React.createClass({
           {this.renderContent(dataByPromiseName, error)}
         </div>
       </DocumentTitle>
-    );
+    )
   },
   renderBreadCrumb(error, hyphenatedName) {
     return (
@@ -90,12 +90,12 @@ var ParameterHandler = React.createClass({
           {error instanceof NotFound ? this.getNotFoundMessage() : hyphenatedName}
         </li>
       </BreadCrumb>
-    );
+    )
   },
   renderContent(dataByPromiseName, error) {
-    var content;
+    var content
     if (error) {
-      var name = this.getParams().name;
+      var name = this.getParams().name
       content = error instanceof NotFound ? (
         <NotFoundPage message={this.getNotFoundMessage()}>
           <div className="alert alert-danger">
@@ -109,15 +109,15 @@ var ParameterHandler = React.createClass({
         <div className="alert alert-danger">
           Impossible de charger les données depuis l'API.
         </div>
-      );
+      )
     } else if (this.props.loading) {
       content = (
         <p>Chargement en cours…</p>
-      );
+      )
     } else if (dataByPromiseName) {
-      const parameterPromiseData = dataByPromiseName.parameter;
-      const variablesPromiseData = dataByPromiseName.variables;
-      const computedVariables = variablesPromiseData.variables.filter(variable => variable.formula);
+      const parameterPromiseData = dataByPromiseName.parameter
+      const variablesPromiseData = dataByPromiseName.variables
+      const computedVariables = variablesPromiseData.variables.filter(variable => variable.formula)
       content = (
         <ParameterPage
           computedVariables={computedVariables}
@@ -126,9 +126,9 @@ var ParameterHandler = React.createClass({
           parameter={parameterPromiseData.parameter}
           parametersUrlPath={parameterPromiseData.parameters_file_path}
         />
-      );
+      )
     }
-    return content;
+    return content
   },
   renderPageHeader(error, hyphenatedName) {
     return (
@@ -149,9 +149,9 @@ var ParameterHandler = React.createClass({
           )
         }
       </div>
-    );
+    )
   },
-});
+})
 
 
-export default ParameterHandler;
+export default ParameterHandler

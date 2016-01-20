@@ -1,7 +1,7 @@
-import {Link} from "react-router";
-import React from "react";
+import {Link} from "react-router"
+import React from "react"
 
-import BreadCrumb from "../breadcrumb";
+import BreadCrumb from "../breadcrumb"
 
 
 var HomePage = React.createClass({
@@ -39,9 +39,9 @@ var HomePage = React.createClass({
           </div>
         </div>
       </section>
-    );
+    )
   },
-});
+})
 
 
-export default HomePage;
+export default HomePage

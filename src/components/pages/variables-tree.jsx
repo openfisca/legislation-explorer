@@ -1,12 +1,12 @@
-import {Link} from "react-router";
-import classNames from "classnames";
-import ImmutableRenderMixin from "react-immutable-render-mixin";
-import React, {PropTypes} from "react";
+import {Link} from "react-router"
+import classNames from "classnames"
+import ImmutableRenderMixin from "react-immutable-render-mixin"
+import React, {PropTypes} from "react"
 
-import GitHubLink from "../github-link";
+import GitHubLink from "../github-link"
 
 
-// const debug = require("debug")("app:VariablesTree");
+// const debug = require("debug")("app:VariablesTree")
 
 
 var VariablesTree = React.createClass({
@@ -16,15 +16,15 @@ var VariablesTree = React.createClass({
     cursor: PropTypes.object.isRequired,
   },
   handleChildClick(event, childName) {
-    event.preventDefault();
-    var {cursor} = this.props;
-    var openedPath = ["children", childName, "opened"];
-    cursor.updateIn(openedPath, opened => !(opened || typeof opened === "undefined"));
+    event.preventDefault()
+    var {cursor} = this.props
+    var openedPath = ["children", childName, "opened"]
+    cursor.updateIn(openedPath, opened => !(opened || typeof opened === "undefined"))
   },
   render() {
-    var {cursor} = this.props;
-    var children = cursor.get("children");
-    var variables = cursor.get("variables");
+    var {cursor} = this.props
+    var children = cursor.get("children")
+    var variables = cursor.get("variables")
     return (
       <div>
         {
@@ -44,10 +44,10 @@ var VariablesTree = React.createClass({
           )
         }
       </div>
-    );
+    )
   },
   renderChild(childName, child, idx) {
-    var isOpened = child.get("opened") || typeof child.get("opened") === "undefined";
+    var isOpened = child.get("opened") || typeof child.get("opened") === "undefined"
     return (
       <div className={classNames({hide: !child.get("hasMatchingVariables")})} key={idx}>
         <a href="#" onClick={event => this.handleChildClick(event, childName)}>
@@ -67,11 +67,11 @@ var VariablesTree = React.createClass({
           />
         </div>
       </div>
-    );
+    )
   },
   renderVariableListItem(variable, idx) {
-    const {countryPackageGitHeadSha} = this.props;
-    const {label, line_number, matches, module, name} = variable;
+    const {countryPackageGitHeadSha} = this.props
+    const {label, line_number, matches, module, name} = variable
     return (
       <li className={classNames({hide: !matches})} key={idx}>
         <Link params={variable} to="variable">{name}</Link>
@@ -92,9 +92,9 @@ var VariablesTree = React.createClass({
           )
         }
       </li>
-    );
+    )
   },
-});
+})
 
 
-export default VariablesTree;
+export default VariablesTree

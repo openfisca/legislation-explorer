@@ -1,9 +1,9 @@
-import {Link} from "react-router";
-import classNames from "classnames";
-import React, {PropTypes} from "react";
-import url from "url";
+import {Link} from "react-router"
+import classNames from "classnames"
+import React, {PropTypes} from "react"
+import url from "url"
 
-import config from "../config";
+import config from "../config"
 
 
 var BreadCrumb = React.createClass({
@@ -30,9 +30,9 @@ var BreadCrumb = React.createClass({
         </li>
         {this.props.children}
       </ul>
-    );
+    )
   },
-});
+})
 
 
-export default BreadCrumb;
+export default BreadCrumb

@@ -1,6 +1,6 @@
-import React, {PropTypes} from "react";
+import React, {PropTypes} from "react"
 
-import ExternalLink from "./external-link";
+import ExternalLink from "./external-link"
 
 
 var GitHubLink = React.createClass({
@@ -16,25 +16,25 @@ var GitHubLink = React.createClass({
     title: PropTypes.string,
   },
   buildHref() {
-    const {blobUrlPath, commitReference, endLineNumber, lineNumber} = this.props;
-    var line = "";
+    const {blobUrlPath, commitReference, endLineNumber, lineNumber} = this.props
+    var line = ""
     if (lineNumber) {
-      line = `#L${lineNumber}`;
+      line = `#L${lineNumber}`
     }
     if (endLineNumber) {
-      line = `${line}-L${endLineNumber}`;
+      line = `${line}-L${endLineNumber}`
     }
-    return `https://github.com/openfisca/openfisca-france/blob/${commitReference}/${blobUrlPath}${line}`;
+    return `https://github.com/openfisca/openfisca-france/blob/${commitReference}/${blobUrlPath}${line}`
   },
   getDefaultProps() {
     return {
       commitReference: "master",
       text: "GitHub",
       title: "Voir le fichier source sur GitHub",
-    };
+    }
   },
   render() {
-    const {text, title} = this.props;
+    const {text, title} = this.props
     return (
       <ExternalLink
         className={this.props.className}
@@ -44,9 +44,9 @@ var GitHubLink = React.createClass({
       >
         {this.props.children ? this.props.children(text) : text}
       </ExternalLink>
-    );
+    )
   },
-});
+})
 
 
-export default GitHubLink;
+export default GitHubLink

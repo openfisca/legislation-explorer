@@ -1,16 +1,16 @@
-import {FormattedDate, FormattedMessage} from "react-intl";
-import {IntlMixin} from "react-intl";
-import {Link} from "react-router";
-import {sortAlphabeticallyBy} from "trine/iterable/sortAlphabeticallyBy";
-import {to} from "trine/iterable/to";
-import moment from "moment";
-import React, {PropTypes} from "react";
+import {FormattedDate, FormattedMessage} from "react-intl"
+import {IntlMixin} from "react-intl"
+import {Link} from "react-router"
+import {sortAlphabeticallyBy} from "trine/iterable/sortAlphabeticallyBy"
+import {to} from "trine/iterable/to"
+import moment from "moment"
+import React, {PropTypes} from "react"
 
-import AppPropTypes from "../../app-prop-types";
-import Collapse from "../collapse";
-import Dropdown from "../dropdown";
-import GitHubLink from "../github-link";
-import List from "../list";
+import AppPropTypes from "../../app-prop-types"
+import Collapse from "../collapse"
+import Dropdown from "../dropdown"
+import GitHubLink from "../github-link"
+import List from "../list"
 
 
 var ParameterPage = React.createClass({
@@ -24,112 +24,112 @@ var ParameterPage = React.createClass({
   },
   findLastKnownStartInstant(brackets) {
     return brackets.reduce((memo, bracket) => {
-      const bracketLastRateStart = bracket.rate[0].start;
-      const bracketLastThresholdStart = bracket.threshold[0].start;
+      const bracketLastRateStart = bracket.rate[0].start
+      const bracketLastThresholdStart = bracket.threshold[0].start
       var bracketLastInstant = bracketLastRateStart > bracketLastThresholdStart ?
         bracketLastRateStart :
-        bracketLastThresholdStart;
+        bracketLastThresholdStart
       if (memo && memo > bracketLastInstant) {
-        bracketLastInstant = memo;
+        bracketLastInstant = memo
       }
-      return bracketLastInstant;
-    }, null);
+      return bracketLastInstant
+    }, null)
   },
   getDatedScale(brackets, instant) {
-    const isBetween = item => item.start <= instant && item.stop >= instant;
+    const isBetween = item => item.start <= instant && item.stop >= instant
     const datedScale = brackets.reduce((memo, bracket) => {
-      const rate = bracket.rate.find(isBetween);
-      const threshold = bracket.threshold.find(isBetween);
+      const rate = bracket.rate.find(isBetween)
+      const threshold = bracket.threshold.find(isBetween)
       if (rate && threshold) {
-        memo.push({rate, threshold});
+        memo.push({rate, threshold})
       }
-      return memo;
-    }, []);
-    return datedScale.length ? datedScale : null;
+      return memo
+    }, [])
+    return datedScale.length ? datedScale : null
   },
   getInitialState() {
-    const {parameter} = this.props;
-    const type = parameter["@type"];
+    const {parameter} = this.props
+    const type = parameter["@type"]
     if (type === "Scale") {
-      var datedScaleInstant = this.getTodayInstant();
-      const {brackets} = parameter;
-      const datedScale = this.getDatedScale(brackets, datedScaleInstant);
+      var datedScaleInstant = this.getTodayInstant()
+      const {brackets} = parameter
+      const datedScale = this.getDatedScale(brackets, datedScaleInstant)
       if (!datedScale) {
-        const lastKnownStartInstant = this.findLastKnownStartInstant(brackets);
-        datedScaleInstant = lastKnownStartInstant;
+        const lastKnownStartInstant = this.findLastKnownStartInstant(brackets)
+        datedScaleInstant = lastKnownStartInstant
       }
       return {
         datedScaleInstant,
         datedScaleInstantText: this.formatDate(datedScaleInstant),
-      };
+      }
     } else {
-      return {};
+      return {}
     }
   },
   getTodayInstant() {
-    return new Date().toJSON().slice(0, 10);
+    return new Date().toJSON().slice(0, 10)
   },
   handleDatedScaleInstantApply() {
-    const {datedScaleInstantText} = this.state;
-    const datedScaleInstant = moment(datedScaleInstantText, "DD/MM/YYYY").format("YYYY-MM-DD");
-    this.setState({datedScaleInstant});
+    const {datedScaleInstantText} = this.state
+    const datedScaleInstant = moment(datedScaleInstantText, "DD/MM/YYYY").format("YYYY-MM-DD")
+    this.setState({datedScaleInstant})
   },
   handleDatedScaleInstantSet(datedScaleInstant) {
     this.setState({
       datedScaleInstant,
       datedScaleInstantText: this.formatDate(datedScaleInstant),
-    });
+    })
   },
   handleDatedScaleInstantSubmit(event) {
-    event.preventDefault();
-    this.handleDatedScaleInstantApply();
+    event.preventDefault()
+    this.handleDatedScaleInstantApply()
   },
   handleDatedScaleInstantTextChange(event) {
-    const datedScaleInstantText = event.target.value;
-    this.setState({datedScaleInstantText});
+    const datedScaleInstantText = event.target.value
+    this.setState({datedScaleInstantText})
   },
   handleDatedScaleLastKnownInstantClick() {
-    const {parameter} = this.props;
-    const {brackets} = parameter;
-    const datedScaleInstant = this.findLastKnownStartInstant(brackets);
+    const {parameter} = this.props
+    const {brackets} = parameter
+    const datedScaleInstant = this.findLastKnownStartInstant(brackets)
     this.setState({
       datedScaleInstant,
       datedScaleInstantText: this.formatDate(datedScaleInstant),
-    });
+    })
   },
   handleDatedScaleTodayClick() {
-    const datedScaleInstant = this.getTodayInstant();
+    const datedScaleInstant = this.getTodayInstant()
     this.setState({
       datedScaleInstant,
       datedScaleInstantText: this.formatDate(datedScaleInstant),
-    });
+    })
   },
   isConsumerFormula(formula, parameter) {
-    return formula.parameters && formula.parameters.length && formula.parameters.includes(parameter.name);
+    return formula.parameters && formula.parameters.length && formula.parameters.includes(parameter.name)
   },
   isConsumerVariable(variable, parameter) {
-    const {formula} = variable;
+    const {formula} = variable
     if (!formula) {
-      return false;
+      return false
     }
     switch (formula["@type"]) {
       case "SimpleFormula":
-        return this.isConsumerFormula(formula, parameter);
+        return this.isConsumerFormula(formula, parameter)
       case "DatedFormula":
-        return formula.dated_formulas.some(dated_formula => this.isConsumerFormula(dated_formula.formula, parameter));
+        return formula.dated_formulas.some(dated_formula => this.isConsumerFormula(dated_formula.formula, parameter))
       case "EntityToPerson":
       case "PersonToEntity":
         // Ignore those formula types since they have an implicit formula, not using any parameter of the legislation.
-        return false;
+        return false
       default:
-        console.error("Unexpected formula type:", formula["@type"]);
-        return false;
+        console.error("Unexpected formula type:", formula["@type"])
+        return false
     }
   },
   render() {
-    const {parameter} = this.props;
-    const {brackets, description, values} = parameter;
-    const type = parameter["@type"];
+    const {parameter} = this.props
+    const {brackets, description, values} = parameter
+    const type = parameter["@type"]
     return (
       <div>
         <p>{description}</p>
@@ -145,11 +145,11 @@ var ParameterPage = React.createClass({
           </div>
         </div>
       </div>
-    );
+    )
   },
   renderBracket(bracket, idx) {
-    var {parameter} = this.props;
-    var {brackets, format, unit} = parameter;
+    var {parameter} = this.props
+    var {brackets, format, unit} = parameter
     return (
       <div>
         <dl className="dl-horizontal">
@@ -168,18 +168,18 @@ var ParameterPage = React.createClass({
           )
         }
       </div>
-    );
+    )
   },
   renderConsumerVariables() {
-    const {computedVariables, parameter} = this.props;
-    const consumerVariables = computedVariables.filter((variable) => this.isConsumerVariable(variable, parameter));
+    const {computedVariables, parameter} = this.props
+    const consumerVariables = computedVariables.filter((variable) => this.isConsumerVariable(variable, parameter))
     function prop(propName) {
       return function() {
-        return this[propName];
-      };
+        return this[propName]
+      }
     }
     function sortByName() {
-      return this::sortAlphabeticallyBy(prop("name"))::to(Array);
+      return this::sortAlphabeticallyBy(prop("name"))::to(Array)
     }
     return [
       <dt key="dt">Variables appelantes</dt>,
@@ -194,11 +194,11 @@ var ParameterPage = React.createClass({
           )
         }
       </dd>,
-    ];
+    ]
   },
   renderDatedScale(datedScale) {
-    const {countryPackageGitHeadSha, parameter, parametersUrlPath} = this.props;
-    const {format, unit} = parameter;
+    const {countryPackageGitHeadSha, parameter, parametersUrlPath} = this.props
+    const {format, unit} = parameter
     return (
       <div>
         <table className="table table-bordered table-hover table-striped">
@@ -211,7 +211,7 @@ var ParameterPage = React.createClass({
           <tbody>
             {
               datedScale.map((datedBracket, idx) => {
-                const previousValue = idx > 0 ? datedScale[idx - 1].threshold.value + 1 : null;
+                const previousValue = idx > 0 ? datedScale[idx - 1].threshold.value + 1 : null
                 return (
                   <tr key={idx}>
                     <td style={{borderRightStyle: "dashed", width: "25%"}}>
@@ -265,19 +265,19 @@ var ParameterPage = React.createClass({
                       </div>
                     </td>
                   </tr>
-                );
+                )
               })
             }
           </tbody>
         </table>
       </div>
-    );
+    )
   },
   renderFloatValue(value) {
-    const decimalPartLength = 3;
-    var [integerPart, decimalPart] = value.toFixed(decimalPartLength).split(".");
+    const decimalPartLength = 3
+    var [integerPart, decimalPart] = value.toFixed(decimalPartLength).split(".")
     if (decimalPart === "0".repeat(decimalPartLength)) {
-      decimalPart = null;
+      decimalPart = null
     }
     return (
       <span>
@@ -291,23 +291,23 @@ var ParameterPage = React.createClass({
         {decimalPart && "."}
         {decimalPart}
       </span>
-    );
+    )
   },
   renderParameter(values) {
-    var {parameter} = this.props;
-    var {format, unit} = parameter;
+    var {parameter} = this.props
+    var {format, unit} = parameter
     return (
       <div>
         <h4 style={{marginBottom: "2em"}}>Valeurs</h4>
         {this.renderStartStopValues(values, format, unit)}
       </div>
-    );
+    )
   },
   renderParameterDefinitionsList() {
-    var {countryPackageGitHeadSha, currency, parameter, parametersUrlPath} = this.props;
-    var {brackets, description, end_line_number, format, start_line_number, unit, values} = parameter;
-    var type = parameter["@type"];
-    var fileName = parametersUrlPath.split("/").splice(-1);
+    var {countryPackageGitHeadSha, currency, parameter, parametersUrlPath} = this.props
+    var {brackets, description, end_line_number, format, start_line_number, unit, values} = parameter
+    var type = parameter["@type"]
+    var fileName = parametersUrlPath.split("/").splice(-1)
     return (
       <dl className="dl-horizontal">
         <dt>Type</dt>
@@ -348,13 +348,13 @@ var ParameterPage = React.createClass({
         </dd>
         {this.renderConsumerVariables()}
       </dl>
-    );
+    )
   },
   renderScale(brackets) {
-    const {datedScaleInstant, datedScaleInstantText} = this.state;
-    const datedScale = this.getDatedScale(brackets, datedScaleInstant);
-    const todayInstant = this.getTodayInstant();
-    const todayDatedScale = this.getDatedScale(brackets, todayInstant);
+    const {datedScaleInstant, datedScaleInstantText} = this.state
+    const datedScale = this.getDatedScale(brackets, datedScaleInstant)
+    const todayInstant = this.getTodayInstant()
+    const todayDatedScale = this.getDatedScale(brackets, todayInstant)
     return (
       <div>
         <h4 id="bareme" style={{marginBottom: "2em"}}>
@@ -418,14 +418,14 @@ var ParameterPage = React.createClass({
           </List>
         </Collapse>
       </div>
-    );
+    )
   },
   renderStartStopValue(valueJson, format, unit, idx) {
-    const {end_line_number, start, start_line_number, stop, value} = valueJson;
-    const {countryPackageGitHeadSha, parameter, parametersUrlPath} = this.props;
-    const type = parameter["@type"];
-    const formattedStartDate = <FormattedDate format="short" value={start} />;
-    const formattedStopDate = <FormattedDate format="short" value={stop} />;
+    const {end_line_number, start, start_line_number, stop, value} = valueJson
+    const {countryPackageGitHeadSha, parameter, parametersUrlPath} = this.props
+    const type = parameter["@type"]
+    const formattedStartDate = <FormattedDate format="short" value={start} />
+    const formattedStopDate = <FormattedDate format="short" value={stop} />
     const startComponent = type === "Scale" ? (
       <a
         href="#bareme"
@@ -434,7 +434,7 @@ var ParameterPage = React.createClass({
       >
         {formattedStartDate}
       </a>
-    ) : formattedStartDate;
+    ) : formattedStartDate
     const stopComponent = type === "Scale" ? (
       <a
         href="#bareme"
@@ -443,7 +443,7 @@ var ParameterPage = React.createClass({
       >
         {formattedStopDate}
       </a>
-    ) : formattedStopDate;
+    ) : formattedStopDate
     return (
       <tr key={idx}>
         <td>
@@ -465,7 +465,7 @@ var ParameterPage = React.createClass({
           </GitHubLink>
         </td>
       </tr>
-    );
+    )
   },
   renderStartStopValues(values, format, unit) {
     return (
@@ -474,10 +474,10 @@ var ParameterPage = React.createClass({
           {values.map((value, idx) => this.renderStartStopValue(value, format, unit, idx))}
         </tbody>
       </table>
-    );
+    )
   },
   renderValue(value, format, unit) {
-    var {currency} = this.props;
+    var {currency} = this.props
     return (
       <span>
         <samp>
@@ -495,9 +495,9 @@ var ParameterPage = React.createClass({
           )
         }
       </span>
-    );
+    )
   },
-});
+})
 
 
-export default ParameterPage;
+export default ParameterPage

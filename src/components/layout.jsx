@@ -1,7 +1,7 @@
-import DocumentTitle from "react-document-title";
-import React, {PropTypes} from "react";
+import DocumentTitle from "react-document-title"
+import React, {PropTypes} from "react"
 
-import NavBar from "./navbar";
+import NavBar from "./navbar"
 
 
 var Layout = React.createClass({
@@ -19,9 +19,9 @@ var Layout = React.createClass({
           </div>
         </div>
       </DocumentTitle>
-    );
+    )
   },
-});
+})
 
 
-export default Layout;
+export default Layout

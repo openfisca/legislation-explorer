@@ -1,12 +1,12 @@
-import {Link} from "react-router";
-import {Navigation, State} from "react-router";
-import Immutable from "immutable";
-import React, {PropTypes} from "react";
-import TextFilter from "react-text-filter";
+import {Link} from "react-router"
+import {Navigation, State} from "react-router"
+import Immutable from "immutable"
+import React, {PropTypes} from "react"
+import TextFilter from "react-text-filter"
 
-import {withoutAccents} from "../../accents";
-import AppPropTypes from "../../app-prop-types";
-import List from "../list";
+import {withoutAccents} from "../../accents"
+import AppPropTypes from "../../app-prop-types"
+import List from "../list"
 
 
 var ParametersPage = React.createClass({
@@ -15,8 +15,8 @@ var ParametersPage = React.createClass({
     parameters: PropTypes.arrayOf(AppPropTypes.parameterOrScale).isRequired,
   },
   filterParameters() {
-    const {nameInput, parameterType, searchInDescription} = this.state;
-    const nameFilter = nameInput && nameInput.length ? nameInput.trim().toLowerCase() : null;
+    const {nameInput, parameterType, searchInDescription} = this.state
+    const nameFilter = nameInput && nameInput.length ? nameInput.trim().toLowerCase() : null
     const isMatchingParameter = (parameter) => (
       !nameFilter ||
       parameter.get("name").toLowerCase().includes(nameFilter) ||
@@ -26,55 +26,55 @@ var ParametersPage = React.createClass({
     ) && (
       parameterType === "" ||
       parameterType === parameter.get("@type")
-    );
+    )
     return Immutable.fromJS(this.props.parameters)
       .filter(isMatchingParameter)
       .sortBy(parameter => parameter.get("name"))
-      .toJS();
+      .toJS()
   },
   getInitialState() {
     const emptyValuesState = {
       nameInput: "",
       parameterType: "",
       searchInDescription: "",
-    };
-    const queryState = this.getStateFromQuery();
-    const initialState = Object.assign({}, emptyValuesState, queryState);
-    return initialState;
+    }
+    const queryState = this.getStateFromQuery()
+    const initialState = Object.assign({}, emptyValuesState, queryState)
+    return initialState
   },
   getQueryFromState() {
-    const {nameInput, parameterType, searchInDescription} = this.state;
-    let query = {};
+    const {nameInput, parameterType, searchInDescription} = this.state
+    let query = {}
     if (nameInput) {
-      query.name = nameInput;
+      query.name = nameInput
     }
     if (parameterType) {
-      query.parameter_type = parameterType;
+      query.parameter_type = parameterType
     }
     if (searchInDescription) {
-      query.search_in_description = searchInDescription;
+      query.search_in_description = searchInDescription
     }
-    return query;
+    return query
   },
   getStateFromQuery() {
-    const toBoolean = (str) => /^true|t|yes|y|1$/i.test(str);
-    const {name, parameter_type, search_in_description} = this.getQuery();
+    const toBoolean = (str) => /^true|t|yes|y|1$/i.test(str)
+    const {name, parameter_type, search_in_description} = this.getQuery()
     return {
       nameInput: name || "",
       parameterType: parameter_type || "",
       searchInDescription: toBoolean(search_in_description),
-    };
+    }
   },
   handleNameChange(nameInput) {
-    this.setState({nameInput}, this.updateQueryFromState);
+    this.setState({nameInput}, this.updateQueryFromState)
   },
   handleParameterTypeChange(event) {
-    const parameterType = event.target.value;
-    this.setState({parameterType}, this.updateQueryFromState);
+    const parameterType = event.target.value
+    this.setState({parameterType}, this.updateQueryFromState)
   },
   handleSearchInDescription(event) {
-    const searchInDescription = event.target.checked;
-    this.setState({searchInDescription}, this.updateQueryFromState);
+    const searchInDescription = event.target.checked
+    this.setState({searchInDescription}, this.updateQueryFromState)
   },
   render() {
     return (
@@ -83,7 +83,7 @@ var ParametersPage = React.createClass({
         <hr />
         {this.renderParameters()}
       </div>
-    );
+    )
   },
   renderParameter(parameter) {
     return (
@@ -92,15 +92,15 @@ var ParametersPage = React.createClass({
         {" : "}
         {parameter.description}
       </span>
-    );
+    )
   },
   renderParameters() {
-    const filteredParameters = this.filterParameters();
+    const filteredParameters = this.filterParameters()
     return (
       <List items={filteredParameters} keyProperty="name">
         {this.renderParameter}
       </List>
-    );
+    )
   },
   renderSearchForm() {
     return (
@@ -171,18 +171,18 @@ var ParametersPage = React.createClass({
           </div>
         </div>
       </form>
-    );
+    )
   },
   updateQueryFromState() {
     // Browser only method.
-    const query = this.getQuery();
-    const permanentQuery = {api_url: query.api_url};
-    const stateQuery = this.getQueryFromState();
-    const newQuery = Object.assign({}, permanentQuery, stateQuery);
-    const path = this.makePath(this.getPathname(), this.getParams(), newQuery);
-    window.history.replaceState({path}, "", path);
+    const query = this.getQuery()
+    const permanentQuery = {api_url: query.api_url}
+    const stateQuery = this.getQueryFromState()
+    const newQuery = Object.assign({}, permanentQuery, stateQuery)
+    const path = this.makePath(this.getPathname(), this.getParams(), newQuery)
+    window.history.replaceState({path}, "", path)
   },
-});
+})
 
 
-export default ParametersPage;
+export default ParametersPage

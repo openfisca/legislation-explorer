@@ -1,5 +1,5 @@
-import hljs from "highlight.js/lib/highlight";
-import React, {PropTypes} from "react";
+import hljs from "highlight.js/lib/highlight"
+import React, {PropTypes} from "react"
 
 
 var Highlight = React.createClass({
@@ -8,19 +8,19 @@ var Highlight = React.createClass({
     language: PropTypes.string.isRequired,
   },
   componentDidMount() {
-    this.highlightCode();
+    this.highlightCode()
   },
   highlightCode() {
-    hljs.highlightBlock(this.getDOMNode());
+    hljs.highlightBlock(this.getDOMNode())
   },
   render() {
     return (
       <pre className={this.props.language}>
         {this.props.children}
       </pre>
-    );
+    )
   },
-});
+})
 
 
-export default Highlight;
+export default Highlight

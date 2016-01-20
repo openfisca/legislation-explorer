@@ -1,5 +1,5 @@
-import classNames from "classnames";
-import React, {PropTypes} from "react";
+import classNames from "classnames"
+import React, {PropTypes} from "react"
 
 
 var Collapse = React.createClass({
@@ -10,16 +10,16 @@ var Collapse = React.createClass({
   getInitialState() {
     return {
       opened: false,
-    };
+    }
   },
   handleTitleClick(event) {
-    event.preventDefault();
-    const {opened} = this.state;
-    this.setState({opened: !opened});
+    event.preventDefault()
+    const {opened} = this.state
+    this.setState({opened: !opened})
   },
   render() {
-    const {children, title} = this.props;
-    const {opened} = this.state;
+    const {children, title} = this.props
+    const {opened} = this.state
     return (
       <div>
         <div style={{marginBottom: "2em"}}>
@@ -34,9 +34,9 @@ var Collapse = React.createClass({
         </div>
         {opened && children}
       </div>
-    );
+    )
   },
-});
+})
 
 
-export default Collapse;
+export default Collapse

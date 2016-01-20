@@ -9,7 +9,7 @@ const intlData = {
     },
   },
   locales: "fr-FR",
-};
+}
 
 
 // shim for Intl needs to be loaded dynamically
@@ -18,14 +18,14 @@ const intlData = {
 function polyfillIntl(callback) {
   if (!window.Intl) {
     require(["intl/dist/Intl", "intl/locale-data/json/fr-FR.json"], ({Intl}, frJson) => {
-      Intl.__addLocaleData(frJson); // eslint-disable-line no-underscore-dangle
-      window.Intl = Intl;
-      callback();
-    });
+      Intl.__addLocaleData(frJson) // eslint-disable-line no-underscore-dangle
+      window.Intl = Intl
+      callback()
+    })
   } else {
-    process.nextTick(callback);
+    process.nextTick(callback)
   }
 }
 
 
-export default {intlData, polyfillIntl};
+export default {intlData, polyfillIntl}

@@ -1,14 +1,14 @@
 // Webpack config for creating the production bundle.
 
 // Register babel to have ES6 support on the server
-require("babel/register");
+require("babel/register")
 
-var path = require("path");
-var strip = require("strip-loader");
-var webpack = require("webpack");
+var path = require("path")
+var strip = require("strip-loader")
+var webpack = require("webpack")
 
-var assetsPath = path.join(__dirname, "../public/assets");
-var writeStats = require("./utils/write-stats");
+var assetsPath = path.join(__dirname, "../public/assets")
+var writeStats = require("./utils/write-stats")
 
 
 module.exports = {
@@ -62,7 +62,7 @@ module.exports = {
     }),
 
     // stats
-    function() { this.plugin("done", writeStats); },
+    function() { this.plugin("done", writeStats) },
 
   ],
-};
+}

@@ -1,5 +1,5 @@
-import DocumentTitle from "react-document-title";
-import React, {PropTypes} from "react";
+import DocumentTitle from "react-document-title"
+import React, {PropTypes} from "react"
 
 
 
@@ -11,19 +11,19 @@ var NotFoundPage = React.createClass({
   getDefaultProps() {
     return {
       message: "Page non trouvée",
-    };
+    }
   },
   render() {
-    var {children, message} = this.props;
+    var {children, message} = this.props
     return (
       <DocumentTitle title={`${message} - Explorateur de la législation`}>
         <div>
           {children}
         </div>
       </DocumentTitle>
-    );
+    )
   },
-});
+})
 
 
-export default NotFoundPage;
+export default NotFoundPage

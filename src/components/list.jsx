@@ -1,4 +1,4 @@
-import React, {PropTypes} from "react";
+import React, {PropTypes} from "react"
 
 
 var List = React.createClass({
@@ -9,7 +9,7 @@ var List = React.createClass({
     items: PropTypes.array.isRequired,
   },
   render() {
-    var {children, keyProperty, items, type} = this.props;
+    var {children, keyProperty, items, type} = this.props
     return (
       <ul className={type ? `list-${type}` : null} style={{marginBottom: type === "inline" && 0}}>
         {
@@ -21,9 +21,9 @@ var List = React.createClass({
           ))
         }
       </ul>
-    );
+    )
   },
-});
+})
 
 
-export default List;
+export default List

@@ -1,5 +1,5 @@
-import {Link} from "react-router";
-import React, {PropTypes} from "react";
+import {Link} from "react-router"
+import React, {PropTypes} from "react"
 
 
 var FormulaSource = React.createClass({
@@ -9,37 +9,37 @@ var FormulaSource = React.createClass({
   },
   getSourceFragments(source, inputVariableNames) {
     return inputVariableNames.reduce((memo, inputVariable) => {
-      var idx = 0;
+      var idx = 0
       return memo.reduce((fragmentMemo, fragment) => {
         if (fragment.source) {
-          const inputVariableFragments = this.getSourceFragmentsForInputVariable(fragment.source, inputVariable);
+          const inputVariableFragments = this.getSourceFragmentsForInputVariable(fragment.source, inputVariable)
           if (inputVariableFragments.length) {
-            fragmentMemo.splice(idx, 1, ...inputVariableFragments);
+            fragmentMemo.splice(idx, 1, ...inputVariableFragments)
           }
         }
-        idx += 1;
-        return fragmentMemo;
-      }, memo);
-    }, [{source}]);
+        idx += 1
+        return fragmentMemo
+      }, memo)
+    }, [{source}])
   },
   getSourceFragmentsForInputVariable(source, inputVariable) {
-    const regexp = new RegExp(`['"](${inputVariable})['"]`, "g");
-    var match;
-    var fragments = [];
+    const regexp = new RegExp(`['"](${inputVariable})['"]`, "g")
+    var match
+    var fragments = []
     while ((match = regexp.exec(source)) !== null) {
-      const index = match.index + 1;
+      const index = match.index + 1
       fragments = fragments.concat([
         {source: source.slice(0, index)},
         {inputVariable: source.slice(index, index + inputVariable.length)},
         {source: source.slice(index + inputVariable.length)},
-      ]);
+      ])
     }
-    return fragments;
+    return fragments
   },
   getSourceWithLinks(source, inputVariableNames) {
     const sourceFragments = inputVariableNames ?
       this.getSourceFragments(source, inputVariableNames) :
-      [{source}];
+      [{source}]
     return (
       <div>
         {
@@ -60,11 +60,11 @@ var FormulaSource = React.createClass({
           ) : null)
         }
       </div>
-    );
+    )
   },
   render() {
-    const {inputVariableNames} = this.props;
-    const source = this.props.children;
+    const {inputVariableNames} = this.props
+    const source = this.props.children
     return (
       <div style={{
         fontFamily: "monospace",
@@ -74,9 +74,9 @@ var FormulaSource = React.createClass({
       }}>
         {this.getSourceWithLinks(source, inputVariableNames)}
       </div>
-    );
+    )
   },
-});
+})
 
 
-export default FormulaSource;
+export default FormulaSource

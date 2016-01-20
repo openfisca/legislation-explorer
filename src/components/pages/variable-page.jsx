@@ -1,16 +1,16 @@
-import {FormattedDate, FormattedMessage} from "react-intl";
-import {Link} from "react-router";
-import {sortAlphabetically} from "trine/iterable/sortAlphabetically";
-import {sortAlphabeticallyBy} from "trine/iterable/sortAlphabeticallyBy";
-import {to} from "trine/iterable/to";
-import React, {PropTypes} from "react";
+import {FormattedDate, FormattedMessage} from "react-intl"
+import {Link} from "react-router"
+import {sortAlphabetically} from "trine/iterable/sortAlphabetically"
+import {sortAlphabeticallyBy} from "trine/iterable/sortAlphabeticallyBy"
+import {to} from "trine/iterable/to"
+import React, {PropTypes} from "react"
 
-import AppPropTypes from "../../app-prop-types";
-import ExternalLink from "../external-link";
-import FormulaSource from "../formula-source";
-import GitHubLink from "../github-link";
-import Highlight from "../highlight";
-import List from "../list";
+import AppPropTypes from "../../app-prop-types"
+import ExternalLink from "../external-link"
+import FormulaSource from "../formula-source"
+import GitHubLink from "../github-link"
+import Highlight from "../highlight"
+import List from "../list"
 
 
 var VariablePage = React.createClass({
@@ -21,21 +21,21 @@ var VariablePage = React.createClass({
     variable: AppPropTypes.variable.isRequired,
   },
   getParameterValue(parameter, instant) {
-    const type = parameter["@type"];
-    const isBetween = item => item.start <= instant && item.stop >= instant;
+    const type = parameter["@type"]
+    const isBetween = item => item.start <= instant && item.stop >= instant
     if (type === "Parameter") {
-      return (parameter.values.find(isBetween) || parameter.values[0]).value;
+      return (parameter.values.find(isBetween) || parameter.values[0]).value
     } else {
       // type === "Scale"
-      return null;
+      return null
     }
   },
   getTodayInstant() {
-    return new Date().toJSON().slice(0, 10);
+    return new Date().toJSON().slice(0, 10)
   },
   render() {
-    const {countryPackageGitHeadSha, variable} = this.props;
-    var {formula, label, line_number, module, name} = variable;
+    const {countryPackageGitHeadSha, variable} = this.props
+    var {formula, label, line_number, module, name} = variable
     return (
       <div>
         <p>
@@ -65,20 +65,20 @@ var VariablePage = React.createClass({
           )
         }
       </div>
-    );
+    )
   },
   renderConsumerVariables() {
-    const {computedVariables, variable} = this.props;
+    const {computedVariables, variable} = this.props
     const isConsumerVariable = variable2 => variable2.formula.input_variables &&
-      variable2.formula.input_variables.includes(variable.name);
-    const consumerVariables = computedVariables.filter(isConsumerVariable);
+      variable2.formula.input_variables.includes(variable.name)
+    const consumerVariables = computedVariables.filter(isConsumerVariable)
     function prop(propName) {
       return function() {
-        return this[propName];
-      };
+        return this[propName]
+      }
     }
     function sortByName() {
-      return this::sortAlphabeticallyBy(prop("name"))::to(Array);
+      return this::sortAlphabeticallyBy(prop("name"))::to(Array)
     }
     return [
       <dt key="dt">Variables appelantes</dt>,
@@ -93,7 +93,7 @@ var VariablePage = React.createClass({
           )
         }
       </dd>,
-    ];
+    ]
   },
   renderDatedFormula(formula) {
     return formula.dated_formulas.map((datedFormula, idx) => (
@@ -104,10 +104,10 @@ var VariablePage = React.createClass({
         {this.renderFormula(datedFormula.formula)}
         <hr />
       </div>
-    ));
+    ))
   },
   renderDatedFormulaHeading(formula) {
-    var heading;
+    var heading
     if (formula.start_instant && formula.stop_instant) {
       heading = (
         <FormattedMessage
@@ -115,27 +115,27 @@ var VariablePage = React.createClass({
           start={<FormattedDate format="short" value={formula.start_instant} />}
           stop={<FormattedDate format="short" value={formula.stop_instant} />}
         />
-      );
+      )
     } else if (formula.start_instant) {
       heading = (
         <FormattedMessage
           message="Formule de calcul depuis le {start}"
           start={<FormattedDate format="short" value={formula.start_instant} />}
         />
-      );
+      )
     } else if (formula.stop_instant) {
       heading = (
         <FormattedMessage
           message="Formule de calcul jusqu'au {stop}"
           stop={<FormattedDate format="short" value={formula.stop_instant} />}
         />
-      );
+      )
     }
-    return heading;
+    return heading
   },
   renderFormula(formula) {
-    const inputVariableNames = formula.input_variables;
-    const formulaParameterNames = formula.parameters;
+    const inputVariableNames = formula.input_variables
+    const formulaParameterNames = formula.parameters
     return (
       <div>
         {
@@ -158,8 +158,8 @@ var VariablePage = React.createClass({
                     <List items={formulaParameterNames::sortAlphabetically()::to(Array)} type="inline">
                       {
                         (parameterName) => {
-                          const {parameters} = this.props;
-                          const parameter = parameters.find(parameter2 => parameter2.name === parameterName);
+                          const {parameters} = this.props
+                          const parameter = parameters.find(parameter2 => parameter2.name === parameterName)
                           return parameter ? (
                             <span>
                               <Link params={{name: parameterName}} title={parameter.description} to="parameter">
@@ -174,7 +174,7 @@ var VariablePage = React.createClass({
                               {" "}
                               <span className="label label-warning">inexistant</span>
                             </span>
-                          );
+                          )
                         }
                       }
                     </List>
@@ -205,7 +205,7 @@ var VariablePage = React.createClass({
           </GitHubLink>
         </div>
       </div>
-    );
+    )
   },
   renderParameterValue(parameter) {
     // TODO extract value component from ParameterPage.renderValue
@@ -213,7 +213,7 @@ var VariablePage = React.createClass({
       <samp>
         {this.getParameterValue(parameter, this.getTodayInstant())}
       </samp>
-    );
+    )
   },
   renderSimpleFormula(formula) {
     return (
@@ -221,17 +221,17 @@ var VariablePage = React.createClass({
         <h4 style={{display: "inline-block"}}>Formule de calcul</h4>
         {this.renderFormula(formula)}
       </div>
-    );
+    )
   },
   renderVariableDefinitionsList() {
-    var {countryPackageGitHeadSha, variable} = this.props;
+    var {countryPackageGitHeadSha, variable} = this.props
     var entityLabelByNamePlural = {
       familles: "Famille",
       "foyers_fiscaux": "Foyer fiscal",
       individus: "Individu",
       menages: "Ménage",
-    };
-    var type = variable["@type"];
+    }
+    var type = variable["@type"]
     return (
       <dl className="dl-horizontal">
         <dt>Entité</dt>
@@ -295,11 +295,11 @@ var VariablePage = React.createClass({
         <dd>
           {
             () => {
-              var sourceCodeText = variable.module;
+              var sourceCodeText = variable.module
               if (variable.line_number) {
-                sourceCodeText += ` ligne ${variable.line_number}`;
+                sourceCodeText += ` ligne ${variable.line_number}`
               }
-              return sourceCodeText;
+              return sourceCodeText
             }()
           }
           <GitHubLink
@@ -313,9 +313,9 @@ var VariablePage = React.createClass({
         </dd>
         {this.renderConsumerVariables()}
       </dl>
-    );
+    )
   },
-});
+})
 
 
-export default VariablePage;
+export default VariablePage
