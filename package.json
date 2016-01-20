@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://git.framasoft.org/openfisca/legislation-explorer.git"
+    "url": "https://github.com/openfisca/legislation-explorer.git"
   },
   "author": "Christophe Benz <christophe.benz@data.gouv.fr>",
   "license": "AGPLv3+",

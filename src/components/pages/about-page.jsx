@@ -40,11 +40,10 @@ var AboutPage = React.createClass({
           <h1>À propos</h1>
         </div>
         <p>
+          Le code source de legislation-explorer est
           <a href={config.gitWebpageUrl} rel="external" target="_blank">
-            Code source de legislation-explorer
-          </a>
-          {" "}
-          sur GitLab, merci à <a href="http://framasoft.org" rel="external" target="_blank">Framasoft</a> !
+            sur GitHub
+          </a>.
         </p>
         <p>
           <a href={url.resolve(config.websiteUrl, "/a-propos")}>
