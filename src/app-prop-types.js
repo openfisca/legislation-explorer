@@ -100,6 +100,7 @@ var parameter = PropTypes.shape({
   start_line_number: PropTypes.number.isRequired,
   unit,
   values: PropTypes.arrayOf(startStopValue),
+  xml_file_path: PropTypes.string.isRequired,
 })
 
 var scale = PropTypes.shape({
@@ -116,6 +117,7 @@ var scale = PropTypes.shape({
   end_line_number: PropTypes.number,
   start_line_number: PropTypes.number.isRequired,
   unit,
+  xml_file_path: PropTypes.string.isRequired,
 })
 
 var variable = PropTypes.shape({

@@ -20,7 +20,6 @@ var ParameterPage = React.createClass({
     countryPackageGitHeadSha: PropTypes.string.isRequired,
     currency: PropTypes.string.isRequired,
     parameter: AppPropTypes.parameterOrScale.isRequired,
-    parametersUrlPath: PropTypes.string.isRequired,
   },
   findLastKnownStartInstant(brackets) {
     return brackets.reduce((memo, bracket) => {
@@ -197,8 +196,8 @@ var ParameterPage = React.createClass({
     ]
   },
   renderDatedScale(datedScale) {
-    const {countryPackageGitHeadSha, parameter, parametersUrlPath} = this.props
-    const {format, unit} = parameter
+    const {countryPackageGitHeadSha, parameter} = this.props
+    const {format, unit, xml_file_path} = parameter
     return (
       <div>
         <table className="table table-bordered table-hover table-striped">
@@ -235,7 +234,7 @@ var ParameterPage = React.createClass({
                         {this.renderValue(datedBracket.threshold.value, format, unit)}
                       </div>
                       <GitHubLink
-                        blobUrlPath={parametersUrlPath}
+                        blobUrlPath={xml_file_path}
                         className="pull-right"
                         commitReference={countryPackageGitHeadSha}
                         endLineNumber={datedBracket.threshold.end_line_number}
@@ -251,7 +250,7 @@ var ParameterPage = React.createClass({
                       <div className="clearfix text-center">
                         {this.renderValue(datedBracket.rate.value, "rate")}
                         <GitHubLink
-                          blobUrlPath={parametersUrlPath}
+                          blobUrlPath={xml_file_path}
                           className="pull-right"
                           commitReference={countryPackageGitHeadSha}
                           endLineNumber={datedBracket.rate.end_line_number}
@@ -304,10 +303,10 @@ var ParameterPage = React.createClass({
     )
   },
   renderParameterDefinitionsList() {
-    var {countryPackageGitHeadSha, currency, parameter, parametersUrlPath} = this.props
-    var {brackets, description, end_line_number, format, start_line_number, unit, values} = parameter
+    var {countryPackageGitHeadSha, currency, parameter} = this.props
+    var {brackets, description, end_line_number, format, start_line_number, unit, values, xml_file_path} = parameter
     var type = parameter["@type"]
-    var fileName = parametersUrlPath.split("/").splice(-1)
+    var fileName = xml_file_path.split("/").splice(-1)
     return (
       <dl className="dl-horizontal">
         <dt>Type</dt>
@@ -337,7 +336,7 @@ var ParameterPage = React.createClass({
               `${fileName} ligne ${start_line_number}`
             }
           <GitHubLink
-            blobUrlPath={parametersUrlPath}
+            blobUrlPath={xml_file_path}
             commitReference={countryPackageGitHeadSha}
             endLineNumber={end_line_number}
             lineNumber={start_line_number}
@@ -422,7 +421,8 @@ var ParameterPage = React.createClass({
   },
   renderStartStopValue(valueJson, format, unit, idx) {
     const {end_line_number, start, start_line_number, stop, value} = valueJson
-    const {countryPackageGitHeadSha, parameter, parametersUrlPath} = this.props
+    const {countryPackageGitHeadSha, parameter} = this.props
+    const {xml_file_path} = parameter
     const type = parameter["@type"]
     const formattedStartDate = <FormattedDate format="short" value={start} />
     const formattedStopDate = <FormattedDate format="short" value={stop} />
@@ -452,7 +452,7 @@ var ParameterPage = React.createClass({
         <td className="clearfix">
           {this.renderValue(value, format, unit)}
           <GitHubLink
-            blobUrlPath={parametersUrlPath}
+            blobUrlPath={xml_file_path}
             className="pull-right"
             commitReference={countryPackageGitHeadSha}
             endLineNumber={end_line_number}
