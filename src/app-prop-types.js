@@ -18,7 +18,7 @@ var startStopValue = PropTypes.shape({
   end_line_number: PropTypes.number,
   start: PropTypes.string.isRequired,
   start_line_number: PropTypes.number.isRequired,
-  stop: PropTypes.string.isRequired,
+  stop: PropTypes.string,
   value: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.number,

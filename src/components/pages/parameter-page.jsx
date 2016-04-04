@@ -425,7 +425,6 @@ var ParameterPage = React.createClass({
     const {xml_file_path} = parameter
     const type = parameter["@type"]
     const formattedStartDate = <FormattedDate format="short" value={start} />
-    const formattedStopDate = <FormattedDate format="short" value={stop} />
     const startComponent = type === "Scale" ? (
       <a
         href="#bareme"
@@ -435,19 +434,27 @@ var ParameterPage = React.createClass({
         {formattedStartDate}
       </a>
     ) : formattedStartDate
-    const stopComponent = type === "Scale" ? (
-      <a
-        href="#bareme"
-        onClick={() => this.handleDatedScaleInstantSet(stop)}
-        title="Afficher le barème à cette date"
-      >
-        {formattedStopDate}
-      </a>
-    ) : formattedStopDate
+    let stopComponent
+    if (stop) {
+      const formattedStopDate = <FormattedDate format="short" value={stop} />
+      stopComponent = type === "Scale" ? (
+        <a
+          href="#bareme"
+          onClick={() => this.handleDatedScaleInstantSet(stop)}
+          title="Afficher le barème à cette date"
+          >
+          {formattedStopDate}
+        </a>
+      ) : formattedStopDate
+    }
     return (
       <tr key={idx}>
         <td>
-          <FormattedMessage message="{start} - {stop}" start={startComponent} stop={stopComponent} />
+          {
+            stop ?
+              <FormattedMessage message="{start} - {stop}" start={startComponent} stop={stopComponent} /> :
+              <FormattedMessage message="{start}" start={startComponent} />
+          }
         </td>
         <td className="clearfix">
           {this.renderValue(value, format, unit)}
