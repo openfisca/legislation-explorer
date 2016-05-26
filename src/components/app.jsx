@@ -6,7 +6,7 @@ import AppPropTypes from "../app-prop-types"
 import Layout from "./layout"
 
 
-var App = React.createClass({
+const App = React.createClass({
   mixins: [IntlMixin],
   propTypes: {
     dataByRouteName: PropTypes.object,
@@ -45,6 +45,5 @@ var App = React.createClass({
     )
   },
 })
-
 
 export default App

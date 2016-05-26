@@ -52,4 +52,4 @@ var routes = (
 )
 
 
-export default {fetchData, routes}
+export {fetchData, routes}

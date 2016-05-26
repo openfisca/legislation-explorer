@@ -13,7 +13,7 @@ const WEBPACK_HOST = process.env.HOST || "localhost"
 const WEBPACK_PORT = parseInt(process.env.PORT) + 1 || 2031
 
 
-export default {
+module.exports = {
   devtool: "eval",
   entry: {
     "main": [

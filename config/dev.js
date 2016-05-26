@@ -2,14 +2,15 @@
 // Do not require this directly. Use ./src/config instead.
 
 
-import prodConfig from "./prod"
+import {gitWebpageUrl} from "./prod"
 
 
-const WEBPACK_HOST = process.env.HOST || "localhost"
+const WEBPACK_HOST = process.env.HOST || "localhost",
+  apiBaseUrl = `http://${WEBPACK_HOST}:2000`,
+  websiteUrl = `http://${WEBPACK_HOST}:2010/`
 
-
-export default {
-  apiBaseUrl: `http://${WEBPACK_HOST}:2000`,
-  gitWebpageUrl: prodConfig.gitWebpageUrl,
-  websiteUrl: `http://${WEBPACK_HOST}:2010/`,
+export {
+  apiBaseUrl,
+  gitWebpageUrl,
+  websiteUrl
 }

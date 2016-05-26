@@ -1,7 +1,7 @@
 // Webpack config for creating the production bundle.
 
 // Register babel to have ES6 support on the server
-require("babel/register")
+require("babel-register")
 
 var path = require("path")
 var strip = require("strip-loader")

@@ -6,7 +6,7 @@ import Router from "react-router"
 
 // Polyfills, loaded at the very first.
 
-require("babel-core/polyfill")
+require("babel-polyfill")
 
 import hljs from "highlight.js/lib/highlight"
 hljs.registerLanguage("python", require("highlight.js/lib/languages/python"))

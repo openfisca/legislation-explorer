@@ -1,6 +1,7 @@
-// Register babel to have ES6 support on the server
+require("babel-polyfill")
 
-require("babel/register")
+// Register babel to have ES6 support on the server
+require("babel-register")
 
 var moment = require("moment")
 
