@@ -1,4 +1,4 @@
-import {Navigation, State} from "react-router"
+import {} from "react-router"
 import Cursor from "immutable/contrib/cursor"
 import Immutable from "immutable"
 import React, {PropTypes} from "react"
@@ -13,7 +13,6 @@ import VariablesTree from "./variables-tree"
 
 
 var VariablesPage = React.createClass({
-  mixins: [Navigation, State],
   propTypes: {
     countryPackageGitHeadSha: PropTypes.string.isRequired,
     variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
@@ -112,7 +111,7 @@ var VariablesPage = React.createClass({
   },
   getStateFromQuery() {
     const toBoolean = (str) => /^true|t|yes|y|1$/i.test(str)
-    const {formula_type, name, search_in_description, variable_type} = this.getQuery()
+    const {formula_type, name, search_in_description, variable_type} = this.props.router.location.query
     return {
       formulaType: formula_type || "",
       nameInput: name || "",
@@ -333,12 +332,15 @@ var VariablesPage = React.createClass({
   },
   updateQueryFromState() {
     // Browser only method.
-    const query = this.getQuery()
+    const router = this.props.router
+    const query = router.location.query
     const permanentQuery = {api_url: query.api_url}
     const stateQuery = this.getQueryFromState()
     const newQuery = Object.assign({}, permanentQuery, stateQuery)
-    const path = this.makePath(this.getPathname(), this.getParams(), newQuery)
-    window.history.replaceState({path}, "", path)
+    //TODO if you are not a route component
+    //Note not all State functionality can be accessed via context in v1.0. For example, params is not available via context.
+    const path = router.makePath(router.location.pathname, router.params, newQuery)
+    router.replace(path)
   },
 })
 

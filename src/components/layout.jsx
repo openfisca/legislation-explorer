@@ -1,7 +1,6 @@
-import DocumentTitle from "react-document-title"
+
 import React, {PropTypes} from "react"
 
-import NavBar from "./navbar"
 
 
 var Layout = React.createClass({

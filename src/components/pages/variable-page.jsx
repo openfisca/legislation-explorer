@@ -1,4 +1,4 @@
-import {FormattedDate, FormattedMessage} from "react-intl"
+import {FormattedDate} from "react-intl"
 import {Link} from "react-router"
 import {sortAlphabetically} from "trine/iterable/sortAlphabetically"
 import {sortAlphabeticallyBy} from "trine/iterable/sortAlphabeticallyBy"
@@ -107,31 +107,25 @@ var VariablePage = React.createClass({
     ))
   },
   renderDatedFormulaHeading(formula) {
-    var heading
     if (formula.start_instant && formula.stop_instant) {
-      heading = (
-        <FormattedMessage
-          message="Formule de calcul du {start} au {stop}"
-          start={<FormattedDate format="short" value={formula.start_instant} />}
-          stop={<FormattedDate format="short" value={formula.stop_instant} />}
-        />
-      )
-    } else if (formula.start_instant) {
-      heading = (
-        <FormattedMessage
-          message="Formule de calcul depuis le {start}"
-          start={<FormattedDate format="short" value={formula.start_instant} />}
-        />
-      )
-    } else if (formula.stop_instant) {
-      heading = (
-        <FormattedMessage
-          message="Formule de calcul jusqu'au {stop}"
-          stop={<FormattedDate format="short" value={formula.stop_instant} />}
-        />
-      )
+      return (<span>
+        Formule de calcul
+        du {<FormattedDate format="short" value={formula.start_instant} />}
+        au {<FormattedDate format="short" value={formula.stop_instant} />}
+      </span>)
     }
-    return heading
+    if (formula.start_instant) {
+      return (<span>
+        Formule de calcul depuis le
+        <FormattedDate format="short" value={formula.start_instant} />
+      </span>)
+    }
+    if (formula.stop_instant) {
+      return (<span>
+        Formule de calcul jusqu'au
+        <FormattedDate format="short" value={formula.stop_instant} />
+      </span>)
+    }
   },
   renderFormula(formula) {
     const inputVariableNames = formula.input_variables

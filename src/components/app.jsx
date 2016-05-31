@@ -1,17 +1,15 @@
-import {IntlMixin} from "react-intl"
-import {RouteHandler} from "react-router"
 import React, {PropTypes} from "react"
 
 import AppPropTypes from "../app-prop-types"
-import Layout from "./layout"
-
+import DocumentTitle from "react-document-title"
+import NavBar from "./navbar"
 
 const App = React.createClass({
-  mixins: [IntlMixin],
   propTypes: {
     dataByRouteName: PropTypes.object,
     errorByRouteName: PropTypes.objectOf(PropTypes.instanceOf(Error)),
     loading: AppPropTypes.loading,
+    children: PropTypes.node.isRequired,
   },
   componentDidMount() {
     var timer
@@ -34,14 +32,23 @@ const App = React.createClass({
     }
   },
   render() {
+    const {dataByRouteName, errorByRouteName} = this.props,
+      loading = this.state.loading
     return (
-      <Layout>
-        <RouteHandler
-          dataByRouteName={this.props.dataByRouteName}
-          errorByRouteName={this.props.errorByRouteName}
-          loading={this.state.loading}
-        />
-      </Layout>
+      <DocumentTitle title="Explorateur de la législation">
+        <div>
+          <a className="sr-only" href="#content">Sauter au contenu principal</a>
+          <NavBar />
+          <div className="container" id="content" style={{marginBottom: 100}}>
+            {React.cloneElement(this.props.children, {
+              dataByRouteName,
+              errorByRouteName,
+              loading,
+              })
+            }
+          </div>
+        </div>
+      </DocumentTitle>
     )
   },
 })

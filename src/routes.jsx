@@ -1,6 +1,6 @@
 import React from "react"
 // React is used or JSX routes transformed into React.createElement().
-import {DefaultRoute, NotFoundRoute, Route} from "react-router"
+import {Route, IndexRoute } from "react-router"
 
 import AboutPage from "./components/pages/about-page"
 import App from "./components/app"
@@ -20,9 +20,9 @@ function fetchData(matchedRoutes, params, query) {
   var errorByRouteName = {}
   return Promise.all(
     matchedRoutes
-      .filter(route => route.handler.fetchData)
+      .filter(route => route.component.fetchData)
       .map(
-        route => route.handler.fetchData(params, query)
+        route => route.component.fetchData(params, query)
           .then(handlerData => { dataByRouteName[route.name] = handlerData })
           .catch(handlerError => { errorByRouteName[route.name] = handlerError })
       )
@@ -34,22 +34,24 @@ function fetchData(matchedRoutes, params, query) {
   })
 }
 
-
+//<Router history={browserHistory}>
+/* eslint-disable react/jsx-sort-props */
 var routes = (
-  <Route handler={App}>
-    <Route path="parameters">
-      <Route handler={ParameterHandler} name="parameter" path=":name" />
-      <DefaultRoute handler={ParametersHandler} name="parameters" />
+    <Route path="/" component={App}>
+      <IndexRoute component={HomePage} />
+      <Route path="parameters" >
+        <Route path="parameters/:name" component={ParameterHandler}/>
+        <IndexRoute component={ParametersHandler} />
+      </Route>
+      <Route path="variables">
+        <Route path="/variables/:name" component={VariableHandler} />
+        <IndexRoute component={VariablesHandler} />
+      </Route>
+      <Route path="about" component={AboutPage} />
+      <Route path="*" component={NotFoundHandler} />
     </Route>
-    <Route path="variables">
-      <Route handler={VariableHandler} name="variable" path=":name" />
-      <DefaultRoute handler={VariablesHandler} name="variables" />
-    </Route>
-    <Route handler={AboutPage} name="about" />
-    <DefaultRoute handler={HomePage} name="home" />
-    <NotFoundRoute handler={NotFoundHandler} />
-  </Route>
 )
+/* eslint-disable react/jsx-sort-props */
 
 
 export {fetchData, routes}
