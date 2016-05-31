@@ -69,6 +69,7 @@ module.exports = {
         BROWSER: JSON.stringify(true),
         HOST: JSON.stringify(process.env.HOST),
         NODE_ENV: JSON.stringify("development"),
+        API_URL: JSON.stringify(process.env.API_URL),
       },
     }),
 
