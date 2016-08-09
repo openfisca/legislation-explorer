@@ -3,7 +3,7 @@
 
 
 export default {
-  apiBaseUrl: "http://api.openfisca.fr",
+  apiBaseUrl: "https://api.openfisca.fr",
   gitWebpageUrl: "https://github.com/openfisca/legislation-explorer",
-  websiteUrl: "http://www.openfisca.fr/",
+  websiteUrl: "https://www.openfisca.fr/",
 }
