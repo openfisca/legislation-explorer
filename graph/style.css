@@ -1,0 +1,101 @@
+.node {
+    cursor: pointer;
+}
+
+.node_text {
+    font-size: 13px;
+}
+
+.important_node_text {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.unimportant_node_text {
+    font-size: 11px;
+    font-style: italic;
+}
+
+.node circle {
+    fill: #fff;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+}
+
+/*.node text {
+    font: 15px sans-serif;
+}*/
+
+.link {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 1.5px;
+}
+
+.right-column {
+    width: 40%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 200%;
+    margin-top: -160px;
+    border: solid 1px;
+}
+
+.circle {
+    width: 10px;
+    height: 10px;
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
+    border-radius: 25px;
+    border: solid 1px steelblue;
+    display: inline-block;
+    margin-right: 5px;
+    margin-left: 20px;
+}
+
+#individus {
+    background-color: rgb(251, 208, 208);
+}
+
+#menages {
+    background-color: rgb(255, 255, 144);
+}
+
+#familles {
+    background-color: rgb(173, 241, 173);
+}
+
+#foyers_fiscaux {
+    background-color: lightsteelblue;
+}
+
+.legend {
+    padding: 8px;
+    border-top: 1px solid lightgrey;
+    border-bottom: 1px solid lightgrey;
+    margin-left: -10px;
+    padding-left: 15px;
+    position: fixed;
+    top: 0px;
+    width: 60%;
+    z-index: -1;
+}
+
+.toggle_important {
+    z-index: 10000;
+    position: fixed;
+    bottom: 20px;
+    left: 0;
+    cursor: pointer;
+    background-color: green;
+}
+
+.toggle_unimportant {
+    z-index: 10000;
+    position: fixed;
+    bottom: 20px;
+    left: 100px;
+    cursor: pointer;
+    background-color: red;
+}
