@@ -38,23 +38,11 @@ var VariablePage = React.createClass({
     var {formula, label, line_number, module, name} = variable
     return (
       <div>
-        <p>
-          {
-            label || (
-              <span className="label label-warning">
-                aucun libellé
-                <GitHubLink
-                  blobUrlPath={`${module.split(".").join("/")}.py`}
-                  commitReference={countryPackageVersion}
-                  lineNumber={line_number}
-                  style={{marginLeft: "1em"}}
-                  text="ajouter"
-                  title="Ajouter un libellé via GitHub"
-                />
-              </span>
-            )
-          }
-        </p>
+        <div className="page-header">
+          <h1 style={{display: "inline-block"}}>
+            {label || name}
+          </h1>
+        </div>
         {this.renderVariableDefinitionsList()}
         {formula && <hr />}
         {
@@ -227,92 +215,105 @@ var VariablePage = React.createClass({
     var {countryPackageVersion, variable} = this.props
     var entityLabelByNamePlural = {
       familles: "Famille",
-      "foyers_fiscaux": "Foyer fiscal",
+      foyers_fiscaux: "Foyer fiscal",
       individus: "Individu",
       menages: "Ménage",
     }
     var type = variable["@type"]
     return (
-      <dl className="dl-horizontal">
-        <dt>Entité</dt>
-        <dd>{entityLabelByNamePlural[variable.entity]}</dd>
-        <dt>Type</dt>
-        <dd>
-          <code>{type}</code>
-          {variable.val_type && ` (${variable.val_type})`}
-        </dd>
-        {type === "Enumeration" && <dt>Libellés</dt>}
-        {
-          type === "Enumeration" && (
-            <dd>
-              <List items={Object.entries(variable.labels)} type="unstyled">
-                {entry => `${entry[0]} = ${entry[1]}`}
-              </List>
-            </dd>
-          )
-        }
-        <dt>Valeur par défaut</dt>
-        <dd>
-          <samp>
-            {
-              type === "Boolean" ?
-                JSON.stringify(variable.default) :
-                variable.default
-            }
-          </samp>
-        </dd>
-        {
-          variable.cerfa_field && [
-            <dt key="dt">Cases CERFA</dt>,
-            <dd key="dd">
-              {
-                typeof variable.cerfa_field === "string" ?
-                  variable.cerfa_field :
-                  Object.values(variable.cerfa_field).join(", ")
-              }
-            </dd>,
-          ]
-        }
-        {
-          variable.start && [
-            <dt key="dt">Démarre le</dt>,
-            <dd key="dd">
-              <FormattedDate format="short" value={variable.start} />
-            </dd>,
-          ]
-        }
-        {
-          variable.url && [
-            <dt key="dt">URL externe</dt>,
-            <dd key="dd">
-              <ExternalLink href={variable.url}>
-                {variable.url}
-              </ExternalLink>
-            </dd>,
-          ]
-        }
-        <dt>Code source</dt>
-        <dd>
+      <div>
+        <dl className="dl-horizontal">
           {
-            () => {
-              var sourceCodeText = variable.module
-              if (variable.line_number) {
-                sourceCodeText += ` ligne ${variable.line_number}`
-              }
-              return sourceCodeText
-            }()
+            variable.cerfa_field && [
+              <dt key="dt">Cases CERFA</dt>,
+              <dd key="dd">
+                {
+                  typeof variable.cerfa_field === "string" ?
+                    variable.cerfa_field :
+                    Object.values(variable.cerfa_field).join(", ")
+                }
+              </dd>,
+            ]
           }
-          <GitHubLink
-            blobUrlPath={`${variable.module.split(".").join("/")}.py`}
-            commitReference={countryPackageVersion}
-            lineNumber={variable.line_number}
-            style={{marginLeft: "1em"}}
-          >
-            {children => <small>{children}</small>}
-          </GitHubLink>
-        </dd>
-        {this.renderConsumerVariables()}
-      </dl>
+          {
+            variable.start && [
+              <dt key="dt">Démarre le</dt>,
+              <dd key="dd">
+                <FormattedDate format="short" value={variable.start} />
+              </dd>,
+            ]
+          }
+          {
+            variable.stop && [
+              <dt key="dt">S'arrête le</dt>,
+              <dd key="dd">
+                <FormattedDate format="short" value={variable.stop} />
+              </dd>,
+            ]
+          }
+          {
+            variable.url && [
+              <dt key="dt">URL externe</dt>,
+              <dd key="dd">
+                <ExternalLink href={variable.url}>
+                  {variable.url}
+                </ExternalLink>
+              </dd>,
+            ]
+          }
+          <dt>Entité</dt>
+          <dd>{entityLabelByNamePlural[variable.entity]}</dd>
+        </dl>
+        <hr/>
+        <dl>
+          <dt>Type</dt>
+          <dd>
+            <code>{type}</code>
+            {variable.val_type && ` (${variable.val_type})`}
+          </dd>
+          {type === "Enumeration" && <dt>Libellés</dt>}
+          {
+            type === "Enumeration" && (
+              <dd>
+                <List items={Object.entries(variable.labels)} type="unstyled">
+                  {entry => `${entry[0]} = ${entry[1]}`}
+                </List>
+              </dd>
+            )
+          }
+          <dt>Valeur par défaut</dt>
+          <dd>
+            <samp>
+              {
+                type === "Boolean" ?
+                  JSON.stringify(variable.default) :
+                  variable.default
+              }
+            </samp>
+          </dd>
+          <dt>Code source</dt>
+          <dd>
+            {
+              () => {
+                var sourceCodeText = variable.module
+                if (variable.line_number) {
+                  sourceCodeText += ` ligne ${variable.line_number}`
+                }
+                return sourceCodeText
+              }()
+            }
+            <GitHubLink
+              blobUrlPath={`${variable.module.split(".").join("/")}.py`}
+              commitReference={countryPackageVersion}
+              lineNumber={variable.line_number}
+              style={{marginLeft: "1em"}}
+            >
+              {children => <small>{children}</small>}
+            </GitHubLink>
+          </dd>
+          {this.renderConsumerVariables()}
+        </dl>
+      </div>
     )
   },
 })
