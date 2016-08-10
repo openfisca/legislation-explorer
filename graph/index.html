@@ -1,0 +1,403 @@
+
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+.node {
+cursor: pointer;
+}
+
+.node_text {
+	font-size: 13px;
+}
+
+.important_node_text {
+	font-size: 15px;
+	font-weight: bold;
+}
+
+.unimportant_node_text {
+	font-size: 11px;
+	font-style: italic;
+}
+
+.node circle {
+fill: #fff;
+stroke: steelblue;
+stroke-width: 1.5px;
+}
+
+.node text {
+/*font: 15px sans-serif;*/
+}
+
+.link {
+fill: none;
+stroke: #ccc;
+stroke-width: 1.5px;
+}
+.right-column {
+width: 40%;
+position: fixed;
+top: 0;
+right: 0;
+height: 200%;
+margin-top: -160px;
+border: solid 1px;
+}
+.circle {
+width: 10px;
+height: 10px;
+-webkit-border-radius: 25px;
+-moz-border-radius: 25px;
+border-radius: 25px;
+border: solid 1px steelblue;
+display: inline-block;
+margin-right: 5px;
+margin-left: 20px;
+}
+
+#individus {
+background-color: rgb(251, 208, 208);
+}
+#menages {
+background-color: rgb(255, 255, 144);
+}
+#familles {
+background-color: rgb(173, 241, 173);
+}
+#foyers_fiscaux {
+background-color: lightsteelblue;
+}
+.legend {
+padding: 8px;
+border-top: 1px solid lightgrey;
+border-bottom: 1px solid lightgrey;
+margin-left: -10px;
+padding-left: 15px;
+position: fixed;
+top: 0px;
+width: 60%;
+z-index: -1;
+}
+.toggle_important {
+z-index: 10000;
+position: fixed;
+bottom: 20px;
+left: 0;
+cursor: pointer;
+background-color: green;
+}
+
+.toggle_unimportant {
+z-index: 10000;
+position: fixed;
+bottom: 20px;
+left: 100px;
+cursor: pointer;
+background-color: red;
+}
+
+
+.variable-name {
+position: fixed;
+z-index: 2;
+background-color: #ffffff;
+height: 38px;
+right: 0;
+font-size: 20px;
+font-weight: bold;
+text-align: center;
+padding-left: 0px;
+width: 40%;
+padding-top: 40px;
+border-bottom: solid lightgrey 1px;
+}
+.variable-label {
+position: fixed;
+z-index: 3;
+background-color: #ffffff;
+right: 0;
+font-size: 28px;
+font-weight: bold;
+text-align: center;
+padding-left: 0px;
+width: 40%;
+top: 0px;
+padding-top: 10px;
+}
+
+</style>
+<body>
+<iframe class="right-column" id="info" src="https://legislation.openfisca.fr/variables/revdisp"></iframe>
+<div class="variable-label" id="variable-label"> Revenu disponible du ménage</div>
+<div class="variable-name" id="variable-name"> revdisp </div>
+<script>
+
+var current_node = null
+
+function color_from_entity(entity) {
+switch (entity) {
+case 'foyers_fiscaux':
+return "lightsteelblue";
+case 'individus':
+return "rgb(251, 208, 208);";
+case 'menages':
+return "rgb(255, 255, 144)";
+case 'familles':
+return "rgb(173, 241, 173)";
+default :
+return "#fff"
+}
+}
+
+function name_from_entity(entity) {
+switch (entity) {
+case 'foyers_fiscaux':
+return "Foyer Fiscal";
+case 'individus':
+return "Individu";
+case 'menages':
+return "Ménage";
+case 'familles':
+return "Famille";
+default :
+return "#fff"
+}
+}
+
+function toggle_important_current() {
+toggle_important(current_node)
+}
+function toggle_unimportant_current() {
+toggle_unimportant(current_node)
+}
+
+</script>
+
+<div class="legend">
+Mesure calculée à l'échelle de :
+<div class="circle" id="individus"></div><script>document.write(name_from_entity('individus'))</script>
+<div class="circle" id="familles"></div><script>document.write(name_from_entity('familles'))</script>
+<div class="circle" id="menages"></div><script>document.write(name_from_entity('menages'))</script>
+<div class="circle" id="foyers_fiscaux"></div><script>document.write(name_from_entity('foyers_fiscaux'))</script>
+</div>
+
+<div class="circle toggle_important" onmouseup="toggle_important_current();"></div>
+<div class="circle toggle_unimportant" onmouseup="toggle_unimportant_current();"></div>
+
+<script src="//d3js.org/d3.v3.min.js"></script>
+<script src="/js/variable_tree.js"></script>
+<script>
+
+var var_to_stats = {
+'revdisp' : {'total': 1352000000, 'average': 29000, 'median': 30000}
+};
+
+var margin = {top: 20, right: 120, bottom: 20, left: 120},
+width = 3000 - margin.right - margin.left,
+height = 800 - margin.top - margin.bottom;
+
+var i = 0,
+duration = 350,
+root;
+
+var tree = d3.layout.tree()
+.size([height, width]);
+
+var diagonal = d3.svg.diagonal()
+.projection(function(d) { return [d.y, d.x]; });
+
+var svg = d3.select("body").append("svg")
+.attr("width", width + margin.right + margin.left)
+.attr("height", height + margin.top + margin.bottom)
+.call(d3.behavior.zoom().on("zoom", redraw))
+.append("g")
+.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+function find_text_class(d) {
+	var variable = d.variable
+	if (important_variables.indexOf(variable) > -1) {
+		return "important_node_text"	
+	}
+	if (unimportant_variables.indexOf(variable) > -1) {
+		return "unimportant_node_text"
+	}
+	return "node_text"
+}
+
+function find_node_size(d) {
+	if (important_variables.indexOf(d.variable) > -1) {
+		return 8
+	} 
+	if (unimportant_variables.indexOf(d.variable) > -1) {
+		return 4
+	} 
+	return 6
+}
+
+function load_graph(variable_map, important_variables) {
+root = compute_trace('revdisp', 10, variable_map, important_variables, unimportant_variables)
+root.x0 = height / 2;
+root.y0 = 0;
+
+function collapse(d) {
+if (d.children) {
+d._children = d.children;
+d._children.forEach(collapse);
+d.children = null;
+}
+}
+
+root.children.forEach(collapse);
+update(root);
+};
+
+d3.select(self.frameElement).style("height", "800px");
+
+function redraw() {
+svg.attr("transform",
+"translate(" + d3.event.translate + ")"
++ " scale(" + d3.event.scale + ")");
+}
+
+function update(source) {
+
+// Compute the new tree layout.
+var nodes = tree.nodes(root).reverse(),
+links = tree.links(nodes);
+
+// Normalize for fixed-depth.
+nodes.forEach(function(d) { d.y = d.depth * 180; });
+
+// Update the nodes…
+var node = svg.selectAll("g.node")
+.data(nodes, function(d) { return d.id || (d.id = ++i); });
+
+// Enter any new nodes at the parent's previous position.
+var nodeEnter = node.enter().append("g")
+.attr("class", "node")
+.attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
+.on("click", click)
+.on("dblclick", toggle_important);
+
+nodeEnter.append("circle")
+.attr("r", 1e-6)
+.style("fill", function(d) { return color_from_entity(d.entity)});
+
+nodeEnter.append("text")
+.attr("class", find_text_class)
+.attr("x", function(d) { return d.children || d._children ? -10 : 10; })
+.attr("dy", "-1em")
+.attr("text-anchor", "middle")
+.text(function(d) { return d.label_sm; })
+.style("fill-opacity", 1e-6)
+
+// Transition nodes to their new position.
+var nodeUpdate = node.transition()
+.duration(duration)
+.attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
+
+nodeUpdate.select("circle")
+.attr("r", find_node_size)
+.style("fill", function(d) { return color_from_entity(d.entity)});
+
+nodeUpdate.select("text")
+.style("fill-opacity", 1)
+.attr("class", find_text_class)
+
+
+// Transition exiting nodes to the parent's new position.
+var nodeExit = node.exit().transition()
+.duration(duration)
+.attr("transform", function(d) { return "translate(" + source.y + "," + source.x + ")"; })
+.remove();
+
+nodeExit.select("circle")
+.attr("r", 1e-6);
+
+nodeExit.select("text")
+.style("fill-opacity", 1e-6)
+.attr("class", find_text_class);
+
+// Update the links…
+var link = svg.selectAll("path.link")
+.data(links, function(d) { return d.target.id; });
+
+// Enter any new links at the parent's previous position.
+link.enter().insert("path", "g")
+.attr("class", "link")
+.attr("d", function(d) {
+var o = {x: source.x0, y: source.y0};
+return diagonal({source: o, target: o});
+});
+
+// Transition links to their new position.
+link.transition()
+.duration(duration)
+.attr("d", diagonal);
+
+// Transition exiting nodes to the parent's new position.
+link.exit().transition()
+.duration(duration)
+.attr("d", function(d) {
+var o = {x: source.x, y: source.y};
+return diagonal({source: o, target: o});
+})
+.remove();
+
+// Stash the old positions for transition.
+nodes.forEach(function(d) {
+d.x0 = d.x;
+d.y0 = d.y;
+});
+}
+
+function toggle_important(d) {
+
+var index = important_variables.indexOf(d.variable);
+if (index == -1) {
+important_variables.push(d.variable);
+console.log(important_variables);
+} else {
+important_variables.splice(index, 1);
+console.log(important_variables);
+}
+update(d);
+}
+
+function toggle_unimportant(d) {
+
+var index = unimportant_variables.indexOf(d.variable);
+if (index == -1) {
+unimportant_variables.push(d.variable);
+console.log("Unimportant variables = " + unimportant_variables);
+} else {
+unimportant_variables.splice(index, 1);
+console.log("Unimportant variables = " + unimportant_variables);
+}
+update(d);
+}
+
+
+
+
+// Toggle children on click.
+function click(d) {
+current_node = d
+document.getElementById('info').setAttribute('src', 'https://legislation.openfisca.fr/variables/' + d.name);
+document.getElementById('variable-label').innerHTML = d.label;
+document.getElementById('variable-name').innerHTML = d.name;
+
+if (d.children) {
+d._children = d.children;
+d.children = null;
+} else {
+d.children = d._children;
+d._children = null;
+}
+update(d);
+}
+
+</script>
+
