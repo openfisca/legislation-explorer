@@ -99,3 +99,7 @@
     cursor: pointer;
     background-color: red;
 }
+
+#loading {
+    margin-top: 5em;
+}

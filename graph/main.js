@@ -1,4 +1,11 @@
-var variables_url = 'https://api.openfisca.fr/api/1/variables';
+var initialVariableName = 'revdisp';
+
+var legislationExplorerBaseUrl = 'https://legislation.openfisca.fr';
+// var legislationExplorerBaseUrl = 'http://localhost:2030';
+
+var apiBaseUrl = 'http://api.openfisca.fr';
+// var apiBaseUrl = 'http://localhost:2000';
+var variables_url = apiBaseUrl + '/api/1/variables';
 
 var important_variables = ["revdisp", "psoc", "impo", "rev_trav", "rev_cap", "pen", "irpp", "iai","iaidrdi","ip_net"];
 
@@ -17,20 +24,24 @@ var unimportant_variables = [
 
 
 function main() {
-  fetch(variables_url).then(function(response) {
+  window.fetch(variables_url).then(function(response) {
     response.text().then(function(responseText) {
       var input_variables = JSON.parse(responseText);
       var variable_map = compute_variable_map(input_variables);
       load_graph(variable_map);
+      updateIframeVariable(initialVariableName);
+      document.getElementById('loading').remove();
     });
-  }, function(error) {
-    variables = {};
-    console.log('Error getting ' + variables_url);
   });
 }
 
+// Page layout functions
 
-// Graphical tree stuff
+function updateIframeVariable(name) {
+  document.getElementById('info').setAttribute('src', legislationExplorerBaseUrl + '/variables/' + name);
+}
+
+// Graphical tree functions
 
 
 var margin = {top: 20, right: 120, bottom: 20, left: 120},
@@ -74,7 +85,7 @@ function find_node_size(d) {
 }
 
 function load_graph(variable_map) {
-  root = compute_tree('revdisp', 10, variable_map, important_variables, unimportant_variables)
+  root = compute_tree(initialVariableName, 10, variable_map, important_variables, unimportant_variables)
   root.x0 = height / 2;
   root.y0 = 0;
   function collapse(d) {
@@ -212,9 +223,8 @@ function toggle_unimportant(d) {
 
 function click(d) {
   // Toggle children on click.
-  current_node = d
-  document.getElementById('info').setAttribute('src', 'https://legislation.openfisca.fr/variables/' + d.name);
-
+  current_node = d;
+  updateIframeVariable(d.name);
   if (d.children) {
     d._children = d.children;
     d.children = null;
@@ -285,9 +295,9 @@ function compute_variable_map(variables) {
         if (variable.hasOwnProperty('label')) {
             label = variable['label']
         }
-        if (variable['name'] == 'revdisp') {
-            console.log(JSON.stringify(children));
-        }
+        // if (variable['name'] == initialVariableName) {
+        //     console.log(JSON.stringify(children));
+        // }
         variable_map[variable['name']] = {
             'name': variable['name'],
             'children': children,
