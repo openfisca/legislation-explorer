@@ -16,7 +16,7 @@ import List from "../list"
 var VariablePage = React.createClass({
   propTypes: {
     computedVariables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
-    countryPackageGitHeadSha: PropTypes.string.isRequired,
+    countryPackageVersion: PropTypes.string.isRequired,
     parameters: PropTypes.arrayOf(AppPropTypes.parameterOrScale).isRequired,
     variable: AppPropTypes.variable.isRequired,
   },
@@ -34,7 +34,7 @@ var VariablePage = React.createClass({
     return new Date().toJSON().slice(0, 10)
   },
   render() {
-    const {countryPackageGitHeadSha, variable} = this.props
+    const {countryPackageVersion, variable} = this.props
     var {formula, label, line_number, module, name} = variable
     return (
       <div>
@@ -45,7 +45,7 @@ var VariablePage = React.createClass({
                 aucun libellé
                 <GitHubLink
                   blobUrlPath={`${module.split(".").join("/")}.py`}
-                  commitReference={countryPackageGitHeadSha}
+                  commitReference={countryPackageVersion}
                   lineNumber={line_number}
                   style={{marginLeft: "1em"}}
                   text="ajouter"
@@ -192,7 +192,7 @@ var VariablePage = React.createClass({
           </Highlight>
           <GitHubLink
             blobUrlPath={`${formula.module.split(".").join("/")}.py`}
-            commitReference={this.props.countryPackageGitHeadSha}
+            commitReference={this.props.countryPackageVersion}
             endLineNumber={formula.line_number + formula.source.trim().split("\n").length - 1}
             lineNumber={formula.line_number}
             style={{
@@ -224,7 +224,7 @@ var VariablePage = React.createClass({
     )
   },
   renderVariableDefinitionsList() {
-    var {countryPackageGitHeadSha, variable} = this.props
+    var {countryPackageVersion, variable} = this.props
     var entityLabelByNamePlural = {
       familles: "Famille",
       "foyers_fiscaux": "Foyer fiscal",
@@ -304,7 +304,7 @@ var VariablePage = React.createClass({
           }
           <GitHubLink
             blobUrlPath={`${variable.module.split(".").join("/")}.py`}
-            commitReference={countryPackageGitHeadSha}
+            commitReference={countryPackageVersion}
             lineNumber={variable.line_number}
             style={{marginLeft: "1em"}}
           >

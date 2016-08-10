@@ -19,7 +19,7 @@ var VariableHandler = React.createClass({
           parameters: PropTypes.arrayOf(AppPropTypes.parameterOrScale).isRequired,
         }),
         variable: PropTypes.shape({
-          country_package_git_head_sha: PropTypes.string.isRequired,
+          country_package_version: PropTypes.string.isRequired,
           variable: AppPropTypes.variable.isRequired,
         }),
       }),
@@ -110,7 +110,7 @@ var VariableHandler = React.createClass({
       content = (
         <VariablePage
           computedVariables={computedVariables}
-          countryPackageGitHeadSha={variablesPromiseData.country_package_git_head_sha}
+          countryPackageVersion={variablesPromiseData.country_package_version}
           parameters={parametersPromiseData.parameters}
           variable={variablesPromiseData.variable}
         />

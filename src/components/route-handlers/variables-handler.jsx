@@ -11,7 +11,7 @@ var VariablesHandler = React.createClass({
   propTypes: {
     dataByRouteName: PropTypes.shape({
       variables: PropTypes.shape({
-        country_package_git_head_sha: PropTypes.string.isRequired,
+        country_package_version: PropTypes.string.isRequired,
         variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
       }),
     }),
@@ -59,7 +59,7 @@ var VariablesHandler = React.createClass({
     } else if (data) {
       content = (
         <VariablesPage
-          countryPackageGitHeadSha={data.country_package_git_head_sha}
+          countryPackageVersion={data.country_package_version}
           variables={data.variables}
         />
       )

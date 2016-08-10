@@ -17,7 +17,7 @@ var ParameterPage = React.createClass({
   mixins: [IntlMixin],
   propTypes: {
     computedVariables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
-    countryPackageGitHeadSha: PropTypes.string.isRequired,
+    countryPackageVersion: PropTypes.string.isRequired,
     currency: PropTypes.string.isRequired,
     parameter: AppPropTypes.parameterOrScale.isRequired,
   },
@@ -196,7 +196,7 @@ var ParameterPage = React.createClass({
     ]
   },
   renderDatedScale(datedScale) {
-    const {countryPackageGitHeadSha, parameter} = this.props
+    const {countryPackageVersion, parameter} = this.props
     const {format, unit, xml_file_path} = parameter
     return (
       <div>
@@ -233,34 +233,42 @@ var ParameterPage = React.createClass({
                       <div className="pull-left text-center">
                         {this.renderValue(datedBracket.threshold.value, format, unit)}
                       </div>
-                      <GitHubLink
-                        blobUrlPath={xml_file_path}
-                        className="pull-right"
-                        commitReference={countryPackageGitHeadSha}
-                        endLineNumber={datedBracket.threshold.end_line_number}
-                        lineNumber={datedBracket.threshold.start_line_number}
-                        style={{color: "gray"}}
-                        text={null}
-                        title="Voir la valeur sur GitHub"
-                      >
-                        {children => <small>{children}</small>}
-                      </GitHubLink>
+                      {
+                        xml_file_path && (
+                          <GitHubLink
+                            blobUrlPath={xml_file_path}
+                            className="pull-right"
+                            commitReference={countryPackageVersion}
+                            endLineNumber={datedBracket.threshold.end_line_number}
+                            lineNumber={datedBracket.threshold.start_line_number}
+                            style={{color: "gray"}}
+                            text={null}
+                            title="Voir la valeur sur GitHub"
+                          >
+                            {children => <small>{children}</small>}
+                          </GitHubLink>
+                        )
+                      }
                     </td>
                     <td style={{width: "50%"}}>
                       <div className="clearfix text-center">
                         {this.renderValue(datedBracket.rate.value, "rate")}
-                        <GitHubLink
-                          blobUrlPath={xml_file_path}
-                          className="pull-right"
-                          commitReference={countryPackageGitHeadSha}
-                          endLineNumber={datedBracket.rate.end_line_number}
-                          lineNumber={datedBracket.rate.start_line_number}
-                          style={{color: "gray"}}
-                          text={null}
-                          title="Voir la valeur sur GitHub"
-                        >
-                          {children => <small>{children}</small>}
-                        </GitHubLink>
+                        {
+                          xml_file_path && (
+                            <GitHubLink
+                              blobUrlPath={xml_file_path}
+                              className="pull-right"
+                              commitReference={countryPackageVersion}
+                              endLineNumber={datedBracket.rate.end_line_number}
+                              lineNumber={datedBracket.rate.start_line_number}
+                              style={{color: "gray"}}
+                              text={null}
+                              title="Voir la valeur sur GitHub"
+                            >
+                              {children => <small>{children}</small>}
+                            </GitHubLink>
+                          )
+                        }
                       </div>
                     </td>
                   </tr>
@@ -303,10 +311,21 @@ var ParameterPage = React.createClass({
     )
   },
   renderParameterDefinitionsList() {
-    var {countryPackageGitHeadSha, currency, parameter} = this.props
+    var {countryPackageVersion, currency, parameter} = this.props
     var {brackets, description, end_line_number, format, start_line_number, unit, values, xml_file_path} = parameter
     var type = parameter["@type"]
-    var fileName = xml_file_path.split("/").splice(-1)
+    var fileName = xml_file_path ? xml_file_path.split("/").splice(-1) : null
+    var sourceCodeLinkLabel = xml_file_path ?
+      (
+        start_line_number ?
+          (
+            end_line_number ?
+              `${fileName} ligne ${start_line_number} à ${end_line_number}` :
+              `${fileName} ligne ${start_line_number}`
+          ) :
+          `${fileName}`
+      ) :
+      null
     return (
       <dl className="dl-horizontal">
         <dt>Type</dt>
@@ -328,23 +347,22 @@ var ParameterPage = React.createClass({
             </dd>
           )
         }
-        <dt>Code source</dt>
-        <dd>
-          {
-            end_line_number ?
-              `${fileName} ligne ${start_line_number} à ${end_line_number}` :
-              `${fileName} ligne ${start_line_number}`
-            }
-          <GitHubLink
-            blobUrlPath={xml_file_path}
-            commitReference={countryPackageGitHeadSha}
-            endLineNumber={end_line_number}
-            lineNumber={start_line_number}
-            style={{marginLeft: "1em"}}
-          >
-            {children => <small>{children}</small>}
-          </GitHubLink>
-        </dd>
+        {sourceCodeLinkLabel && <dt>Code source</dt>}
+        {
+          sourceCodeLinkLabel && (
+            <dd>
+              <GitHubLink
+                blobUrlPath={xml_file_path}
+                commitReference={countryPackageVersion}
+                endLineNumber={end_line_number}
+                lineNumber={start_line_number}
+                style={{marginLeft: "1em"}}
+              >
+                {children => <small>{children}</small>}
+              </GitHubLink>
+            </dd>
+          )
+        }
         {this.renderConsumerVariables()}
       </dl>
     )
@@ -421,7 +439,7 @@ var ParameterPage = React.createClass({
   },
   renderStartStopValue(valueJson, format, unit, idx) {
     const {end_line_number, start, start_line_number, stop, value} = valueJson
-    const {countryPackageGitHeadSha, parameter} = this.props
+    const {countryPackageVersion, parameter} = this.props
     const {xml_file_path} = parameter
     const type = parameter["@type"]
     const formattedStartDate = <FormattedDate format="short" value={start} />
@@ -458,18 +476,22 @@ var ParameterPage = React.createClass({
         </td>
         <td className="clearfix">
           {this.renderValue(value, format, unit)}
-          <GitHubLink
-            blobUrlPath={xml_file_path}
-            className="pull-right"
-            commitReference={countryPackageGitHeadSha}
-            endLineNumber={end_line_number}
-            lineNumber={start_line_number}
-            style={{color: "gray"}}
-            text={null}
-            title="Voir la valeur sur GitHub"
-          >
-            {children => <small>{children}</small>}
-          </GitHubLink>
+          {
+            xml_file_path && (
+              <GitHubLink
+                blobUrlPath={xml_file_path}
+                className="pull-right"
+                commitReference={countryPackageVersion}
+                endLineNumber={end_line_number}
+                lineNumber={start_line_number}
+                style={{color: "gray"}}
+                text={null}
+                title="Voir la valeur sur GitHub"
+              >
+                {children => <small>{children}</small>}
+              </GitHubLink>
+            )
+          }
         </td>
       </tr>
     )

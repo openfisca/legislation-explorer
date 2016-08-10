@@ -17,7 +17,7 @@ var simpleFormula = PropTypes.shape({
 var startStopValue = PropTypes.shape({
   end_line_number: PropTypes.number,
   start: PropTypes.string.isRequired,
-  start_line_number: PropTypes.number.isRequired,
+  start_line_number: PropTypes.number,
   stop: PropTypes.string,
   value: PropTypes.oneOfType([
     PropTypes.bool,
@@ -97,10 +97,10 @@ var parameter = PropTypes.shape({
     "integer",
     "rate",
   ]).isRequired,
-  start_line_number: PropTypes.number.isRequired,
+  start_line_number: PropTypes.number,
   unit,
   values: PropTypes.arrayOf(startStopValue),
-  xml_file_path: PropTypes.string.isRequired,
+  xml_file_path: PropTypes.string,
 })
 
 var scale = PropTypes.shape({
@@ -109,15 +109,15 @@ var scale = PropTypes.shape({
     PropTypes.shape({
       end_line_number: PropTypes.number,
       rate: PropTypes.arrayOf(startStopValue).isRequired,
-      start_line_number: PropTypes.number.isRequired,
+      start_line_number: PropTypes.number,
       threshold: PropTypes.arrayOf(startStopValue).isRequired,
     }),
   ),
   description: PropTypes.string.isRequired,
   end_line_number: PropTypes.number,
-  start_line_number: PropTypes.number.isRequired,
+  start_line_number: PropTypes.number,
   unit,
-  xml_file_path: PropTypes.string.isRequired,
+  xml_file_path: PropTypes.string,
 })
 
 var variable = PropTypes.shape({

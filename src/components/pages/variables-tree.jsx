@@ -12,7 +12,7 @@ import GitHubLink from "../github-link"
 var VariablesTree = React.createClass({
   mixins: [ImmutableRenderMixin],
   propTypes: {
-    countryPackageGitHeadSha: PropTypes.string.isRequired,
+    countryPackageVersion: PropTypes.string.isRequired,
     cursor: PropTypes.object.isRequired,
   },
   handleChildClick(event, childName) {
@@ -62,7 +62,7 @@ var VariablesTree = React.createClass({
         </a>
         <div className={classNames({hide: !isOpened})} style={{marginLeft: 20}}>
           <VariablesTree
-            countryPackageGitHeadSha={this.props.countryPackageGitHeadSha}
+            countryPackageVersion={this.props.countryPackageVersion}
             cursor={this.props.cursor.cursor(["children", childName])}
           />
         </div>
@@ -70,7 +70,7 @@ var VariablesTree = React.createClass({
     )
   },
   renderVariableListItem(variable, idx) {
-    const {countryPackageGitHeadSha} = this.props
+    const {countryPackageVersion} = this.props
     const {label, line_number, matches, module, name} = variable
     return (
       <li className={classNames({hide: !matches})} key={idx}>
@@ -82,7 +82,7 @@ var VariablesTree = React.createClass({
               aucun libellé
               <GitHubLink
                 blobUrlPath={`${module.split(".").join("/")}.py`}
-                commitReference={countryPackageGitHeadSha}
+                commitReference={countryPackageVersion}
                 lineNumber={line_number}
                 style={{marginLeft: "1em"}}
                 text="ajouter"

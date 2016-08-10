@@ -17,7 +17,7 @@ var ParameterHandler = React.createClass({
     dataByRouteName: PropTypes.shape({
       parameter: PropTypes.shape({
         parameter: PropTypes.shape({
-          country_package_git_head_sha: PropTypes.string.isRequired,
+          country_package_version: PropTypes.string.isRequired,
           currency: PropTypes.string.isRequired,
           parameter: AppPropTypes.parameterOrScale.isRequired,
         }),
@@ -120,7 +120,7 @@ var ParameterHandler = React.createClass({
       content = (
         <ParameterPage
           computedVariables={computedVariables}
-          countryPackageGitHeadSha={parameterPromiseData.country_package_git_head_sha}
+          countryPackageVersion={parameterPromiseData.country_package_version}
           currency={parameterPromiseData.currency}
           parameter={parameterPromiseData.parameter}
         />
