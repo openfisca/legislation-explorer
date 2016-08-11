@@ -265,7 +265,7 @@ var VariablePage = React.createClass({
           <dd>{entityLabelByNamePlural[variable.entity]}</dd>
         </dl>
         <hr/>
-        <dl>
+        <dl className="dl-horizontal">
           <dt>Type</dt>
           <dd>
             <code>{type}</code>
