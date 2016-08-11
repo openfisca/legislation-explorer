@@ -20,7 +20,7 @@ var HomePage = React.createClass({
                 Visualiser et rechercher les variables d'entrée, les variables calculées et leurs dépendences.
               </p>
               <p>
-                <a className="btn btn-primary" href="/graph">Graphe »</a>
+                <a className="btn btn-primary" href="/graph/">Graphe »</a>
                 <span style={{marginLeft: 20}} />
                 <Link className="btn btn-default" to="variables">Liste »</Link>
               </p>
