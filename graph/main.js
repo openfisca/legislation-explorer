@@ -3,7 +3,7 @@ var initialVariableName = 'revdisp';
 var legislationExplorerBaseUrl = 'https://legislation.openfisca.fr';
 // var legislationExplorerBaseUrl = 'http://localhost:2030';
 
-var apiBaseUrl = 'http://api.openfisca.fr';
+var apiBaseUrl = 'https://api.openfisca.fr';
 // var apiBaseUrl = 'http://localhost:2000';
 var variables_url = apiBaseUrl + '/api/1/variables';
 
