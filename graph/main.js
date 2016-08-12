@@ -384,15 +384,15 @@ function compute_tree(variable, max_depth, variable_map, important_variables) {
                   return 1
               }
 
-        var indexA = important_variables.indexOf(a['variable']);
-        if (indexA === -1) {
-                indexA = important_variables.length
-        }
+              var indexA = important_variables.indexOf(a['variable']);
+              if (indexA === -1) {
+                      indexA = important_variables.length + unimportant_variables.indexOf(a['variable']) + 1
+              }
               var indexB = important_variables.indexOf(b['variable']);
               if (indexB === -1) {
-                indexB = important_variables.length
-        }
-        return indexA - indexB
+                  indexB = important_variables.length + unimportant_variables.indexOf(b['variable']) + 1
+              }
+              return indexA - indexB
           });
 
       return {
