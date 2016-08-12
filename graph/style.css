@@ -33,13 +33,15 @@
 }
 
 .right-column {
-    width: 40%;
-    position: fixed;
-    top: 0;
     right: 0;
-    height: 200%;
-    margin-top: -160px;
-    border: solid 1px;
+    height: 1500px;
+    border-left: solid 1px;
+    z-index: 2;
+    border-right: none;
+    background-color: white;
+    padding-right: 0px !important;
+    margin-top: -100px;
+    border-top: none;
 }
 
 .circle {
@@ -77,9 +79,10 @@
     margin-left: -10px;
     padding-left: 15px;
     position: fixed;
-    top: 0px;
-    width: 60%;
-    z-index: -1;
+    bottom: 0px;
+    z-index: 1;
+    width:100%;
+    background-color: white;
 }
 
 .toggle_important {
@@ -98,6 +101,21 @@
     left: 100px;
     cursor: pointer;
     background-color: red;
+}
+
+.d3-navbar {
+    position: fixed !important;
+    top: 0;
+    width: 100%;
+}
+
+.node-size {
+    font-size: 12px !important;
+    padding: 3px !important;
+}
+
+.node-description {
+    margin-left: 15px;
 }
 
 #loading {

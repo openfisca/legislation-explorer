@@ -1,23 +1,62 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <title>Graphe des dépendances des variables d'OpenFisca</title>
+</head>
+<body>
+<div>
+    <a class="sr-only" href="#content">Sauter au contenu principal</a>
+    <div class="navbar navbar-inverse navbar-static-top d3-navbar" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="navbar-toggle"
+                        data-target=".navbar-responsive-collapse"
+                        data-toggle="collapse"
+                        type="button">
+                    <span class="sr-only">Basculer la navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">OpenFisca</a>
+            </div>
+            <div class="collapse navbar-collapse navbar-responsive-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="/presentation">Présentation</a></li>
+                    <li><a href="/documentation">Documentation</a></li>
+                    <li><a href="/outils">Outils</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/about">À propos</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row no-gutter">
         <p id="loading">Chargement...</p>
-        <iframe class="right-column" id="info"></iframe>
-        <div class="legend">
-            Mesure calculée à l'échelle de :
+        <svg class="col-xs-12 col-sm-6 col-md-8"></svg>
+        <iframe class="right-column col-xs-12 col-sm-6 col-md-4" id="info" onload=""></iframe>
+        <div class="legend" id="legend">
+            Selection en:
+            <div class="btn btn-success node-size" onclick="toggle_important_current();">Gros</div>
+            <div class="btn btn-default node-size" onclick="toggle_default_current();">Moyen</div>
+            <div class="btn btn-warning node-size" onclick="toggle_unimportant_current();">Petit</div>
+            <span class="node-description"> Calculée par: </span>
             <div class="circle" id="individus"></div>Individu
             <div class="circle" id="familles"></div>Famille
             <div class="circle" id="menages"></div>Ménage
             <div class="circle" id="foyers_fiscaux"></div>Foyer Fiscal
         </div>
-        <div class="circle toggle_important" onclick="toggle_important_current();"></div>
-        <div class="circle toggle_unimportant" onclick="toggle_unimportant_current();"></div>
-        <script src="//d3js.org/d3.v3.min.js"></script>
-        <script src="main.js"></script>
-        <script>main();</script>
-    </body>
+    </div>
+</div>
+<script src="//d3js.org/d3.v3.min.js"></script>
+<script src="main.js"></script>
+<script>main();</script>
+</body>
 </html>

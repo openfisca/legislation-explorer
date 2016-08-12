@@ -32,6 +32,7 @@ function main() {
       updateIframeVariable(initialVariableName);
       document.getElementById('loading').remove();
     });
+  document.getElementById('legend').setAttribute('display', 'block')
   });
 }
 
@@ -56,8 +57,7 @@ var tree = d3.layout.tree()
 var diagonal = d3.svg.diagonal()
   .projection(function(d) { return [d.y, d.x]; });
 
-var svg = d3.select("body").append("svg")
-  .attr("width", width + margin.right + margin.left)
+var svg = d3.select("svg")
   .attr("height", height + margin.top + margin.bottom)
   .call(d3.behavior.zoom().on("zoom", redraw))
   .append("g")
@@ -201,10 +201,22 @@ function toggle_important(d) {
   var index = important_variables.indexOf(d.variable);
   if (index == -1) {
     important_variables.push(d.variable);
-    console.log(important_variables);
-  } else {
+  }
+  index = unimportant_variables.indexOf(d.variable);
+  if (index > -1) {
+    unimportant_variables.splice(index, 1);
+  }
+  update(d);
+}
+
+function toggle_default(d) {
+  var index = important_variables.indexOf(d.variable);
+  if (index > -1) {
     important_variables.splice(index, 1);
-    console.log(important_variables);
+  }
+  var index = unimportant_variables.indexOf(d.variable);
+  if (index > -1) {
+    unimportant_variables.splice(index, 1);
   }
   update(d);
 }
@@ -213,10 +225,10 @@ function toggle_unimportant(d) {
   var index = unimportant_variables.indexOf(d.variable);
   if (index == -1) {
     unimportant_variables.push(d.variable);
-    console.log("Unimportant variables = " + unimportant_variables);
-  } else {
-    unimportant_variables.splice(index, 1);
-    console.log("Unimportant variables = " + unimportant_variables);
+  }
+  index = important_variables.indexOf(d.variable);
+  if (index > -1) {
+    important_variables.splice(index, 1);
   }
   update(d);
 }
@@ -254,10 +266,13 @@ function toggle_important_current() {
   toggle_important(current_node)
 }
 
+function toggle_default_current() {
+  toggle_default(current_node)
+}
+
 function toggle_unimportant_current() {
   toggle_unimportant(current_node)
 }
-
 
 // Compute variables tree
 
