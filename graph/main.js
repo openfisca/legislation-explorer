@@ -1,13 +1,15 @@
 var initialVariableName = 'revdisp';
 
-var legislationExplorerBaseUrl = 'https://legislation.openfisca.fr';
-// var legislationExplorerBaseUrl = 'http://localhost:2030';
+//var legislationExplorerBaseUrl = 'https://legislation.openfisca.fr';
+var legislationExplorerBaseUrl = 'http://localhost:2030';
 
 var apiBaseUrl = 'https://api.openfisca.fr';
 // var apiBaseUrl = 'http://localhost:2000';
 var variables_url = apiBaseUrl + '/api/1/variables';
 
-var important_variables = ["revdisp", "psoc", "impo", "rev_trav", "rev_cap", "pen", "irpp", "iai","iaidrdi","ip_net"];
+var important_variables = ["revdisp", "psoc", "impo", "rev_trav", "rev_cap", "pen", "irpp", "iai", "iaidrdi", "ip_net"];
+
+var variable_map = {};
 
 var unimportant_variables = [
   "nombre_enfants_majeurs_celibataires_sans_enfant","age","af_nbenf",
@@ -27,8 +29,8 @@ function main() {
   window.fetch(variables_url).then(function(response) {
     response.text().then(function(responseText) {
       var input_variables = JSON.parse(responseText);
-      var variable_map = compute_variable_map(input_variables);
-      load_graph(variable_map);
+      variable_map = compute_variable_map(input_variables);
+      load_graph(variable_map, initialVariableName);
       updateIframeVariable(initialVariableName);
       document.getElementById('loading').remove();
     });
@@ -42,8 +44,24 @@ function updateIframeVariable(name) {
   document.getElementById('info').setAttribute('src', legislationExplorerBaseUrl + '/variables/' + name);
 }
 
-// Graphical tree functions
+// Function update graph when something is changed
 
+function update_graph() {
+    if (window.event.keyCode == 13) {
+		event.cancelBubble = true;
+		event.returnValue = false;
+        var variable = document.getElementById('search-bar').value;
+        if (variable == '') variable = 'revdisp';
+        if (variable_map.hasOwnProperty(variable)) {
+            load_graph(variable_map, variable);
+            updateIframeVariable(variable);
+        } else {
+            alert(' La variable ' + variable + " n'as pas été trouvée")
+        }
+    }
+}
+
+// Graphical tree functions
 
 var margin = {top: 20, right: 120, bottom: 20, left: 120},
   width = 3000 - margin.right - margin.left,
@@ -84,8 +102,8 @@ function find_node_size(d) {
   return 6
 }
 
-function load_graph(variable_map) {
-  root = compute_tree(initialVariableName, 10, variable_map, important_variables, unimportant_variables)
+function load_graph(variable_map, initial_variable) {
+  root = compute_tree(initial_variable, 10, variable_map, important_variables, unimportant_variables)
   root.x0 = height / 2;
   root.y0 = 0;
   function collapse(d) {
