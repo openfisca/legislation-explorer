@@ -1,3 +1,25 @@
+
+#search-bar {
+    width: 300px;
+}
+
+.dropdown-item {
+    overflow: scroll;
+}
+
+.twitter-typeahead .tt-dropdown-menu {
+     position: absolute !important;
+     z-index:9999 !important;
+}
+
+.tt-query {
+     backgroud-color: #fff !important;
+}
+
+.tt-menu {
+     backgroud-color: #fff !important;
+}
+
 .node {
     cursor: pointer;
 }
