@@ -1,7 +1,7 @@
 // Webpack config for creating the production bundle.
 
 // Register babel to have ES6 support on the server
-require("babel/register")
+require("babel-register")
 
 var path = require("path")
 var strip = require("strip-loader")
@@ -25,7 +25,7 @@ module.exports = {
   module: {
     loaders: [
       {
-        exclude: /node_modules/,
+        exclude: /(node_modules|public)/,
         loaders: [strip.loader("debug"), "babel"],
         test: /\.jsx?$/,
       },

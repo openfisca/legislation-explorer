@@ -13,7 +13,7 @@ const WEBPACK_HOST = process.env.HOST || "localhost"
 const WEBPACK_PORT = parseInt(process.env.PORT) + 1 || 2031
 
 
-export default {
+module.exports = {
   devtool: "eval",
   entry: {
     "main": [
@@ -31,7 +31,7 @@ export default {
   module: {
     loaders: [
       {
-        exclude: /node_modules/,
+        exclude: /(node_modules|public)/,
         loaders: ["react-hot", "babel"],
         test: /\.(js|jsx)$/,
       },
@@ -69,6 +69,7 @@ export default {
         BROWSER: JSON.stringify(true),
         HOST: JSON.stringify(process.env.HOST),
         NODE_ENV: JSON.stringify("development"),
+        API_URL: JSON.stringify(process.env.API_URL),
       },
     }),
 

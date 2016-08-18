@@ -11,7 +11,6 @@ import webservices from "../../webservices"
 
 
 var VariableHandler = React.createClass({
-  mixins: [State],
   propTypes: {
     dataByRouteName: PropTypes.shape({
       variable: PropTypes.shape({
@@ -56,7 +55,7 @@ var VariableHandler = React.createClass({
     return "Variable non trouvée"
   },
   render() {
-    var name = this.getParams().name
+    var name = this.props.params.name
     var {dataByRouteName, errorByRouteName} = this.props
     var error = errorByRouteName && errorByRouteName.variable
     var dataByPromiseName = dataByRouteName && dataByRouteName.variable

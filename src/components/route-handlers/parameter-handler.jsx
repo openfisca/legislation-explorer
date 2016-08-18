@@ -12,7 +12,6 @@ import webservices from "../../webservices"
 
 
 var ParameterHandler = React.createClass({
-  mixins: [State],
   propTypes: {
     dataByRouteName: PropTypes.shape({
       parameter: PropTypes.shape({
@@ -64,7 +63,7 @@ var ParameterHandler = React.createClass({
     return "Paramètre non trouvée"
   },
   render() {
-    var name = this.getParams().name
+    var name = this.props.params.name
     var hyphenatedName = this.getHyphenatedName(name)
     var {dataByRouteName, errorByRouteName} = this.props
     var error = errorByRouteName && errorByRouteName.parameter
@@ -94,7 +93,7 @@ var ParameterHandler = React.createClass({
   renderContent(dataByPromiseName, error) {
     var content
     if (error) {
-      var name = this.getParams().name
+      var name = this.props.params.name
       content = error instanceof NotFound ? (
         <NotFoundPage message={this.getNotFoundMessage()}>
           <div className="alert alert-danger">

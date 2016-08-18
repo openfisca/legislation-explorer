@@ -1,5 +1,5 @@
 import {Link} from "react-router"
-import {Navigation, State} from "react-router"
+import {withRouter} from "react-router"
 import Immutable from "immutable"
 import React, {PropTypes} from "react"
 import TextFilter from "react-text-filter"
@@ -10,7 +10,6 @@ import List from "../list"
 
 
 var ParametersPage = React.createClass({
-  mixins: [Navigation, State],
   propTypes: {
     parameters: PropTypes.arrayOf(AppPropTypes.parameterOrScale).isRequired,
   },
@@ -58,7 +57,7 @@ var ParametersPage = React.createClass({
   },
   getStateFromQuery() {
     const toBoolean = (str) => /^true|t|yes|y|1$/i.test(str)
-    const {name, parameter_type, search_in_description} = this.getQuery()
+    const {name, parameter_type, search_in_description} = this.props.router.location.query
     return {
       nameInput: name || "",
       parameterType: parameter_type || "",
@@ -175,14 +174,17 @@ var ParametersPage = React.createClass({
   },
   updateQueryFromState() {
     // Browser only method.
-    const query = this.getQuery()
+    const router = this.props.router
+    const query = router.location.query
     const permanentQuery = {api_url: query.api_url}
     const stateQuery = this.getQueryFromState()
     const newQuery = Object.assign({}, permanentQuery, stateQuery)
-    const path = this.makePath(this.getPathname(), this.getParams(), newQuery)
+    //TODO if you are not a route component
+    //Note not all State functionality can be accessed via context in v1.0. For example, params is not available via context.
+    const path = router.makePath(router.location.pathname, router.params, newQuery)
     window.history.replaceState({path}, "", path)
   },
 })
 
 
-export default ParametersPage
+export default withRouter(ParametersPage)

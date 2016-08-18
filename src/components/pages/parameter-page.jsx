@@ -1,9 +1,7 @@
-import {FormattedDate, FormattedMessage} from "react-intl"
-import {IntlMixin} from "react-intl"
+import {FormattedDate, FormattedNumber} from "react-intl"
 import {Link} from "react-router"
 import {sortAlphabeticallyBy} from "trine/iterable/sortAlphabeticallyBy"
 import {to} from "trine/iterable/to"
-import moment from "moment"
 import React, {PropTypes} from "react"
 
 import AppPropTypes from "../../app-prop-types"
@@ -14,7 +12,6 @@ import List from "../list"
 
 
 var ParameterPage = React.createClass({
-  mixins: [IntlMixin],
   propTypes: {
     computedVariables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
     countryPackageVersion: PropTypes.string.isRequired,
@@ -70,7 +67,8 @@ var ParameterPage = React.createClass({
   },
   handleDatedScaleInstantApply() {
     const {datedScaleInstantText} = this.state
-    const datedScaleInstant = moment(datedScaleInstantText, "DD/MM/YYYY").format("YYYY-MM-DD")
+    //TODO is this working like moment(datedScaleInstantText, "DD/MM/YYYY").format("YYYY-MM-DD") ?
+    const datedScaleInstant = datedScaleInstantText.split("/").reverse().join("-")
     this.setState({datedScaleInstant})
   },
   handleDatedScaleInstantSet(datedScaleInstant) {
@@ -217,15 +215,10 @@ var ParameterPage = React.createClass({
                       {
                         (previousValue !== null && previousValue !== datedBracket.threshold.value) && (
                           <div className="text-center text-muted">
-                            <FormattedMessage
-                              message="de {value} à"
-                              value={
-                                <span style={{marginRight: "1em"}}>
-                                  {this.renderValue(previousValue, format)}
-                                </span>
-                              }
-                            />
-                        </div>
+                            de <span style={{marginRight: "1em"}}>
+                                {this.renderValue(previousValue, format)}
+                              </span> à
+                          </div>
                         )
                       }
                     </td>
@@ -376,44 +369,40 @@ var ParameterPage = React.createClass({
       <div>
         <h4 id="bareme" style={{marginBottom: "2em"}}>
           <form className="form-inline" onSubmit={this.handleDatedScaleInstantSubmit}>
-            <FormattedMessage
-              instant={
-                <div className="input-group input-group-sm" style={{marginLeft: "0.3em"}}>
-                  <input
-                    className="form-control"
-                    onBlur={this.handleDatedScaleInstantApply}
-                    onChange={this.handleDatedScaleInstantTextChange}
-                    placeholder="dd/mm/YYYY"
-                    type="text"
-                    value={datedScaleInstantText}
-                  />
-                  <Dropdown
-                    className="input-group-btn"
-                    items={[
-                      {
-                        onSelect: this.handleDatedScaleInstantApply,
-                        text: "OK",
-                        title: "Afficher un barême à la date demandée",
-                      },
-                      {
-                        onSelect: this.handleDatedScaleLastKnownInstantClick,
-                        text: "Dernière date connue",
-                        title: "Afficher un barême correspondant à la dernière date connue toutes tranches confondues",
-                      },
-                      {
-                        disabled: !todayDatedScale,
-                        onSelect: this.handleDatedScaleTodayClick,
-                        text: "Aujourd'hui",
-                        title: todayDatedScale ?
-                          "Afficher un barême à la date du jour" :
-                          "Aucun barème à afficher à la date du jour",
-                      },
-                    ]}
-                  />
-                </div>
-              }
-              message="Barème au {instant}"
-            />
+            Barème au
+            <div className="input-group input-group-sm" style={{marginLeft: "0.3em"}}>
+              <input
+                className="form-control"
+                onBlur={this.handleDatedScaleInstantApply}
+                onChange={this.handleDatedScaleInstantTextChange}
+                placeholder="dd/mm/YYYY"
+                type="text"
+                value={datedScaleInstantText}
+              />
+              <Dropdown
+                className="input-group-btn"
+                items={[
+                  {
+                    onSelect: this.handleDatedScaleInstantApply,
+                    text: "OK",
+                    title: "Afficher un barême à la date demandée",
+                  },
+                  {
+                    onSelect: this.handleDatedScaleLastKnownInstantClick,
+                    text: "Dernière date connue",
+                    title: "Afficher un barême correspondant à la dernière date connue toutes tranches confondues",
+                  },
+                  {
+                    disabled: !todayDatedScale,
+                    onSelect: this.handleDatedScaleTodayClick,
+                    text: "Aujourd'hui",
+                    title: todayDatedScale ?
+                      "Afficher un barême à la date du jour" :
+                      "Aucun barème à afficher à la date du jour",
+                  },
+                ]}
+              />
+            </div>
           </form>
         </h4>
         {
@@ -470,8 +459,8 @@ var ParameterPage = React.createClass({
         <td>
           {
             stop ?
-              <FormattedMessage message="{start} - {stop}" start={startComponent} stop={stopComponent} /> :
-              <FormattedMessage message="{start}" start={startComponent} />
+              <span>{startComponent} - {stopComponent}</span> :
+              <span>{startComponent}</span>
           }
         </td>
         <td className="clearfix">
@@ -513,7 +502,8 @@ var ParameterPage = React.createClass({
           {
             format === "rate" ? this.renderFloatValue(value * 100) :
             format !== "boolean" ? this.renderFloatValue(value) :
-            value.toString()
+            //TODO is this working ?
+            <FormattedNumber value={1000}/>
           }
         </samp>
         {

@@ -28,4 +28,4 @@ function polyfillIntl(callback) {
 }
 
 
-export default {intlData, polyfillIntl}
+export {intlData, polyfillIntl}

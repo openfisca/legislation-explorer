@@ -1,14 +1,11 @@
 import {Link} from "react-router"
-import React from "react/addons"
+import React from "react"
 import url from "url"
 
 import config from "../config"
 
 
-var NavBar = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
-  render() {
-    return (
+export default () => (
       <div className="navbar navbar-inverse navbar-static-top" role="navigation">
         <div className="container">
           <div className="navbar-header">
@@ -37,10 +34,4 @@ var NavBar = React.createClass({
             </ul>
           </div>
         </div>
-      </div>
-    )
-  },
-})
-
-
-export default NavBar
+      </div>)

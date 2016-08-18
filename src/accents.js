@@ -1,4 +1,4 @@
-function withoutAccents(str) {
+export default function withoutAccents(str) {
   const accentsByChar = {
     "a": "[àáâãäå]", "ae": "æ", "c": "ç", "e": "[èéêë]", "i": "[ìíîï]", "n": "ñ", "o": "[òóôõö]", "oe": "œ",
     "u": "[ùúûűü]", "y": "[ýÿ]",
@@ -8,6 +8,3 @@ function withoutAccents(str) {
     str
   )
 }
-
-
-export default {withoutAccents}

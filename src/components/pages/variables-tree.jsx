@@ -1,26 +1,24 @@
 import {Link} from "react-router"
 import classNames from "classnames"
-import ImmutableRenderMixin from "react-immutable-render-mixin"
-import React, {PropTypes} from "react"
-
+import {immutableRenderDecorator} from "react-immutable-render-mixin"
+import React, {Component, PropTypes} from "react"
 import GitHubLink from "../github-link"
 
 
 // const debug = require("debug")("app:VariablesTree")
 
-
-var VariablesTree = React.createClass({
-  mixins: [ImmutableRenderMixin],
+@immutableRenderDecorator
+class VariablesTree extends Component {
   propTypes: {
     countryPackageVersion: PropTypes.string.isRequired,
     cursor: PropTypes.object.isRequired,
-  },
+  }
   handleChildClick(event, childName) {
     event.preventDefault()
     var {cursor} = this.props
     var openedPath = ["children", childName, "opened"]
     cursor.updateIn(openedPath, opened => !(opened || typeof opened === "undefined"))
-  },
+  }
   render() {
     var {cursor} = this.props
     var children = cursor.get("children")
@@ -45,7 +43,7 @@ var VariablesTree = React.createClass({
         }
       </div>
     )
-  },
+  }
   renderChild(childName, child, idx) {
     var isOpened = child.get("opened") || typeof child.get("opened") === "undefined"
     return (
@@ -68,7 +66,7 @@ var VariablesTree = React.createClass({
         </div>
       </div>
     )
-  },
+  }
   renderVariableListItem(variable, idx) {
     const {countryPackageVersion} = this.props
     const {label, line_number, matches, module, name} = variable
@@ -93,8 +91,8 @@ var VariablesTree = React.createClass({
         }
       </li>
     )
-  },
-})
+  }
+}
 
 
 export default VariablesTree

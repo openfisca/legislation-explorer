@@ -1,4 +1,4 @@
-import {Link, State} from "react-router"
+import {Link} from "react-router"
 import React from "react"
 
 import BreadCrumb from "../breadcrumb"
@@ -6,7 +6,6 @@ import NotFoundPage from "../pages/not-found-page"
 
 
 var NotFoundHandler = React.createClass({
-  mixins: [State],
   render() {
     var message = "Page non trouvée"
     return (
@@ -19,7 +18,7 @@ var NotFoundHandler = React.createClass({
         </div>
         <NotFoundPage message={message}>
           <div className="alert alert-danger">
-            {`La page « ${this.getPathname()} » n'existe pas.`}
+            {`La page « ${this.props.location.pathname} » n'existe pas.`}
           </div>
           <Link to="home">
             Retour à l'explorateur de la législation
