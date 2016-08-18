@@ -17,7 +17,7 @@ var BreadCrumb = React.createClass({
           <a href={config.websiteUrl}>Accueil</a>
         </li>
         <li>
-          <a href={url.resolve(config.websiteUrl, "/outils")}>Outils</a>
+          <a href={url.resolve(config.websiteUrl, "/tools")}>Outils</a>
         </li>
         <li className={classNames({active: !this.props.children})}>
           {

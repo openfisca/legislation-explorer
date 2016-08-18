@@ -29,7 +29,7 @@ var NavBar = React.createClass({
             <ul className="nav navbar-nav">
               <li><a href={url.resolve(config.websiteUrl, "/presentation")}>Présentation</a></li>
               <li><a href={url.resolve(config.websiteUrl, "/documentation")}>Documentation</a></li>
-              <li><a href={url.resolve(config.websiteUrl, "/outils")}>Outils</a></li>
+              <li><a href={url.resolve(config.websiteUrl, "/tools")}>Outils</a></li>
             </ul>
             <ul className="nav navbar-nav navbar-right">
               <li><Link to="about">À propos</Link></li>
