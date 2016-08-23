@@ -2,7 +2,7 @@ import classNames from "classnames"
 import React, {PropTypes} from "react"
 
 
-var Collapse = React.createClass({
+const Collapse = React.createClass({
   propTypes: {
     children: PropTypes.node.isRequired,
     title: PropTypes.node.isRequired,

@@ -1,7 +1,7 @@
 import React, {PropTypes} from "react"
 
 
-var List = React.createClass({
+const List = React.createClass({
   propTypes: {
     children: PropTypes.func,
     keyProperty: PropTypes.string,
@@ -9,7 +9,7 @@ var List = React.createClass({
     items: PropTypes.array.isRequired,
   },
   render() {
-    var {children, keyProperty, items, type} = this.props
+    const {children, keyProperty, items, type} = this.props
     return (
       <ul className={type ? `list-${type}` : null} style={{marginBottom: type === "inline" && 0}}>
         {

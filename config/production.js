@@ -6,7 +6,7 @@ const apiBaseUrl = "https://api.openfisca.fr",
   websiteUrl = "https://www.openfisca.fr/"
 
 
-export {
+export default {
   apiBaseUrl,
   gitWebpageUrl,
   websiteUrl

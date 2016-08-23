@@ -2,7 +2,7 @@ import classNames from "classnames"
 import React, {PropTypes} from "react"
 
 
-var Dropdown = React.createClass({
+const Dropdown = React.createClass({
   propTypes: {
     className: PropTypes.string,
     items: PropTypes.arrayOf(PropTypes.shape({

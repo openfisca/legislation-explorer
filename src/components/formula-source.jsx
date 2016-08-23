@@ -2,14 +2,14 @@ import {Link} from "react-router"
 import React, {PropTypes} from "react"
 
 
-var FormulaSource = React.createClass({
+const FormulaSource = React.createClass({
   propTypes: {
     children: PropTypes.string.isRequired,
     inputVariableNames: PropTypes.arrayOf(PropTypes.string),
   },
   getSourceFragments(source, inputVariableNames) {
     return inputVariableNames.reduce((memo, inputVariable) => {
-      var idx = 0
+      let idx = 0
       return memo.reduce((fragmentMemo, fragment) => {
         if (fragment.source) {
           const inputVariableFragments = this.getSourceFragmentsForInputVariable(fragment.source, inputVariable)
@@ -24,8 +24,8 @@ var FormulaSource = React.createClass({
   },
   getSourceFragmentsForInputVariable(source, inputVariable) {
     const regexp = new RegExp(`['"](${inputVariable})['"]`, "g")
-    var match
-    var fragments = []
+    let match
+    let fragments = []
     while ((match = regexp.exec(source)) !== null) {
       const index = match.index + 1
       fragments = fragments.concat([
@@ -46,7 +46,7 @@ var FormulaSource = React.createClass({
           sourceFragments.map((fragment, idx) => fragment.source ? (
             <span key={idx}>{fragment.source}</span>
           ) : fragment.inputVariable ? (
-            <Link key={idx} params={{name: fragment.inputVariable}} to="variable">
+            <Link key={idx} to={`/variables/${fragment.inputVariable}`}>
               <span
                 aria-hidden="true"
                 className="glyphicon glyphicon-link"
@@ -63,8 +63,7 @@ var FormulaSource = React.createClass({
     )
   },
   render() {
-    const {inputVariableNames} = this.props
-    const source = this.props.children
+    const {children, inputVariableNames} = this.props
     return (
       <div style={{
         fontFamily: "monospace",
@@ -72,7 +71,7 @@ var FormulaSource = React.createClass({
         overflowWrap: "normal",
         whiteSpace: "pre",
       }}>
-        {this.getSourceWithLinks(source, inputVariableNames)}
+        {this.getSourceWithLinks(children, inputVariableNames)}
       </div>
     )
   },

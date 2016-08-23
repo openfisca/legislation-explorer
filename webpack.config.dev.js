@@ -1,20 +1,23 @@
 // This is the webpack config to use during development.
 // It enables the hot module replacement, the source maps and inline CSS styles.
 
+import CopyWebpackPlugin from "copy-webpack-plugin"
 import ErrorNotificationPlugin from "webpack-error-notification"
 import path from "path"
 import webpack from "webpack"
 
-const assetsPath = path.resolve(__dirname, "../public/assets")
-import notifyStats from "./utils/notify-stats"
-import writeStats from "./utils/write-stats"
+import writeAssets from "./src/server/write-assets"
+
+
+const assetsPath = path.resolve(__dirname, "public")
 
 const WEBPACK_HOST = process.env.HOST || "localhost"
 const WEBPACK_PORT = parseInt(process.env.PORT) + 1 || 2031
 
 
 module.exports = {
-  devtool: "eval",
+  // devtool: "eval", // Transformed code
+  devtool: "source-map", // Original code
   entry: {
     "main": [
       `webpack-dev-server/client?http://${WEBPACK_HOST}:${WEBPACK_PORT}`,
@@ -24,21 +27,27 @@ module.exports = {
   },
   output: {
     path: assetsPath,
-    filename: "[name]-[hash].js",
-    chunkFilename: "[name]-[hash].js",
-    publicPath: `http://${WEBPACK_HOST}:${WEBPACK_PORT}/assets/`,
+    filename: "[name]-bundle-[hash].js",
+    publicPath: `http://${WEBPACK_HOST}:${WEBPACK_PORT}/`,
   },
   module: {
     loaders: [
       {
         exclude: /(node_modules|public)/,
-        loaders: ["react-hot", "babel"],
+        loader: "babel",
+        query: {
+          "plugins": [
+            ["react-transform", {
+              "transforms": [{
+                "transform": "react-transform-hmr",
+                "imports": ["react"],
+                "locals": ["module"],
+              }],
+            }],
+          ],
+        },
         test: /\.(js|jsx)$/,
-      },
-      {
-        loaders: ["json"],
-        test: /\.json$/,
-      },
+      }
     ],
   },
   resolve: {
@@ -46,16 +55,16 @@ module.exports = {
   },
   progress: true,
   plugins: [
-
     // hot reload
     new webpack.HotModuleReplacementPlugin(),
+
     new webpack.NoErrorsPlugin(),
 
     // print a webpack progress
-    new webpack.ProgressPlugin((percentage, message) => {
-      const MOVE_LEFT = new Buffer("1b5b3130303044", "hex").toString()
-      const CLEAR_LINE = new Buffer("1b5b304b", "hex").toString()
-      process.stdout.write(`${CLEAR_LINE}${Math.round(percentage * 100)}%: ${message}${MOVE_LEFT}`)
+    new webpack.ProgressPlugin((percentage) => {
+      if (percentage === 1) {
+        process.stdout.write("Bundle is ready")
+      }
     }),
 
     new ErrorNotificationPlugin(process.platform === "linux" && function(msg) {
@@ -66,18 +75,21 @@ module.exports = {
 
     new webpack.DefinePlugin({
       "process.env": {
-        BROWSER: JSON.stringify(true),
         HOST: JSON.stringify(process.env.HOST),
         NODE_ENV: JSON.stringify("development"),
         API_URL: JSON.stringify(process.env.API_URL),
       },
     }),
 
-    // new webpack.optimize.DedupePlugin(),
-    // new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.ProvidePlugin({
+      React: "react", // For babel JSX transformation which generates React.createElement.
+    }),
 
-    // stats
-    function() { this.plugin("done", notifyStats) },
-    function() { this.plugin("done", writeStats) },
+    new CopyWebpackPlugin([
+      {from: 'node_modules/bootstrap/dist', to: 'bootstrap'},
+      {from: 'node_modules/highlight.js/styles', to: 'highlight.js-styles'}
+    ]),
+
+    function() { this.plugin("done", writeAssets(path.resolve(__dirname, "webpack-assets.json"))) },
   ],
 }

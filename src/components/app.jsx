@@ -1,54 +1,58 @@
+import url from "url"
+
+import DocumentTitle from "react-document-title"
 import React, {PropTypes} from "react"
 
-import AppPropTypes from "../app-prop-types"
-import DocumentTitle from "react-document-title"
-import NavBar from "./navbar"
+import config from "../config"
+
 
 const App = React.createClass({
   propTypes: {
-    dataByRouteName: PropTypes.object,
-    errorByRouteName: PropTypes.objectOf(PropTypes.instanceOf(Error)),
-    loading: AppPropTypes.loading,
     children: PropTypes.node.isRequired,
   },
-  componentDidMount() {
-    var timer
-    global.loadingEvents.on("loadStart", () => {
-      clearTimeout(timer)
-      this.setState({loading: "start"})
-      // For slow responses, indicate the app is thinking otherwise its fast enough to just wait for the data to load.
-      timer = setTimeout(() => {
-        this.setState({loading: "slow"})
-      }, 300)
-    })
-    global.loadingEvents.on("loadEnd", () => {
-      clearTimeout(timer)
-      this.setState({loading: null})
-    })
-  },
-  getInitialState() {
-    return {
-      loading: this.props.loading,
-    }
-  },
   render() {
-    const {dataByRouteName, errorByRouteName} = this.props,
-      loading = this.state.loading
     return (
       <DocumentTitle title="Explorateur de la législation">
         <div>
           <a className="sr-only" href="#content">Sauter au contenu principal</a>
-          <NavBar />
+          this.renderNavBar()
           <div className="container" id="content" style={{marginBottom: 100}}>
-            {React.cloneElement(this.props.children, {
-              dataByRouteName,
-              errorByRouteName,
-              loading,
-              })
-            }
+            {this.props.children}
           </div>
         </div>
       </DocumentTitle>
+    )
+  },
+  renderNavBar() {
+    return (
+      <div className="navbar navbar-inverse navbar-static-top" role="navigation">
+        <div className="container">
+          <div className="navbar-header">
+            <button
+              className="navbar-toggle"
+              data-target=".navbar-responsive-collapse"
+              data-toggle="collapse"
+              type="button"
+            >
+              <span className="sr-only">Basculer la navigation</span>
+              <span className="icon-bar"></span>
+              <span className="icon-bar"></span>
+              <span className="icon-bar"></span>
+            </button>
+            <a className="navbar-brand" href={config.websiteUrl}>OpenFisca</a>
+          </div>
+          <div className="collapse navbar-collapse navbar-responsive-collapse">
+            <ul className="nav navbar-nav">
+              <li><a href={url.resolve(config.websiteUrl, "/presentation")}>Présentation</a></li>
+              <li><a href={url.resolve(config.websiteUrl, "/documentation")}>Documentation</a></li>
+              <li><a href={url.resolve(config.websiteUrl, "/tools")}>Outils</a></li>
+            </ul>
+            <ul className="nav navbar-nav navbar-right">
+              <li><a href={url.resolve(config.websiteUrl, "/contact")}>Contact</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
     )
   },
 })

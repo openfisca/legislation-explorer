@@ -3,7 +3,7 @@ import React, {PropTypes} from "react"
 import ExternalLink from "./external-link"
 
 
-var GitHubLink = React.createClass({
+const GitHubLink = React.createClass({
   propTypes: {
     blobUrlPath: PropTypes.string,
     children: PropTypes.func,
@@ -17,7 +17,7 @@ var GitHubLink = React.createClass({
   },
   buildHref() {
     const {blobUrlPath, commitReference, endLineNumber, lineNumber} = this.props
-    var line = ""
+    let line = ""
     if (lineNumber) {
       line = `#L${lineNumber}`
     }
@@ -34,15 +34,15 @@ var GitHubLink = React.createClass({
     }
   },
   render() {
-    const {text, title} = this.props
+    const {children, className, style, text, title} = this.props
     return (
       <ExternalLink
-        className={this.props.className}
+        className={className}
         href={this.buildHref()}
-        style={this.props.style}
+        style={style}
         title={title}
       >
-        {this.props.children ? this.props.children(text) : text}
+        {children ? children(text) : text}
       </ExternalLink>
     )
   },

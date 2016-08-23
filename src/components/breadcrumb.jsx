@@ -6,11 +6,12 @@ import url from "url"
 import config from "../config"
 
 
-var BreadCrumb = React.createClass({
+const BreadCrumb = React.createClass({
   propTypes: {
     children: PropTypes.node,
   },
   render() {
+    const {children} = this.props
     return (
       <ul className="breadcrumb">
         <li>
@@ -19,16 +20,16 @@ var BreadCrumb = React.createClass({
         <li>
           <a href={url.resolve(config.websiteUrl, "/tools")}>Outils</a>
         </li>
-        <li className={classNames({active: !this.props.children})}>
+        <li className={classNames({active: !children})}>
           {
-            this.props.children ? (
-              <Link to="home">Explorateur de la législation</Link>
+            children ? (
+              <Link to="/">Explorateur de la législation</Link>
             ) : (
               "Explorateur de la législation"
             )
           }
         </li>
-        {this.props.children}
+        {children}
       </ul>
     )
   },

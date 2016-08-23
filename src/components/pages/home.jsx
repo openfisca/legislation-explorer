@@ -4,7 +4,7 @@ import React from "react"
 import BreadCrumb from "../breadcrumb"
 
 
-var HomePage = React.createClass({
+const HomePage = React.createClass({
   render() {
     return (
       <section>
@@ -17,12 +17,12 @@ var HomePage = React.createClass({
             <div className="caption">
               <h4>Variables et formules socio-fiscales</h4>
               <p>
-                Visualiser et rechercher les variables d'entrée, les variables calculées et leurs dépendences.
+                Visualiser et rechercher parmi les variables d'entrée, les formules et leurs dépendences.
               </p>
               <p>
                 <a className="btn btn-primary" href="/graph/">Graphe »</a>
                 <span style={{marginLeft: 20}} />
-                <Link className="btn btn-default" to="variables">Liste »</Link>
+                <Link className="btn btn-default" to="/variables">Liste »</Link>
               </p>
             </div>
           </div>
@@ -35,7 +35,7 @@ var HomePage = React.createClass({
                 Visualiser et rechercher les paramètres de la législation et les formules qui les utilisent.
               </p>
               <p>
-                <Link className="btn btn-primary" to="parameters">Voir »</Link>
+                <Link className="btn btn-default" to="/parameters">Liste »</Link>
               </p>
             </div>
           </div>
