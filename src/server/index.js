@@ -38,7 +38,7 @@ ${JSON.stringify(req.headers, null, 2)}`,
 function startServer(state) {
   const server = express()
   server.use(favicon(path.resolve(__dirname, "../assets/favicon.ico")))
-  server.use(express.static(path.resolve(__dirname, "../public")))
+  server.use(express.static(path.resolve(__dirname, "../../public")))
 
   server.use(handleRender(state))
 
