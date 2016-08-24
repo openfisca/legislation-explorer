@@ -72,7 +72,9 @@ const VariablesPage = React.createClass({
   },
   render() {
     const {variables} = this.props
-    const variablesTree = buildVariablesTree(variables).children.model // Skip the first level of depth for nicer view.
+    let variablesTree = buildVariablesTree(variables)
+    // Skip the first levels of depth for nicer view.
+    variablesTree = variablesTree.children.openfisca_france.children.model
     return (
       <DocumentTitle title="Variables - Explorateur de la législation">
         <div>
