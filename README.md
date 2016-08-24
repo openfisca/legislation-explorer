@@ -15,10 +15,7 @@ The following `npm run` commands are declared in `package.json`.
 ### Development server
 
     npm install
-    npm run assets
     npm run dev
-
-> The "assets" command must be run the first time only (it just copies some files).
 
 Open http://localhost:2030/
 
@@ -26,7 +23,6 @@ Open http://localhost:2030/
 
     npm install
     npm run clean
-    npm run assets
     npm run build
     npm start
 
@@ -44,8 +40,3 @@ version 3 or later (see COPYING).
 
 Feel free to join the OpenFisca development team on [GitHub](https://github.com/openfisca) or contact us by email at
 contact@openfisca.fr
-
-## Inspiration
-
-Thanks to the [isomorphic500](https://github.com/gpbl/isomorphic500) project for inspiration
-about the JavaScript build system and React server-side rendering!
