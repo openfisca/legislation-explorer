@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "description": "OpenFisca - Legislation Explorer",
   "scripts": {
-    "assets": "./webpack/copy_assets.sh",
     "build": "webpack --config ./webpack.config.prod.babel.js",
     "clean": "rm -rf public",
     "dev": "concurrently --kill-others 'npm run dev:app-server' 'npm run dev:webpack-dev-server'",
