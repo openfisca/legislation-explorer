@@ -43,9 +43,8 @@ const App = React.createClass({
           </div>
           <div className="collapse navbar-collapse navbar-responsive-collapse">
             <ul className="nav navbar-nav">
-              <li><a href={url.resolve(config.websiteUrl, "/presentation")}>Présentation</a></li>
-              <li><a href={url.resolve(config.websiteUrl, "/documentation")}>Documentation</a></li>
-              <li><a href={url.resolve(config.websiteUrl, "/tools")}>Outils</a></li>
+              <li><a href="http://doc.openfisca.fr/en/index.html">Documentation</a></li>
+              <li><a href="https://forum.openfisca.fr/">Forum</a></li>
             </ul>
             <ul className="nav navbar-nav navbar-right">
               <li><a href={url.resolve(config.websiteUrl, "/contact")}>Contact</a></li>
