@@ -1,7 +1,7 @@
 var initialVariableName = 'revdisp';
 
-//var legislationExplorerBaseUrl = 'https://legislation.openfisca.fr';
-var legislationExplorerBaseUrl = 'http://localhost:2030';
+var legislationExplorerBaseUrl = 'https://legislation.openfisca.fr';
+// var legislationExplorerBaseUrl = 'http://localhost:2030';
 
 var apiBaseUrl = 'https://api.openfisca.fr';
 // var apiBaseUrl = 'http://localhost:2000';
