@@ -15,7 +15,7 @@ const App = React.createClass({
       <DocumentTitle title="Explorateur de la législation">
         <div>
           <a className="sr-only" href="#content">Sauter au contenu principal</a>
-          this.renderNavBar()
+          {this.renderNavBar()}
           <div className="container" id="content" style={{marginBottom: 100}}>
             {this.props.children}
           </div>
