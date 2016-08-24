@@ -30,7 +30,7 @@ function isConsumerVariable(variable, name) {
       return formula.dated_formulas.some(dated_formula => isConsumerFormula(dated_formula.formula))
     case "EntityToPerson":
     case "PersonToEntity":
-      // Ignore those formula types since they have an implicit formula, not using any parameter of the legislation.
+      // Ignore those variable types since they have an implicit formula, not using any variable of the legislation.
       return false
     default:
       console.error("Unexpected formula type:", formula["@type"])
