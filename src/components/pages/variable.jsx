@@ -155,23 +155,35 @@ const VariablePage = React.createClass({
   },
   renderDatedFormulaHeading(formula) {
     if (formula.start_instant && formula.stop_instant) {
-      return (<span>
-        Formule de calcul
-        du {<FormattedDate value={formula.start_instant} />}
-        au {<FormattedDate value={formula.stop_instant} />}
-      </span>)
+      return (
+        <span>
+          Formule de calcul du
+          {" "}
+          <FormattedDate value={formula.start_instant} />
+          {" "}
+          au
+          {" "}
+          <FormattedDate value={formula.stop_instant} />
+        </span>
+      )
     }
     if (formula.start_instant) {
-      return (<span>
-        Formule de calcul depuis le
-        <FormattedDate value={formula.start_instant} />
-      </span>)
+      return (
+        <span>
+          Formule de calcul depuis le
+          {" "}
+          <FormattedDate value={formula.start_instant} />
+        </span>
+      )
     }
     if (formula.stop_instant) {
-      return (<span>
-        Formule de calcul jusqu'au
-        <FormattedDate value={formula.stop_instant} />
-      </span>)
+      return (
+        <span>
+          Formule de calcul jusqu'au
+          {" "}
+          <FormattedDate value={formula.stop_instant} />
+        </span>
+      )
     }
   },
   renderFormula(formula) {
