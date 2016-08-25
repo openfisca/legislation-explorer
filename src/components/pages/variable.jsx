@@ -331,14 +331,14 @@ const VariablePage = React.createClass({
     )
   },
   renderSourceCodeLink(variable) {
-    const {countryPackageVersion} = this.props
+    const {countryPackageName, countryPackageVersion} = this.props
     let sourceCodeText = variable.source_file_path.split('/').slice(-1)
     if (variable.start_line_number) {
       sourceCodeText += ` ligne ${variable.start_line_number}`
     }
     return (
       <GitHubLink
-        blobUrlPath={variable.source_file_path}
+        blobUrlPath={countryPackageName + '/' + variable.source_file_path}
         commitReference={countryPackageVersion}
         lineNumber={variable.start_line_number}
         style={{marginLeft: "1em"}}
