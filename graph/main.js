@@ -140,8 +140,6 @@ function removeDiacritics(str) {
   return str;
 }
 
-
-
 // Autocomplete that takes labels and searches from variable
 
 function compute_auto_complete() {
@@ -149,7 +147,14 @@ function compute_auto_complete() {
     var keys = [];
     for(var key in autocomplete_map) {
       if(autocomplete_map.hasOwnProperty(key)) {
-        keys.push(key);
+        // Pushing the label
+        if (keys.indexOf(key) == -1) {
+            keys.push(key);
+        }
+        // Pushing the variable name
+        if (keys.indexOf(autocomplete_map[key]) == -1) {
+            keys.push(autocomplete_map[key]);
+        }
       }
     }
     $('#search-bar').typeahead({ source:keys, updater: function (elem) {fetch_graph_for_variable(elem)}});
@@ -160,6 +165,7 @@ function compute_auto_complete_map() {
         if (variable_map.hasOwnProperty(variable)) {
             autocomplete_map[removeDiacritics(variable_map[variable].label)] = variable;
         }
+        autocomplete_map[variable] = variable;
     }
 }
 

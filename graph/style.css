@@ -1,6 +1,12 @@
 
 #search-bar {
-    width: 300px;
+    width: 350px;
+}
+
+@media (min-width: 1100px) {
+    #search-bar {
+        width: 450px !important;
+    }
 }
 
 .dropdown-item {
