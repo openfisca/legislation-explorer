@@ -87,7 +87,7 @@ const VariablePage = React.createClass({
       )
     }
     const {formula, label, source_code} = variable
-    const labelMessage = label || "Aucun label"
+    const labelMessage = label || `${name} (aucun label)`
     const inputVariableNames = formula ? formula.input_variables : null
     return (
       <DocumentTitle title={`${labelMessage} - Explorateur de la législation`}>
@@ -97,7 +97,7 @@ const VariablePage = React.createClass({
               <Link to="/variables">Variables</Link>
             </li>
             <li className="active">
-              {name}
+              {`${labelMessage.slice(0,30)} ...`}
             </li>
           </BreadCrumb>
           <div className="page-header">
@@ -265,6 +265,8 @@ const VariablePage = React.createClass({
       menages: "du ménage",
     }
     const type = variable["@type"]
+    const {params, variables} = this.props
+    const {name} = params
     return (
       <div>
         <dl>
@@ -312,6 +314,8 @@ const VariablePage = React.createClass({
         <hr/>
         <h4>Données spécifiques à OpenFisca</h4>
         <dl>
+          <dt>Nom de la variable</dt>
+          <dd>{name}</dd>
           <dt>Type</dt>
           <dd>
             <code>{type}</code>
