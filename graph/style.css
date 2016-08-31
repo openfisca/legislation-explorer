@@ -3,6 +3,14 @@
     width: 350px;
 }
 
+a.dropdown-item {
+    font-size: 12px;
+    margin-left: 0px;
+    padding: 3px 2px 2px 8px !important;
+    line-height: normal !important;
+    overflow: hidden;
+}
+
 @media (min-width: 1100px) {
     #search-bar {
         width: 450px !important;
