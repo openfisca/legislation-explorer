@@ -15,7 +15,8 @@ The following `npm run` commands are declared in `package.json`.
 ### Development server
 
     npm install
-    npm run dev
+    npm run dev # To use http://localhost:2000/ for the Web API
+    npm run dev:prod-api # To use https://api.openfisca.fr/ for the Web API
 
 Open http://localhost:2030/
 
