@@ -73,6 +73,7 @@ function isConsumerVariable(variable, name) {
 
 const ParameterPage = React.createClass({
   propTypes: {
+    countryPackageName: PropTypes.string.isRequired,
     countryPackageVersion: PropTypes.string.isRequired,
     currency: PropTypes.string.isRequired,
     intl: intlShape.isRequired,
@@ -210,8 +211,9 @@ const ParameterPage = React.createClass({
     )
   },
   renderBracketsAtInstant(parameter, bracketsAtInstant) {
-    const {countryPackageVersion} = this.props
-    const {format, unit, xml_file_path} = parameter
+    const {countryPackageName, countryPackageVersion} = this.props
+    const {format, unit} = parameter
+    const xml_file_path = countryPackageName + '/' + parameter.xml_file_path
     return (
       <div>
         <table className="table table-bordered table-hover table-striped">
@@ -431,8 +433,9 @@ const ParameterPage = React.createClass({
     )
   },
   renderSourceCodeLink(parameter) {
-    const {countryPackageVersion} = this.props
-    const {xml_file_path, start_line_number, end_line_number} = parameter
+    const {countryPackageName, countryPackageVersion} = this.props
+    const {start_line_number, end_line_number} = parameter
+    const xml_file_path = countryPackageName + '/' + parameter.xml_file_path
     const fileName = xml_file_path ? xml_file_path.split("/").splice(-1) : null
     const sourceCodeLinkLabel = xml_file_path ?
       (
@@ -459,8 +462,9 @@ const ParameterPage = React.createClass({
     )
   },
   renderStartStopValue(parameter, itemOfValues, idx) {
-    const {countryPackageVersion} = this.props
-    const {format, start_line_number, end_line_number, unit, xml_file_path} = parameter
+    const {countryPackageName, countryPackageVersion} = this.props
+    const {format, start_line_number, end_line_number, unit} = parameter
+    const xml_file_path = countryPackageName + '/' + parameter.xml_file_path
     const type = parameter["@type"]
     const {start, stop, value} = itemOfValues
     const formattedStartDate = <FormattedDate value={start} />
