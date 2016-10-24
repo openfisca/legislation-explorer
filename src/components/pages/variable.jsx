@@ -265,7 +265,7 @@ const VariablePage = React.createClass({
       menages: "du ménage",
     }
     const type = variable["@type"]
-    const {params, variables} = this.props
+    const {params} = this.props
     const {name} = params
     return (
       <div>
