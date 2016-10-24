@@ -293,10 +293,10 @@ const VariablePage = React.createClass({
             ]
           }
           {
-            variable.stop && [
+            variable.end && [
               <dt key="dt">N'est plus en vigueur à partir du</dt>,
               <dd key="dd">
-                <FormattedDate value={variable.stop} />
+                <FormattedDate value={variable.end} />
               </dd>,
             ]
           }
