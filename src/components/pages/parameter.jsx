@@ -203,7 +203,7 @@ const ParameterPage = React.createClass({
           </dd>
           <dt>{`Taux tranche ${idx + 1}`}</dt>
           <dd>
-            {this.renderStartStopValueTable(parameter, bracket.rate, "rate")}
+            {this.renderStartStopValueTable(parameter, bracket.rate, "rate", null)}
           </dd>
         </dl>
         {idx < brackets.length - 1 && <hr/>}
@@ -360,10 +360,11 @@ const ParameterPage = React.createClass({
     )
   },
   renderParameter(parameter) {
+    const {format, unit} = parameter
     return (
       <div>
         <h4 style={{marginBottom: "2em"}}>Valeurs</h4>
-        {this.renderStartStopValueTable(parameter, parameter.values)}
+        {this.renderStartStopValueTable(parameter, parameter.values, format, unit)}
       </div>
     )
   },
@@ -461,9 +462,9 @@ const ParameterPage = React.createClass({
         ) : null
     )
   },
-  renderStartStopValue(parameter, itemOfValues, idx) {
+  renderStartStopValue(parameter, itemOfValues, idx, format, unit) {
     const {countryPackageName, countryPackageVersion} = this.props
-    const {format, start_line_number, end_line_number, unit} = parameter
+    const {start_line_number, end_line_number} = parameter
     const xml_file_path = countryPackageName + '/' + parameter.xml_file_path
     const type = parameter["@type"]
     const {start, stop, value} = itemOfValues
@@ -519,11 +520,11 @@ const ParameterPage = React.createClass({
       </tr>
     )
   },
-  renderStartStopValueTable(parameter, items) {
+  renderStartStopValueTable(parameter, items, format, unit) {
     return (
       <table className="table table-bordered table-hover table-striped">
         <tbody>
-          {items.map((itemOfValues, idx) => this.renderStartStopValue(parameter, itemOfValues, idx))}
+          {items.map((itemOfValues, idx) => this.renderStartStopValue(parameter, itemOfValues, idx, format, unit))}
         </tbody>
       </table>
     )
