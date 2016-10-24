@@ -19,8 +19,11 @@ export function renderApp() {
   const initialState = window.__INITIAL_STATE__
   render(
     <IntlProvider locale="fr">
-      <Router history={browserHistory} routes={routes}
+      <Router
         createElement={(Component, props) => <Component {...props} {...initialState} />}
+        history={browserHistory}
+        onUpdate={() => window.scrollTo(0, 0)}
+        routes={routes}
       />
     </IntlProvider>,
     appMountNode
