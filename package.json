@@ -24,7 +24,6 @@
     "classnames": "^2.2.5",
     "emailjs": "^1.0.5",
     "express": "^4.12.4",
-    "highlight.js": "^9.6.0",
     "intl": "^1.2.4",
     "intl-locales-supported": "^1.0.0",
     "isomorphic-fetch": "^2.2.1",

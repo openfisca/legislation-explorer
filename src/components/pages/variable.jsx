@@ -7,9 +7,7 @@ import {substract, sort, sortBy, prop} from "ramda"
 import BreadCrumb from "../breadcrumb"
 import * as AppPropTypes from "../../app-prop-types"
 import ExternalLink from "../external-link"
-import FormulaSource from "../formula-source"
 import GitHubLink from "../github-link"
-import Highlight from "../highlight"
 import List from "../list"
 
 
@@ -88,7 +86,6 @@ const VariablePage = React.createClass({
     }
     const {formula, label, source_code} = variable
     const labelMessage = label || `${name} (aucun label)`
-    const inputVariableNames = formula ? formula.input_variables : null
     return (
       <DocumentTitle title={`${labelMessage} - Explorateur de la législation`}>
         <div>
@@ -114,11 +111,7 @@ const VariablePage = React.createClass({
           }
           <hr/>
           <h4>Code source</h4>
-          <Highlight language="python">
-            <FormulaSource inputVariableNames={inputVariableNames}>
-              {source_code}
-            </FormulaSource>
-          </Highlight>
+          <pre>{source_code}</pre>
           {this.renderSourceCodeLink(variable)}
         </div>
       </DocumentTitle>

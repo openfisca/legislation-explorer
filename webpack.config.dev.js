@@ -87,7 +87,6 @@ module.exports = {
 
     new CopyWebpackPlugin([
       {from: 'node_modules/bootstrap/dist', to: 'bootstrap'},
-      {from: 'node_modules/highlight.js/styles', to: 'highlight.js-styles'}
     ]),
 
     function() { this.plugin("done", writeAssets(path.resolve(__dirname, "webpack-assets.json"))) },

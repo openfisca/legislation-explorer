@@ -49,7 +49,6 @@ module.exports = {
 
     new CopyWebpackPlugin([
       {from: 'node_modules/bootstrap/dist', to: 'bootstrap'},
-      {from: 'node_modules/highlight.js/styles', to: 'highlight.js-styles'}
     ]),
 
     // optimizations

@@ -57,7 +57,6 @@ function renderHtmlDocument(renderProps, state) {
     process.env.NODE_ENV === "production" ?
       "/bootstrap/css/bootstrap.min.css" :
       "/bootstrap/css/bootstrap.css",
-    "/highlight.js-styles/solarized-light.css",
   ]
   if (process.env.NODE_ENV === "development") {
     externalCss = externalCss.map(

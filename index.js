@@ -25,9 +25,6 @@ require("babel-register")
 // whereas npm intl module does (01/01/2016). This leads to DOM mismatch between server and client in React.
 global.Intl = require("intl")
 
-const hljs = require("highlight.js/lib/highlight")
-hljs.registerLanguage("python", require("highlight.js/lib/languages/python"))
-
 // Start the server app
 
 if (process.env.NODE_ENV === "production" || require("piping")({
