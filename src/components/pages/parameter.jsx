@@ -214,6 +214,14 @@ const ParameterPage = React.createClass({
     const {countryPackageName, countryPackageVersion} = this.props
     const {format, unit} = parameter
     const xml_file_path = countryPackageName + '/' + parameter.xml_file_path
+    const displayableBracketsAtInstant = bracketsAtInstant.map((bracketAtInstant, idx) => {
+      if (idx < bracketsAtInstant.length - 1) {
+        const nextThreshold = bracketsAtInstant[idx + 1].threshold
+        return {...bracketAtInstant, nextThreshold}
+      } else {
+        return bracketAtInstant
+      }
+    })
     return (
       <div>
         <table className="table table-bordered table-hover table-striped">
@@ -225,9 +233,9 @@ const ParameterPage = React.createClass({
           </thead>
           <tbody>
             {
-              bracketsAtInstant.slice(1).map((bracketAtInstant, idx) => {
-                const previousBracketAtInstant = bracketsAtInstant[idx]
-                const previousValue = previousBracketAtInstant.threshold.value
+              displayableBracketsAtInstant.map((bracketAtInstant, idx) => {
+                const value = bracketAtInstant.threshold.value
+                const nextValue = bracketAtInstant.nextThreshold ? bracketAtInstant.nextThreshold.value : null
                 return (
                   <tr key={idx}>
                     <td width="50%">
@@ -237,20 +245,28 @@ const ParameterPage = React.createClass({
                             <span>
                               Jusqu'à
                               {" "}
-                              {this.renderValue(bracketAtInstant.threshold.value, format, unit)}
+                              {this.renderValue(nextValue, format, unit)}
                             </span>
                           )
-                          : (
-                            <span>
-                              De
-                              {" "}
-                              {this.renderValue(idx === 0 ? previousValue : previousValue + 1, format, unit)}
-                              {" "}
-                              à
-                              {" "}
-                              {this.renderValue(bracketAtInstant.threshold.value, format, unit)}
-                            </span>
-                          )
+                          : nextValue === null
+                            ? (
+                              <span>
+                                À partir de
+                                {" "}
+                                {this.renderValue(value + 1, format, unit)}
+                              </span>
+                            )
+                            : (
+                              <span>
+                                De
+                                {" "}
+                                {this.renderValue(value + 1, format, unit)}
+                                {" "}
+                                à
+                                {" "}
+                                {this.renderValue(nextValue, format, unit)}
+                              </span>
+                            )
                       }
                       {
                         xml_file_path && (
