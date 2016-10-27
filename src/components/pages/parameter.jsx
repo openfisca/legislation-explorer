@@ -226,7 +226,6 @@ const ParameterPage = React.createClass({
   renderBracketsAtInstant(parameter, bracketsAtInstant) {
     const {countryPackageName, countryPackageVersion} = this.props
     const {format, unit} = parameter
-    const xml_file_path = countryPackageName + '/' + parameter.xml_file_path
     const displayableBracketsAtInstant = bracketsAtInstant.map((bracketAtInstant, idx) => {
       if (idx < bracketsAtInstant.length - 1) {
         const nextThreshold = bracketsAtInstant[idx + 1].threshold
@@ -282,9 +281,9 @@ const ParameterPage = React.createClass({
                               )
                       }
                       {
-                        xml_file_path && (
+                        parameter.xml_file_path && (
                           <GitHubLink
-                            blobUrlPath={xml_file_path}
+                            blobUrlPath={countryPackageName + '/' + parameter.xml_file_path}
                             className="pull-right"
                             commitReference={countryPackageVersion}
                             endLineNumber={bracketAtInstant.threshold.end_line_number}
@@ -299,9 +298,9 @@ const ParameterPage = React.createClass({
                       <div className="clearfix">
                         {this.renderValue(bracketAtInstant.rate.value, "rate")}
                         {
-                          xml_file_path && (
+                          parameter.xml_file_path && (
                             <GitHubLink
-                              blobUrlPath={xml_file_path}
+                              blobUrlPath={countryPackageName + '/' + parameter.xml_file_path}
                               className="pull-right"
                               commitReference={countryPackageVersion}
                               endLineNumber={bracketAtInstant.rate.end_line_number}
@@ -456,6 +455,9 @@ const ParameterPage = React.createClass({
     )
   },
   renderSourceCodeLink(parameter) {
+    if (!parameter.xml_file_path) {
+      return null
+    }
     const {countryPackageName, countryPackageVersion} = this.props
     const {start_line_number, end_line_number} = parameter
     const xml_file_path = countryPackageName + '/' + parameter.xml_file_path
@@ -487,7 +489,6 @@ const ParameterPage = React.createClass({
   renderStartStopValue(parameter, itemOfValues, idx, format, unit) {
     const {countryPackageName, countryPackageVersion} = this.props
     const {start_line_number, end_line_number} = parameter
-    const xml_file_path = countryPackageName + '/' + parameter.xml_file_path
     const type = parameter["@type"]
     const {start, stop, value} = itemOfValues
     const formattedStartDate = <FormattedDate value={start} />
@@ -526,9 +527,9 @@ const ParameterPage = React.createClass({
         <td className="clearfix">
           {this.renderValue(value, format, unit)}
           {
-            xml_file_path && (
+            parameter.xml_file_path && (
               <GitHubLink
-                blobUrlPath={xml_file_path}
+                blobUrlPath={countryPackageName + '/' + parameter.xml_file_path}
                 className="pull-right"
                 commitReference={countryPackageVersion}
                 endLineNumber={end_line_number}
