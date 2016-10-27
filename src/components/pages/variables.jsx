@@ -6,6 +6,7 @@ import TreeView from 'react-treeview'
 
 import * as AppPropTypes from "../../app-prop-types"
 import BreadCrumb from "../breadcrumb"
+import GitHubLink from "../github-link"
 import List from "../list"
 
 
@@ -27,6 +28,7 @@ function buildVariablesTree(variables) {
 
 const VariablesPage = React.createClass({
   propTypes: {
+    countryPackageName: PropTypes.string.isRequired,
     countryPackageVersion: PropTypes.string.isRequired,
     variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
   },
@@ -50,22 +52,36 @@ const VariablesPage = React.createClass({
             Une variable est soit une formule de calcul (ie un impôt)
             soit une valeur saisie par l'utilisateur (ie un salaire).
           </p>
-          {this.renderTreeNode(variablesTree)}
+          {this.renderTreeNode(variablesTree, {path: []})}
         </div>
       </DocumentTitle>
     )
   },
-  renderTreeNode(node) {
+  renderTreeNode(node, accu) {
+    const {countryPackageName, countryPackageVersion} = this.props
     const {children, variables} = node
     return (
       <span>
         {
           children && toPairs(children).map(
-            ([name, child]) => (
-              <TreeView key={name} nodeLabel={name}>
-                {this.renderTreeNode(child)}
-              </TreeView>
-            ),
+            ([name, child]) => {
+              const nodeLabel = (
+                <span>
+                  {name}
+                  <GitHubLink
+                    blobUrlPath={[countryPackageName, 'model'].concat(accu.path).concat(name).join('/')}
+                    commitReference={countryPackageVersion}
+                    style={{marginLeft: "1em"}}
+                    text={null}
+                  />
+                </span>
+              )
+              return (
+                <TreeView key={name} nodeLabel={nodeLabel}>
+                  {this.renderTreeNode(child, {path: accu.path.concat(name)})}
+                </TreeView>
+              )
+            },
             children,
           )
         }
@@ -73,10 +89,20 @@ const VariablesPage = React.createClass({
           variables && (
             <List items={sortBy(variable => variable.label || variable.name , variables)} type="unstyled">
               {
-                ({name, label}) => (
-                  <Link to={`/variables/${name}`}>
-                    {label || name}
-                  </Link>
+                (variable) => (
+                  <span>
+                    <Link to={`/variables/${variable.name}`}>
+                      {variable.label || variable.name}
+                    </Link>
+                    <GitHubLink
+                      blobUrlPath={[countryPackageName, 'model'].concat(accu.path).join('/')}
+                      commitReference={countryPackageVersion}
+                      endLineNumber={variable.end_line_number}
+                      lineNumber={variable.start_line_number}
+                      style={{marginLeft: "1em"}}
+                      text={null}
+                    />
+                  </span>
                 )
               }
             </List>

@@ -30,7 +30,7 @@ const GitHubLink = React.createClass({
     return {
       commitReference: "master",
       text: "GitHub",
-      title: "Voir le fichier source sur GitHub",
+      title: "Voir sur GitHub",
     }
   },
   render() {
