@@ -161,7 +161,7 @@ const ParameterPage = React.createClass({
         </DocumentTitle>
       )
     }
-    const {description} = parameter
+    const {brackets, description} = parameter
     const descriptionMessage = description || "Aucune description"
     const type = parameter["@type"]
     return (
@@ -188,6 +188,19 @@ const ParameterPage = React.createClass({
             </div>
           </div>
           {this.renderSourceCodeLink(parameter)}
+          {
+            type === "Scale" && (
+              <div>
+                <hr/>
+                <Collapse title={<h4>Historique exhaustif par tranche</h4>}>
+                  <p>Il est possible de cliquer sur les dates ci-dessous pour afficher le barème à cette date.</p>
+                  <List items={brackets} type="unstyled">
+                    {(bracket, idx) => this.renderBracket(parameter, bracket, idx)}
+                  </List>
+                </Collapse>
+              </div>
+            )
+          }
         </div>
       </DocumentTitle>
     )
@@ -439,13 +452,6 @@ const ParameterPage = React.createClass({
               </div>
             )
         }
-        <hr/>
-        <Collapse title={<h4>Historique exhaustif par tranche</h4>}>
-          <p>Il est possible de cliquer sur les dates ci-dessous pour afficher le barème à cette date.</p>
-          <List items={brackets} type="unstyled">
-            {(bracket, idx) => this.renderBracket(parameter, bracket, idx)}
-          </List>
-        </Collapse>
       </div>
     )
   },
