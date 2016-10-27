@@ -240,33 +240,33 @@ const ParameterPage = React.createClass({
                   <tr key={idx}>
                     <td width="50%">
                       {
-                        idx === 0
+                        nextValue === null
                           ? (
                             <span>
-                              Jusqu'à
+                              À partir de
                               {" "}
-                              {this.renderValue(nextValue, format, unit)}
+                              {this.renderValue(value + 1, format, unit)}
                             </span>
                           )
-                          : nextValue === null
-                            ? (
-                              <span>
-                                À partir de
-                                {" "}
-                                {this.renderValue(value + 1, format, unit)}
-                              </span>
-                            )
-                            : (
-                              <span>
-                                De
-                                {" "}
-                                {this.renderValue(value + 1, format, unit)}
-                                {" "}
-                                à
-                                {" "}
-                                {this.renderValue(nextValue, format, unit)}
-                              </span>
-                            )
+                          : idx === 0
+                              ? (
+                                <span>
+                                  Jusqu'à
+                                  {" "}
+                                  {this.renderValue(nextValue, format, unit)}
+                                </span>
+                              )
+                              : (
+                                <span>
+                                  De
+                                  {" "}
+                                  {this.renderValue(value + 1, format, unit)}
+                                  {" "}
+                                  à
+                                  {" "}
+                                  {this.renderValue(nextValue, format, unit)}
+                                </span>
+                              )
                       }
                       {
                         xml_file_path && (
