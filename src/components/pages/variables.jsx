@@ -15,7 +15,7 @@ function buildVariablesTree(variables) {
       lensPath(getVariablePath(variable)),
       node => node
         ? over(lensPath(["variables"]), append(variable), node)
-        : {variables: []},
+        : {variables: [variable]},
       memo,
     ),
     {},
