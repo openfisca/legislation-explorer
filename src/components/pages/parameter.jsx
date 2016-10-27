@@ -4,10 +4,12 @@ import {Link} from "react-router"
 import React, {PropTypes} from "react"
 import {sortBy, prop} from "ramda"
 
+import config from "../../config"
 import * as AppPropTypes from "../../app-prop-types"
 import BreadCrumb from "../breadcrumb"
 import Collapse from "../collapse"
 import Dropdown from "../dropdown"
+import ExternalLink from "../external-link"
 import GitHubLink from "../github-link"
 import List from "../list"
 
@@ -201,6 +203,13 @@ const ParameterPage = React.createClass({
               </div>
             )
           }
+          <hr/>
+          <ExternalLink
+            href={`${config.apiBaseUrl}/api/1/parameters?name=${name}`}
+            title="Voir la donnée brute au format JSON"
+          >
+            Export JSON
+          </ExternalLink>
         </div>
       </DocumentTitle>
     )

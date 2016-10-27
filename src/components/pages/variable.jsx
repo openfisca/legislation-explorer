@@ -4,6 +4,7 @@ import {Link} from "react-router"
 import React, {PropTypes} from "react"
 import {substract, sort, sortBy, prop} from "ramda"
 
+import config from "../../config"
 import BreadCrumb from "../breadcrumb"
 import * as AppPropTypes from "../../app-prop-types"
 import ExternalLink from "../external-link"
@@ -113,6 +114,13 @@ const VariablePage = React.createClass({
           <h4>Code source</h4>
           <pre>{source_code}</pre>
           {this.renderSourceCodeLink(variable)}
+          <hr/>
+          <ExternalLink
+            href={`${config.apiBaseUrl}/api/1/variables?name=${name}`}
+            title="Voir la donnée brute au format JSON"
+          >
+            Export JSON
+          </ExternalLink>
         </div>
       </DocumentTitle>
     )
