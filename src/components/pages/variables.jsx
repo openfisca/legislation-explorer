@@ -2,6 +2,7 @@ import DocumentTitle from "react-document-title"
 import React, {PropTypes} from "react"
 import {Link} from "react-router"
 import {append, intersperse, lensPath, over, prepend, reduce, sortBy, toPairs} from "ramda"
+import TreeView from 'react-treeview'
 
 import * as AppPropTypes from "../../app-prop-types"
 import BreadCrumb from "../breadcrumb"
@@ -22,47 +23,6 @@ function buildVariablesTree(variables) {
     variables
   )
 }
-
-
-const VariablesTreeNode = React.createClass({
-  propTypes: {
-    node: PropTypes.object.isRequired,
-  },
-  render() {
-    const {node} = this.props
-    const {children, variables} = node
-    return (
-      <span>
-        <ul>
-          {
-            children && toPairs(children).map(
-              ([name, child]) => (
-                <li key={name}>
-                  {name}
-                  <VariablesTreeNode node={child} />
-                </li>
-              ),
-              children,
-            )
-          }
-        </ul>
-        {
-          variables && (
-            <List items={sortBy(variable => variable.label || variable.name , variables)}>
-              {
-                ({name, label}) => (
-                  <Link to={`/variables/${name}`}>
-                    {label || name}
-                  </Link>
-                )
-              }
-            </List>
-          )
-        }
-      </span>
-    )
-  },
-})
 
 
 const VariablesPage = React.createClass({
@@ -90,9 +50,39 @@ const VariablesPage = React.createClass({
             Une variable est soit une formule de calcul (ie un impôt)
             soit une valeur saisie par l'utilisateur (ie un salaire).
           </p>
-          <VariablesTreeNode node={variablesTree} />
+          {this.renderTreeNode(variablesTree)}
         </div>
       </DocumentTitle>
+    )
+  },
+  renderTreeNode(node) {
+    const {children, variables} = node
+    return (
+      <span>
+        {
+          children && toPairs(children).map(
+            ([name, child]) => (
+              <TreeView key={name} nodeLabel={name}>
+                {this.renderTreeNode(child)}
+              </TreeView>
+            ),
+            children,
+          )
+        }
+        {
+          variables && (
+            <List items={sortBy(variable => variable.label || variable.name , variables)} type="unstyled">
+              {
+                ({name, label}) => (
+                  <Link to={`/variables/${name}`}>
+                    {label || name}
+                  </Link>
+                )
+              }
+            </List>
+          )
+        }
+      </span>
     )
   },
 })

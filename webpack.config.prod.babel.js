@@ -49,6 +49,7 @@ module.exports = {
 
     new CopyWebpackPlugin([
       {from: 'node_modules/bootstrap/dist', to: 'bootstrap'},
+      {from: 'node_modules/react-treeview/react-treeview.css', to: 'react-treeview'},
     ]),
 
     // optimizations
