@@ -1,5 +1,6 @@
 import React, {PropTypes} from "react"
 
+import config from "../config"
 import ExternalLink from "./external-link"
 
 
@@ -16,7 +17,8 @@ const GitHubLink = React.createClass({
     title: PropTypes.string,
   },
   buildHref() {
-    const {blobUrlPath, commitReference, endLineNumber, lineNumber} = this.props
+    const {blobUrlPath, endLineNumber, lineNumber} = this.props
+    const commitReference = config.useCommitReferenceFromApi ? this.props.commitReference : "master"
     let line = ""
     if (lineNumber) {
       line = `#L${lineNumber}`
@@ -24,7 +26,7 @@ const GitHubLink = React.createClass({
     if (endLineNumber) {
       line = `${line}-L${endLineNumber}`
     }
-    return `https://github.com/openfisca/openfisca-france/blob/${commitReference}/${blobUrlPath}${line}`
+    return `https://github.com/${config.gitHubProject}/blob/${commitReference}/${blobUrlPath}${line}`
   },
   getDefaultProps() {
     return {
