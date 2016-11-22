@@ -4,6 +4,7 @@
   "description": "OpenFisca - Legislation Explorer",
   "scripts": {
     "build": "webpack --config ./webpack.config.prod.babel.js",
+    "build:tunisia": "COUNTRY_PRODUCTION_CONFIG=tunisia webpack --config ./webpack.config.prod.babel.js",
     "clean": "rm -rf public",
     "dev": "concurrently --kill-others 'npm run dev:app-server' 'npm run dev:webpack-dev-server'",
     "dev:app-server": "NODE_ENV=development PORT=2030 node index.js",

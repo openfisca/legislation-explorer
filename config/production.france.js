@@ -1,13 +1,12 @@
-// App config the for development environment.
+// App config the for production environment.
 // Do not require this directly. Use ./src/config instead.
 
-
-const HOST = process.env.HOST || "localhost",
-  apiBaseUrl = process.env.API_URL || `http://${HOST}:2000`,
+const HOST = process.env.HOST || "api.openfisca.fr",
+  apiBaseUrl = process.env.API_URL || `https://${HOST}`,
   gitHubProject = "openfisca/openfisca-france",
   gitWebpageUrl = "https://github.com/openfisca/legislation-explorer",
   useCommitReferenceFromApi = true,
-  websiteUrl = `http://${HOST}:2010/`
+  websiteUrl = "https://www.openfisca.fr/"
 
 
 export default {

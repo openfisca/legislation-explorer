@@ -40,6 +40,7 @@ module.exports = {
     new webpack.DefinePlugin({
       "process.env": {
         NODE_ENV: JSON.stringify("production"), // clean up some react stuff
+        COUNTRY_PRODUCTION_CONFIG: JSON.stringify(process.env.COUNTRY_PRODUCTION_CONFIG || "france")
       },
     }),
 
