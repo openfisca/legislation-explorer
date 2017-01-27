@@ -1,9 +1,11 @@
+import PiwikReactRouter from "piwik-react-router"
 import React from "react"
 import {render} from "react-dom"
 import {Router, browserHistory} from "react-router"
 import {IntlProvider, addLocaleData} from "react-intl"
 import fr from "react-intl/locale-data/fr"
 
+import config from "./config"
 import routes from "./routes"
 
 
@@ -14,11 +16,14 @@ addLocaleData(fr)
 export function renderApp() {
   const appMountNode = document.getElementById("app-mount-node")
   const initialState = window.__INITIAL_STATE__
+  const history = config.piwikConfig
+    ? PiwikReactRouter(config.piwikConfig).connectToHistory(browserHistory)
+    : browserHistory
   render(
     <IntlProvider locale="fr">
       <Router
         createElement={(Component, props) => <Component {...props} {...initialState} />}
-        history={browserHistory}
+        history={history}
         onUpdate={() => window.scrollTo(0, 0)}
         routes={routes}
       />
