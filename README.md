@@ -29,9 +29,7 @@ Open http://localhost:2030/
 
 Open http://localhost:2030/
 
-You may look at the [auto-update-pip-packages](https://github.com/openfisca/openfisca-ops/tree/master/auto-update-pip-packages)
-directory of the [openfisca-ops](https://github.com/openfisca/openfisca-ops) repository.
-It contains a cron file and a script which automates the update of the OpenFisca pip packages in a Python virtualenv.
+To maintain the legislation at its latest version, you can check the [auto-update tool](https://github.com/openfisca/openfisca-ops/tree/master/auto-update-pip-packages).
 
 ## OpenFisca Documentation
 
