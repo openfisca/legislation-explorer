@@ -29,6 +29,8 @@ Open http://localhost:2030/
 
 Open http://localhost:2030/
 
+To maintain the legislation at its latest version, you can check the [auto-update tool](https://github.com/openfisca/openfisca-ops/tree/master/auto-update-pip-packages).
+
 ## OpenFisca Documentation
 
 Please consult http://doc.openfisca.fr/
