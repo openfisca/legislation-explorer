@@ -6,6 +6,7 @@ const HOST = process.env.HOST || "localhost",
   apiBaseUrl = process.env.API_URL || `http://${HOST}:2000`,
   gitHubProject = "openfisca/openfisca-france",
   gitWebpageUrl = "https://github.com/openfisca/legislation-explorer",
+  piwikConfig = null,
   useCommitReferenceFromApi = true,
   websiteUrl = `http://${HOST}:2010/`
 
@@ -14,6 +15,7 @@ export default {
   apiBaseUrl,
   gitHubProject,
   gitWebpageUrl,
+  piwikConfig,
   useCommitReferenceFromApi,
   websiteUrl
 }
