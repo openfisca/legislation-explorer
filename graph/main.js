@@ -1,4 +1,4 @@
-var initialVariableName = 'revdisp';
+var initialVariableName = 'revenu_disponible';
 
 var legislationExplorerBaseUrl = 'https://legislation.openfisca.fr';
 // var legislationExplorerBaseUrl = 'http://localhost:2030';
@@ -7,7 +7,7 @@ var apiBaseUrl = 'https://api.openfisca.fr';
 // var apiBaseUrl = 'http://localhost:2000';
 var variables_url = apiBaseUrl + '/api/1/variables';
 
-var important_variables = ["revdisp", "psoc", "impo", "rev_trav", "rev_cap", "pen", "irpp", "iai", "iaidrdi", "ip_net"];
+var important_variables = ["revenu_disponible", "psoc", "impo", "rev_trav", "rev_cap", "pen", "irpp", "iai", "iaidrdi", "ip_net"];
 
 // Map from variable to infos
 var variable_map = {};
