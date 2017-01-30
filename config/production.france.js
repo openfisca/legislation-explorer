@@ -6,7 +6,7 @@ const HOST = process.env.HOST || "api.openfisca.fr",
   gitHubProject = "openfisca/openfisca-france",
   gitWebpageUrl = "https://github.com/openfisca/legislation-explorer",
   piwikConfig = {
-    url: "stats.data.gouv.fr",
+    url: "https://stats.data.gouv.fr",
     siteId: 4,
     trackErrors: true
   },
