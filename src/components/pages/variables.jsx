@@ -1,28 +1,55 @@
 import DocumentTitle from "react-document-title"
 import React, {PropTypes} from "react"
 import {Link} from "react-router"
-import {append, intersperse, lensPath, over, prepend, reduce, sortBy, toPairs} from "ramda"
+import {all, append, intersperse, isNil, lensPath, map, merge, over, pipe, prepend, reduce, reject, sortBy, toPairs, values} from "ramda"
 import TreeView from 'react-treeview'
 
 import * as AppPropTypes from "../../app-prop-types"
 import BreadCrumb from "../breadcrumb"
 import GitHubLink from "../github-link"
 import List from "../list"
+import SearchBox from "../search-box"
 
 
-function buildVariablesTree(variables) {
+function buildVariablesTree(variables, nameFilter, labelFilter) {
   const getVariablePath = variable => prepend('children', intersperse("children", variable.source_file_path.split("/")))
-  return reduce(
-    (memo, variable) => over(
-      lensPath(getVariablePath(variable)),
-      node => node
-        ? over(lensPath(["variables"]), append(variable), node)
-        : {variables: [variable]},
-      memo,
-    ),
-    {},
-    variables
+  const matchFilters = variable => (!nameFilter || variable.name.toLowerCase().includes(nameFilter.toLowerCase())) && (
+    !labelFilter || variable.label && variable.label.toLowerCase().includes(labelFilter.toLowerCase())
   )
+  function removeEmptyNodes(node) {
+    if (isNil(node.children)) {
+      return node
+    } else {
+      const cleanNode = merge(
+        node,
+        {
+          children: pipe(
+            reject(isNil),
+            map(removeEmptyNodes),
+            reject(isNil),
+            )(node.children)
+        }
+      )
+      return all(isNil, values(cleanNode.children))
+        ? null
+        : cleanNode
+    }
+  }
+  return pipe(
+    reduce(
+      (memo, variable) => over(
+        lensPath(getVariablePath(variable)),
+        node => matchFilters(variable)
+          ? node
+            ? over(lensPath(["variables"]), append(variable), node)
+            : {variables: [variable]}
+          : node,
+        memo,
+      ),
+      {}
+    ),
+    removeEmptyNodes,
+  )(variables)
 }
 
 
@@ -32,11 +59,21 @@ const VariablesPage = React.createClass({
     countryPackageVersion: PropTypes.string.isRequired,
     variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
   },
+  getInitialState() {
+    return {
+      labelFilter: "",
+      nameFilter: ""
+    }
+  },
+  onSearchBoxLabelChange(labelFilter) {
+    this.setState({labelFilter})
+  },
+  onSearchBoxNameChange(nameFilter) {
+    this.setState({nameFilter})
+  },
   render() {
     const {variables} = this.props
-    let variablesTree = buildVariablesTree(variables)
-    // Skip the first levels of depth for nicer view.
-    variablesTree = variablesTree.children.model
+    let variablesTree = buildVariablesTree(variables, this.state.nameFilter, this.state.labelFilter)
     return (
       <DocumentTitle title="Variables - Explorateur de la législation">
         <div>
@@ -52,7 +89,17 @@ const VariablesPage = React.createClass({
             Une variable est soit une formule de calcul (ie un impôt)
             soit une valeur saisie par l'utilisateur (ie un salaire).
           </p>
-          {this.renderTreeNode(variablesTree, {path: []})}
+          <SearchBox
+            labelFilter={this.state.labelFilter}
+            nameFilter={this.state.nameFilter}
+            onLabelChange={this.onSearchBoxLabelChange}
+            onNameChange={this.onSearchBoxNameChange}
+          />
+          {
+            variablesTree
+              ? this.renderTreeNode(variablesTree.children.model, {path: []})
+              : <p>Aucun résultat</p>
+          }
         </div>
       </DocumentTitle>
     )
