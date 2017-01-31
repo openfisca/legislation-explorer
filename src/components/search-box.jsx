@@ -6,8 +6,9 @@ const SearchBox = React.createClass({
     query: PropTypes.string,
     onQueryChange: PropTypes.func,
   },
-  onInputChange(event) {
-    this.props.onQueryChange(event.target.value)
+  handleSubmit(event) {
+    event.preventDefault();
+    this.props.onQueryChange(this.input.value)
   },
   render() {
     return (
@@ -16,18 +17,21 @@ const SearchBox = React.createClass({
           <h3 className="panel-title">Recherche</h3>
         </div>
         <div className="panel-body">
-          <div className="form-group">
-            <label htmlFor="search-box-input">
-              Nom
-            </label>
-            <input
-              className="form-control"
-              id="search-box-input"
-              onChange={this.onInputChange}
-              placeholder="Nom"
-              value={this.props.query}
-            />
-          </div>
+          <form onSubmit={this.handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="search-box-input">
+                Nom
+              </label>
+              <input
+                className="form-control"
+                defaultValue={this.props.query}
+                id="search-box-input"
+                placeholder="Nom"
+                ref={(input) => this.input = input}
+              />
+            </div>
+            <button className="btn btn-primary">Rechercher</button>
+          </form>
         </div>
       </div>
     )
