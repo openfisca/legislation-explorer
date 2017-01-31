@@ -3,6 +3,7 @@ import React, {PropTypes} from "react"
 import {Link} from "react-router"
 import {all, append, intersperse, isNil, lensPath, map, merge, over, pipe, prepend, reduce, reject, sortBy, toPairs, values} from "ramda"
 import TreeView from 'react-treeview'
+import removeAccents from 'remove-accents'
 
 import * as AppPropTypes from "../../app-prop-types"
 import BreadCrumb from "../breadcrumb"
@@ -17,9 +18,9 @@ function buildVariablesTree(variables, query) {
     if (!query) {
       return true
     }
-    const lowerCaseQuery = query.toLowerCase()
-    return variable.name.toLowerCase().includes(lowerCaseQuery) ||
-      variable.label && variable.label.toLowerCase().includes(lowerCaseQuery)
+    const normalizedQuery = removeAccents(query.toLowerCase())
+    return removeAccents(variable.name.toLowerCase()).includes(normalizedQuery) ||
+      variable.label && removeAccents(variable.label.toLowerCase()).includes(normalizedQuery)
   }
   function listToFilteredTree(variables) {
     return reduce(
