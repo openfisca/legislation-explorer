@@ -1,4 +1,5 @@
 import {all, append, intersperse, isNil, lensPath, map, merge, over, pipe, prepend, reduce, reject, values} from "ramda"
+import removeAccents from 'remove-accents'
 
 
 export function buildVariablesTree(variables, query) {
@@ -7,8 +8,9 @@ export function buildVariablesTree(variables, query) {
     if (!query) {
       return true
     }
-    const normalizedQuery = query.toLowerCase()
-    return variable.name.toLowerCase().includes(normalizedQuery)
+    const normalizedQuery = removeAccents(query.toLowerCase())
+    return variable.name.toLowerCase().includes(normalizedQuery) ||
+      variable.label && removeAccents(variable.label.toLowerCase()).includes(normalizedQuery)
   }
   function listToFilteredTree(variables) {
     return reduce(
