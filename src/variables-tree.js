@@ -8,9 +8,19 @@ export function buildVariablesTree(variables, query) {
     if (!query) {
       return true
     }
+    function nameMatches(variable, query) {
+      const normalizedName = variable.name.toLowerCase()
+      return normalizedName.includes(query)
+    }
+    function labelMatches(variable, query) {
+      if (!variable.label) {
+        return false
+      }
+      const normalizedLabel = removeAccents(variable.label.toLowerCase())
+      return normalizedLabel.includes(query)
+    }
     const normalizedQuery = removeAccents(query.toLowerCase())
-    return variable.name.toLowerCase().includes(normalizedQuery) ||
-      variable.label && removeAccents(variable.label.toLowerCase()).includes(normalizedQuery)
+    return nameMatches(variable, normalizedQuery) || labelMatches(variable, normalizedQuery)
   }
   function listToFilteredTree(variables) {
     return reduce(
