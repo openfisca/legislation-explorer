@@ -2,11 +2,11 @@
 
 ## Presentation
 
-[OpenFisca](http://www.openfisca.fr/) is a versatile microsimulation free software.
+[OpenFisca](https://www.openfisca.fr/) is a versatile microsimulation free software.
 
 This application allows to explore the legislation with its parameters and formulas.
 
-See http://legislation.openfisca.fr/
+See https://legislation.openfisca.fr/
 
 ## Run the server
 
@@ -33,7 +33,7 @@ To maintain the legislation at its latest version, you can check the [auto-updat
 
 ## OpenFisca Documentation
 
-Please consult http://doc.openfisca.fr/
+Please consult https://doc.openfisca.fr/
 
 ## Contribute
 
