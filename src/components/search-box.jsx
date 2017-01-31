@@ -18,7 +18,7 @@ const SearchBox = React.createClass({
         <div className="panel-body">
           <div className="form-group">
             <label htmlFor="search-box-input">
-              Nom ou libellé
+              Nom
             </label>
             <input
               className="form-control"
