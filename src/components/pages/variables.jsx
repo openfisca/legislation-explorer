@@ -68,7 +68,7 @@ const VariablesPage = React.createClass({
       query: "",
     }
   },
-  onSearchBoxQueryChange(query) {
+  handleSearchBoxQueryChange(query) {
     this.setState({query})
   },
   render() {
@@ -91,7 +91,7 @@ const VariablesPage = React.createClass({
           </p>
           <SearchBox
             query={this.state.query}
-            onQueryChange={this.onSearchBoxQueryChange}
+            onQueryChange={this.handleSearchBoxQueryChange}
           />
           {
             variablesTree
