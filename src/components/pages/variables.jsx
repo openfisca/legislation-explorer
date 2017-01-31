@@ -11,45 +11,50 @@ import List from "../list"
 import SearchBox from "../search-box"
 
 
-function buildVariablesTree(variables, nameFilter, labelFilter) {
+function buildVariablesTree(variables, query) {
   const getVariablePath = variable => prepend('children', intersperse("children", variable.source_file_path.split("/")))
-  const matchFilters = variable => (!nameFilter || variable.name.toLowerCase().includes(nameFilter.toLowerCase())) && (
-    !labelFilter || variable.label && variable.label.toLowerCase().includes(labelFilter.toLowerCase())
-  )
-  function removeEmptyNodes(node) {
-    if (isNil(node.children)) {
-      return node
-    } else {
-      const cleanNode = merge(
-        node,
-        {
-          children: pipe(
-            reject(isNil),
-            map(removeEmptyNodes),
-            reject(isNil),
-            )(node.children)
-        }
-      )
-      return all(isNil, values(cleanNode.children))
-        ? null
-        : cleanNode
+  function filterByQuery(variable) {
+    if (!query) {
+      return true
     }
+    const lowerCaseQuery = query.toLowerCase()
+    return variable.name.toLowerCase().includes(lowerCaseQuery) ||
+      variable.label && variable.label.toLowerCase().includes(lowerCaseQuery)
   }
-  return pipe(
-    reduce(
+  function listToFilteredTree(variables) {
+    return reduce(
       (memo, variable) => over(
         lensPath(getVariablePath(variable)),
-        node => matchFilters(variable)
+        node => filterByQuery(variable)
           ? node
             ? over(lensPath(["variables"]), append(variable), node)
             : {variables: [variable]}
           : node,
         memo,
       ),
-      {}
-    ),
-    removeEmptyNodes,
-  )(variables)
+      {},
+      variables
+    )
+  }
+  function removeEmptyNodes(node) {
+    if (isNil(node.children)) {
+      return node
+    }
+    const cleanNode = merge(
+      node,
+      {
+        children: pipe(
+          reject(isNil),
+          map(removeEmptyNodes),
+          reject(isNil),
+          )(node.children)
+      }
+    )
+    return all(isNil, values(cleanNode.children))
+      ? null
+      : cleanNode
+  }
+  return pipe(listToFilteredTree, removeEmptyNodes)(variables)
 }
 
 
@@ -61,19 +66,15 @@ const VariablesPage = React.createClass({
   },
   getInitialState() {
     return {
-      labelFilter: "",
-      nameFilter: ""
+      query: "",
     }
   },
-  onSearchBoxLabelChange(labelFilter) {
-    this.setState({labelFilter})
-  },
-  onSearchBoxNameChange(nameFilter) {
-    this.setState({nameFilter})
+  onSearchBoxQueryChange(query) {
+    this.setState({query})
   },
   render() {
     const {variables} = this.props
-    let variablesTree = buildVariablesTree(variables, this.state.nameFilter, this.state.labelFilter)
+    const variablesTree = buildVariablesTree(variables, this.state.query)
     return (
       <DocumentTitle title="Variables - Explorateur de la législation">
         <div>
@@ -90,10 +91,8 @@ const VariablesPage = React.createClass({
             soit une valeur saisie par l'utilisateur (ie un salaire).
           </p>
           <SearchBox
-            labelFilter={this.state.labelFilter}
-            nameFilter={this.state.nameFilter}
-            onLabelChange={this.onSearchBoxLabelChange}
-            onNameChange={this.onSearchBoxNameChange}
+            query={this.state.query}
+            onQueryChange={this.onSearchBoxQueryChange}
           />
           {
             variablesTree

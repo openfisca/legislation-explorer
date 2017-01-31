@@ -3,16 +3,11 @@ import React, {PropTypes} from "react"
 
 const SearchBox = React.createClass({
   propTypes: {
-    labelFilter: PropTypes.string,
-    nameFilter: PropTypes.string,
-    onLabelChange: PropTypes.func,
-    onNameChange: PropTypes.func,
+    query: PropTypes.string,
+    onQueryChange: PropTypes.func,
   },
-  onLabelInputChange(event) {
-    this.props.onLabelChange(event.target.value)
-  },
-  onNameInputChange(event) {
-    this.props.onNameChange(event.target.value)
+  onInputChange(event) {
+    this.props.onQueryChange(event.target.value)
   },
   render() {
     return (
@@ -22,27 +17,15 @@ const SearchBox = React.createClass({
         </div>
         <div className="panel-body">
           <div className="form-group">
-            <label htmlFor="search-box-name">
-              Nom
+            <label htmlFor="search-box-input">
+              Nom ou libellé
             </label>
             <input
               className="form-control"
-              id="search-box-name"
-              onChange={this.onNameInputChange}
+              id="search-box-input"
+              onChange={this.onInputChange}
               placeholder="Nom"
-              value={this.props.nameFilter}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="search-box-label">
-              Label
-            </label>
-            <input
-              className="form-control"
-              id="search-box-label"
-              onChange={this.onLabelInputChange}
-              placeholder="Label"
-              value={this.props.labelFilter}
+              value={this.props.query}
             />
           </div>
         </div>
