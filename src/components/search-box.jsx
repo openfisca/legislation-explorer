@@ -20,13 +20,13 @@ const SearchBox = React.createClass({
           <form onSubmit={this.handleSubmit}>
             <div className="form-group">
               <label htmlFor="search-box-input">
-                Nom
+                Nom ou libellé
               </label>
               <input
                 className="form-control"
                 defaultValue={this.props.query}
                 id="search-box-input"
-                placeholder="Nom"
+                placeholder="Nom ou libellé"
                 ref={(input) => this.input = input}
               />
             </div>
