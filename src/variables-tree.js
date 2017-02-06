@@ -1,5 +1,5 @@
 import {all, append, intersperse, isNil, lensPath, map, merge, over, pipe, prepend, reduce, reject, values} from "ramda"
-import removeAccents from 'remove-accents'
+import * as diacritics from 'diacritics'
 
 
 export function buildVariablesTree(variables, query) {
@@ -16,10 +16,10 @@ export function buildVariablesTree(variables, query) {
       if (!variable.label) {
         return false
       }
-      const normalizedLabel = removeAccents(variable.label.toLowerCase())
+      const normalizedLabel = diacritics.remove(variable.label.toLowerCase())
       return normalizedLabel.includes(query)
     }
-    const normalizedQuery = removeAccents(query.toLowerCase())
+    const normalizedQuery = diacritics.remove(query.toLowerCase())
     return nameMatches(variable, normalizedQuery) || labelMatches(variable, normalizedQuery)
   }
   function listToFilteredTree(variables) {
