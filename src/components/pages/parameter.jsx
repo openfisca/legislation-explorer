@@ -2,7 +2,6 @@ import DocumentTitle from "react-document-title"
 import {injectIntl, intlShape, FormattedDate} from 'react-intl';
 import {Link} from "react-router"
 import React, {PropTypes} from "react"
-import {sortBy, prop} from "ramda"
 
 import config from "../../config"
 import * as AppPropTypes from "../../app-prop-types"
@@ -45,31 +44,6 @@ function getBracketsAtInstant(brackets, instant) {
 
 function getTodayInstant() {
   return new Date().toJSON().slice(0, "YYYY-MM-DD".length)
-}
-
-
-function isConsumerVariable(variable, name) {
-  // Does `variable` consume `name` as a parameter?
-  function isConsumerFormula(formula) {
-    return formula.parameters && formula.parameters.length && formula.parameters.includes(name)
-  }
-  const {formula} = variable
-  if (!formula) {
-    return false
-  }
-  switch (formula["@type"]) {
-    case "SimpleFormula":
-      return isConsumerFormula(formula)
-    case "DatedFormula":
-      return formula.dated_formulas.some(dated_formula => isConsumerFormula(dated_formula.formula))
-    case "EntityToPerson":
-    case "PersonToEntity":
-      // Ignore those variable types since they have an implicit formula, not using any parameter of the legislation.
-      return false
-    default:
-      console.error("Unexpected formula type:", formula["@type"])
-      return false
-  }
 }
 
 
@@ -330,24 +304,6 @@ const ParameterPage = React.createClass({
       </div>
     )
   },
-  renderConsumerVariables(parameter) {
-    const {variables} = this.props
-    const consumerVariables = variables.filter(variable => isConsumerVariable(variable, parameter.name))
-    return [
-      <dt key="dt">Formules utilisant ce paramètre</dt>,
-      <dd key="dd">
-        {
-          consumerVariables && consumerVariables.length
-            ? (
-              <List items={sortBy(prop("name"), consumerVariables)} type="inline">
-                {variable => <Link title={variable.label} to={`/variables/${variable.name}`}>{variable.name}</Link>}
-              </List>
-            )
-            : <span className="label label-warning">Aucune</span>
-        }
-      </dd>,
-    ]
-  },
   renderDefinitionsList(parameter) {
     const {currency} = this.props
     const {format, unit} = parameter
@@ -373,7 +329,6 @@ const ParameterPage = React.createClass({
             </dd>
           )
         }
-        {this.renderConsumerVariables(parameter)}
       </dl>
     )
   },
