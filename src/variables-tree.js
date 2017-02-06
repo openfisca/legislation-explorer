@@ -1,4 +1,5 @@
 import {all, append, intersperse, isNil, lensPath, map, merge, over, pipe, prepend, reduce, reject, values} from "ramda"
+import * as diacritics from 'diacritics'
 
 
 export function buildVariablesTree(variables, query) {
@@ -7,8 +8,19 @@ export function buildVariablesTree(variables, query) {
     if (!query) {
       return true
     }
-    const normalizedQuery = query.toLowerCase()
-    return variable.name.toLowerCase().includes(normalizedQuery)
+    function nameMatches(variable, query) {
+      const normalizedName = variable.name.toLowerCase()
+      return normalizedName.includes(query)
+    }
+    function labelMatches(variable, query) {
+      if (!variable.label) {
+        return false
+      }
+      const normalizedLabel = diacritics.remove(variable.label.toLowerCase())
+      return normalizedLabel.includes(query)
+    }
+    const normalizedQuery = diacritics.remove(query.toLowerCase())
+    return nameMatches(variable, normalizedQuery) || labelMatches(variable, normalizedQuery)
   }
   function listToFilteredTree(variables) {
     return reduce(
