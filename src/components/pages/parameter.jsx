@@ -5,7 +5,6 @@ import React, {PropTypes} from "react"
 
 import config from "../../config"
 import * as AppPropTypes from "../../app-prop-types"
-import BreadCrumb from "../breadcrumb"
 import Collapse from "../collapse"
 import Dropdown from "../dropdown"
 import ExternalLink from "../external-link"
@@ -120,12 +119,6 @@ const ParameterPage = React.createClass({
       return (
         <DocumentTitle title={`${notFoundMessage} - Explorateur de la législation`}>
           <div>
-            <BreadCrumb>
-              <li>
-                <Link to="/parameters">Paramètres</Link>
-              </li>
-              <li className="active">{notFoundMessage}</li>
-            </BreadCrumb>
             <div className="page-header">
               <h1>{notFoundMessage}</h1>
             </div>
@@ -143,12 +136,6 @@ const ParameterPage = React.createClass({
     return (
       <DocumentTitle title={`${descriptionMessage} - Explorateur de la législation`}>
         <div>
-          <BreadCrumb>
-            <li key="parameters">
-              <Link to="/parameters">Paramètres</Link>
-            </li>
-            <li className="active">{name}</li>
-          </BreadCrumb>
           <div className="page-header">
             <h1>{descriptionMessage}</h1>
           </div>

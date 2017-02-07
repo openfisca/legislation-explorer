@@ -5,7 +5,6 @@ import {sortBy, toPairs} from "ramda"
 import TreeView from 'react-treeview'
 
 import * as AppPropTypes from "../../app-prop-types"
-import BreadCrumb from "../breadcrumb"
 import GitHubLink from "../github-link"
 import List from "../list"
 import SearchBox from "../search-box"
@@ -32,9 +31,6 @@ const VariablesPage = React.createClass({
     return (
       <DocumentTitle title="Variables - Explorateur de la législation">
         <div>
-          <BreadCrumb>
-            <li className="active">Variables</li>
-          </BreadCrumb>
           <div className="page-header">
             <h1>Variables et formules socio-fiscales</h1>
           </div>

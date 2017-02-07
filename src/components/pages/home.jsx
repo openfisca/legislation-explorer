@@ -1,8 +1,6 @@
 import {Link} from "react-router"
 import React, {PropTypes} from "react"
 
-import BreadCrumb from "../breadcrumb"
-
 
 const HomePage = React.createClass({
   propTypes: {
@@ -13,7 +11,6 @@ const HomePage = React.createClass({
     const {countryPackageName, countryPackageVersion} = this.props
     return (
       <section>
-        <BreadCrumb />
         <div className="page-header">
           <h1>Explorateur de la législation</h1>
         </div>

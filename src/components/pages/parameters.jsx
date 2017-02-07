@@ -3,7 +3,6 @@ import React, {PropTypes} from "react"
 import {Link} from "react-router"
 
 import * as AppPropTypes from "../../app-prop-types"
-import BreadCrumb from "../breadcrumb"
 import List from "../list"
 
 
@@ -16,9 +15,6 @@ const ParametersPage = React.createClass({
     return (
       <DocumentTitle title="Paramètres - Explorateur de la législation">
         <div>
-          <BreadCrumb>
-            <li className="active">Paramètres</li>
-          </BreadCrumb>
           <div className="page-header">
             <h1>Paramètres de la législation</h1>
           </div>

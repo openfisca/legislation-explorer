@@ -3,8 +3,6 @@ import {locationShape} from "react-router/lib/PropTypes"
 import React from "react"
 import DocumentTitle from "react-document-title"
 
-import BreadCrumb from "../breadcrumb"
-
 
 const NotFoundPage = React.createClass({
   propTypes: {
@@ -16,9 +14,6 @@ const NotFoundPage = React.createClass({
     return (
       <DocumentTitle title={`${message} - Explorateur de la législation`}>
         <div>
-          <BreadCrumb>
-            <li className="active">{message}</li>
-          </BreadCrumb>
           <div className="page-header">
             <h1>{message}</h1>
           </div>

@@ -5,7 +5,6 @@ import React, {PropTypes} from "react"
 import {substract, sort, sortBy, prop} from "ramda"
 
 import config from "../../config"
-import BreadCrumb from "../breadcrumb"
 import * as AppPropTypes from "../../app-prop-types"
 import ExternalLink from "../external-link"
 import GitHubLink from "../github-link"
@@ -68,12 +67,6 @@ const VariablePage = React.createClass({
       return (
         <DocumentTitle title={`${notFoundMessage} - Explorateur de la législation`}>
           <div>
-            <BreadCrumb>
-              <li>
-                <Link to="/variables">Variables</Link>
-              </li>
-              <li className="active">{notFoundMessage}</li>
-            </BreadCrumb>
             <div className="page-header">
               <h1>{notFoundMessage}</h1>
             </div>
@@ -90,14 +83,6 @@ const VariablePage = React.createClass({
     return (
       <DocumentTitle title={`${labelMessage} - Explorateur de la législation`}>
         <div>
-          <BreadCrumb>
-            <li key="variables">
-              <Link to="/variables">Variables</Link>
-            </li>
-            <li className="active">
-              {`${labelMessage.slice(0,30)} ...`}
-            </li>
-          </BreadCrumb>
           <div className="page-header">
             <h1>{labelMessage}</h1>
           </div>
