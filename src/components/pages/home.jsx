@@ -2,7 +2,6 @@ import {Link} from "react-router"
 import React, {PropTypes} from "react"
 
 import BreadCrumb from "../breadcrumb"
-import ExternalLink from "../external-link"
 
 
 const HomePage = React.createClass({
