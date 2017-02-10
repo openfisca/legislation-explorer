@@ -1,6 +1,7 @@
 import React, { PropTypes } from "react"
 import { isNil } from "ramda"
 import { locationShape } from "react-router/lib/PropTypes"
+import { Link } from "react-router"
 
 import * as AppPropTypes from "../../app-prop-types"
 import NotFoundPage from "./not-found"
@@ -33,6 +34,7 @@ const ParameterOrVariablePage = React.createClass({
     }
     return (
       <div>
+        <Link className="btn btn-default" to="/">Retour à l'accueil</Link>
         {
           parameter && (
             <Parameter

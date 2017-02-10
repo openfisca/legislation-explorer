@@ -21,7 +21,7 @@ const NotFoundPage = React.createClass({
           <div className="alert alert-danger">
             {message}
           </div>
-          <Link to="/">Retour à l'accueil</Link>
+          <Link className="btn btn-default" to="/">Retour à l'accueil</Link>
         </div>
       </DocumentTitle>
     )
