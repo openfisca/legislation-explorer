@@ -7,6 +7,7 @@ import * as AppPropTypes from "../../app-prop-types"
 import {findParametersAndVariables} from "../../search"
 import List from "../list"
 
+const searchInputId = "search-input"
 
 const HomePage = React.createClass({
   contextTypes: {
@@ -20,10 +21,12 @@ const HomePage = React.createClass({
     variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
   },
   componentDidMount() {
-    this.context.router.listen(this.locationHasChanged)
+    this._isMounted = true
+    this.unregisterRouterListen = this.context.router.listen(this.locationHasChanged)
   },
   componentWillUnmount() {
-    this.context.router.unregisterTransitionHook(this.locationHasChanged)
+    this._isMounted = false
+    this.unregisterRouterListen()
   },
   getInitialState() {
     return {inputValue: ""}
@@ -38,11 +41,13 @@ const HomePage = React.createClass({
   },
   handleSubmit(event) {
     event.preventDefault()
-    this.context.router.push(`?q=${this.state.inputValue}`)
+    this.context.router.push(`?q=${this.state.inputValue}#${searchInputId}`)
   },
   locationHasChanged(location) {
-    const query = location.query.q || ""
-    this.setState({inputValue: query})
+    if (this._isMounted) {
+      const query = location.query.q || ""
+      this.setState({inputValue: query})
+    }
   },
   render() {
     const {parameters, variables} = this.props
@@ -56,6 +61,7 @@ const HomePage = React.createClass({
             <input
               autoFocus={true}
               className="form-control"
+              id={searchInputId}
               onChange={this.handleInputChange}
               placeholder="smic, salaire net…"
               ref={element => this.searchInput = element}
