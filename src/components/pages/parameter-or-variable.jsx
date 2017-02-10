@@ -1,6 +1,6 @@
-import React, {PropTypes} from "react"
-import {isNil} from "ramda"
-import {locationShape} from "react-router/lib/PropTypes"
+import React, { PropTypes } from "react"
+import { isNil } from "ramda"
+import { locationShape } from "react-router/lib/PropTypes"
 
 import * as AppPropTypes from "../../app-prop-types"
 import NotFoundPage from "./not-found"
@@ -14,7 +14,7 @@ const ParameterOrVariablePage = React.createClass({
     countryPackageVersion: PropTypes.string.isRequired,
     currency: PropTypes.string.isRequired,
     location: locationShape.isRequired,
-    params: PropTypes.shape({name: PropTypes.string.isRequired}).isRequired, // URL params
+    params: PropTypes.shape({ name: PropTypes.string.isRequired }).isRequired, // URL params
     parameters: PropTypes.arrayOf(AppPropTypes.parameterOrScale).isRequired,
     variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
   },
@@ -33,29 +33,29 @@ const ParameterOrVariablePage = React.createClass({
     }
     return (
       <div>
-          {
-            parameter && (
-              <Parameter
-                countryPackageName={countryPackageName}
-                countryPackageVersion={countryPackageVersion}
-                currency={currency}
-                parameter={parameter}
-                parameters={parameters}
-                variables={variables}
-              />
-            )
-          }
-          {
-            variable && (
-              <Variable
-                countryPackageName={countryPackageName}
-                countryPackageVersion={countryPackageVersion}
-                parameters={parameters}
-                variable={variable}
-                variables={variables}
-              />
-            )
-          }
+        {
+          parameter && (
+            <Parameter
+              countryPackageName={countryPackageName}
+              countryPackageVersion={countryPackageVersion}
+              currency={currency}
+              parameter={parameter}
+              parameters={parameters}
+              variables={variables}
+            />
+          )
+        }
+        {
+          variable && (
+            <Variable
+              countryPackageName={countryPackageName}
+              countryPackageVersion={countryPackageVersion}
+              parameters={parameters}
+              variable={variable}
+              variables={variables}
+            />
+          )
+        }
       </div>
     )
   },
