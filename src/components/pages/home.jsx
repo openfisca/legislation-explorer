@@ -27,6 +27,10 @@ const HomePage = React.createClass({
   getInitialState() {
     return {inputValue: ""}
   },
+  handleClearSearchClicked() {
+    this.setState({inputValue: ""})
+    this.context.router.push("")
+  },
   handleInputChange(event) {
     this.setState({inputValue: event.target.value})
   },
@@ -54,9 +58,21 @@ const HomePage = React.createClass({
               type="text"
               value={inputValue}
             />
-            <span className="input-group-btn">
+            <div className="input-group-btn">
+              {
+                !isEmpty(query) && (
+                  <button
+                    className="btn btn-default"
+                    onClick={this.handleClearSearchClicked}
+                    title="Effacer la recherche"
+                    type="button"
+                  >
+                    <span className="glyphicon glyphicon-remove" aria-hidden="true" />
+                  </button>
+                )
+              }
               <button className="btn btn-default" type="submit">Trouver</button>
-            </span>
+            </div>
           </div>
         </form>
         <section>
