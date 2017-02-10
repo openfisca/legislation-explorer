@@ -4,6 +4,7 @@ import favicon from "serve-favicon"
 import path from "path"
 
 import handleRender from "./render"
+import {withSearchIndex} from "../search"
 import {fetchParameters, fetchVariables} from "../webservices"
 
 
@@ -72,8 +73,8 @@ Promise.all([fetchParameters(), fetchVariables()])
       countryPackageName: country_package_name,
       countryPackageVersion: country_package_version,
       currency,
-      parameters,
-      variables
+      parameters: withSearchIndex('description', parameters),
+      variables: withSearchIndex('label', variables),
     }
     startServer(state)
   }, error => {

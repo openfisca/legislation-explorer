@@ -1,54 +1,85 @@
-import {Link} from "react-router"
+import {isEmpty, map} from "ramda"
 import React, {PropTypes} from "react"
+import {Link} from "react-router"
+import {locationShape} from "react-router/lib/PropTypes"
+
+import * as AppPropTypes from "../../app-prop-types"
+import {findParametersAndVariables} from "../../search"
 
 
 const HomePage = React.createClass({
+  contextTypes: {
+    router: React.PropTypes.object.isRequired,
+  },
   propTypes: {
     countryPackageName: PropTypes.string.isRequired,
     countryPackageVersion: PropTypes.string.isRequired,
+    location: locationShape.isRequired,
+    parameters: PropTypes.arrayOf(AppPropTypes.parameterOrScale).isRequired,
+    variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
+  },
+  componentDidMount() {
+    this.context.router.listen(this.locationHasChanged)
+  },
+  componentWillUnmount() {
+    this.context.router.unregisterTransitionHook(this.locationHasChanged)
+  },
+  getInitialState() {
+    return {inputValue: ""}
+  },
+  handleInputChange(event) {
+    this.setState({inputValue: event.target.value})
+  },
+  handleSubmit(event) {
+    event.preventDefault()
+    this.context.router.push(`?q=${this.state.inputValue}`)
+  },
+  locationHasChanged(location) {
+    const query = location.query.q || ""
+    this.setState({inputValue: query})
   },
   render() {
-    const {countryPackageName, countryPackageVersion} = this.props
+    const {parameters, variables} = this.props
+    const {inputValue} = this.state
+    const query = this.props.location.query.q || ""
+    const foundParametersAndVariables = findParametersAndVariables(parameters, variables, query)
     return (
-      <section>
-        <div className="page-header">
-          <h1>Explorateur de la législation</h1>
-        </div>
-        <div className="row">
-          <div className="col-lg-4">
-            <div className="thumbnail">
-              <div className="caption">
-                <h4>Variables et formules socio-fiscales</h4>
-                <p>
-                  Visualiser et rechercher parmi les variables d'entrée, les formules et leurs dépendences.
-                </p>
-                <p>
-                  <Link className="btn btn-default" to="/variables">Liste »</Link>
-                </p>
-              </div>
-            </div>
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          <div className="input-group input-group-lg" style={{margin: "2em 0"}}>
+            <input
+              className="form-control"
+              onChange={this.handleInputChange}
+              placeholder="smic, salaire net…"
+              type="text"
+              value={inputValue}
+            />
+            <span className="input-group-btn">
+              <button className="btn btn-default" type="submit">Trouver</button>
+            </span>
           </div>
-          <div className="col-lg-4">
-            <div className="thumbnail">
-              <div className="caption">
-                <h4>Paramètres de la législation</h4>
-                <p>
-                  Visualiser et rechercher les paramètres de la législation et les formules qui les utilisent.
-                </p>
-                <p>
-                  <Link className="btn btn-default" to="/parameters">Liste »</Link>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <hr />
-        <div className="row">
-          <p>
-            Les données affichées proviennent de {countryPackageName} version {countryPackageVersion}.
-          </p>
-        </div>
-      </section>
+        </form>
+        <section>
+          {
+            isEmpty(foundParametersAndVariables)
+              ? <h4>Aucun résultat</h4>
+              : map(this.renderCard, foundParametersAndVariables)
+          }
+        </section>
+      </div>
+    )
+  },
+  renderCard(parameterOrVariable) {
+    const description = parameterOrVariable.type === 'parameter'
+      ? parameterOrVariable.description
+      : parameterOrVariable.label
+    return (
+      <Link key={`${parameterOrVariable.name}-${parameterOrVariable.type}`} to={parameterOrVariable.name}>
+        <article style={{margin: "3em 0"}}>
+          <h4>{parameterOrVariable.name}</h4>
+          <p>{description}</p>
+        </article>
+      </Link>
     )
   },
 })

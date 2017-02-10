@@ -1,14 +1,14 @@
 import DocumentTitle from "react-document-title"
-import {FormattedDate} from "react-intl"
-import {Link} from "react-router"
-import React, {PropTypes} from "react"
-import {substract, sort, sortBy, prop} from "ramda"
+import { FormattedDate } from "react-intl"
+import { Link } from "react-router"
+import React, { PropTypes } from "react"
+import { substract, sort, sortBy, prop } from "ramda"
 
-import config from "../../config"
-import * as AppPropTypes from "../../app-prop-types"
-import ExternalLink from "../external-link"
-import GitHubLink from "../github-link"
-import List from "../list"
+import config from "../config"
+import * as AppPropTypes from "../app-prop-types"
+import ExternalLink from "./external-link"
+import GitHubLink from "./github-link"
+import List from "./list"
 
 
 
@@ -37,12 +37,12 @@ function isConsumerVariable(variable, name) {
 }
 
 
-const VariablePage = React.createClass({
+const Variable = React.createClass({
   propTypes: {
     countryPackageName: PropTypes.string.isRequired,
     countryPackageVersion: PropTypes.string.isRequired,
-    params: PropTypes.shape({name: PropTypes.string.isRequired}).isRequired, // URL params
     parameters: PropTypes.arrayOf(AppPropTypes.parameterOrScale).isRequired,
+    variable: AppPropTypes.variable.isRequired,
     variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
   },
   getParameterValue(parameter, instant) {
@@ -59,27 +59,9 @@ const VariablePage = React.createClass({
     return new Date().toJSON().slice(0, 10)
   },
   render() {
-    const {params, variables} = this.props
-    const {name} = params
-    const variable = variables.find(variable => variable.name === name)
-    if (!variable) {
-      const notFoundMessage = "Variable non trouvée"
-      return (
-        <DocumentTitle title={`${notFoundMessage} - Explorateur de la législation`}>
-          <div>
-            <div className="page-header">
-              <h1>{notFoundMessage}</h1>
-            </div>
-            <div className="alert alert-danger">
-              {`La variable « ${name} » n'existe pas.`}
-            </div>
-            <Link to="/variables">Retour à la liste des variables</Link>
-          </div>
-        </DocumentTitle>
-      )
-    }
+    const {variable} = this.props
     const {formula, label, source_code} = variable
-    const labelMessage = label || `${name} (aucun label)`
+    const labelMessage = label || `${variable.name} (aucun label)`
     return (
       <DocumentTitle title={`${labelMessage} - Explorateur de la législation`}>
         <div>
@@ -87,21 +69,21 @@ const VariablePage = React.createClass({
             <h1>{labelMessage}</h1>
           </div>
           {this.renderDefinitionsLists(variable)}
-          {formula && <hr/>}
+          {formula && <hr />}
           {
             formula && (
               formula["@type"] === "DatedFormula"
                 ? this.renderDatedFormula(formula)
                 : this.renderSimpleFormula(formula)
-              )
+            )
           }
-          <hr/>
+          <hr />
           <h4>Code source</h4>
           <pre>{source_code}</pre>
           {this.renderSourceCodeLink(variable)}
-          <hr/>
+          <hr />
           <ExternalLink
-            href={`${config.apiBaseUrl}/api/1/variables?name=${name}`}
+            href={`${config.apiBaseUrl}/api/1/variables?name=${variable.name}`}
             title="Voir la donnée brute au format JSON"
           >
             Export JSON
@@ -119,11 +101,11 @@ const VariablePage = React.createClass({
         {
           consumerVariables && consumerVariables.length ? (
             <List items={sortBy(prop("name"), consumerVariables)} type="inline">
-              {variable2 => <Link title={variable2.label} to={`/variables/${variable2.name}`}>{variable2.name}</Link>}
+              {variable2 => <Link title={variable2.label} to={`/${variable2.name}`}>{variable2.name}</Link>}
             </List>
           ) : (
-            <span className="label label-warning">Aucune</span>
-          )
+              <span className="label label-warning">Aucune</span>
+            )
         }
       </dd>,
     ]
@@ -131,7 +113,7 @@ const VariablePage = React.createClass({
   renderDatedFormula(formula) {
     return formula.dated_formulas.map((datedFormula, idx) => (
       <div key={idx}>
-        <h4 style={{display: "inline-block"}}>
+        <h4 style={{ display: "inline-block" }}>
           {this.renderDatedFormulaHeading(datedFormula)}
         </h4>
         {this.renderFormula(datedFormula.formula)}
@@ -186,7 +168,7 @@ const VariablePage = React.createClass({
                 inputVariableNames && (
                   <dd>
                     <List items={sort(substract, inputVariableNames)} type="inline">
-                      {name => <Link to={`/variables/${name}`}>{name}</Link>}
+                      {name => <Link to={`/${name}`}>{name}</Link>}
                     </List>
                   </dd>
                 )
@@ -203,7 +185,7 @@ const VariablePage = React.createClass({
                             const parameterValue = this.renderParameterValue(parameter)
                             return (
                               <span>
-                                <Link title={parameter.description} to={`/parameters/${parameterName}`}>
+                                <Link title={parameter.description} to={`/${parameterName}`}>
                                   {parameterName}
                                 </Link>
                                 {" "}
@@ -238,21 +220,20 @@ const VariablePage = React.createClass({
   renderSimpleFormula(formula) {
     return (
       <div>
-        <h4 style={{display: "inline-block"}}>Formule de calcul</h4>
+        <h4 style={{ display: "inline-block" }}>Formule de calcul</h4>
         {this.renderFormula(formula)}
       </div>
     )
   },
   renderDefinitionsLists(variable) {
+    // TODO Do not hardcode entities.
     const entityMessageByNamePlural = {
-      familles: "de la famille",
-      foyers_fiscaux: "du foyer fiscal",
-      individus: "de l'individu",
-      menages: "du ménage",
+      famille: "de la famille",
+      foyer_fiscal: "du foyer fiscal",
+      individu: "de l'individu",
+      menage: "du ménage",
     }
     const type = variable["@type"]
-    const {params} = this.props
-    const {name} = params
     return (
       <div>
         <dl>
@@ -297,11 +278,11 @@ const VariablePage = React.createClass({
             ]
           }
         </dl>
-        <hr/>
+        <hr />
         <h4>Données spécifiques à OpenFisca</h4>
         <dl>
           <dt>Nom de la variable</dt>
-          <dd>{name}</dd>
+          <dd>{variable.name}</dd>
           <dt>Type</dt>
           <dd>
             <code>{type}</code>
@@ -343,7 +324,7 @@ const VariablePage = React.createClass({
         blobUrlPath={countryPackageName + '/' + variable.source_file_path}
         commitReference={countryPackageVersion}
         lineNumber={variable.start_line_number}
-        style={{marginLeft: "1em"}}
+        style={{ marginLeft: "1em" }}
         text={sourceCodeText}
       />
     )
@@ -351,4 +332,4 @@ const VariablePage = React.createClass({
 })
 
 
-export default VariablePage
+export default Variable

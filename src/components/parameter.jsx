@@ -1,15 +1,14 @@
 import DocumentTitle from "react-document-title"
 import {injectIntl, intlShape, FormattedDate} from 'react-intl';
-import {Link} from "react-router"
 import React, {PropTypes} from "react"
 
-import config from "../../config"
-import * as AppPropTypes from "../../app-prop-types"
-import Collapse from "../collapse"
-import Dropdown from "../dropdown"
-import ExternalLink from "../external-link"
-import GitHubLink from "../github-link"
-import List from "../list"
+import config from "../config"
+import * as AppPropTypes from "../app-prop-types"
+import Collapse from "./collapse"
+import Dropdown from "./dropdown"
+import ExternalLink from "./external-link"
+import GitHubLink from "./github-link"
+import List from "./list"
 
 
 function findLastKnownStartInstant(brackets) {
@@ -46,28 +45,24 @@ function getTodayInstant() {
 }
 
 
-const ParameterPage = React.createClass({
+const Parameter = React.createClass({
   propTypes: {
     countryPackageName: PropTypes.string.isRequired,
     countryPackageVersion: PropTypes.string.isRequired,
     currency: PropTypes.string.isRequired,
     intl: intlShape.isRequired,
-    params: PropTypes.shape({name: PropTypes.string.isRequired}).isRequired, // URL params
+    parameter: AppPropTypes.parameterOrScale.isRequired,
     parameters: PropTypes.arrayOf(AppPropTypes.parameterOrScale).isRequired,
     variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
   },
   getInitialState() {
-    const {intl, parameters, params} = this.props
-    const {name} = params
-    const parameter = parameters.find(parameter => parameter.name === name)
-    if (parameter) {
-      const type = parameter["@type"]
-      if (type === "Scale") {
-        const instant = findLastKnownStartInstant(parameter.brackets)
-        return {
-          instant,
-          instantText: intl.formatDate(instant),
-        }
+    const {intl, parameter} = this.props
+    const type = parameter["@type"]
+    if (type === "Scale") {
+      const instant = findLastKnownStartInstant(parameter.brackets)
+      return {
+        instant,
+        instantText: intl.formatDate(instant),
       }
     }
     return {}
@@ -92,9 +87,7 @@ const ParameterPage = React.createClass({
     this.setState({instantText: event.target.value})
   },
   handleLastKnownInstantClick() {
-    const {intl, parameters, params} = this.props
-    const {name} = params
-    const parameter = parameters.find(parameter => parameter.name === name)
+    const {intl, parameter} = this.props
     const {brackets} = parameter
     const instant = findLastKnownStartInstant(brackets)
     this.setState({
@@ -111,25 +104,7 @@ const ParameterPage = React.createClass({
     })
   },
   render() {
-    const {parameters, params} = this.props
-    const {name} = params
-    const parameter = parameters.find(parameter => parameter.name === name)
-    if (!parameter) {
-      const notFoundMessage = "Paramètre non trouvé"
-      return (
-        <DocumentTitle title={`${notFoundMessage} - Explorateur de la législation`}>
-          <div>
-            <div className="page-header">
-              <h1>{notFoundMessage}</h1>
-            </div>
-            <div className="alert alert-danger">
-              {`Le paramètre « ${name} » n'existe pas.`}
-            </div>
-            <Link to="/parameters">Retour à la liste des paramètres</Link>
-          </div>
-        </DocumentTitle>
-      )
-    }
+    const {parameter} = this.props
     const {brackets, description} = parameter
     const descriptionMessage = description || "Aucune description"
     const type = parameter["@type"]
@@ -166,7 +141,7 @@ const ParameterPage = React.createClass({
           }
           <hr/>
           <ExternalLink
-            href={`${config.apiBaseUrl}/api/1/parameters?name=${name}`}
+            href={`${config.apiBaseUrl}/api/1/parameters?name=${parameter.name}`}
             title="Voir la donnée brute au format JSON"
           >
             Export JSON
@@ -527,4 +502,4 @@ const ParameterPage = React.createClass({
 })
 
 
-export default injectIntl(ParameterPage)
+export default injectIntl(Parameter)
