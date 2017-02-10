@@ -1,10 +1,11 @@
-import {isEmpty, map} from "ramda"
+import {isEmpty} from "ramda"
 import React, {PropTypes} from "react"
-import {Link} from "react-router"
 import {locationShape} from "react-router/lib/PropTypes"
+import {Link} from "react-router"
 
 import * as AppPropTypes from "../../app-prop-types"
 import {findParametersAndVariables} from "../../search"
+import List from "../list"
 
 
 const HomePage = React.createClass({
@@ -79,25 +80,45 @@ const HomePage = React.createClass({
           {
             isEmpty(foundParametersAndVariables)
               ? <h4>Aucun résultat</h4>
-              : map(this.renderCard, foundParametersAndVariables)
+              : <SearchResults items={foundParametersAndVariables} query={query} />
           }
         </section>
       </div>
     )
   },
-  renderCard(parameterOrVariable) {
-    const description = parameterOrVariable.type === 'parameter'
-      ? parameterOrVariable.description
-      : parameterOrVariable.label
-    return (
-      <Link key={`${parameterOrVariable.name}-${parameterOrVariable.type}`} to={parameterOrVariable.name}>
-        <article style={{margin: "3em 0"}}>
-          <h4>{parameterOrVariable.name}</h4>
-          <p>{description}</p>
-        </article>
-      </Link>
-    )
+})
+
+const SearchResults = React.createClass({
+  propTypes: {
+    items: PropTypes.array.isRequired,
+    query: PropTypes.string,
   },
+  shouldComponentUpdate(nextProps) {
+    // Optimization: re-render this component only if `query` changed.
+    // If `query` is the same than on previous rendering, it implies that `items` is the same too.
+    return nextProps.query !== this.props.query
+  },
+  render() {
+    const {items} = this.props
+    return (
+      <List items={items} type="unstyled">
+        {parameterOrVariable => {
+          const {name, type} = parameterOrVariable
+          const description = type === 'parameter'
+            ? parameterOrVariable.description
+            : parameterOrVariable.label
+          return (
+            <Link key={`${name}-${type}`} to={`/${name}`}>
+              <article style={{margin: "3em 0"}}>
+                <h4>{name}</h4>
+                {description && <p>{description}</p>}
+              </article>
+            </Link>
+          )
+        }}
+      </List>
+    )
+  }
 })
 
 
