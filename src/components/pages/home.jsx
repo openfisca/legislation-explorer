@@ -54,6 +54,7 @@ const HomePage = React.createClass({
         <form onSubmit={this.handleSubmit}>
           <div className="input-group input-group-lg" style={{margin: "2em 0"}}>
             <input
+              autoFocus={true}
               className="form-control"
               onChange={this.handleInputChange}
               placeholder="smic, salaire net…"
