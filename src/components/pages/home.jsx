@@ -34,6 +34,7 @@ const HomePage = React.createClass({
   },
   handleInputChange(event) {
     this.setState({inputValue: event.target.value})
+    this.searchInput.scrollIntoView()
   },
   handleSubmit(event) {
     event.preventDefault()
@@ -56,6 +57,7 @@ const HomePage = React.createClass({
               className="form-control"
               onChange={this.handleInputChange}
               placeholder="smic, salaire net…"
+              ref={element => this.searchInput = element}
               type="text"
               value={inputValue}
             />
