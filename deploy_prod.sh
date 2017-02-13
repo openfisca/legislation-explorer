@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Print some environment info useful when reading CircleCI logs.
 pwd
 git branch
 
