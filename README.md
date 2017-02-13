@@ -1,5 +1,7 @@
 # OpenFisca Legislation explorer
 
+[![CircleCI](https://circleci.com/gh/openfisca/legislation-explorer.svg?style=svg)](https://circleci.com/gh/openfisca/legislation-explorer)
+
 ## Presentation
 
 [OpenFisca](https://www.openfisca.fr/) is a versatile microsimulation free software.
