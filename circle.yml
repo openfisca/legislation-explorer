@@ -1,0 +1,5 @@
+deployment:
+  production:
+    branch: continuous-deployment
+    commands:
+      - ssh -l openfisca legislation.openfisca.fr "cd legislation-explorer; ./deploy_prod.sh"
