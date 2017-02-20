@@ -8,11 +8,7 @@ import config from "../config"
 
 const BreadCrumb = React.createClass({
   propTypes: {
-    children: PropTypes.node,
-  },
-  render() {
-    const {children} = this.props
-    return (
+    childre
       <ul className="breadcrumb">
         <li>
           <a href={config.websiteUrl}>Accueil</a>
