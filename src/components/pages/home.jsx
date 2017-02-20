@@ -1,61 +1,133 @@
-import {Link} from "react-router"
+import {isEmpty} from "ramda"
 import React, {PropTypes} from "react"
+import {locationShape} from "react-router/lib/PropTypes"
+import {Link} from "react-router"
 
-import BreadCrumb from "../breadcrumb"
+import * as AppPropTypes from "../../app-prop-types"
+import {findParametersAndVariables} from "../../search"
+import List from "../list"
 
+const searchInputId = "search-input"
 
 const HomePage = React.createClass({
+  contextTypes: {
+    router: React.PropTypes.object.isRequired,
+  },
   propTypes: {
     countryPackageName: PropTypes.string.isRequired,
     countryPackageVersion: PropTypes.string.isRequired,
+    location: locationShape.isRequired,
+    parameters: PropTypes.arrayOf(AppPropTypes.parameterOrScale).isRequired,
+    variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
+  },
+  componentDidMount() {
+    this._isMounted = true
+    this.unregisterRouterListen = this.context.router.listen(this.locationHasChanged)
+  },
+  componentWillUnmount() {
+    this._isMounted = false
+    this.unregisterRouterListen()
+  },
+  getInitialState() {
+    return {inputValue: ""}
+  },
+  handleClearSearchClicked() {
+    this.setState({inputValue: ""})
+    this.context.router.push("")
+  },
+  handleInputChange(event) {
+    this.setState({inputValue: event.target.value})
+    this.searchInput.scrollIntoView()
+  },
+  handleSubmit(event) {
+    event.preventDefault()
+    this.context.router.push(`?q=${this.state.inputValue}#${searchInputId}`)
+  },
+  locationHasChanged(location) {
+    if (this._isMounted) {
+      const query = location.query.q || ""
+      this.setState({inputValue: query})
+    }
   },
   render() {
-    const {countryPackageName, countryPackageVersion} = this.props
+    const {parameters, variables} = this.props
+    const {inputValue} = this.state
+    const query = this.props.location.query.q || ""
+    const foundParametersAndVariables = findParametersAndVariables(parameters, variables, query)
     return (
-      <section>
-        <BreadCrumb />
-        <div className="page-header">
-          <h1>Explorateur de la législation</h1>
-        </div>
-        <div className="row">
-          <div className="col-lg-4">
-            <div className="thumbnail">
-              <div className="caption">
-                <h4>Variables et formules socio-fiscales</h4>
-                <p>
-                  Visualiser et rechercher parmi les variables d'entrée, les formules et leurs dépendences.
-                </p>
-                <p>
-                  <a className="btn btn-primary" href="/graph/">Graphe »</a>
-                  <span style={{marginLeft: 20}} />
-                  <Link className="btn btn-default" to="/variables">Liste »</Link>
-                </p>
-              </div>
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          <div className="input-group input-group-lg" style={{margin: "2em 0"}}>
+            <input
+              autoFocus={true}
+              className="form-control"
+              id={searchInputId}
+              onChange={this.handleInputChange}
+              placeholder="smic, salaire net…"
+              ref={element => this.searchInput = element}
+              type="text"
+              value={inputValue}
+            />
+            <div className="input-group-btn">
+              {
+                !isEmpty(query) && (
+                  <button
+                    className="btn btn-default"
+                    onClick={this.handleClearSearchClicked}
+                    title="Effacer la recherche"
+                    type="button"
+                  >
+                    <span className="glyphicon glyphicon-remove" aria-hidden="true" />
+                  </button>
+                )
+              }
+              <button className="btn btn-default" type="submit">Trouver</button>
             </div>
           </div>
-          <div className="col-lg-4">
-            <div className="thumbnail">
-              <div className="caption">
-                <h4>Paramètres de la législation</h4>
-                <p>
-                  Visualiser et rechercher les paramètres de la législation et les formules qui les utilisent.
-                </p>
-                <p>
-                  <Link className="btn btn-default" to="/parameters">Liste »</Link>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <hr />
-        <div className="row">
-          <p>
-            Les données affichées proviennent de {countryPackageName} version {countryPackageVersion}.
-          </p>
-        </div>
-      </section>
+        </form>
+        <section>
+          {
+            isEmpty(foundParametersAndVariables)
+              ? <h4>Aucun résultat</h4>
+              : <SearchResults items={foundParametersAndVariables} query={query} />
+          }
+        </section>
+      </div>
     )
   },
+})
+
+const SearchResults = React.createClass({
+  propTypes: {
+    items: PropTypes.array.isRequired,
+    query: PropTypes.string,
+  },
+  shouldComponentUpdate(nextProps) {
+    // Optimization: re-render this component only if `query` changed.
+    // If `query` is the same than on previous rendering, it implies that `items` is the same too.
+    return nextProps.query !== this.props.query
+  },
+  render() {
+    const {items} = this.props
+    return (
+      <List items={items} type="unstyled">
+        {parameterOrVariable => {
+          const {name, type} = parameterOrVariable
+          const description = type === 'parameter'
+            ? parameterOrVariable.description
+            : parameterOrVariable.label
+          return (
+            <Link key={`${name}-${type}`} to={`/${name}`}>
+              <article style={{margin: "3em 0"}}>
+                <h4>{name}</h4>
+                {description && <p>{description}</p>}
+              </article>
+            </Link>
+          )
+        }}
+      </List>
+    )
+  }
 })
 
 

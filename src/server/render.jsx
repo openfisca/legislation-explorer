@@ -56,8 +56,7 @@ function renderHtmlDocument(renderProps, state) {
   let externalCss = [
     process.env.NODE_ENV === "production" ?
       "/bootstrap/css/bootstrap.min.css" :
-      "/bootstrap/css/bootstrap.css",
-    "/react-treeview/react-treeview.css"
+      "/bootstrap/css/bootstrap.css"
   ]
   if (process.env.NODE_ENV === "development") {
     externalCss = externalCss.map(
