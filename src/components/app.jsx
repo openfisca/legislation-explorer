@@ -43,6 +43,12 @@ const App = React.createClass({
               </div>
             </section>
             {this.props.children}
+            <footer style={{marginTop: "5em"}}>
+              <hr/>
+              <a href={config.gitWebpageUrl} rel="external" target="_blank">
+                Améliorer ce site
+              </a>
+            </footer>
           </div>
         </div>
       </DocumentTitle>
