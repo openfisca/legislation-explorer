@@ -40,9 +40,7 @@ const App = React.createClass({
                     OpenFisca référence {variables.length} variables et {parameters.length} paramètres
                     qui modélisent le système socio-fiscal français.
                   </p>
-                  <a className="btn btn-default" href={config.websiteUrl}>
-                    En savoir plus
-                  </a>
+                  <a href={config.websiteUrl}>En savoir plus</a>
                 </div>
               </div>
             </section>
