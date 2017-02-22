@@ -25,17 +25,15 @@ const App = React.createClass({
           <div className="container" id="content" style={{marginBottom: 100}}>
             <section className="jumbotron" style={{marginTop: "1em"}}>
               <div className="row">
-                <div className="col-lg-3">
-                  <p>
-                    <img
-                      alt="Logo OpenFisca"
-                      className="img-responsive"
-                      src={url.resolve(config.websiteUrl, "/hotlinks/logo-openfisca.svg")}
-                    />
-                  </p>
+                <div className="col-md-3">
+                  <img
+                    alt="Logo OpenFisca"
+                    src={url.resolve(config.websiteUrl, "/hotlinks/logo-openfisca.svg")}
+                    style={{maxWidth: 200}}
+                  />
                   <p>{countryPackageName}@{countryPackageVersion}</p>
                 </div>
-                <div className="col-lg-9">
+                <div className="col-md-9">
                   <p>
                     OpenFisca référence {variables.length} variables et {parameters.length} paramètres
                     qui modélisent le système socio-fiscal français.
