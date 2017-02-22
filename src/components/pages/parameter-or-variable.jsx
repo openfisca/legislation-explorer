@@ -19,6 +19,10 @@ const ParameterOrVariablePage = React.createClass({
     parameters: PropTypes.arrayOf(AppPropTypes.parameterOrScale).isRequired,
     variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
   },
+  handleBackButtonClick(event) {
+    event.preventDefault()
+    window.history.back()
+  },
   render() {
     const {countryPackageName, countryPackageVersion, currency, location, parameters, params, variables} = this.props
     const {name} = params
@@ -34,7 +38,7 @@ const ParameterOrVariablePage = React.createClass({
     }
     return (
       <div>
-        <Link className="btn btn-default" to="/">Retour à l'accueil</Link>
+        <Link className="btn btn-default" onClick={this.handleBackButtonClick} to="/">Retour</Link>
         {
           parameter && (
             <Parameter
