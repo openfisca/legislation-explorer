@@ -27,7 +27,7 @@ const App = React.createClass({
               <div className="row">
                 <div className="col-md-3">
                   <img
-                    alt="Logo OpenFisca"
+                    alt=""
                     src={url.resolve(config.websiteUrl, "/hotlinks/logo-openfisca.svg")}
                     style={{maxWidth: 200}}
                   />
