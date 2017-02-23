@@ -43,6 +43,11 @@ const App = React.createClass({
               </div>
             </section>
             {this.props.children}
+            <footer>
+              <a href={config.gitWebpageUrl} target="_blank">
+                Améliorer ce site
+              </a>
+            </footer>
           </div>
         </div>
       </DocumentTitle>
