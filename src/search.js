@@ -3,25 +3,26 @@ import * as diacritics from 'diacritics'
 
 
 export function findParametersAndVariables(parameters, variables, query) {
-  function indexInString(substring, string) {
+  function weightIn(string, substring) {
     const index = string.indexOf(substring)
     return index === -1 ? Number.MAX_SAFE_INTEGER : index
   }
   const normalizedQuery = diacritics.remove(query.toLowerCase())
-  const sortFunction = isEmpty(normalizedQuery)
-    ? sortBy(prop('name'))
-    : sortWith([
-      ascend(item => indexInString(normalizedQuery, item.name)),
-      descend(item => item.searchIndex.includes(normalizedQuery)),
-      ascend(prop('name')),
-    ])
-  return sortFunction(parametersAndVariables)
+  const parametersAndVariables = concat(parameters, variables)
+  if (isEmpty(normalizedQuery)) {
+    return sortBy(prop('name'), parametersAndVariables)
+  }
+  return sortWith([
+    ascend(item => weightIn(item.name, normalizedQuery)),
+    descend(item => item.normalizedDescription.includes(normalizedQuery)),
+    ascend(prop('name')),
+  ], parametersAndVariables)
 }
 
-export function withSearchIndex(propertyName, objects) {
+export function addNormalizedDescription(propertyName, objects) {
   return map(
     object => assoc(
-      'searchIndex',
+      'normalizedDescription',
       has(propertyName, object)
         ? diacritics.remove(object[propertyName].toLowerCase())
         : '',
