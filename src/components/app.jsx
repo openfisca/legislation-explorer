@@ -44,7 +44,7 @@ const App = React.createClass({
             </section>
             {this.props.children}
             <footer>
-              <a href={config.gitWebpageUrl} rel="external" target="_blank">
+              <a href={config.gitWebpageUrl} target="_blank">
                 Améliorer ce site
               </a>
             </footer>
