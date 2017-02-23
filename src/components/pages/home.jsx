@@ -81,7 +81,7 @@ const HomePage = React.createClass({
                   </button>
                 )
               }
-              <button className="btn btn-default" type="submit">Trouver</button>
+              <button className="btn btn-primary" type="submit">Trouver</button>
             </div>
           </div>
         </form>

@@ -25,24 +25,20 @@ const App = React.createClass({
           <div className="container" id="content" style={{marginBottom: 100}}>
             <section className="jumbotron" style={{marginTop: "1em"}}>
               <div className="row">
-                <div className="col-lg-3">
-                  <p>
-                    <img
-                      alt="Logo OpenFisca"
-                      className="img-responsive"
-                      src={url.resolve(config.websiteUrl, "/hotlinks/logo-openfisca.svg")}
-                    />
-                  </p>
+                <div className="col-md-3">
+                  <img
+                    alt="OpenFisca"
+                    src={url.resolve(config.websiteUrl, "/hotlinks/logo-openfisca.svg")}
+                    style={{maxWidth: "12em"}}
+                  />
                   <p>{countryPackageName}@{countryPackageVersion}</p>
                 </div>
-                <div className="col-lg-9">
+                <div className="col-md-9">
                   <p>
-                    OpenFisca référence {variables.length} variables et {parameters.length} paramètres
-                    qui modélisent le système socio-fiscal français.
+                    {variables.length} variables et {parameters.length} paramètres
+                    référencées pour modéliser le système socio-fiscal français.
                   </p>
-                  <a className="btn btn-default" href={config.websiteUrl}>
-                    En savoir plus
-                  </a>
+                  <a href={config.websiteUrl}>En savoir plus</a>
                 </div>
               </div>
             </section>
