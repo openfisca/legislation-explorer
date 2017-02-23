@@ -29,7 +29,7 @@ const App = React.createClass({
                   <img
                     alt=""
                     src={url.resolve(config.websiteUrl, "/hotlinks/logo-openfisca.svg")}
-                    style={{maxWidth: 200}}
+                    style={{maxWidth: "12em"}}
                   />
                   <p>{countryPackageName}@{countryPackageVersion}</p>
                 </div>
