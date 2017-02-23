@@ -27,7 +27,7 @@ const App = React.createClass({
               <div className="row">
                 <div className="col-md-3">
                   <img
-                    alt=""
+                    alt="OpenFisca"
                     src={url.resolve(config.websiteUrl, "/hotlinks/logo-openfisca.svg")}
                     style={{maxWidth: "12em"}}
                   />
@@ -35,8 +35,8 @@ const App = React.createClass({
                 </div>
                 <div className="col-md-9">
                   <p>
-                    OpenFisca référence {variables.length} variables et {parameters.length} paramètres
-                    qui modélisent le système socio-fiscal français.
+                    {variables.length} variables et {parameters.length} paramètres
+                    référencées pour modéliser le système socio-fiscal français.
                   </p>
                   <a href={config.websiteUrl}>En savoir plus</a>
                 </div>
