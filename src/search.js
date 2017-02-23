@@ -8,10 +8,6 @@ export function findParametersAndVariables(parameters, variables, query) {
     return index === -1 ? Number.MAX_SAFE_INTEGER : index
   }
   const normalizedQuery = diacritics.remove(query.toLowerCase())
-  let parametersAndVariables = concat(
-    map(assoc('type', 'parameter'), parameters),
-    map(assoc('type', 'variable'), variables),
-  )
   const sortFunction = isEmpty(normalizedQuery)
     ? sortBy(prop('name'))
     : sortWith([
