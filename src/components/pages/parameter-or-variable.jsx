@@ -14,6 +14,7 @@ const ParameterOrVariablePage = React.createClass({
     countryPackageName: PropTypes.string.isRequired,
     countryPackageVersion: PropTypes.string.isRequired,
     currency: PropTypes.string.isRequired,
+    history: PropTypes.object.isRequired,
     location: locationShape.isRequired,
     params: PropTypes.shape({ name: PropTypes.string.isRequired }).isRequired, // URL params
     parameters: PropTypes.arrayOf(AppPropTypes.parameterOrScale).isRequired,
@@ -21,7 +22,7 @@ const ParameterOrVariablePage = React.createClass({
   },
   handleBackButtonClick(event) {
     event.preventDefault()
-    window.history.back()
+    this.props.history.goBack()
   },
   render() {
     const {countryPackageName, countryPackageVersion, currency, location, parameters, params, variables} = this.props
