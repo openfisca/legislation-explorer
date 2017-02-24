@@ -32,6 +32,7 @@ const parameter = PropTypes.shape({
     "integer",
     "rate",
   ]).isRequired,
+  normalizedDescription: PropTypes.string,
   unit,
   values: PropTypes.arrayOf(startStopValue),
   // Introspection (optional: values can be generated programmatically)
@@ -63,6 +64,7 @@ export const variable = PropTypes.shape({
   formula: PropTypes.object,
   label: PropTypes.string,
   name: PropTypes.string.isRequired,
+  normalizedDescription: PropTypes.string,
   // Introspection (optional: variables declared in notebooks have no introspection attributes)
   source_file_path: PropTypes.string,
   start_line_number: PropTypes.number,
