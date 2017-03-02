@@ -1,30 +1,30 @@
 import React, { PropTypes } from "react"
 import { isNil } from "ramda"
-import { locationShape } from "react-router/lib/PropTypes"
-import { Link } from "react-router"
+import { Link, locationShape } from "react-router"
 
 import * as AppPropTypes from "../../app-prop-types"
 import NotFoundPage from "./not-found"
 import Parameter from "../parameter"
 import Variable from "../variable"
+import {searchInputId} from "./home"
 
 
 const ParameterOrVariablePage = React.createClass({
+  contextTypes: {
+    query: PropTypes.string.isRequired,
+    searchResults: PropTypes.array.isRequired,
+  },
   propTypes: {
     countryPackageName: PropTypes.string.isRequired,
     countryPackageVersion: PropTypes.string.isRequired,
     currency: PropTypes.string.isRequired,
-    history: PropTypes.object.isRequired,
     location: locationShape.isRequired,
     params: PropTypes.shape({ name: PropTypes.string.isRequired }).isRequired, // URL params
     parameters: PropTypes.arrayOf(AppPropTypes.parameterOrScale).isRequired,
     variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
   },
-  handleBackButtonClick(event) {
-    event.preventDefault()
-    this.props.history.goBack()
-  },
   render() {
+    const { query, searchResults } = this.context
     const {countryPackageName, countryPackageVersion, currency, location, parameters, params, variables} = this.props
     const {name} = params
     const parameter = parameters.find(parameter => parameter.name === name)
@@ -39,7 +39,16 @@ const ParameterOrVariablePage = React.createClass({
     }
     return (
       <div>
-        <Link className="btn btn-default" onClick={this.handleBackButtonClick} to="/">Retour</Link>
+        <Link className="btn btn-default" to={"/" + (query ? `?q=${query}#${searchInputId}` : "")}>
+          {
+            do {
+              const count = searchResults.length - 1
+              count > 1
+                ? `Voir les ${count} autres variables et paramètres`
+                : "Voir l'autre variable ou paramètre"
+            }
+          }
+        </Link>
         {
           parameter && (
             <Parameter

@@ -1,17 +1,18 @@
 import {isEmpty} from "ramda"
 import React, {PropTypes} from "react"
-import {locationShape} from "react-router/lib/PropTypes"
-import {Link} from "react-router"
+import {Link, locationShape, routerShape} from "react-router"
 
 import * as AppPropTypes from "../../app-prop-types"
-import {findParametersAndVariables} from "../../search"
 import List from "../list"
 
-const searchInputId = "search-input"
+export const searchInputId = "search-input"
 
 const HomePage = React.createClass({
   contextTypes: {
-    router: React.PropTypes.object.isRequired,
+    query: PropTypes.string.isRequired,
+    router: routerShape.isRequired,
+    searchResults: PropTypes.array.isRequired,
+    setQuery: PropTypes.func.isRequired,
   },
   propTypes: {
     countryPackageName: PropTypes.string.isRequired,
@@ -22,7 +23,8 @@ const HomePage = React.createClass({
   },
   componentDidMount() {
     this._isMounted = true
-    this.unregisterRouterListen = this.context.router.listen(this.locationHasChanged)
+    const {router} = this.context
+    this.unregisterRouterListen = router.listen(this.locationHasChanged)
   },
   componentWillUnmount() {
     this._isMounted = false
@@ -32,8 +34,10 @@ const HomePage = React.createClass({
     return {inputValue: ""}
   },
   handleClearSearchClicked() {
-    this.setState({inputValue: ""})
-    this.context.router.push("")
+    const query = ""
+    this.setState({inputValue: query})
+    this.context.setQuery(query)
+    this.context.router.push(query)
   },
   handleInputChange(event) {
     this.setState({inputValue: event.target.value})
@@ -41,19 +45,21 @@ const HomePage = React.createClass({
   },
   handleSubmit(event) {
     event.preventDefault()
+    this.context.setQuery(this.state.inputValue)
     this.context.router.push(`?q=${this.state.inputValue}#${searchInputId}`)
   },
-  locationHasChanged(location) {
-    if (this._isMounted) {
-      const query = location.query.q || ""
+  locationHasChanged(nextLocation) {
+    const {location} = this.props
+    // Check that the new location stays on the Home page, to avoid overwriting the query in App state.
+    if (this._isMounted && location.pathname === nextLocation.pathname) {
+      const query = nextLocation.query.q || ""
+      this.context.setQuery(query)
       this.setState({inputValue: query})
     }
   },
   render() {
-    const {parameters, variables} = this.props
     const {inputValue} = this.state
-    const query = this.props.location.query.q || ""
-    const foundParametersAndVariables = findParametersAndVariables(parameters, variables, query)
+    const {query, searchResults} = this.context
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
@@ -87,9 +93,9 @@ const HomePage = React.createClass({
         </form>
         <section>
           {
-            isEmpty(foundParametersAndVariables)
+            isEmpty(searchResults)
               ? <h4>Aucun résultat</h4>
-              : <SearchResults items={foundParametersAndVariables} query={query} />
+              : <SearchResults items={searchResults} query={query} />
           }
         </section>
       </div>

@@ -2,19 +2,47 @@ import url from "url"
 
 import DocumentTitle from "react-document-title"
 import React, {PropTypes} from "react"
+import {locationShape} from "react-router"
 
 import * as AppPropTypes from "../app-prop-types"
 import config from "../config"
+import {findParametersAndVariables} from "../search"
 
 
 const App = React.createClass({
+  childContextTypes: {
+    query: PropTypes.string,
+    searchResults: PropTypes.array,
+    setQuery: PropTypes.func,
+  },
   propTypes: {
     children: PropTypes.node.isRequired,
     countryPackageName: PropTypes.string.isRequired,
     countryPackageVersion: PropTypes.string.isRequired,
+    location: locationShape.isRequired,
     parameters: PropTypes.arrayOf(AppPropTypes.parameterOrScale).isRequired,
     variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
-
+  },
+  getChildContext() {
+    const {parameters, variables} = this.props
+    return {
+      query: this.state.query,
+      searchResults: this.state.searchResults,
+      setQuery: query => {
+        this.setState({
+          query,
+          searchResults: findParametersAndVariables(parameters, variables, query),
+        })
+      },
+    }
+  },
+  getInitialState() {
+    const {location, parameters, variables} = this.props
+    const query = location.query.q || ""
+    return {
+      query,
+      searchResults: findParametersAndVariables(parameters, variables, query),
+    }
   },
   render() {
     const {countryPackageName, countryPackageVersion, parameters, variables} = this.props
