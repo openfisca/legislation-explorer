@@ -25,7 +25,7 @@ const unit = PropTypes.oneOf([
 
 const parameter = PropTypes.shape({
   "@type": PropTypes.oneOf(["Parameter"]).isRequired,
-  description: PropTypes.string.isRequired,
+  description: PropTypes.string,
   format: PropTypes.oneOf([
     "boolean",
     "float",
@@ -51,7 +51,7 @@ const scale = PropTypes.shape({
       end_line_number: PropTypes.number,
     }),
   ),
-  description: PropTypes.string.isRequired,
+  description: PropTypes.string,
   unit,
   // Introspection (optional: values can be generated programmatically)
   xml_file_path: PropTypes.string,
