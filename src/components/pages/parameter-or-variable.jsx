@@ -45,7 +45,7 @@ const ParameterOrVariablePage = React.createClass({
               const count = searchResults.length - 1
               count > 1
                 ? `Voir les ${count} autres variables et paramètres`
-                : "Voir l'autre variable ou paramètre"
+                : "Voir la page de recherche"
             }
           }
         </Link>
