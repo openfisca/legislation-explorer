@@ -1,5 +1,6 @@
 import emailjs from "emailjs"
 import express from "express"
+import {assoc, map} from "ramda"
 import favicon from "serve-favicon"
 import path from "path"
 
@@ -69,12 +70,20 @@ Promise.all([fetchParameters(), fetchVariables()])
     console.log("Starting server...")
     const {country_package_name, country_package_version, currency, parameters} = parametersData
     const {variables} = variablesData
+    const normalizedParameters = map(
+      assoc('itemType', 'parameter'),
+      addNormalizedDescription('description', parameters)
+    )
+    const normalizedVariables = map(
+      assoc('itemType', 'variable'),
+      addNormalizedDescription('label', variables),
+    )
     const state = {
       countryPackageName: country_package_name,
       countryPackageVersion: country_package_version,
       currency,
-      parameters: addNormalizedDescription('description', parameters),
-      variables: addNormalizedDescription('label', variables),
+      parameters: normalizedParameters,
+      variables: normalizedVariables,
     }
     startServer(state)
   }, error => {
