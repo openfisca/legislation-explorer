@@ -1,29 +1,28 @@
-import {assoc, concat, filter, has, isEmpty, map, pipe, prop, sortBy} from "ramda"
+import {ascend, assoc, concat, descend, has, isEmpty, map, prop, sortBy, sortWith} from "ramda"
 import * as diacritics from 'diacritics'
 
 
 export function findParametersAndVariables(parameters, variables, query) {
-  function matchesQuery(parameterOrVariable) {
-    if (isEmpty(normalizedQuery)) {
-      return true
-    }
-    return parameterOrVariable.name.includes(normalizedQuery) ||
-      parameterOrVariable.searchIndex.includes(normalizedQuery)
+  function weightIn(string, substring) {
+    const index = string.indexOf(substring)
+    return index === -1 ? Number.MAX_SAFE_INTEGER : index
   }
   const normalizedQuery = diacritics.remove(query.toLowerCase())
-  return pipe(
-    filter(matchesQuery),
-    sortBy(prop('name')),
-  )(concat(
-    map(assoc('type', 'parameter'), parameters),
-    map(assoc('type', 'variable'), variables),
-  ))
+  const parametersAndVariables = concat(parameters, variables)
+  if (isEmpty(normalizedQuery)) {
+    return sortBy(prop('name'), parametersAndVariables)
+  }
+  return sortWith([
+    ascend(item => weightIn(item.name, normalizedQuery)),
+    descend(item => item.normalizedDescription.includes(normalizedQuery)),
+    ascend(prop('name')),
+  ], parametersAndVariables)
 }
 
-export function withSearchIndex(propertyName, objects) {
+export function addNormalizedDescription(propertyName, objects) {
   return map(
     object => assoc(
-      'searchIndex',
+      'normalizedDescription',
       has(propertyName, object)
         ? diacritics.remove(object[propertyName].toLowerCase())
         : '',
