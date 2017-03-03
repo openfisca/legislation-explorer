@@ -112,15 +112,13 @@ const SearchResults = React.createClass({
     return (
       <List items={items} type="unstyled">
         {parameterOrVariable => {
-          const {name, type} = parameterOrVariable
-          const description = type === 'parameter'
-            ? parameterOrVariable.description
-            : parameterOrVariable.label
+          const {description, itemType, label, name} = parameterOrVariable
+          const displayedDescription = itemType === 'parameter' ? description : label
           return (
-            <Link key={`${name}-${type}`} to={`/${name}`}>
+            <Link key={`${name}-${itemType}`} to={`/${name}`}>
               <article style={{margin: "3em 0"}}>
                 <h4>{name}</h4>
-                {description && <p>{description}</p>}
+                {displayedDescription && <p>{displayedDescription}</p>}
               </article>
             </Link>
           )
