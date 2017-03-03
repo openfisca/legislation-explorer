@@ -37,10 +37,11 @@ const HomePage = React.createClass({
     const searchQuery = ""
     this.setState({inputValue: searchQuery})
     this.context.setSearchQuery(searchQuery)
-    this.context.router.push(searchQuery)
+    this.context.router.push(`?q=${searchQuery}#${searchInputId}`)
   },
   handleInputChange(event) {
     this.setState({inputValue: event.target.value})
+    // Use scrollIntoView before pushing searchInputId in the hash, to scroll after the first character is typed.
     this.searchInput.scrollIntoView()
   },
   handleSubmit(event) {
