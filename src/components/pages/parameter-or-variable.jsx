@@ -11,7 +11,7 @@ import {searchInputId} from "./home"
 
 const ParameterOrVariablePage = React.createClass({
   contextTypes: {
-    query: PropTypes.string.isRequired,
+    searchQuery: PropTypes.string.isRequired,
     searchResults: PropTypes.array.isRequired,
   },
   propTypes: {
@@ -24,7 +24,7 @@ const ParameterOrVariablePage = React.createClass({
     variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
   },
   render() {
-    const { query, searchResults } = this.context
+    const { searchQuery, searchResults } = this.context
     const {countryPackageName, countryPackageVersion, currency, location, parameters, params, variables} = this.props
     const {name} = params
     const parameter = parameters.find(parameter => parameter.name === name)
@@ -39,7 +39,7 @@ const ParameterOrVariablePage = React.createClass({
     }
     return (
       <div>
-        <Link className="btn btn-default" to={"/" + (query ? `?q=${query}#${searchInputId}` : "")}>
+        <Link className="btn btn-default" to={"/" + (searchQuery ? `?q=${searchQuery}#${searchInputId}` : "")}>
           {
             do {
               const count = searchResults.length - 1

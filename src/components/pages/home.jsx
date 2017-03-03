@@ -9,10 +9,10 @@ export const searchInputId = "search-input"
 
 const HomePage = React.createClass({
   contextTypes: {
-    query: PropTypes.string.isRequired,
     router: routerShape.isRequired,
+    searchQuery: PropTypes.string.isRequired,
     searchResults: PropTypes.array.isRequired,
-    setQuery: PropTypes.func.isRequired,
+    setSearchQuery: PropTypes.func.isRequired,
   },
   propTypes: {
     countryPackageName: PropTypes.string.isRequired,
@@ -34,10 +34,10 @@ const HomePage = React.createClass({
     return {inputValue: ""}
   },
   handleClearSearchClicked() {
-    const query = ""
-    this.setState({inputValue: query})
-    this.context.setQuery(query)
-    this.context.router.push(query)
+    const searchQuery = ""
+    this.setState({inputValue: searchQuery})
+    this.context.setSearchQuery(searchQuery)
+    this.context.router.push(searchQuery)
   },
   handleInputChange(event) {
     this.setState({inputValue: event.target.value})
@@ -45,21 +45,21 @@ const HomePage = React.createClass({
   },
   handleSubmit(event) {
     event.preventDefault()
-    this.context.setQuery(this.state.inputValue)
+    this.context.setSearchQuery(this.state.inputValue)
     this.context.router.push(`?q=${this.state.inputValue}#${searchInputId}`)
   },
   locationHasChanged(nextLocation) {
     const {location} = this.props
-    // Check that the new location stays on the Home page, to avoid overwriting the query in App state.
+    // Check that the new location stays on the Home page, to avoid overwriting searchQuery in App state.
     if (this._isMounted && location.pathname === nextLocation.pathname) {
-      const query = nextLocation.query.q || ""
-      this.context.setQuery(query)
-      this.setState({inputValue: query})
+      const searchQuery = location.query.q || ""
+      this.context.setSearchQuery(searchQuery)
+      this.setState({inputValue: searchQuery})
     }
   },
   render() {
     const {inputValue} = this.state
-    const {query, searchResults} = this.context
+    const {searchQuery, searchResults} = this.context
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
@@ -76,7 +76,7 @@ const HomePage = React.createClass({
             />
             <div className="input-group-btn">
               {
-                !isEmpty(query) && (
+                !isEmpty(searchQuery) && (
                   <button
                     className="btn btn-default"
                     onClick={this.handleClearSearchClicked}
@@ -95,7 +95,7 @@ const HomePage = React.createClass({
           {
             isEmpty(searchResults)
               ? <h4>Aucun résultat</h4>
-              : <SearchResults items={searchResults} query={query} />
+              : <SearchResults items={searchResults} searchQuery={searchQuery} />
           }
         </section>
       </div>
@@ -106,12 +106,12 @@ const HomePage = React.createClass({
 const SearchResults = React.createClass({
   propTypes: {
     items: PropTypes.array.isRequired,
-    query: PropTypes.string,
+    searchQuery: PropTypes.string,
   },
   shouldComponentUpdate(nextProps) {
-    // Optimization: re-render this component only if `query` changed.
-    // If `query` is the same than on previous rendering, it implies that `items` is the same too.
-    return nextProps.query !== this.props.query
+    // Optimization: re-render this component only if `searchQuery` changed.
+    // If `searchQuery` is the same than on previous rendering, it implies that `items` is the same too.
+    return nextProps.searchQuery !== this.props.searchQuery
   },
   render() {
     const {items} = this.props

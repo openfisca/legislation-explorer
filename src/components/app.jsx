@@ -11,9 +11,9 @@ import {findParametersAndVariables} from "../search"
 
 const App = React.createClass({
   childContextTypes: {
-    query: PropTypes.string,
+    searchQuery: PropTypes.string,
     searchResults: PropTypes.array,
-    setQuery: PropTypes.func,
+    setSearchQuery: PropTypes.func,
   },
   propTypes: {
     children: PropTypes.node.isRequired,
@@ -26,22 +26,22 @@ const App = React.createClass({
   getChildContext() {
     const {parameters, variables} = this.props
     return {
-      query: this.state.query,
+      searchQuery: this.state.searchQuery,
       searchResults: this.state.searchResults,
-      setQuery: query => {
+      setSearchQuery: searchQuery => {
         this.setState({
-          query,
-          searchResults: findParametersAndVariables(parameters, variables, query),
+          searchQuery,
+          searchResults: findParametersAndVariables(parameters, variables, searchQuery),
         })
       },
     }
   },
   getInitialState() {
     const {location, parameters, variables} = this.props
-    const query = location.query.q || ""
+    const searchQuery = location.query.q || ""
     return {
-      query,
-      searchResults: findParametersAndVariables(parameters, variables, query),
+      searchQuery,
+      searchResults: findParametersAndVariables(parameters, variables, searchQuery),
     }
   },
   render() {
