@@ -49,10 +49,11 @@ const HomePage = React.createClass({
     this.context.setSearchQuery(this.state.inputValue)
     this.context.router.push(`?q=${this.state.inputValue}#${searchInputId}`)
   },
-  locationHasChanged(nextLocation) {
-    const {location} = this.props
+  locationHasChanged(location) {
+    const {router} = this.context
+    const oldLocation = this.props.location
     // Check that the new location stays on the Home page, to avoid overwriting searchQuery in App state.
-    if (this._isMounted && location.pathname === nextLocation.pathname) {
+    if (this._isMounted && router.isActive(oldLocation)) {
       const searchQuery = location.query.q || ""
       this.context.setSearchQuery(searchQuery)
       this.setState({inputValue: searchQuery})
