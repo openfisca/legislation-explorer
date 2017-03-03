@@ -37,7 +37,10 @@ const HomePage = React.createClass({
     const searchQuery = ""
     this.setState({inputValue: searchQuery})
     this.context.setSearchQuery(searchQuery)
-    this.context.router.push(`?q=${searchQuery}#${searchInputId}`)
+    this.context.router.push({
+      query: {q: searchQuery},
+      hash: `#${searchInputId}`,
+    })
   },
   handleInputChange(event) {
     this.setState({inputValue: event.target.value})
@@ -47,7 +50,10 @@ const HomePage = React.createClass({
   handleSubmit(event) {
     event.preventDefault()
     this.context.setSearchQuery(this.state.inputValue)
-    this.context.router.push(`?q=${this.state.inputValue}#${searchInputId}`)
+    this.context.router.push({
+      query: {q: this.state.inputValue},
+      hash: `#${searchInputId}`,
+    })
   },
   locationHasChanged(location) {
     const {router} = this.context
