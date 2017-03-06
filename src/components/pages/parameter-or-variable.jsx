@@ -1,15 +1,19 @@
 import React, { PropTypes } from "react"
 import { isNil } from "ramda"
-import { locationShape } from "react-router/lib/PropTypes"
-import { Link } from "react-router"
+import { Link, locationShape } from "react-router"
 
 import * as AppPropTypes from "../../app-prop-types"
 import NotFoundPage from "./not-found"
 import Parameter from "../parameter"
 import Variable from "../variable"
+import {searchInputId} from "./home"
 
 
 const ParameterOrVariablePage = React.createClass({
+  contextTypes: {
+    searchQuery: PropTypes.string.isRequired,
+    searchResults: PropTypes.array.isRequired,
+  },
   propTypes: {
     countryPackageName: PropTypes.string.isRequired,
     countryPackageVersion: PropTypes.string.isRequired,
@@ -20,6 +24,7 @@ const ParameterOrVariablePage = React.createClass({
     variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
   },
   render() {
+    const { searchQuery, searchResults } = this.context
     const {countryPackageName, countryPackageVersion, currency, location, parameters, params, variables} = this.props
     const {name} = params
     const parameter = parameters.find(parameter => parameter.name === name)
@@ -32,9 +37,23 @@ const ParameterOrVariablePage = React.createClass({
         />
       )
     }
+    const goBackLocation = {
+      pathname: "/",
+      query: {q: searchQuery},
+      hash: `#${searchInputId}`,
+    }
     return (
       <div>
-        <Link className="btn btn-default" to="/">Retour à l'accueil</Link>
+        <Link className="btn btn-default" to={goBackLocation}>
+          {
+            do {
+              const count = searchResults.length - 1
+              count > 1
+                ? `Voir les ${count} autres variables et paramètres`
+                : "Voir la page de recherche"
+            }
+          }
+        </Link>
         {
           parameter && (
             <Parameter

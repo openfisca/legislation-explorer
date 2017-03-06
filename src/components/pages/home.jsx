@@ -1,17 +1,18 @@
 import {isEmpty} from "ramda"
 import React, {PropTypes} from "react"
-import {locationShape} from "react-router/lib/PropTypes"
-import {Link} from "react-router"
+import {Link, locationShape, routerShape} from "react-router"
 
 import * as AppPropTypes from "../../app-prop-types"
-import {findParametersAndVariables} from "../../search"
 import List from "../list"
 
-const searchInputId = "search-input"
+export const searchInputId = "search-input"
 
 const HomePage = React.createClass({
   contextTypes: {
-    router: React.PropTypes.object.isRequired,
+    router: routerShape.isRequired,
+    searchQuery: PropTypes.string.isRequired,
+    searchResults: PropTypes.array.isRequired,
+    setSearchQuery: PropTypes.func.isRequired,
   },
   propTypes: {
     countryPackageName: PropTypes.string.isRequired,
@@ -22,7 +23,8 @@ const HomePage = React.createClass({
   },
   componentDidMount() {
     this._isMounted = true
-    this.unregisterRouterListen = this.context.router.listen(this.locationHasChanged)
+    const {router} = this.context
+    this.unregisterRouterListen = router.listen(this.locationHasChanged)
   },
   componentWillUnmount() {
     this._isMounted = false
@@ -32,28 +34,40 @@ const HomePage = React.createClass({
     return {inputValue: ""}
   },
   handleClearSearchClicked() {
-    this.setState({inputValue: ""})
-    this.context.router.push("")
+    const searchQuery = ""
+    this.setState({inputValue: searchQuery})
+    this.context.setSearchQuery(searchQuery)
+    this.context.router.push({
+      query: {q: searchQuery},
+      hash: `#${searchInputId}`,
+    })
   },
   handleInputChange(event) {
     this.setState({inputValue: event.target.value})
+    // Use scrollIntoView before pushing searchInputId in the hash, to scroll after the first character is typed.
     this.searchInput.scrollIntoView()
   },
   handleSubmit(event) {
     event.preventDefault()
-    this.context.router.push(`?q=${this.state.inputValue}#${searchInputId}`)
+    this.context.setSearchQuery(this.state.inputValue)
+    this.context.router.push({
+      query: {q: this.state.inputValue},
+      hash: `#${searchInputId}`,
+    })
   },
   locationHasChanged(location) {
-    if (this._isMounted) {
-      const query = location.query.q || ""
-      this.setState({inputValue: query})
+    const {router} = this.context
+    const oldLocation = this.props.location
+    // Check that the new location stays on the Home page, to avoid overwriting searchQuery in App state.
+    if (this._isMounted && router.isActive(oldLocation)) {
+      const searchQuery = location.query.q || ""
+      this.context.setSearchQuery(searchQuery)
+      this.setState({inputValue: searchQuery})
     }
   },
   render() {
-    const {parameters, variables} = this.props
     const {inputValue} = this.state
-    const query = this.props.location.query.q || ""
-    const foundParametersAndVariables = findParametersAndVariables(parameters, variables, query)
+    const {searchQuery, searchResults} = this.context
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
@@ -70,7 +84,7 @@ const HomePage = React.createClass({
             />
             <div className="input-group-btn">
               {
-                !isEmpty(query) && (
+                !isEmpty(searchQuery) && (
                   <button
                     className="btn btn-default"
                     onClick={this.handleClearSearchClicked}
@@ -87,9 +101,9 @@ const HomePage = React.createClass({
         </form>
         <section>
           {
-            isEmpty(foundParametersAndVariables)
+            isEmpty(searchResults)
               ? <h4>Aucun résultat</h4>
-              : <SearchResults items={foundParametersAndVariables} query={query} />
+              : <SearchResults items={searchResults} searchQuery={searchQuery} />
           }
         </section>
       </div>
@@ -100,12 +114,12 @@ const HomePage = React.createClass({
 const SearchResults = React.createClass({
   propTypes: {
     items: PropTypes.array.isRequired,
-    query: PropTypes.string,
+    searchQuery: PropTypes.string,
   },
   shouldComponentUpdate(nextProps) {
-    // Optimization: re-render this component only if `query` changed.
-    // If `query` is the same than on previous rendering, it implies that `items` is the same too.
-    return nextProps.query !== this.props.query
+    // Optimization: re-render this component only if `searchQuery` changed.
+    // If `searchQuery` is the same than on previous rendering, it implies that `items` is the same too.
+    return nextProps.searchQuery !== this.props.searchQuery
   },
   render() {
     const {items} = this.props
