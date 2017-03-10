@@ -1,0 +1,1 @@
+countryPackageNameAndDescription = /.+@\d+.\d+.\d+/
