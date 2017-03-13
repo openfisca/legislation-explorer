@@ -64,9 +64,9 @@ const App = React.createClass({
                   </p>
                 </div>
                 <div className="col-md-9">
-                  <p>
+                  <p id="baseline">
                     {variables.length} variables et {parameters.length} paramètres
-                    référencées pour modéliser le système socio-fiscal français.
+                    référencés pour modéliser le système socio-fiscal français.
                   </p>
                   <a href={config.websiteUrl}>En savoir plus</a>
                 </div>
