@@ -9,6 +9,10 @@ dependencies:
     - cd ~/cache && wget --no-clobber http://selenium-release.storage.googleapis.com/3.3/selenium-server-standalone-3.3.0.jar
     - java -jar ~/cache/selenium-server-standalone-3.3.0.jar:
         background: true
+test:
+  pre:
+    - npm start:
+        background: true
 deployment:
   production:
     branch: master
