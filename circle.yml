@@ -1,3 +1,14 @@
+dependencies:
+  cache_directories:
+    - "~/cache"
+  pre:
+    # Only create directory if not already present (--parents option).
+    - mkdir --parents ~/cache
+  post:
+    # Only downloads if not already present (--no-clobber option)
+    - cd ~/cache && wget --no-clobber http://selenium-release.storage.googleapis.com/3.3/selenium-server-standalone-3.3.0.jar
+    - java -jar ~/cache/selenium-server-standalone-3.3.0.jar:
+        background: true
 deployment:
   production:
     branch: master
