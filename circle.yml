@@ -1,16 +1,15 @@
-dependencies:
-  cache_directories:
-    - "~/cache"
-  pre:
-    # Only create directory if not already present (--parents option).
-    - mkdir --parents ~/cache
-  post:
-    # Only downloads if not already present (--no-clobber option)
-    - cd ~/cache && wget --no-clobber http://selenium-release.storage.googleapis.com/3.3/selenium-server-standalone-3.3.0.jar
-    - java -jar ~/cache/selenium-server-standalone-3.3.0.jar:
-        background: true
+machine:
+  environment:
+    # Use the same port as Selenium server.
+    DRIVER_PORT: 4444
+    # Use the same base URL as Selenium server.
+    DRIVER_BASE_URL: wd/hub
 test:
   pre:
+    - chromedriver --port=$DRIVER_PORT --url-base=$DRIVER_BASE_URL:
+        background: true
+    # Wait for server.
+    - wget --retry-connrefused --waitretry=1 --output-document=/dev/null http://localhost:$DRIVER_PORT/$DRIVER_BASE_URL/status
     - npm start:
         background: true
 deployment:
