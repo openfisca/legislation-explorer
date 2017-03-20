@@ -59,12 +59,14 @@ const App = React.createClass({
                     src={url.resolve(config.websiteUrl, "/hotlinks/logo-openfisca.svg")}
                     style={{maxWidth: "12em"}}
                   />
-                  <p>{countryPackageName}@{countryPackageVersion}</p>
+                  <p id="country-package-info">
+                    {countryPackageName}@{countryPackageVersion}
+                  </p>
                 </div>
                 <div className="col-md-9">
-                  <p>
+                  <p id="baseline">
                     {variables.length} variables et {parameters.length} paramètres
-                    référencées pour modéliser le système socio-fiscal français.
+                    référencés pour modéliser le système socio-fiscal français.
                   </p>
                   <a href={config.websiteUrl}>En savoir plus</a>
                 </div>
