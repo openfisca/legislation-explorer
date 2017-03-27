@@ -12,8 +12,7 @@
     "dev:prod-api": "API_URL=https://api.openfisca.fr npm run dev",
     "lint": "eslint --ext .js,.jsx .",
     "start": "NODE_ENV=production PORT=2030 node index.js",
-    "test": "npm run lint && npm run test:integration",
-    "test:integration": "watai tests"
+    "test": "npm run lint && watai tests"
   },
   "repository": {
     "type": "git",
