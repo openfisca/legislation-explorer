@@ -11,7 +11,6 @@
     "dev:webpack-dev-server": "WEBPACK_PORT=2031 babel-node src/server/webpack-dev-server.js",
     "dev:prod-api": "API_URL=https://api.openfisca.fr npm run dev",
     "lint": "eslint --ext .js,.jsx .",
-    "prestart": "npm run build",
     "start": "NODE_ENV=production PORT=2030 node index.js",
     "test": "npm run lint && npm run test:integration",
     "test:integration": "watai tests"
