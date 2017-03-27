@@ -52,7 +52,7 @@ const Parameter = React.createClass({
     currency: PropTypes.string.isRequired,
     intl: intlShape.isRequired,
     parameter: AppPropTypes.parameterOrScale.isRequired,
-    parameters: PropTypes.arrayOf(AppPropTypes.parameterOrScale).isRequired,
+    parameters: PropTypes.objectOf(AppPropTypes.parameterOrScale).isRequired,
     variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
   },
   getInitialState() {

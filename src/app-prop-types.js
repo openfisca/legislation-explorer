@@ -24,21 +24,10 @@ const unit = PropTypes.oneOf([
 ])
 
 const parameter = PropTypes.shape({
-  "@type": PropTypes.oneOf(["Parameter"]).isRequired,
   description: PropTypes.string,
-  format: PropTypes.oneOf([
-    "boolean",
-    "float",
-    "integer",
-    "rate",
-  ]).isRequired,
+  id: PropTypes.string,
   normalizedDescription: PropTypes.string,
-  unit,
-  values: PropTypes.arrayOf(startStopValue),
-  // Introspection (optional: values can be generated programmatically)
-  xml_file_path: PropTypes.string,
-  start_line_number: PropTypes.number,
-  end_line_number: PropTypes.number,
+  values: PropTypes.objectOf(PropTypes.number),
 })
 
 const scale = PropTypes.shape({

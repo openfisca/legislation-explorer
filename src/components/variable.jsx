@@ -41,7 +41,7 @@ const Variable = React.createClass({
   propTypes: {
     countryPackageName: PropTypes.string.isRequired,
     countryPackageVersion: PropTypes.string.isRequired,
-    parameters: PropTypes.arrayOf(AppPropTypes.parameterOrScale).isRequired,
+    parameters: PropTypes.objectOf(AppPropTypes.parameterOrScale).isRequired,
     variable: AppPropTypes.variable.isRequired,
     variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
   },

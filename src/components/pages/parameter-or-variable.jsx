@@ -20,7 +20,7 @@ const ParameterOrVariablePage = React.createClass({
     currency: PropTypes.string.isRequired,
     location: locationShape.isRequired,
     params: PropTypes.shape({ name: PropTypes.string.isRequired }).isRequired, // URL params
-    parameters: PropTypes.arrayOf(AppPropTypes.parameterOrScale).isRequired,
+    parameters: PropTypes.objectOf(AppPropTypes.parameterOrScale).isRequired,
     variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
   },
   render() {
