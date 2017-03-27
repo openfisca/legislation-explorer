@@ -45,16 +45,6 @@ const Variable = React.createClass({
     variable: AppPropTypes.variable.isRequired,
     variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
   },
-  getParameterValue(parameter, instant) {
-    const type = parameter["@type"]
-    const isBetween = item => item.start <= instant && item.stop >= instant
-    if (type === "Parameter") {
-      return (parameter.values.find(isBetween) || parameter.values[0]).value
-    } else {
-      // type === "Scale"
-      return null
-    }
-  },
   getTodayInstant() {
     return new Date().toJSON().slice(0, 10)
   },
@@ -180,16 +170,13 @@ const Variable = React.createClass({
                     <List items={sort(substract, formulaParameterNames)} type="inline">
                       {
                         parameterName => {
-                          const parameter = parameters.find(parameter2 => parameter2.name === parameterName)
+                          const parameter = parameters[parameterName]
                           if (parameter) {
-                            const parameterValue = this.renderParameterValue(parameter)
                             return (
                               <span>
                                 <Link title={parameter.description} to={`/${parameterName}`}>
                                   {parameterName}
                                 </Link>
-                                {" "}
-                                {parameterValue && <span>({parameterValue})</span>}
                               </span>
                             )
                           } else {
@@ -212,10 +199,6 @@ const Variable = React.createClass({
         }
       </div>
     )
-  },
-  renderParameterValue(parameter) {
-    const parameterValue = this.getParameterValue(parameter, this.getTodayInstant())
-    return parameterValue && <samp>{parameterValue}</samp>
   },
   renderSimpleFormula(formula) {
     return (
