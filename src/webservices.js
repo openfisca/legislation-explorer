@@ -18,8 +18,8 @@ async function parseJsonResponse(response) {
 }
 
 
-export function fetchParameters(apiBaseUrl = config.apiBaseUrl) {
-  return fetchJson(`${apiBaseUrl}/api/1/parameters`)
+export function fetchParameters(apiBaseUrl = config.parameterApiBaseUrl) {
+  return fetchJson(`${apiBaseUrl}/parameters`)
 }
 
 
