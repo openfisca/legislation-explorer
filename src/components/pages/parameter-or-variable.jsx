@@ -1,5 +1,5 @@
 import React, { PropTypes } from "react"
-import { isNil } from "ramda"
+import { isNil, isEmpty } from "ramda"
 import { Link, locationShape } from "react-router"
 
 import * as AppPropTypes from "../../app-prop-types"
@@ -7,6 +7,7 @@ import NotFoundPage from "./not-found"
 import Parameter from "../parameter"
 import Variable from "../variable"
 import {searchInputId} from "./home"
+import {fetchParameter} from "../../webservices"
 
 
 const ParameterOrVariablePage = React.createClass({
@@ -23,11 +24,20 @@ const ParameterOrVariablePage = React.createClass({
     parameters: PropTypes.objectOf(AppPropTypes.parameterOrScale).isRequired,
     variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
   },
+  getInitialState() {
+    return {parameter: {}};
+  },
+  componentDidMount() {
+    fetchParameter(this.props.params.
+      name).then(
+      parameter => this.setState({parameter: parameter})
+    )
+  },
   render() {
     const { searchQuery, searchResults } = this.context
     const {countryPackageName, countryPackageVersion, currency, location, parameters, params, variables} = this.props
     const {name} = params
-    const parameter = parameters.find(parameter => parameter.name === name)
+    const {parameter} = this.state
     const variable = variables.find(variable => variable.name === name)
     if (isNil(parameter) && isNil(variable)) {
       return (
@@ -35,6 +45,13 @@ const ParameterOrVariablePage = React.createClass({
           location={location}
           message={`« ${name} » n'est ni un paramètre ni une variable d'OpenFisca.`}
         />
+      )
+    }
+    if (isEmpty(parameter) && isNil(variable)) {
+      return (
+        <div>
+          Loading...
+        </div>
       )
     }
     const goBackLocation = {
@@ -55,7 +72,7 @@ const ParameterOrVariablePage = React.createClass({
           }
         </Link>
         {
-          parameter && (
+          (! isEmpty(parameter)) && (
             <Parameter
               countryPackageName={countryPackageName}
               countryPackageVersion={countryPackageVersion}

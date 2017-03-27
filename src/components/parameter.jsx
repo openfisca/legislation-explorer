@@ -119,9 +119,9 @@ const Parameter = React.createClass({
           <div className="row">
             <div className="col-lg-8">
               {
-                type === "Parameter"
-                  ? this.renderParameter(parameter)
-                  : this.renderScale(parameter)
+                type === "Scale"
+                  ? this.renderScale(parameter)
+                  : this.renderParameter(parameter)
               }
             </div>
           </div>
@@ -151,17 +151,17 @@ const Parameter = React.createClass({
     )
   },
   renderBracket(parameter, bracket, idx) {
-    const {brackets, format, unit} = parameter
+    const {brackets, format} = parameter
     return (
       <div>
         <dl>
           <dt>{`Seuils tranche ${idx + 1}`}</dt>
           <dd style={{marginBottom: "1em"}}>
-            {this.renderStartStopValueTable(parameter, bracket.threshold, format, unit)}
+            {this.renderStartStopValueTable(parameter, bracket.threshold, format)}
           </dd>
           <dt>{`Taux tranche ${idx + 1}`}</dt>
           <dd>
-            {this.renderStartStopValueTable(parameter, bracket.rate, "rate", null)}
+            {this.renderStartStopValueTable(parameter, bracket.rate, "rate")}
           </dd>
         </dl>
         {idx < brackets.length - 1 && <hr/>}
@@ -412,17 +412,15 @@ const Parameter = React.createClass({
         ) : null
     )
   },
-  renderStartStopValue(parameter, itemOfValues, idx, format, unit) {
+  renderStartStopValue(parameter, startDate, value, index) {
     const {countryPackageName, countryPackageVersion} = this.props
-    const {start_line_number, end_line_number} = parameter
     const type = parameter["@type"]
-    const {start, stop, value} = itemOfValues
-    const formattedStartDate = <FormattedDate value={start} />
+    const formattedStartDate = <FormattedDate value={startDate} />
     const startComponent = type === "Scale"
       ? (
         <a
           href="#bareme"
-          onClick={() => this.handleInstantSet(start)}
+          onClick={() => this.handleInstantSet(startDate)}
           title="Afficher le barème à cette date"
         >
           {formattedStartDate}
@@ -442,16 +440,14 @@ const Parameter = React.createClass({
       ) : formattedStopDate
     }
     return (
-      <tr key={idx}>
+      <tr key={index}>
         <td>
           {
-            stop
-              ? <span>Du {startComponent} au {stopComponent}</span>
-              : <span>À partir du {startComponent}</span>
+            <span>À partir du {startComponent}</span>
           }
         </td>
         <td className="clearfix">
-          {this.renderValue(value, format, unit)}
+          {this.renderValue(value)}
           {
             parameter.xml_file_path && (
               <GitHubLink
@@ -469,11 +465,14 @@ const Parameter = React.createClass({
       </tr>
     )
   },
-  renderStartStopValueTable(parameter, items, format, unit) {
+
+  renderStartStopValueTable(parameter, values) {
     return (
       <table className="table table-bordered table-hover table-striped">
         <tbody>
-          {items.map((itemOfValues, idx) => this.renderStartStopValue(parameter, itemOfValues, idx, format, unit))}
+          {Object.keys(values).reverse().map(
+            (startDate, index) => this.renderStartStopValue(parameter, startDate, values[startDate], index)
+          )}
         </tbody>
       </table>
     )
