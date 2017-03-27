@@ -271,7 +271,7 @@ const Parameter = React.createClass({
     )
   },
   renderFloatValue(value) {
-    const decimalPartLength = 3
+    const decimalPartLength = 2
     let [integerPart, decimalPart] = value.toFixed(decimalPartLength).split(".")
     if (decimalPart === "0".repeat(decimalPartLength)) {
       decimalPart = null
