@@ -14,11 +14,10 @@ dependencies:
     - npm install saucelabs # allow sending Watai results to SauceLabs
     - wget https://saucelabs.com/downloads/sc-latest-linux.tar.gz
     - tar -xzf sc-latest-linux.tar.gz
+    - npm run build
 
 test:
   pre:
-    - npm run build
-        parallel: true
     # start server
     - npm start:
         background: true
