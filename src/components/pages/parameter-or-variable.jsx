@@ -49,9 +49,7 @@ const ParameterOrVariablePage = React.createClass({
     }
     if (isEmpty(parameter) && isNil(variable)) {
       return (
-        <div>
-          Loading...
-        </div>
+        <p>Chargement des valeurs…</p>
       )
     }
     const goBackLocation = {
