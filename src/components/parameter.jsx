@@ -41,7 +41,13 @@ function getBracketsAtInstant(brackets, instant) {
 
 
 function getTodayInstant() {
-  return new Date().toJSON().slice(0, "YYYY-MM-DD".length)
+  return new Date().toISOString().slice(0, "YYYY-MM-DD".length)
+}
+
+
+function getDayBefore(day) {
+  // 86400000 ms is day
+  return new Date(Date.parse(day) - 86400000).toISOString().slice(0, "YYYY-MM-DD".length)
 }
 
 
@@ -382,7 +388,7 @@ const Parameter = React.createClass({
         ) : null
     )
   },
-  renderStartStopValue(parameter, startDate, value, index) {
+  renderStartStopValue(parameter, startDate, stopDate, value, index) {
     const {countryPackageName, countryPackageVersion} = this.props
     const type = parameter["@type"]
     const formattedStartDate = <FormattedDate value={startDate} />
@@ -397,12 +403,12 @@ const Parameter = React.createClass({
         </a>
       ) : formattedStartDate
     let stopComponent
-    if (stop) {
-      const formattedStopDate = <FormattedDate value={stop} />
+    if (stopDate) {
+      const formattedStopDate = <FormattedDate value={stopDate} />
       stopComponent = type === "Scale" ? (
         <a
           href="#bareme"
-          onClick={() => this.handleInstantSet(stop)}
+          onClick={() => this.handleInstantSet(stopDate)}
           title="Afficher le barème à cette date"
           >
           {formattedStopDate}
@@ -413,7 +419,9 @@ const Parameter = React.createClass({
       <tr key={index}>
         <td>
           {
-            <span>À partir du {startComponent}</span>
+            stopDate
+            ? <span>Du {startComponent} au {stopComponent}</span>
+            : <span>À partir du {startComponent}</span>
           }
         </td>
         <td className="clearfix">
@@ -440,8 +448,12 @@ const Parameter = React.createClass({
     return (
       <table className="table table-bordered table-hover table-striped">
         <tbody>
-          {Object.keys(values).reverse().map(
-            (startDate, index) => this.renderStartStopValue(parameter, startDate, values[startDate], index)
+          {Object.keys(values).sort().reverse().map(
+            (startDate, index, sortedStartDates) => {
+              const nextStartDate = sortedStartDates[index - 1]
+              const stopDate = nextStartDate && getDayBefore(nextStartDate)
+              return this.renderStartStopValue(parameter, startDate, stopDate, values[startDate], index)
+            }
           )}
         </tbody>
       </table>
