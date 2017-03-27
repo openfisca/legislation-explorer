@@ -114,8 +114,6 @@ const Parameter = React.createClass({
           <div className="page-header">
             <h1>{descriptionMessage}</h1>
           </div>
-          {this.renderDefinitionsList(parameter)}
-          <hr/>
           <div className="row">
             <div className="col-lg-8">
               {
@@ -264,34 +262,6 @@ const Parameter = React.createClass({
           </tbody>
         </table>
       </div>
-    )
-  },
-  renderDefinitionsList(parameter) {
-    const {currency} = this.props
-    const {format, unit} = parameter
-    const type = parameter["@type"]
-    return (
-      <dl>
-        <dt>Type</dt>
-        <dd>{type === "Parameter" ? "Paramètre" : "Barème"}</dd>
-        {format && <dt>Format</dt>}
-        {
-          format && (
-            <dd>
-              <samp>{format}</samp>
-            </dd>
-          )
-        }
-        {unit && <dt>{type === "Parameter" ? "Unité" : "Unité des seuils"}</dt>}
-        {
-          unit && (
-            <dd>
-              <samp>{unit}</samp>
-              {unit === "currency" && ` - ${currency}`}
-            </dd>
-          )
-        }
-      </dl>
     )
   },
   renderFloatValue(value) {
