@@ -8,13 +8,14 @@ function fetchJson(url, options) {
 }
 
 
-async function parseJsonResponse(response) {
-  const data = await response.json()
-  if (response.status >= 200 && response.status < 300) {
-    return data
-  } else {
-    throw new Error(JSON.stringify(data.error))
-  }
+function parseJsonResponse(response) {
+  return response.json().then(data => {
+    if (response.status >= 200 && response.status < 300) {
+      return data
+    } else {
+      throw new Error(JSON.stringify(data.error))
+    }
+  })
 }
 
 
