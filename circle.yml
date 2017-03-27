@@ -18,6 +18,7 @@ dependencies:
 test:
   pre:
     - npm run build
+        parallel: true
     # start server
     - npm start:
         background: true
