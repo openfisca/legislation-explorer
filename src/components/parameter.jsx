@@ -293,7 +293,6 @@ const Parameter = React.createClass({
     const {format, unit} = parameter
     return (
       <div>
-        <h4 style={{marginBottom: "2em"}}>Valeurs</h4>
         {this.renderStartStopValueTable(parameter, parameter.values, format, unit)}
       </div>
     )
