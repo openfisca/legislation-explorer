@@ -25,20 +25,25 @@ const ParameterOrVariablePage = React.createClass({
     variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
   },
   getInitialState() {
-    return {parameter: {}};
+    const variable = this.props.variables.find(variable => variable.name === this.props.params.name)
+    return {parameter: {}, variable: variable}
   },
   componentDidMount() {
-    fetchParameter(this.props.params.
-      name).then(
-      parameter => this.setState({parameter: parameter})
-    )
+    if (! this.state.variable) {
+      fetchParameter(this.props.params.name).then(
+        parameter => {
+          this.setState({parameter: parameter})
+        }
+      ).catch(
+        () => this.setState({parameter: undefined})
+      )
+    }
   },
   render() {
     const { searchQuery, searchResults } = this.context
     const {countryPackageName, countryPackageVersion, currency, location, parameters, params, variables} = this.props
     const {name} = params
-    const {parameter} = this.state
-    const variable = variables.find(variable => variable.name === name)
+    const {parameter, variable} = this.state
     if (isNil(parameter) && isNil(variable)) {
       return (
         <NotFoundPage
