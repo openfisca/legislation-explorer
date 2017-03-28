@@ -145,7 +145,7 @@ const Parameter = React.createClass({
           }
           <hr/>
           <ExternalLink
-            href={`${config.apiBaseUrl}/api/1/parameters?name=${parameter.name}`}
+            href={`${config.parameterApiBaseUrl}/parameter/${parameter.id}`}
             title="Voir la donnée brute au format JSON"
           >
             Export JSON
