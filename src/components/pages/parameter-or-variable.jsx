@@ -1,5 +1,5 @@
 import React, { PropTypes } from "react"
-import { isNil, isEmpty } from "ramda"
+import { isNil } from "ramda"
 import { Link, locationShape } from "react-router"
 
 import * as AppPropTypes from "../../app-prop-types"
@@ -26,17 +26,20 @@ const ParameterOrVariablePage = React.createClass({
   },
   getInitialState() {
     const variable = this.props.variables.find(variable => variable.name === this.props.params.name)
-    return {parameter: {}, variable: variable}
+    return {variable: variable, parameter: null, waitingForResponse: true}
   },
   componentDidMount() {
+    // If there is a variable matching the name, we don't need fetch the parameter API
     if (! this.state.variable) {
       fetchParameter(this.props.params.name).then(
         parameter => {
-          this.setState({parameter: parameter})
+          this.setState({parameter: parameter, waitingForResponse: false})
         }
       ).catch(
-        () => this.setState({parameter: undefined})
+        () => this.setState({waitingForResponse: false})
       )
+    } else {
+      this.setState({waitingForResponse: false})
     }
   },
   render() {
@@ -44,17 +47,19 @@ const ParameterOrVariablePage = React.createClass({
     const {countryPackageName, countryPackageVersion, currency, location, parameters, params, variables} = this.props
     const {name} = params
     const {parameter, variable} = this.state
+
+    if (this.state.waitingForResponse) {
+      return (
+        <p>Chargement des valeurs…</p>
+      )
+    }
+
     if (isNil(parameter) && isNil(variable)) {
       return (
         <NotFoundPage
           location={location}
           message={`« ${name} » n'est ni un paramètre ni une variable d'OpenFisca.`}
         />
-      )
-    }
-    if (isEmpty(parameter) && isNil(variable)) {
-      return (
-        <p>Chargement des valeurs…</p>
       )
     }
     const goBackLocation = {
@@ -75,7 +80,7 @@ const ParameterOrVariablePage = React.createClass({
           }
         </Link>
         {
-          (! isEmpty(parameter)) && (
+          parameter && (
             <Parameter
               countryPackageName={countryPackageName}
               countryPackageVersion={countryPackageVersion}
