@@ -5,7 +5,6 @@ module.exports = {
     port: 80
   },
   driverCapabilities: {
-    platform: 'Windows 7',
     'tunnel-identifier': 'circle-' + process.env.CIRCLE_BUILD_NUM + '-' + process.env.CIRCLE_NODE_INDEX
   },
   tags: [ 'circle-ci', '#' + process.env.CIRCLE_BUILD_NUM ],

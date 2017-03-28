@@ -1,8 +1,7 @@
 # This config uses parallelism. See https://circleci.com/docs/1.0/environment-variables/#parallelism
 machine:
   environment:
-    browser_name: $(case $CIRCLE_NODE_INDEX in 0) browser='chrome' ;; 1) browser='firefox' ;; 2) browser='internet explorer' ;; 3) browser='iphone' ;; esac; echo $browser)
-    browser_version: $(case $CIRCLE_NODE_INDEX in 3) version='8.2' ;; esac; echo $version)
+    browser_name: $(case $CIRCLE_NODE_INDEX in 0) browser_name='chrome' ;; 1) browser_name='firefox' ;; 2) browser_name='internet explorer' ;; 3) browser_name='android' ;; esac; echo $browser_name)
     SAUCE_LOG: $CIRCLE_ARTIFACTS/sauce_log.txt
     WATAI_TESTS: tests
     SAUCE_USERNAME: cbenz
@@ -37,7 +36,7 @@ test:
         parallel: true
 
   override:
-    - npm test -- --config '{"driverCapabilities":{"browserName":"'"$browser_name"'","version":"'"$browser_version"'"}}':
+    - npm test -- --config '{"driverCapabilities":{"browserName":"'"$browser_name"'"}}':
         parallel: true
 
   post:
