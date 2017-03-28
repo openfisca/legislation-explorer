@@ -46,8 +46,8 @@ function getTodayInstant() {
 
 
 function getDayBefore(day) {
-  // 86400000 ms is day
-  return new Date(Date.parse(day) - 86400000).toISOString().slice(0, "YYYY-MM-DD".length)
+  const ONE_DAY = 86400000 // in ms
+  return new Date(Date.parse(day) - ONE_DAY).toISOString().slice(0, "YYYY-MM-DD".length)
 }
 
 
@@ -125,7 +125,7 @@ const Parameter = React.createClass({
               {
                 type === "Scale"
                   ? this.renderScale(parameter)
-                  : this.renderParameter(parameter)
+                  : this.renderStartStopValueTable(parameter, parameter.values)
               }
             </div>
           </div>
@@ -155,17 +155,17 @@ const Parameter = React.createClass({
     )
   },
   renderBracket(parameter, bracket, idx) {
-    const {brackets, format} = parameter
+    const {brackets} = parameter
     return (
       <div>
         <dl>
           <dt>{`Seuils tranche ${idx + 1}`}</dt>
           <dd style={{marginBottom: "1em"}}>
-            {this.renderStartStopValueTable(parameter, bracket.threshold, format)}
+            {this.renderStartStopValueTable(parameter, bracket.threshold)}
           </dd>
           <dt>{`Taux tranche ${idx + 1}`}</dt>
           <dd>
-            {this.renderStartStopValueTable(parameter, bracket.rate, "rate")}
+            {this.renderStartStopValueTable(parameter, bracket.rate)}
           </dd>
         </dl>
         {idx < brackets.length - 1 && <hr/>}
@@ -287,14 +287,6 @@ const Parameter = React.createClass({
         {decimalPart && "."}
         {decimalPart}
       </span>
-    )
-  },
-  renderParameter(parameter) {
-    const {format, unit} = parameter
-    return (
-      <div>
-        {this.renderStartStopValueTable(parameter, parameter.values, format, unit)}
-      </div>
     )
   },
   renderScale(parameter) {
