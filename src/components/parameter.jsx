@@ -388,7 +388,6 @@ const Parameter = React.createClass({
     )
   },
   renderStartStopValue(parameter, startDate, stopDate, value, index) {
-    const {countryPackageName, countryPackageVersion} = this.props
     const type = parameter["@type"]
     const formattedStartDate = <FormattedDate value={startDate} />
     const startComponent = type === "Scale"
@@ -432,19 +431,6 @@ const Parameter = React.createClass({
         </td>
         <td className="clearfix">
           {this.renderValue(value)}
-          {
-            parameter.xml_file_path && (
-              <GitHubLink
-                blobUrlPath={countryPackageName + '/' + parameter.xml_file_path}
-                className="pull-right"
-                commitReference={countryPackageVersion}
-                endLineNumber={end_line_number}
-                lineNumber={start_line_number}
-                text={null}
-                title="Voir la valeur sur GitHub"
-              />
-            )
-          }
         </td>
       </tr>
     )
