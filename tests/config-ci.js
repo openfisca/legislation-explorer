@@ -1,11 +1,16 @@
 // this file is for use in CircleCI continuous integration environment
+
+var browserNames = ['chrome', 'firefox', 'internet explorer', 'android'];
+var browserName = browserNames[process.env.CIRCLE_NODE_INDEX];
+
 module.exports = {
   seleniumServerURL: {
     hostname: 'ondemand.saucelabs.com',
     port: 80
   },
   driverCapabilities: {
-    'tunnel-identifier': 'circle-' + process.env.CIRCLE_BUILD_NUM + '-' + process.env.CIRCLE_NODE_INDEX
+    'tunnel-identifier': 'circle-' + process.env.CIRCLE_BUILD_NUM + '-' + process.env.CIRCLE_NODE_INDEX,
+    browserName: browserName
   },
   tags: [ 'circle-ci', '#' + process.env.CIRCLE_BUILD_NUM ],
   views: [ 'Verbose', 'SauceLabs' ],
