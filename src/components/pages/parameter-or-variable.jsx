@@ -7,6 +7,7 @@ import NotFoundPage from "./not-found"
 import Parameter from "../parameter"
 import Variable from "../variable"
 import {searchInputId} from "./home"
+import {fetchParameter} from "../../webservices"
 
 
 const ParameterOrVariablePage = React.createClass({
@@ -20,15 +21,39 @@ const ParameterOrVariablePage = React.createClass({
     currency: PropTypes.string.isRequired,
     location: locationShape.isRequired,
     params: PropTypes.shape({ name: PropTypes.string.isRequired }).isRequired, // URL params
-    parameters: PropTypes.arrayOf(AppPropTypes.parameterOrScale).isRequired,
+    parameters: PropTypes.objectOf(AppPropTypes.parameterOrScale).isRequired,
     variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
+  },
+  getInitialState() {
+    const variable = this.props.variables.find(variable => variable.name === this.props.params.name)
+    return {variable: variable, parameter: null, waitingForResponse: true}
+  },
+  componentDidMount() {
+    if (this.state.variable) {
+      // If there is a variable matching the name, we don't need fetch the parameter API
+      return this.setState({waitingForResponse: false})
+    }
+    fetchParameter(this.props.params.name).then(
+      parameter => {
+        this.setState({parameter: parameter, waitingForResponse: false})
+      },
+      () => {
+        this.setState({waitingForResponse: false})
+      }
+    )
   },
   render() {
     const { searchQuery, searchResults } = this.context
     const {countryPackageName, countryPackageVersion, currency, location, parameters, params, variables} = this.props
     const {name} = params
-    const parameter = parameters.find(parameter => parameter.name === name)
-    const variable = variables.find(variable => variable.name === name)
+    const {parameter, variable} = this.state
+
+    if (this.state.waitingForResponse) {
+      return (
+        <p>Chargement des valeurs…</p>
+      )
+    }
+
     if (isNil(parameter) && isNil(variable)) {
       return (
         <NotFoundPage

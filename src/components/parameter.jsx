@@ -41,7 +41,13 @@ function getBracketsAtInstant(brackets, instant) {
 
 
 function getTodayInstant() {
-  return new Date().toJSON().slice(0, "YYYY-MM-DD".length)
+  return new Date().toISOString().slice(0, "YYYY-MM-DD".length)
+}
+
+
+function getDayBefore(day) {
+  const ONE_DAY = 86400000 // in ms
+  return new Date(Date.parse(day) - ONE_DAY).toISOString().slice(0, "YYYY-MM-DD".length)
 }
 
 
@@ -52,18 +58,20 @@ const Parameter = React.createClass({
     currency: PropTypes.string.isRequired,
     intl: intlShape.isRequired,
     parameter: AppPropTypes.parameterOrScale.isRequired,
-    parameters: PropTypes.arrayOf(AppPropTypes.parameterOrScale).isRequired,
+    parameters: PropTypes.objectOf(AppPropTypes.parameterOrScale).isRequired,
     variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
   },
   getInitialState() {
-    const {intl, parameter} = this.props
-    const type = parameter["@type"]
-    if (type === "Scale") {
-      const instant = findLastKnownStartInstant(parameter.brackets)
-      return {
-        instant,
-        instantText: intl.formatDate(instant),
-      }
+    const {parameter} = this.props
+    const isScale = (! parameter.values)
+    if (isScale) {
+      return {}
+      // Scales are temporarily deactivated
+      // const instant = findLastKnownStartInstant(parameter.brackets)
+      // return {
+      //   instant,
+      //   instantText: intl.formatDate(instant),
+      // }
     }
     return {}
   },
@@ -107,27 +115,45 @@ const Parameter = React.createClass({
     const {parameter} = this.props
     const {brackets, description} = parameter
     const descriptionMessage = description || "Aucune description"
-    const type = parameter["@type"]
+    const isScale = (! parameter.values)
+    if (isScale) {
+      return (
+        <DocumentTitle title={`${descriptionMessage} - Explorateur de la législation`}>
+          <div>
+            <div className="page-header">
+              <h1>{descriptionMessage}</h1>
+            </div>
+            <p>
+            Le rendu graphique des barèmes n'est pas encore fonctionnel.
+            </p>
+            <ExternalLink
+              href={`${config.parameterApiBaseUrl}/parameter/${parameter.id}`}
+              title="Voir la donnée brute au format JSON"
+              >
+              Voir la donnée brute au format JSON
+            </ExternalLink>
+          </div>
+        </DocumentTitle>
+      )
+    }
     return (
       <DocumentTitle title={`${descriptionMessage} - Explorateur de la législation`}>
         <div>
           <div className="page-header">
             <h1>{descriptionMessage}</h1>
           </div>
-          {this.renderDefinitionsList(parameter)}
-          <hr/>
           <div className="row">
             <div className="col-lg-8">
               {
-                type === "Parameter"
-                  ? this.renderParameter(parameter)
-                  : this.renderScale(parameter)
+                isScale
+                  ? this.renderScale(parameter)
+                  : this.renderStartStopValueTable(parameter, parameter.values)
               }
             </div>
           </div>
           {this.renderSourceCodeLink(parameter)}
           {
-            type === "Scale" && (
+            isScale && (
               <div>
                 <hr/>
                 <Collapse title={<h4>Historique exhaustif par tranche</h4>}>
@@ -141,7 +167,7 @@ const Parameter = React.createClass({
           }
           <hr/>
           <ExternalLink
-            href={`${config.apiBaseUrl}/api/1/parameters?name=${parameter.name}`}
+            href={`${config.parameterApiBaseUrl}/parameter/${parameter.id}`}
             title="Voir la donnée brute au format JSON"
           >
             Export JSON
@@ -151,17 +177,17 @@ const Parameter = React.createClass({
     )
   },
   renderBracket(parameter, bracket, idx) {
-    const {brackets, format, unit} = parameter
+    const {brackets} = parameter
     return (
       <div>
         <dl>
           <dt>{`Seuils tranche ${idx + 1}`}</dt>
           <dd style={{marginBottom: "1em"}}>
-            {this.renderStartStopValueTable(parameter, bracket.threshold, format, unit)}
+            {this.renderStartStopValueTable(parameter, bracket.threshold)}
           </dd>
           <dt>{`Taux tranche ${idx + 1}`}</dt>
           <dd>
-            {this.renderStartStopValueTable(parameter, bracket.rate, "rate", null)}
+            {this.renderStartStopValueTable(parameter, bracket.rate)}
           </dd>
         </dl>
         {idx < brackets.length - 1 && <hr/>}
@@ -266,36 +292,8 @@ const Parameter = React.createClass({
       </div>
     )
   },
-  renderDefinitionsList(parameter) {
-    const {currency} = this.props
-    const {format, unit} = parameter
-    const type = parameter["@type"]
-    return (
-      <dl>
-        <dt>Type</dt>
-        <dd>{type === "Parameter" ? "Paramètre" : "Barème"}</dd>
-        {format && <dt>Format</dt>}
-        {
-          format && (
-            <dd>
-              <samp>{format}</samp>
-            </dd>
-          )
-        }
-        {unit && <dt>{type === "Parameter" ? "Unité" : "Unité des seuils"}</dt>}
-        {
-          unit && (
-            <dd>
-              <samp>{unit}</samp>
-              {unit === "currency" && ` - ${currency}`}
-            </dd>
-          )
-        }
-      </dl>
-    )
-  },
   renderFloatValue(value) {
-    const decimalPartLength = 3
+    const decimalPartLength = 2
     let [integerPart, decimalPart] = value.toFixed(decimalPartLength).split(".")
     if (decimalPart === "0".repeat(decimalPartLength)) {
       decimalPart = null
@@ -311,15 +309,6 @@ const Parameter = React.createClass({
         {decimalPart && "."}
         {decimalPart}
       </span>
-    )
-  },
-  renderParameter(parameter) {
-    const {format, unit} = parameter
-    return (
-      <div>
-        <h4 style={{marginBottom: "2em"}}>Valeurs</h4>
-        {this.renderStartStopValueTable(parameter, parameter.values, format, unit)}
-      </div>
     )
   },
   renderScale(parameter) {
@@ -412,68 +401,66 @@ const Parameter = React.createClass({
         ) : null
     )
   },
-  renderStartStopValue(parameter, itemOfValues, idx, format, unit) {
-    const {countryPackageName, countryPackageVersion} = this.props
-    const {start_line_number, end_line_number} = parameter
-    const type = parameter["@type"]
-    const {start, stop, value} = itemOfValues
-    const formattedStartDate = <FormattedDate value={start} />
-    const startComponent = type === "Scale"
+  renderStartStopValue(parameter, startDate, stopDate, value, index) {
+    const isScale = (! parameter.values)
+    const formattedStartDate = <FormattedDate value={startDate} />
+    const startComponent = isScale
       ? (
         <a
           href="#bareme"
-          onClick={() => this.handleInstantSet(start)}
+          onClick={() => this.handleInstantSet(startDate)}
           title="Afficher le barème à cette date"
         >
           {formattedStartDate}
         </a>
       ) : formattedStartDate
     let stopComponent
-    if (stop) {
-      const formattedStopDate = <FormattedDate value={stop} />
-      stopComponent = type === "Scale" ? (
+    if (stopDate) {
+      const formattedStopDate = <FormattedDate value={stopDate} />
+      stopComponent = isScale ? (
         <a
           href="#bareme"
-          onClick={() => this.handleInstantSet(stop)}
+          onClick={() => this.handleInstantSet(stopDate)}
           title="Afficher le barème à cette date"
           >
           {formattedStopDate}
         </a>
       ) : formattedStopDate
     }
+    if (! value) {
+      return (
+        <tr key={index}>
+          <td colSpan="2"><span>Ce paramètre ne figure plus dans la législation depuis le {startComponent}</span></td>
+        </tr>
+      )
+    }
     return (
-      <tr key={idx}>
+      <tr key={index}>
         <td>
           {
-            stop
-              ? <span>Du {startComponent} au {stopComponent}</span>
-              : <span>À partir du {startComponent}</span>
+            stopDate
+            ? <span>Du {startComponent} au {stopComponent}</span>
+            : <span>À partir du {startComponent}</span>
           }
         </td>
         <td className="clearfix">
-          {this.renderValue(value, format, unit)}
-          {
-            parameter.xml_file_path && (
-              <GitHubLink
-                blobUrlPath={countryPackageName + '/' + parameter.xml_file_path}
-                className="pull-right"
-                commitReference={countryPackageVersion}
-                endLineNumber={end_line_number}
-                lineNumber={start_line_number}
-                text={null}
-                title="Voir la valeur sur GitHub"
-              />
-            )
-          }
+          {this.renderValue(value)}
         </td>
       </tr>
     )
   },
-  renderStartStopValueTable(parameter, items, format, unit) {
+
+  renderStartStopValueTable(parameter, values) {
     return (
       <table className="table table-bordered table-hover table-striped">
         <tbody>
-          {items.map((itemOfValues, idx) => this.renderStartStopValue(parameter, itemOfValues, idx, format, unit))}
+          {Object.keys(values).sort().reverse().map(
+            (startDate, index, sortedStartDates) => {
+              const nextStartDate = sortedStartDates[index - 1]
+              const stopDate = nextStartDate && getDayBefore(nextStartDate)
+              return this.renderStartStopValue(parameter, startDate, stopDate, values[startDate], index)
+            }
+          )}
         </tbody>
       </table>
     )

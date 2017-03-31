@@ -20,7 +20,7 @@ const App = React.createClass({
     countryPackageName: PropTypes.string.isRequired,
     countryPackageVersion: PropTypes.string.isRequired,
     location: locationShape.isRequired,
-    parameters: PropTypes.arrayOf(AppPropTypes.parameterOrScale).isRequired,
+    parameters: PropTypes.objectOf(AppPropTypes.parameterOrScale).isRequired,
     variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
   },
   getChildContext() {
@@ -65,7 +65,7 @@ const App = React.createClass({
                 </div>
                 <div className="col-md-9">
                   <p id="baseline">
-                    {variables.length} variables et {parameters.length} paramètres
+                    {variables.length} variables et {Object.keys(parameters).length} paramètres
                     référencés pour modéliser le système socio-fiscal français.
                   </p>
                   <a href={config.websiteUrl}>En savoir plus</a>

@@ -1,10 +1,15 @@
-import {ascend, assoc, concat, filter, has, isEmpty, map, pipe, prop, sortBy, sortWith, partition} from "ramda"
+import {ascend, assoc, concat, filter, isEmpty, map, pipe, prop, sortBy, sortWith, partition} from "ramda"
 import * as diacritics from 'diacritics'
 
+function preprocessParameters(parameters) {
+  return Object.keys(parameters).map(
+    paramId => Object.assign({}, parameters[paramId], {name: paramId})
+  )
+}
 
 export function findParametersAndVariables(parameters, variables, query) {
   const normalizedQuery = diacritics.remove(query.toLowerCase())
-  const parametersAndVariables = concat(parameters, variables)
+  const parametersAndVariables = concat(preprocessParameters(parameters), variables)
   if (isEmpty(normalizedQuery)) {
     return sortBy(prop('name'), parametersAndVariables)
   }
@@ -27,7 +32,7 @@ export function addNormalizedDescription(propertyName, objects) {
   return map(
     object => assoc(
       'normalizedDescription',
-      has(propertyName, object)
+      object[propertyName]
         ? diacritics.remove(object[propertyName].toLowerCase())
         : '',
       object
