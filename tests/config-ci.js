@@ -1,7 +1,6 @@
 // this file is for use in CircleCI continuous integration environment
 
-var browserNames = ['chrome', 'firefox', 'internet explorer', 'android'];
-var browserName = browserNames[process.env.CIRCLE_NODE_INDEX];
+var browserName = ['chrome', 'firefox', 'internet explorer', 'android'][process.env.CIRCLE_NODE_INDEX];
 
 module.exports = {
   seleniumServerURL: {
