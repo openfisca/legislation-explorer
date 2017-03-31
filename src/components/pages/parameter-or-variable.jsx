@@ -29,18 +29,18 @@ const ParameterOrVariablePage = React.createClass({
     return {variable: variable, parameter: null, waitingForResponse: true}
   },
   componentDidMount() {
-    // If there is a variable matching the name, we don't need fetch the parameter API
-    if (! this.state.variable) {
-      fetchParameter(this.props.params.name).then(
-        parameter => {
-          this.setState({parameter: parameter, waitingForResponse: false})
-        }
-      ).catch(
-        () => this.setState({waitingForResponse: false})
-      )
-    } else {
-      this.setState({waitingForResponse: false})
+    if (this.state.variable) {
+      // If there is a variable matching the name, we don't need fetch the parameter API
+      return this.setState({waitingForResponse: false})
     }
+    fetchParameter(this.props.params.name).then(
+      parameter => {
+        this.setState({parameter: parameter, waitingForResponse: false})
+      },
+      () => {
+        this.setState({waitingForResponse: false})
+      }
+    )
   },
   render() {
     const { searchQuery, searchResults } = this.context
