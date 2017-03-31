@@ -62,14 +62,16 @@ const Parameter = React.createClass({
     variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
   },
   getInitialState() {
-    const {intl, parameter} = this.props
-    const type = parameter["@type"]
-    if (type === "Scale") {
-      const instant = findLastKnownStartInstant(parameter.brackets)
-      return {
-        instant,
-        instantText: intl.formatDate(instant),
-      }
+    const {parameter} = this.props
+    const isScale = (! parameter.values)
+    if (isScale) {
+      return {}
+      // Scales are temporarily deactivated
+      // const instant = findLastKnownStartInstant(parameter.brackets)
+      // return {
+      //   instant,
+      //   instantText: intl.formatDate(instant),
+      // }
     }
     return {}
   },
@@ -113,7 +115,27 @@ const Parameter = React.createClass({
     const {parameter} = this.props
     const {brackets, description} = parameter
     const descriptionMessage = description || "Aucune description"
-    const type = parameter["@type"]
+    const isScale = (! parameter.values)
+    if (isScale) {
+      return (
+        <DocumentTitle title={`${descriptionMessage} - Explorateur de la législation`}>
+          <div>
+            <div className="page-header">
+              <h1>{descriptionMessage}</h1>
+            </div>
+            <p>
+            Le rendu graphique des barèmes n'est pas encore fonctionnel.
+            </p>
+            <ExternalLink
+              href={`${config.parameterApiBaseUrl}/parameter/${parameter.id}`}
+              title="Voir la donnée brute au format JSON"
+              >
+              Voir la donnée brute au format JSON
+            </ExternalLink>
+          </div>
+        </DocumentTitle>
+      )
+    }
     return (
       <DocumentTitle title={`${descriptionMessage} - Explorateur de la législation`}>
         <div>
@@ -123,7 +145,7 @@ const Parameter = React.createClass({
           <div className="row">
             <div className="col-lg-8">
               {
-                type === "Scale"
+                isScale
                   ? this.renderScale(parameter)
                   : this.renderStartStopValueTable(parameter, parameter.values)
               }
@@ -131,7 +153,7 @@ const Parameter = React.createClass({
           </div>
           {this.renderSourceCodeLink(parameter)}
           {
-            type === "Scale" && (
+            isScale && (
               <div>
                 <hr/>
                 <Collapse title={<h4>Historique exhaustif par tranche</h4>}>
@@ -380,9 +402,9 @@ const Parameter = React.createClass({
     )
   },
   renderStartStopValue(parameter, startDate, stopDate, value, index) {
-    const type = parameter["@type"]
+    const isScale = (! parameter.values)
     const formattedStartDate = <FormattedDate value={startDate} />
-    const startComponent = type === "Scale"
+    const startComponent = isScale
       ? (
         <a
           href="#bareme"
@@ -395,7 +417,7 @@ const Parameter = React.createClass({
     let stopComponent
     if (stopDate) {
       const formattedStopDate = <FormattedDate value={stopDate} />
-      stopComponent = type === "Scale" ? (
+      stopComponent = isScale ? (
         <a
           href="#bareme"
           onClick={() => this.handleInstantSet(stopDate)}
