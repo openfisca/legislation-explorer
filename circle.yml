@@ -1,17 +1,45 @@
 machine:
   environment:
-    # Use the same port as Selenium server.
-    DRIVER_PORT: 4444
-    # Use the same base URL as Selenium server.
-    DRIVER_BASE_URL: wd/hub
+    SAUCE_LOG: $CIRCLE_ARTIFACTS/sauce_log.txt
+    WATAI_TESTS: tests
+    SAUCE_USERNAME: openfisca
+    # SAUCE_ACCESS_KEY is defined in the CircleCI web UI
+    PORT: 2030 # Legislation Explorer ExpressJS server port
+
+dependencies:
+  post:
+    - npm install saucelabs # allow sending Watai results to SauceLabs
+    - wget https://saucelabs.com/downloads/sc-latest-linux.tar.gz
+    - tar -xzf sc-latest-linux.tar.gz
+    - npm run build
+
 test:
   pre:
-    - chromedriver --port=$DRIVER_PORT --url-base=$DRIVER_BASE_URL:
-        background: true
-    # Wait for server.
-    - wget --retry-connrefused --waitretry=1 --output-document=/dev/null http://localhost:$DRIVER_PORT/$DRIVER_BASE_URL/status
     - npm start:
         background: true
+        parallel: true
+    # start Sauce Connect
+    - cd sc-*-linux && ./bin/sc --user $SAUCE_USERNAME --api-key $SAUCE_ACCESS_KEY --tunnel-identifier "circle-$CIRCLE_BUILD_NUM-$CIRCLE_NODE_INDEX" --readyfile ~/sauce_is_ready > $SAUCE_LOG:
+        background: true
+        parallel: true
+    # wait for Sauce Connect
+    - while [ ! -e ~/sauce_is_ready ]; do sleep 1; done:
+        parallel: true
+    # wait for server (after Sauce Connect because it is faster to start)
+    - wget --retry-connrefused --waitretry=1 --output-document=/dev/null http://localhost:$PORT:
+        parallel: true
+    # prepare CI-specific config holder and add CI-specific config to Watai
+    - mkdir $HOME/.watai && cp $WATAI_TESTS/config-ci.js $HOME/.watai/config.js:
+        parallel: true
+
+  override:
+    - npm test:
+        parallel: true
+
+  post:
+    - killall --wait sc:  # wait until Sauce Connect closes the tunnel
+        parallel: true
+
 deployment:
   production:
     branch: master
