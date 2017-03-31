@@ -2,7 +2,7 @@ machine:
   environment:
     SAUCE_LOG: $CIRCLE_ARTIFACTS/sauce_log.txt
     WATAI_TESTS: tests
-    SAUCE_USERNAME: cbenz
+    SAUCE_USERNAME: openfisca
     # SAUCE_ACCESS_KEY is defined in the CircleCI web UI
     PORT: 2030 # Legislation Explorer ExpressJS server port
 
