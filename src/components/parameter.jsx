@@ -55,11 +55,8 @@ const Parameter = React.createClass({
   propTypes: {
     countryPackageName: PropTypes.string.isRequired,
     countryPackageVersion: PropTypes.string.isRequired,
-    currency: PropTypes.string.isRequired,
     intl: intlShape.isRequired,
     parameter: AppPropTypes.parameterOrScale.isRequired,
-    parameters: PropTypes.objectOf(AppPropTypes.parameterOrScale).isRequired,
-    variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
   },
   getInitialState() {
     const {parameter} = this.props

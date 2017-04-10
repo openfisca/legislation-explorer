@@ -18,7 +18,6 @@ const ParameterOrVariablePage = React.createClass({
   propTypes: {
     countryPackageName: PropTypes.string.isRequired,
     countryPackageVersion: PropTypes.string.isRequired,
-    currency: PropTypes.string.isRequired,
     location: locationShape.isRequired,
     params: PropTypes.shape({ name: PropTypes.string.isRequired }).isRequired, // URL params
     parameters: PropTypes.objectOf(AppPropTypes.parameterOrScale).isRequired,
@@ -44,7 +43,7 @@ const ParameterOrVariablePage = React.createClass({
   },
   render() {
     const { searchQuery, searchResults } = this.context
-    const {countryPackageName, countryPackageVersion, currency, location, parameters, params, variables} = this.props
+    const {countryPackageName, countryPackageVersion, location, parameters, params, variables} = this.props
     const {name} = params
     const {parameter, variable} = this.state
 
@@ -84,10 +83,7 @@ const ParameterOrVariablePage = React.createClass({
             <Parameter
               countryPackageName={countryPackageName}
               countryPackageVersion={countryPackageVersion}
-              currency={currency}
               parameter={parameter}
-              parameters={parameters}
-              variables={variables}
             />
           )
         }
