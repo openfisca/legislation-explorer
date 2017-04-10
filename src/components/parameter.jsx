@@ -424,7 +424,7 @@ const Parameter = React.createClass({
         </a>
       ) : formattedStopDate
     }
-    if (! value) {
+    if (value === null) {
       return (
         <tr key={index}>
           <td colSpan="2"><span>Ce paramètre ne figure plus dans la législation depuis le {startComponent}</span></td>
