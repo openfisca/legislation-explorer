@@ -1,3 +1,4 @@
+import classNames from "classnames"
 import React from "react"
 import {FormattedDate} from 'react-intl';
 
@@ -20,7 +21,10 @@ const Scale = React.createClass({
               return Object.keys(bracketAtDate).map((threshold, thresholdIndex) => {
                 const value = bracketAtDate[threshold]
                 return (
-                  <tr key={`${startDateIndex}-${thresholdIndex}`}>
+                  <tr
+                    className={classNames({"first-bracket": thresholdIndex === 0})}
+                    key={`${startDateIndex}-${thresholdIndex}`}
+                  >
                     {
                       thresholdIndex === 0 && (
                         <td rowSpan={Object.keys(bracketAtDate).length}>

@@ -1,3 +1,7 @@
+tr.first-bracket:not(:first-child) > td {
+  border-top-width: 5px;
+}
+
 footer {
   margin-top: 10em;
 }
