@@ -12,7 +12,8 @@
   },
   "rules": {
       "no-console": "off",
-      "space-infix-ops": "error"
+      "space-infix-ops": "error",
+      "react/prop-types": "off"
   },
   "plugins": [
     "react"
