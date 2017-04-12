@@ -18,8 +18,10 @@ const Scale = React.createClass({
           {
             Object.keys(brackets).sort().reverse().map((startDate, startDateIndex) => {
               const bracketAtDate = brackets[startDate]
-              return Object.keys(bracketAtDate).map((threshold, thresholdIndex) => {
-                const value = bracketAtDate[threshold]
+              const thresholds = Object.keys(bracketAtDate)
+              return thresholds.map((thresholdKey, thresholdIndex) => {
+                const threshold = parseFloat(thresholdKey)
+                const value = bracketAtDate[thresholdKey]
                 return (
                   <tr
                     className={classNames({"first-bracket": thresholdIndex === 0})}
@@ -34,11 +36,26 @@ const Scale = React.createClass({
                         </td>
                       )
                     }
-                    <td>
-                      Au-dessus de
-                      {" "}
-                      <Value>{threshold}</Value>
-                    </td>
+                    {
+                      thresholdIndex < thresholds.length - 1
+                        ? (
+                          <td>
+                            Entre
+                            {" "}
+                            <Value>{thresholdIndex === 0 ? threshold : threshold + 1}</Value>
+                            {" "}
+                            et
+                            {" "}
+                            <Value>{parseFloat(thresholds[thresholdIndex + 1])}</Value>
+                          </td>
+                        ) : (
+                          <td>
+                            Plus de
+                            {" "}
+                            <Value>{threshold}</Value>
+                          </td>
+                        )
+                    }
                     <td>
                       <Value>{value}</Value>
                     </td>
