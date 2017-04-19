@@ -13,6 +13,13 @@ const Scale = React.createClass({
     const {brackets} = this.props.parameter
     return (
       <table className="table table-bordered table-hover table-striped">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Tranche</th>
+            <th>Taux marginal</th>
+          </tr>
+        </thead>
         <tbody>
           {
             Object.keys(brackets).sort().reverse().map((startDate, startDateIndex) => {
