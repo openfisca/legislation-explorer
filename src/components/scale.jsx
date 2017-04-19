@@ -29,7 +29,7 @@ const Scale = React.createClass({
           {
             Object.keys(brackets).sort().reverse().map((startDate, startDateIndex) => {
               const bracketAtDate = brackets[startDate]
-              const thresholds = Object.keys(bracketAtDate)
+              const thresholds = Object.keys(bracketAtDate).sort((a,b) => Number(a) -  Number(b))
               return thresholds.map((thresholdKey, thresholdIndex) => {
                 const threshold = parseFloat(thresholdKey)
                 const value = bracketAtDate[thresholdKey]
