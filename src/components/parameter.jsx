@@ -6,7 +6,6 @@ import config from "../config"
 import * as AppPropTypes from "../app-prop-types"
 import ExternalLink from "./external-link"
 import Scale from "./scale"
-import Value from "./value"
 
 
 function getDayBefore(day) {
@@ -68,7 +67,7 @@ const Parameter = React.createClass({
           }
         </td>
         <td>
-          <Value>{value}</Value>
+          <samp>{value}</samp>
         </td>
       </tr>
     )

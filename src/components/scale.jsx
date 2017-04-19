@@ -3,7 +3,6 @@ import React from "react"
 import {FormattedDate} from 'react-intl';
 
 import * as AppPropTypes from "../app-prop-types"
-import Value from "./value"
 
 
 const Scale = React.createClass({
@@ -42,22 +41,22 @@ const Scale = React.createClass({
                           <td>
                             Entre
                             {" "}
-                            <Value>{thresholdIndex === 0 ? threshold : threshold + 1}</Value>
+                            <samp>{threshold}</samp>
                             {" "}
                             et
                             {" "}
-                            <Value>{parseFloat(thresholds[thresholdIndex + 1])}</Value>
+                            <samp>{parseFloat(thresholds[thresholdIndex + 1])}</samp>
                           </td>
                         ) : (
                           <td>
                             Plus de
                             {" "}
-                            <Value>{threshold}</Value>
+                            <samp>{threshold}</samp>
                           </td>
                         )
                     }
                     <td>
-                      <Value>{value}</Value>
+                      <samp>{value}</samp>
                     </td>
                   </tr>
                 )
