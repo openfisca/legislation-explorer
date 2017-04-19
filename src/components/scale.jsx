@@ -5,6 +5,11 @@ import {FormattedDate} from 'react-intl';
 import * as AppPropTypes from "../app-prop-types"
 
 
+function formatRate(value) {
+  const formattedValue = (value * 100).toFixed(2).replace(/\.00$/, '')
+  return `${formattedValue} %`
+}
+
 const Scale = React.createClass({
   propTypes: {
     parameter: AppPropTypes.parameter.isRequired,
@@ -63,7 +68,7 @@ const Scale = React.createClass({
                         )
                     }
                     <td>
-                      <samp>{value}</samp>
+                      <samp>{formatRate(value)}</samp>
                     </td>
                   </tr>
                 )
