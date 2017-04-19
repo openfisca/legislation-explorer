@@ -41,9 +41,7 @@ const Scale = React.createClass({
                     {
                       thresholdIndex === 0 && (
                         <td rowSpan={Object.keys(bracketAtDate).length}>
-                          À partir du
-                          {" "}
-                          <FormattedDate value={startDate} />
+                          À partir du <FormattedDate value={startDate} />
                         </td>
                       )
                     }
@@ -51,19 +49,11 @@ const Scale = React.createClass({
                       thresholdIndex < thresholds.length - 1
                         ? (
                           <td>
-                            Entre
-                            {" "}
-                            <samp>{threshold}</samp>
-                            {" "}
-                            et
-                            {" "}
-                            <samp>{parseFloat(thresholds[thresholdIndex + 1])}</samp>
+                            Entre <samp>{threshold}</samp> et <samp>{parseFloat(thresholds[thresholdIndex + 1])}</samp>
                           </td>
                         ) : (
                           <td>
-                            Plus de
-                            {" "}
-                            <samp>{threshold}</samp>
+                            Plus de <samp>{threshold}</samp>
                           </td>
                         )
                     }
