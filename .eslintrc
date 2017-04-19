@@ -11,7 +11,9 @@
     "node": true
   },
   "rules": {
-      "no-console": "off"
+      "no-console": "off",
+      "space-infix-ops": "error",
+      "react/prop-types": "off"
   },
   "plugins": [
     "react"

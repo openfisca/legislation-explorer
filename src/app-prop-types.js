@@ -3,50 +3,20 @@ import {PropTypes} from "react"
 
 // Level 0 PropTypes
 
-const startStopValue = PropTypes.shape({
-  start: PropTypes.string.isRequired,
-  stop: PropTypes.string,
-  value: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.number,
-  ]).isRequired,
-  // Introspection (optional: values can be generated programmatically)
-  start_line_number: PropTypes.number,
-  end_line_number: PropTypes.number,
-})
-
-const unit = PropTypes.oneOf([
-  "currency",
-  "day",
-  "hour",
-  "month",
-  "year",
+export const value = PropTypes.oneOfType([
+  PropTypes.bool,
+  PropTypes.number,
+  PropTypes.string,
 ])
 
-const parameter = PropTypes.shape({
-  description: PropTypes.string,
-  id: PropTypes.string,
-  normalizedDescription: PropTypes.string,
-  values: PropTypes.objectOf(PropTypes.number),
-})
+export const values = PropTypes.objectOf(value)
 
-const scale = PropTypes.shape({
-  "@type": PropTypes.oneOf(["Scale"]).isRequired,
-  brackets: PropTypes.arrayOf(
-    PropTypes.shape({
-      rate: PropTypes.arrayOf(startStopValue).isRequired,
-      threshold: PropTypes.arrayOf(startStopValue).isRequired,
-      // Introspection (optional: values can be generated programmatically)
-      start_line_number: PropTypes.number,
-      end_line_number: PropTypes.number,
-    }),
-  ),
+export const parameter = PropTypes.shape({
+  id: PropTypes.string,
   description: PropTypes.string,
-  unit,
-  // Introspection (optional: values can be generated programmatically)
-  xml_file_path: PropTypes.string,
-  start_line_number: PropTypes.number,
-  end_line_number: PropTypes.number,
+  normalizedDescription: PropTypes.string,
+  brackets: PropTypes.objectOf(values),
+  values,
 })
 
 export const variable = PropTypes.shape({
@@ -59,8 +29,3 @@ export const variable = PropTypes.shape({
   start_line_number: PropTypes.number,
   end_line_number: PropTypes.number,
 })
-
-export const parameterOrScale = PropTypes.oneOfType([
-  parameter,
-  scale,
-])

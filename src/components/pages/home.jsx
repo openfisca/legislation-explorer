@@ -18,7 +18,7 @@ const HomePage = React.createClass({
     countryPackageName: PropTypes.string.isRequired,
     countryPackageVersion: PropTypes.string.isRequired,
     location: locationShape.isRequired,
-    parameters: PropTypes.objectOf(AppPropTypes.parameterOrScale).isRequired,
+    parameters: PropTypes.objectOf(AppPropTypes.parameter).isRequired,
     variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
   },
   componentDidMount() {
