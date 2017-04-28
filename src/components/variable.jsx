@@ -43,15 +43,15 @@ const Variable = React.createClass({
     countryPackageVersion: PropTypes.string.isRequired,
     parameters: PropTypes.objectOf(AppPropTypes.parameter).isRequired,
     variable: AppPropTypes.variable.isRequired,
-    variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
+    variables: PropTypes.objectOf(AppPropTypes.variable).isRequired,
   },
   getTodayInstant() {
     return new Date().toJSON().slice(0, 10)
   },
   render() {
     const {variable} = this.props
-    const {formula, label, source_code} = variable
-    const labelMessage = label || `${variable.name} (aucun label)`
+    const {formula, description, source_code} = variable
+    const labelMessage = description || `${variable.name} (aucun label)`
     return (
       <DocumentTitle title={`${labelMessage} - Explorateur de la législation`}>
         <div>

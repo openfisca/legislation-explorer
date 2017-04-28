@@ -1,5 +1,5 @@
 import React, { PropTypes } from "react"
-import { isNil } from "ramda"
+import { contains, isNil, keys } from "ramda"
 import { Link, locationShape } from "react-router"
 
 import * as AppPropTypes from "../../app-prop-types"
@@ -7,7 +7,7 @@ import NotFoundPage from "./not-found"
 import Parameter from "../parameter"
 import Variable from "../variable"
 import {searchInputId} from "./home"
-import {fetchParameter} from "../../webservices"
+import {fetchParameter, fetchVariable} from "../../webservices"
 
 
 const ParameterOrVariablePage = React.createClass({
@@ -21,25 +21,28 @@ const ParameterOrVariablePage = React.createClass({
     location: locationShape.isRequired,
     params: PropTypes.shape({ name: PropTypes.string.isRequired }).isRequired, // URL params
     parameters: PropTypes.objectOf(AppPropTypes.parameter).isRequired,
-    variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
+    variables: PropTypes.objectOf(AppPropTypes.variable).isRequired,
   },
   getInitialState() {
-    const variable = this.props.variables.find(variable => variable.name === this.props.params.name)
-    return {variable: variable, parameter: null, waitingForResponse: true}
+    return {variable: null, parameter: null, waitingForResponse: true}
   },
   componentDidMount() {
-    if (this.state.variable) {
-      // If there is a variable matching the name, we don't need fetch the parameter API
-      return this.setState({waitingForResponse: false})
-    }
-    fetchParameter(this.props.params.name).then(
-      parameter => {
-        this.setState({parameter: parameter, waitingForResponse: false})
-      },
-      () => {
+    const name = this.props.params.name
+    if (this.props.variables[name]) {
+      fetchVariable(name).then(
+        variable => {
+          this.setState({variable: variable, waitingForResponse: false}) // simplify with ES6 ?
+        }
+      )
+    } else if (this.props.parameters[name]) {
+      fetchParameter(name).then(
+        parameter => {
+          this.setState({parameter: parameter, waitingForResponse: false}) // simplify with ES6 ?
+        }
+      )
+    } else {
         this.setState({waitingForResponse: false})
-      }
-    )
+    }
   },
   render() {
     const { searchQuery, searchResults } = this.context

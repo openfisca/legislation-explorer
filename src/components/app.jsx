@@ -21,7 +21,7 @@ const App = React.createClass({
     countryPackageVersion: PropTypes.string.isRequired,
     location: locationShape.isRequired,
     parameters: PropTypes.objectOf(AppPropTypes.parameter).isRequired,
-    variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
+    variables: PropTypes.objectOf(AppPropTypes.variable).isRequired,
   },
   getChildContext() {
     const {parameters, variables} = this.props

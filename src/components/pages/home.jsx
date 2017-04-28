@@ -19,7 +19,7 @@ const HomePage = React.createClass({
     countryPackageVersion: PropTypes.string.isRequired,
     location: locationShape.isRequired,
     parameters: PropTypes.objectOf(AppPropTypes.parameter).isRequired,
-    variables: PropTypes.arrayOf(AppPropTypes.variable).isRequired,
+    variables: PropTypes.objectOf(AppPropTypes.variable).isRequired,
   },
   componentDidMount() {
     this._isMounted = true
@@ -126,13 +126,12 @@ const SearchResults = React.createClass({
     return (
       <List items={items} type="unstyled">
         {parameterOrVariable => {
-          const {description, itemType, label, name} = parameterOrVariable
-          const displayedDescription = itemType === 'parameter' ? description : label
+          const {description, itemType, name} = parameterOrVariable
           return (
             <Link key={`${name}-${itemType}`} to={`/${name}`}>
               <article style={{margin: "3em 0"}}>
                 <h4>{name}</h4>
-                {displayedDescription && <p>{displayedDescription}</p>}
+                {description && <p>{description}</p>}
               </article>
             </Link>
           )

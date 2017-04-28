@@ -9,7 +9,7 @@
     "dev": "concurrently --kill-others 'npm run dev:app-server' 'npm run dev:webpack-dev-server'",
     "dev:app-server": "NODE_ENV=development PORT=2030 node index.js",
     "dev:webpack-dev-server": "WEBPACK_PORT=2031 babel-node src/server/webpack-dev-server.js",
-    "dev:prod-api": "FLASK_API_URL=https://api-test.openfisca.fr API_URL=https://api.openfisca.fr npm run dev",
+    "dev:prod-api": "API_URL=https://api-test.openfisca.fr npm run dev",
     "lint": "eslint --ext .js,.jsx .",
     "start": "NODE_ENV=production PORT=2030 node index.js",
     "test": "npm run lint && watai tests"

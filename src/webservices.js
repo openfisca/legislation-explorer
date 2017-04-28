@@ -19,16 +19,20 @@ function parseJsonResponse(response) {
 }
 
 
-export function fetchParameters(apiBaseUrl = config.parameterApiBaseUrl) {
+export function fetchParameters(apiBaseUrl = config.apiBaseUrl) {
   return fetchJson(`${apiBaseUrl}/parameters`)
 }
 
 
 export function fetchVariables(apiBaseUrl = config.apiBaseUrl) {
-  return fetchJson(`${apiBaseUrl}/api/1/variables`)
+  return fetchJson(`${apiBaseUrl}/variables`)
 }
 
 
-export function fetchParameter(parameterId, apiBaseUrl = config.parameterApiBaseUrl) {
+export function fetchParameter(parameterId, apiBaseUrl = config.apiBaseUrl) {
   return fetchJson(`${apiBaseUrl}/parameter/${parameterId}`)
+}
+
+export function fetchVariable(variableId, apiBaseUrl = config.apiBaseUrl) {
+  return fetchJson(`${apiBaseUrl}/variable/${variableId}`)
 }

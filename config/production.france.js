@@ -2,8 +2,7 @@
 // Do not require this directly. Use ./src/config instead.
 
 const HOST = process.env.HOST || "api.openfisca.fr",
-  apiBaseUrl = process.env.API_URL || `https://${HOST}`,
-  parameterApiBaseUrl = process.env.FLASK_API_URL || `https://api-test.openfisca.fr`,
+  apiBaseUrl = process.env.API_URL || `https://api-test.openfisca.fr`,
   gitHubProject = "openfisca/openfisca-france",
   gitWebpageUrl = "https://github.com/openfisca/legislation-explorer",
   piwikConfig = {
@@ -19,7 +18,6 @@ export default {
   apiBaseUrl,
   gitHubProject,
   gitWebpageUrl,
-  parameterApiBaseUrl,
   piwikConfig,
   useCommitReferenceFromApi,
   websiteUrl,
