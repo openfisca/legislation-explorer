@@ -2,7 +2,7 @@ import DocumentTitle from "react-document-title"
 import { FormattedDate } from "react-intl"
 import { Link } from "react-router"
 import React, { PropTypes } from "react"
-import { substract, sort, sortBy, prop } from "ramda"
+import { substract, sort, sortBy, prop, keys } from "ramda"
 
 import config from "../config"
 import * as AppPropTypes from "../app-prop-types"
@@ -37,6 +37,7 @@ const Variable = React.createClass({
               Voir le code source de cette variable
             </ExternalLink>
           </div>
+          {variable.formulas && this.renderFormulas(variable.formulas)}
           <div>
             <ExternalLink href={`${config.apiBaseUrl}/variable/${variable.id}`}>
               Voir la donnée brute au format JSON
@@ -90,7 +91,30 @@ const Variable = React.createClass({
         </dl>
       </div>
     )
-  }
+  },
+  renderFormulas(formulas) {
+    const startDates = keys(formulas).sort().reverse()
+    const severalFormulas = (startDates.length > 2) || (startDates.length == 2) && formulas[startDates[0]]
+    return (
+      <div>
+        <h2>Formule{severalFormulas && 's'} de calcul</h2>
+        {startDates.map(
+          (date, dateIndex) => {
+            const startDate = (date != '0001-01-01') && date
+            const stopDate = startDates[dateIndex - 1]
+            return formulas[date] && (
+              <div key={date}>
+                {startDate && (! stopDate) && <h3>À partir du {startDate}&nbsp;:</h3>}
+                {stopDate && (! startDate) && <h3>Jusqu'au {stopDate}&nbsp;:</h3>}
+                {startDate && stopDate && <h3>Du {startDate} au {stopDate}&nbsp;:</h3>}
+                <pre>{formulas[date].content}</pre>
+              </div>
+            )
+          })
+        }
+      </div>
+    )
+  },
 })
 
 
