@@ -4,22 +4,20 @@ import config from "./config"
 
 
 function fetchJson(url, options) {
-  return fetch(url, options).then(parseJsonResponse)
-}
-
-
-function parseJsonResponse(response) {
-  return response.json().then(data => {
-    if (response.status >= 200 && response.status < 300) {
-      return {
-        data,
-        'country-package': response.headers.get('country-package'),
-        'country-package-version': response.headers.get('country-package-version'),
-      }
-    } else {
-      throw new Error(JSON.stringify(data.error))
-    }
-  })
+  return fetch(url, options)
+    .then(response => response.json()
+      .then(data => {
+        if (response.status >= 200 && response.status < 300) {
+          return {
+            data,
+            'country-package': response.headers.get('country-package'),
+            'country-package-version': response.headers.get('country-package-version'),
+          }
+        } else {
+          throw new Error(JSON.stringify(data.error))
+        }
+      })
+  )
 }
 
 
