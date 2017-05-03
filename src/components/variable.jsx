@@ -9,6 +9,7 @@ import * as AppPropTypes from "../app-prop-types"
 import ExternalLink from "./external-link"
 import GitHubLink from "./github-link"
 import List from "./list"
+import getDayBefore from "../periods"
 
 
 const Variable = React.createClass({
@@ -101,12 +102,18 @@ const Variable = React.createClass({
         {startDates.map(
           (date, dateIndex) => {
             const startDate = (date != '0001-01-01') && date
-            const stopDate = startDates[dateIndex - 1]
+            const stopDate = startDates[dateIndex - 1] && getDayBefore(startDates[dateIndex - 1])
             return formulas[date] && (
               <div key={date}>
-                {startDate && (! stopDate) && <h3>À partir du {startDate}&nbsp;:</h3>}
-                {stopDate && (! startDate) && <h3>Jusqu'au {stopDate}&nbsp;:</h3>}
-                {startDate && stopDate && <h3>Du {startDate} au {stopDate}&nbsp;:</h3>}
+                {startDate && (! stopDate) &&
+                  <h3>À partir du <FormattedDate value={startDate} />&nbsp;:</h3>
+                }
+                {stopDate && (! startDate) &&
+                  <h3>Jusqu'au <FormattedDate value={stopDate} />&nbsp;:</h3>
+                }
+                {startDate && stopDate &&
+                  <h3>Du <FormattedDate value={startDate} /> au <FormattedDate value={stopDate} />&nbsp;:</h3>
+                }
                 <pre>{formulas[date].content}</pre>
               </div>
             )
