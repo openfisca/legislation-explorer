@@ -31,13 +31,13 @@ const ParameterOrVariablePage = React.createClass({
     if (this.props.variables[name]) {
       fetchVariable(name).then(
         variable => {
-          this.setState({variable: variable, waitingForResponse: false}) // simplify with ES6 ?
+          this.setState({variable: variable.data, waitingForResponse: false})
         }
       )
     } else if (this.props.parameters[name]) {
       fetchParameter(name).then(
         parameter => {
-          this.setState({parameter: parameter, waitingForResponse: false}) // simplify with ES6 ?
+          this.setState({parameter: parameter.data, waitingForResponse: false})
         }
       )
     } else {

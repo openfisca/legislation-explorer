@@ -11,7 +11,11 @@ function fetchJson(url, options) {
 function parseJsonResponse(response) {
   return response.json().then(data => {
     if (response.status >= 200 && response.status < 300) {
-      return data
+      return {
+        data,
+        'country-package': response.headers.get('country-package'),
+        'country-package-version': response.headers.get('country-package-version'),
+      }
     } else {
       throw new Error(JSON.stringify(data.error))
     }
