@@ -32,13 +32,13 @@ const Variable = React.createClass({
           {this.renderVariableMetadata(variable)}
           <div>
             <ExternalLink href={variable.source}>
-              Voir le code source de cette variable
+              Code source de cette variable
             </ExternalLink>
           </div>
           {variable.formulas && this.renderFormulas(variable.formulas)}
           <div>
             <ExternalLink href={`${config.apiBaseUrl}/variable/${variable.id}`}>
-              Voir la donnée brute au format JSON
+              Donnée brute au format JSON
             </ExternalLink>
           </div>
         </div>
@@ -55,7 +55,7 @@ const Variable = React.createClass({
     const definitionPeriodMessage = {
       YEAR: "de l'année",
       MONTH: "du mois",
-      ETERNITY: "de l'éternité (cette variable ne peut pas évoluer avec le temps",
+      ETERNITY: "de l'éternité (cette variable ne peut pas évoluer avec le temps)",
     }
     return (
       <div>
@@ -63,15 +63,15 @@ const Variable = React.createClass({
           <dt>Cette variable est définie pour</dt>
           <dd>{entityMessage[variable.entity]}.</dd>
           <dt>Elle se calcule à l'échelle</dt>
-          <dd>{definitionPeriodMessage[variable.definitionPeriod]}</dd>
+          <dd>{definitionPeriodMessage[variable.definitionPeriod]}.</dd>
           <dt>Elle est de type</dt>
-          <dd>{variable.valueType}</dd>
+          <dd>{variable.valueType}.</dd>
           <dt>Sa valeur par défault est</dt>
-          <dd>{String(variable.defaultValue)}</dd>
+          <dd>{String(variable.defaultValue)}.</dd>
         {
           variable.references && (
             <span>
-              <dt>Références :</dt>
+              <dt>Références&nbsp;:</dt>
               <dd><ul>
                 {
                   variable.references.map((reference, idx) =>
@@ -111,7 +111,7 @@ const Variable = React.createClass({
                 {startDate && stopDate &&
                   <h3>Du <FormattedDate value={startDate} /> au <FormattedDate value={stopDate} />&nbsp;:</h3>
                 }
-                <pre>{formulas[date].content}</pre>
+                <pre><code>{formulas[date].content}</code></pre>
               </div>
             )
           })

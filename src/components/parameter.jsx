@@ -36,7 +36,7 @@ const Parameter = React.createClass({
           </div>
           <hr/>
           <ExternalLink href={`${config.apiBaseUrl}/parameter/${parameter.id}`}>
-            Voir la donnée brute au format JSON
+            Donnée brute au format JSON
           </ExternalLink>
         </div>
       </DocumentTitle>

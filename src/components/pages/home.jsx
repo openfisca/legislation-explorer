@@ -125,8 +125,8 @@ const SearchResults = React.createClass({
     const {items} = this.props
     return (
       <List items={items} type="unstyled">
-        {parameterOrVariable => {
-          const {description, itemType, name} = parameterOrVariable
+        {item => {
+          const {description, itemType, name} = item
           return (
             <Link key={`${name}-${itemType}`} to={`/${name}`}>
               <article style={{margin: "3em 0"}}>
