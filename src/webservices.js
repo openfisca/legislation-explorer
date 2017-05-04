@@ -13,9 +13,11 @@ function fetchJson(url, options) {
             'country-package': response.headers.get('country-package'),
             'country-package-version': response.headers.get('country-package-version'),
           }
-        } else {
+        }
+        if (data.error) {
           throw new Error(JSON.stringify(data.error))
         }
+        throw new Error(JSON.stringify({error: 'Unexpected return code ' + response.status}))
       })
   )
 }
