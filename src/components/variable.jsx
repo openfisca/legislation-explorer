@@ -26,7 +26,7 @@ const Variable = React.createClass({
       <DocumentTitle title={`${variable.id} - Explorateur de la législation`}>
         <div>
           <header className="page-header">
-            <h1>{variable.id}</h1>
+            <h1><code>{variable.id}</code></h1>
             <p>{variable.description}</p>
           </header>
           {this.renderVariableMetadata(variable)}
