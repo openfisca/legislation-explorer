@@ -1,14 +1,11 @@
 import DocumentTitle from "react-document-title"
 import { FormattedDate } from "react-intl"
-import { Link } from "react-router"
 import React, { PropTypes } from "react"
-import { substract, sort, sortBy, prop, keys } from "ramda"
+import { keys } from "ramda"
 
 import config from "../config"
 import * as AppPropTypes from "../app-prop-types"
 import ExternalLink from "./external-link"
-import GitHubLink from "./github-link"
-import List from "./list"
 import getDayBefore from "../periods"
 
 

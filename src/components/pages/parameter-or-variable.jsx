@@ -1,13 +1,13 @@
 import React, { PropTypes } from "react"
-import { contains, isNil, keys } from "ramda"
+import { isNil } from "ramda"
 import { Link, locationShape } from "react-router"
 
 import * as AppPropTypes from "../../app-prop-types"
 import NotFoundPage from "./not-found"
 import Parameter from "../parameter"
 import Variable from "../variable"
-import {searchInputId} from "./home"
-import {fetchParameter, fetchVariable} from "../../webservices"
+import { searchInputId } from "./home"
+import { fetchParameter, fetchVariable } from "../../webservices"
 
 
 const ParameterOrVariablePage = React.createClass({
