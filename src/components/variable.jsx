@@ -68,24 +68,20 @@ const Variable = React.createClass({
           <dd>{variable.valueType}.</dd>
           <dt>Sa valeur par défault est</dt>
           <dd>{String(variable.defaultValue)}.</dd>
-        {
-          variable.references && (
-            <span>
-              <dt>Références&nbsp;:</dt>
-              <dd><ul>
-                {
-                  variable.references.map((reference, idx) =>
-                    <li key={idx}>
-                      <ExternalLink href={reference}>
-                        {reference}
-                      </ExternalLink>
-                    </li>
-                  )
-                }
-              </ul></dd>
-            </span>
-          )
-        }
+          { variable.references && <dt>Références&nbsp;:</dt> }
+          { variable.references && (
+            <dd><ul>
+              {
+                variable.references.map((reference, idx) =>
+                  <li key={idx}>
+                    <ExternalLink href={reference}>
+                      {reference}
+                    </ExternalLink>
+                  </li>
+                )
+              }
+            </ul></dd>
+          )}
         </dl>
       </div>
     )
