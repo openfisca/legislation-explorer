@@ -4,10 +4,10 @@ steps: [
   SearchBarComponent.searchFor(bouclierFiscalQuery),
   AppComponent.goToFirstResult(),
   {
-    "DetailsComponent.description": bouclierFiscalDescription,
+    "ParameterComponent.description": bouclierFiscalDescription,
     "ParameterTableComponent.firstLineCaption": interruptionMessage,
     "ParameterTableComponent.secondLineCaption": dateRange,
     "ParameterTableComponent.secondLineValue": floatValue,
   },
-  DetailsComponent.goBack(),
+  ParameterComponent.goBack(),
 ]

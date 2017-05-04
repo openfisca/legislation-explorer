@@ -4,10 +4,10 @@ steps: [
   SearchBarComponent.searchFor(aahQuery),
   AppComponent.goToFirstResult(),
   {
-    "DetailsComponent.description": aahResultDescription,
-    "DetailsComponent.definitionPeriod": aahDefinitionPeriod,
+    "VariableComponent.description": aahResultDescription,
+    "VariableComponent.definitionPeriod": aahDefinitionPeriod,
   },
-  DetailsComponent.goBack(),
+  VariableComponent.goBack(),
   {
     "SearchBarComponent.field": aahQuery
   }

@@ -4,7 +4,7 @@ steps: [
   SearchBarComponent.searchFor(impotRevenuBaremeQuery),
   AppComponent.goToFirstResult(),
   {
-    "DetailsComponent.description": impotRevenuBaremeResultDescription,
+    "ParameterComponent.description": impotRevenuBaremeResultDescription,
     "ScaleTableComponent.headerColumn1": dateHeader,
     "ScaleTableComponent.headerColumn2": trancheHeader,
     "ScaleTableComponent.headerColumn3": tauxMarginalHeader,
@@ -14,5 +14,5 @@ steps: [
     "ScaleTableComponent.secondBracketColumn2": thresholdRange,
     "ScaleTableComponent.secondBracketColumn3": rate,
   },
-  DetailsComponent.goBack(),
+  ParameterComponent.goBack(),
 ]

@@ -4,11 +4,11 @@ steps: [
   SearchBarComponent.searchFor(smicQuery),
   AppComponent.goToFirstResult(),
   {
-    "DetailsComponent.description": smicResultDescription,
+    "ParameterComponent.description": smicResultDescription,
     "ParameterTableComponent.firstLineCaption": ongoingDateRange,
     "ParameterTableComponent.firstLineValue": floatValue,
     "ParameterTableComponent.secondLineCaption": dateRange,
     "ParameterTableComponent.secondLineValue": floatValue,
   },
-  DetailsComponent.goBack(),
+  ParameterComponent.goBack(),
 ]
