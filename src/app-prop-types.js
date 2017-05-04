@@ -20,12 +20,11 @@ export const parameter = PropTypes.shape({
 })
 
 export const variable = PropTypes.shape({
-  formula: PropTypes.object,
-  label: PropTypes.string,
-  name: PropTypes.string.isRequired,
+  id: PropTypes.string,
+  description: PropTypes.string,
+  definitionPeriod: PropTypes.string,
+  entity: PropTypes.string,
+  formulas: PropTypes.object,
   normalizedDescription: PropTypes.string,
-  // Introspection (optional: variables declared in notebooks have no introspection attributes)
-  source_file_path: PropTypes.string,
-  start_line_number: PropTypes.number,
-  end_line_number: PropTypes.number,
+  source: PropTypes.string,
 })

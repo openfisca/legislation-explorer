@@ -66,20 +66,19 @@ function startServer(state) {
 
 console.log("Fetching variables and parameters on Web API...")
 Promise.all([fetchParameters(), fetchVariables()])
-  .then(([parameters, variablesData]) => {
+  .then(([parametersResponse, variablesResponse]) => {
     console.log("Starting server...")
-    const {country_package_name, country_package_version, variables} = variablesData
     const normalizedParameters = map(
       assoc('itemType', 'parameter'),
-      addNormalizedDescription('description', parameters)
+      addNormalizedDescription(parametersResponse.data)
     )
     const normalizedVariables = map(
       assoc('itemType', 'variable'),
-      addNormalizedDescription('label', variables),
+      addNormalizedDescription(variablesResponse.data),
     )
     const state = {
-      countryPackageName: country_package_name,
-      countryPackageVersion: country_package_version,
+      countryPackageName: variablesResponse['country-package'],
+      countryPackageVersion: variablesResponse['country-package-version'],
       parameters: normalizedParameters,
       variables: normalizedVariables,
     }

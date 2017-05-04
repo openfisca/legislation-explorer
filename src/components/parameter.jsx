@@ -6,13 +6,7 @@ import config from "../config"
 import * as AppPropTypes from "../app-prop-types"
 import ExternalLink from "./external-link"
 import Scale from "./scale"
-
-
-function getDayBefore(day) {
-  const ONE_DAY = 86400000 // in ms
-  return new Date(Date.parse(day) - ONE_DAY).toISOString().slice(0, "YYYY-MM-DD".length)
-}
-
+import getDayBefore from "../periods"
 
 const Parameter = React.createClass({
   propTypes: {
@@ -41,8 +35,8 @@ const Parameter = React.createClass({
             </div>
           </div>
           <hr/>
-          <ExternalLink href={`${config.parameterApiBaseUrl}/parameter/${parameter.id}`}>
-            Voir la donnée brute au format JSON
+          <ExternalLink href={`${config.apiBaseUrl}/parameter/${parameter.id}`}>
+            Donnée brute au format JSON
           </ExternalLink>
         </div>
       </DocumentTitle>
