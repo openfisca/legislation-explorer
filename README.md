@@ -14,22 +14,30 @@ See https://legislation.openfisca.fr/
 
 The following `npm run` commands are declared in `package.json`.
 
-### Development server
+Type the following commands from the project root directory:
 
+- Development server:
+
+    ```sh
     npm install
     npm run dev # To use http://localhost:2000/ for the Web API
     npm run dev:prod-api # To use https://api.openfisca.fr/ for the Web API
+    ```
 
-Open http://localhost:2030/
+    Open http://localhost:2030/
 
-### Production server
+- Production server:
 
+    ```sh
     npm install
     npm run clean
     npm run build
     npm start
+    ```
 
-Open http://localhost:2030/
+    Open http://localhost:2030/
+
+## Auto-update the legislation
 
 To maintain the legislation at its latest version, you can check the [auto-update tool](https://github.com/openfisca/openfisca-ops/tree/master/auto-update-pip-packages).
 
