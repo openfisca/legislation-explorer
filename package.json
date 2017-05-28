@@ -37,7 +37,8 @@
     "react-dom": "^15.1.0",
     "react-intl": "^2.1.2",
     "react-router": "^2.4.1",
-    "serve-favicon": "^2.3.0"
+    "serve-favicon": "^2.3.0",
+    "swagger-ui": "^3.0.12"
   },
   "devDependencies": {
     "babel-core": "^6.9.0",
