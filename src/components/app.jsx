@@ -2,7 +2,7 @@ import url from "url"
 
 import DocumentTitle from "react-document-title"
 import React, {PropTypes} from "react"
-import {locationShape} from "react-router"
+import {locationShape, Link} from "react-router"
 
 import * as AppPropTypes from "../app-prop-types"
 import config from "../config"
@@ -73,12 +73,12 @@ const App = React.createClass({
                   </p>
                   <a href={config.websiteUrl}>En savoir plus</a>
                   <nav className="btn-group btn-group-lg">
-                    <a href="/" className={"btn btn-primary" + (this.isCurrentRoute("/") ? " active" : "")}>
+                    <Link to="/" className={"btn btn-primary" + (this.isCurrentRoute("/") ? " active" : "")}>
                       Législation
-                    </a>
-                    <a href="/swagger" className={"btn btn-primary" + (this.isCurrentRoute("/swagger") ? " active" : "")}>
+                    </Link>
+                    <Link to="/swagger" className={"btn btn-primary" + (this.isCurrentRoute("/swagger") ? " active" : "")}>
                       API
-                    </a>
+                    </Link>
                   </nav>
                 </div>
               </div>
