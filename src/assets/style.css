@@ -12,3 +12,8 @@ footer {
     border: none;
     background: none;
 }
+
+nav.btn-group{
+    margin-top: 2em;
+    display: block;
+}
