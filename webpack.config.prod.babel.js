@@ -21,6 +21,11 @@ module.exports = {
     filename: "[name]-[hash].js",
     publicPath: "/",
   },
+  target: 'web',
+  // yaml-js has a reference to `fs`, this is a workaround
+  node: {
+    fs: 'empty'
+  },
   module: {
     loaders: [
       {
@@ -52,6 +57,7 @@ module.exports = {
       // 'to' values are relative to the public directory configured by output.path
       {from: 'src/assets/style.css', to: '.'},
       {from: 'node_modules/bootstrap/dist', to: 'bootstrap'},
+      {from: 'node_modules/swagger-ui/dist/swagger-ui.css', to: '.'},
     ]),
 
     // optimizations

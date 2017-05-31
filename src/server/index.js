@@ -6,7 +6,7 @@ import path from "path"
 
 import handleRender from "./render"
 import {addNormalizedDescription} from "../search"
-import {fetchParameters, fetchVariables} from "../webservices"
+import {fetchParameters, fetchVariables, fetchSwagger} from "../webservices"
 
 
 function sendErrorEmail(req, err) {
@@ -65,8 +65,8 @@ function startServer(state) {
 }
 
 console.log("Fetching variables and parameters on Web API...")
-Promise.all([fetchParameters(), fetchVariables()])
-  .then(([parametersResponse, variablesResponse]) => {
+Promise.all([fetchParameters(), fetchVariables(), fetchSwagger()])
+  .then(([parametersResponse, variablesResponse, swaggerResponse]) => {
     console.log("Starting server...")
     const normalizedParameters = map(
       assoc('itemType', 'parameter'),
@@ -81,6 +81,7 @@ Promise.all([fetchParameters(), fetchVariables()])
       countryPackageVersion: variablesResponse['country-package-version'],
       parameters: normalizedParameters,
       variables: normalizedVariables,
+      swaggerSpec: swaggerResponse.data,
     }
     startServer(state)
   }, error => {

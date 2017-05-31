@@ -40,3 +40,7 @@ export function fetchParameter(parameterId, apiBaseUrl = config.apiBaseUrl) {
 export function fetchVariable(variableId, apiBaseUrl = config.apiBaseUrl) {
   return fetchJson(`${apiBaseUrl}/variable/${variableId}`)
 }
+
+export function fetchSwagger(apiBaseUrl = config.apiBaseUrl) {
+  return fetchJson(`${apiBaseUrl}/spec`)
+}

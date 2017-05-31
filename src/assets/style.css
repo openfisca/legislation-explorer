@@ -5,3 +5,15 @@ tr.first-bracket:not(:first-child) > td {
 footer {
   margin-top: 10em;
 }
+
+/* Fix CSS collision between Bootstrap and Swagger-UI*/
+.swagger-ui pre {
+    padding: 0;
+    border: none;
+    background: none;
+}
+
+nav.btn-group{
+    margin-top: 2em;
+    display: block;
+}

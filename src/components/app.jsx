@@ -44,6 +44,9 @@ const App = React.createClass({
       searchResults: findParametersAndVariables(parameters, variables, searchQuery),
     }
   },
+  isCurrentRoute(route) {
+    return this.props.location.pathname == route
+  },
   render() {
     const {countryPackageName, countryPackageVersion, parameters, variables} = this.props
     return (
@@ -69,6 +72,14 @@ const App = React.createClass({
                     référencés pour modéliser le système socio-fiscal français.
                   </p>
                   <a href={config.websiteUrl}>En savoir plus</a>
+                  <nav className="btn-group btn-group-lg">
+                    <a href="/" className={"btn btn-primary" + (this.isCurrentRoute("/") ? " active" : "")}>
+                      Législation
+                    </a>
+                    <a href="/swagger" className={"btn btn-primary" + (this.isCurrentRoute("/swagger") ? " active" : "")}>
+                      API
+                    </a>
+                  </nav>
                 </div>
               </div>
             </section>
