@@ -3,10 +3,23 @@ import url from "url"
 import DocumentTitle from "react-document-title"
 import React, {PropTypes} from "react"
 import {locationShape, Link} from "react-router"
+import {defineMessages, FormattedMessage} from "react-intl"
 
 import * as AppPropTypes from "../app-prop-types"
 import config from "../config"
 import {findParametersAndVariables} from "../search"
+
+
+const messages = defineMessages({
+    header: {
+        id: 'header',
+        defaultMessage: 'OpenFisca rend le droit calculable.\n',
+    },
+    stats: {
+        id: 'stats',
+        defaultMessage: '{nbv, number} variables et {nbp, number} paramètres référencés pour modéliser le système socio-fiscal français.',
+    },
+})
 
 
 const App = React.createClass({
@@ -68,8 +81,8 @@ const App = React.createClass({
                 </div>
                 <div className="col-md-9">
                   <p id="baseline">
-                    {Object.keys(variables).length} variables et {Object.keys(parameters).length} paramètres
-                    référencés pour modéliser le système socio-fiscal français.
+                    <FormattedMessage {...messages.header} />
+                    <FormattedMessage {...messages.stats} values={{nbv: Object.keys(variables).length, nbp: Object.keys(parameters).length}}/>
                   </p>
                   <a href={config.websiteUrl}>En savoir plus</a>
                   <nav className="btn-group btn-group-lg">
