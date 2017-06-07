@@ -29,6 +29,7 @@
     "intl": "^1.2.4",
     "intl-locales-supported": "^1.0.0",
     "isomorphic-fetch": "^2.2.1",
+    "json-loader": "^0.5.4",
     "piwik-react-router": "^0.4.0",
     "ramda": "^0.23.0",
     "react": "^15.1.0",
