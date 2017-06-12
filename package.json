@@ -39,6 +39,7 @@
     "react-router": "^2.4.1",
     "serve-favicon": "^2.3.0",
     "swagger-ui": "3.0.12",
+    "winston": "^2.3.1"
   },
   "devDependencies": {
     "babel-core": "^6.9.0",

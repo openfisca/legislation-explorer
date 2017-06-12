@@ -3,38 +3,11 @@ import express from "express"
 import {assoc, map} from "ramda"
 import favicon from "serve-favicon"
 import path from "path"
+import winston from "winston"
 
 import handleRender from "./render"
 import {addNormalizedDescription} from "../search"
 import {fetchParameters, fetchVariables, fetchSwagger} from "../webservices"
-
-
-function sendErrorEmail(req, err) {
-  const server = emailjs.server.connect({
-    host: "localhost",
-  })
-  const fullUrl = req.protocol + "://" + req.get("host") + req.originalUrl
-  server.send(
-    {
-      from: "webmaster+legislation-explorer@openfisca.fr",
-      subject: `Legislation Explorer Error: ${err.toString()}`,
-      text: `
-URL: ${fullUrl}
-
-${err.stack}
-
-${JSON.stringify(req.headers, null, 2)}`,
-      to: "webmaster@openfisca.fr",
-    },
-    function(sendErr/*, message*/) {
-      if (sendErr) {
-        console.log("Error sending email:", sendErr)
-      } else {
-        console.log("Email sent")
-      }
-    }
-  )
-}
 
 
 function startServer(state) {
@@ -46,12 +19,9 @@ function startServer(state) {
 
   // Generic server errors (e.g. not caught by components)
   server.use((err, req, res, next) => {
-    console.log("Error on request %s %s", req.method, req.url)
+    winston.error("Error on request " + req.method + " " + req.url + '\n'  + err.stack)
     if (server.get("env") === "production") {
-      console.log("err", err)
-      console.log("err.stack", err.stack)
-      sendErrorEmail(req, err)
-      res.status(500).send("Something unexpected happened, sorry. An email has been sent to the team.")
+      res.status(500).send("Something unexpected happened, sorry. The error has been logged.")
     } else {
       next(err)
     }
