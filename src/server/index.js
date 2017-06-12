@@ -1,4 +1,3 @@
-import emailjs from "emailjs"
 import express from "express"
 import {assoc, map} from "ramda"
 import favicon from "serve-favicon"
