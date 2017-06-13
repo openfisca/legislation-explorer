@@ -1,6 +1,9 @@
 // App config the for production environment.
 // Do not require this directly. Use ./src/config instead.
 
+import winston from "winston"
+
+
 const  apiBaseUrl = process.env.API_URL || `https://api-test.openfisca.fr`,
   gitHubProject = "openfisca/openfisca-france",
   gitWebpageUrl = "https://github.com/openfisca/legislation-explorer",
@@ -10,7 +13,12 @@ const  apiBaseUrl = process.env.API_URL || `https://api-test.openfisca.fr`,
     trackErrors: true
   },
   useCommitReferenceFromApi = true,
-  websiteUrl = "https://www.openfisca.fr/"
+  websiteUrl = "https://www.openfisca.fr/",
+  winstonConfig = {
+    transports: [
+      new (winston.transports.Console)({timestamp: true}),
+    ]
+  }
 
 
 export default {
@@ -20,4 +28,5 @@ export default {
   piwikConfig,
   useCommitReferenceFromApi,
   websiteUrl,
+  winstonConfig,
 }

@@ -7,9 +7,12 @@ import winston from "winston"
 import handleRender from "./render"
 import {addNormalizedDescription} from "../search"
 import {fetchParameters, fetchVariables, fetchSwagger} from "../webservices"
+import config from "../config"
 
 
 function startServer(state) {
+  winston.configure(config.winstonConfig);
+
   const server = express()
   server.use(favicon(path.resolve(__dirname, "../assets/favicon.ico")))
   server.use(express.static(path.resolve(__dirname, "../../public")))
