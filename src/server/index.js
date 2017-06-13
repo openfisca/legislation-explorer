@@ -10,9 +10,10 @@ import {fetchParameters, fetchVariables, fetchSwagger} from "../webservices"
 import config from "../config"
 
 
-function startServer(state) {
-  winston.configure(config.winstonConfig);
+winston.configure(config.winstonConfig);
 
+
+function startServer(state) {
   const server = express()
   server.use(favicon(path.resolve(__dirname, "../assets/favicon.ico")))
   server.use(express.static(path.resolve(__dirname, "../../public")))
