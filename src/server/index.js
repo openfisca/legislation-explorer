@@ -22,9 +22,11 @@ function startServer(state) {
 
   // Generic server errors (e.g. not caught by components)
   server.use((err, req, res, next) => {
-    winston.error("Error on request " + req.method + " " + req.url + '\n'  + err.stack)
+    winston.error(req.method + " " + req.url, {error: err})
     if (server.get("env") === "production") {
-      res.status(500).send("Something unexpected happened, sorry. The error has been logged.")
+      res.status(500).send("Something unexpected happened, sorry. The error has been logged.\n" +
+        "Details : " + Date().toISOString() + ", " + err.stack
+      )
     } else {
       next(err)
     }
