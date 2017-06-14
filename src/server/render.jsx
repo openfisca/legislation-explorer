@@ -44,7 +44,7 @@ function loadWebpackAssets() {
 
 function renderHtmlDocument(renderProps, state) {
   const appHtml = renderToString(
-    <IntlProvider locale="fr">
+    <IntlProvider locale='fr'>
       <RouterContext
         {...renderProps}
         createElement={(Component, props) => <Component {...props} {...state} />}
