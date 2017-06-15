@@ -27,13 +27,15 @@ module.exports = {
     fs: 'empty'
   },
   module: {
-    loaders: [
+    rules: [
       {
-        exclude: /(node_modules|public)/,
-        loader: "babel-loader",
         test: /\.(js|jsx)$/,
-      },
-    ],
+        exclude: /(node_modules|public)/,
+        use: {
+          loader: 'babel-loader',
+        }
+      }
+    ]
   },
   resolve: {
     extensions: [".js", ".jsx"],
