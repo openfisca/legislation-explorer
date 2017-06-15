@@ -86,7 +86,7 @@ const App = React.createClass({
                     <FormattedMessage {...messages.header} />
                     <br/>
                     <br/>
-                    <small>
+                    <small id="stats">
                       <FormattedMessage {...messages.stats} values={{nbv: Object.keys(variables).length, nbp: Object.keys(parameters).length}}/>
                     </small>
                   </p>
