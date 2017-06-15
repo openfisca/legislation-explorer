@@ -3,7 +3,7 @@ import React from "react"
 import {render} from "react-dom"
 import {Router, browserHistory} from "react-router"
 
-import {ReactIntl, ReactIntlLocaleData, addLocaleData, IntlProvider} from "react-intl"
+import {addLocaleData, IntlProvider} from "react-intl"
 import fr from "react-intl/locale-data/fr"
 import en from "react-intl/locale-data/en"
 
