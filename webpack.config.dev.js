@@ -65,6 +65,11 @@ module.exports = {
 
     new webpack.NoEmitOnErrorsPlugin(),
 
+    // Avoid erros about YAML-JS
+    new webpack.ProvidePlugin({
+      'require.extensions': null
+    }),
+
     // print a webpack progress
     new webpack.ProgressPlugin((percentage) => {
       if (percentage === 1) {
