@@ -36,7 +36,6 @@ module.exports = {
       {
         loader: 'json-loader',
         test: /\.json$/,
-        exclude: /(node_modules|public)/,
       }
     ],
   },
