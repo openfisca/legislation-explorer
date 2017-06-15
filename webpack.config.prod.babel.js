@@ -27,18 +27,19 @@ module.exports = {
     fs: 'empty'
   },
   module: {
-    loaders: [
+    rules: [
       {
-        exclude: /(node_modules|public)/,
-        loader: "babel",
         test: /\.(js|jsx)$/,
-      },
-    ],
+        exclude: /(node_modules|public)/,
+        use: {
+          loader: 'babel-loader',
+        }
+      }
+    ]
   },
   resolve: {
-    extensions: ["", ".js", ".jsx"],
+    extensions: [".js", ".jsx"],
   },
-  progress: true,
   plugins: [
 
     // set global vars

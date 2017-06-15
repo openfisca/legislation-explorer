@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "description": "OpenFisca - Legislation Explorer",
   "scripts": {
-    "build": "webpack --config ./webpack.config.prod.babel.js",
-    "build:tunisia": "COUNTRY_PRODUCTION_CONFIG=tunisia webpack --config ./webpack.config.prod.babel.js",
+    "build": "webpack --config ./webpack.config.prod.babel.js --progress",
+    "build:tunisia": "COUNTRY_PRODUCTION_CONFIG=tunisia webpack --config ./webpack.config.prod.babel.js --progress",
     "clean": "rm -rf public",
     "dev": "concurrently --kill-others 'npm run dev:app-server' 'npm run dev:webpack-dev-server'",
     "dev:app-server": "NODE_ENV=development PORT=2030 node index.js",
@@ -18,7 +18,7 @@
     "type": "git",
     "url": "https://github.com/openfisca/legislation-explorer.git"
   },
-  "author": "Christophe Benz <christophe.benz@data.gouv.fr>",
+  "author": "OpenFisca <contact@openfisca.fr>",
   "license": "AGPLv3+",
   "dependencies": {
     "babel-cli": "^6.11.4",
@@ -38,7 +38,7 @@
     "react-intl": "^2.1.2",
     "react-router": "^2.4.1",
     "serve-favicon": "^2.3.0",
-    "swagger-ui": "^3.0.12"
+    "swagger-ui": "3.0.12"
   },
   "devDependencies": {
     "babel-core": "^6.9.0",
@@ -57,8 +57,8 @@
     "piping": "^1.0.0-rc.3",
     "react-transform-hmr": "^1.0.4",
     "watai": "^0.7.0",
-    "webpack": "^1.9.11",
-    "webpack-dev-server": "^1.9.0",
+    "webpack": "^2.0.0",
+    "webpack-dev-server": "^2.0.0",
     "webpack-error-notification": "^0.1.4"
   },
   "private": true

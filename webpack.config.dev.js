@@ -37,34 +37,40 @@ module.exports = {
     fs: 'empty'
   },
   module: {
-    loaders: [
+    rules: [
       {
-        exclude: /(node_modules|public)/,
-        loader: "babel",
-        query: {
-          "plugins": [
-            ["react-transform", {
-              "transforms": [{
-                "transform": "react-transform-hmr",
-                "imports": ["react"],
-                "locals": ["module"],
-              }],
-            }],
-          ],
-        },
         test: /\.(js|jsx)$/,
+        exclude: /(node_modules|public)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            plugins: [
+              ["react-transform", {
+                "transforms": [{
+                  "transform": "react-transform-hmr",
+                  "imports": ["react"],
+                  "locals": ["module"],
+                }],
+              }],
+            ],
+          }
+        }
       }
-    ],
+    ]
   },
   resolve: {
-    extensions: ["", ".js", ".jsx"],
+    extensions: [".js", ".jsx"],
   },
-  progress: true,
   plugins: [
     // hot reload
     new webpack.HotModuleReplacementPlugin(),
 
-    new webpack.NoErrorsPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
+
+    // Avoid erros about YAML-JS
+    new webpack.ProvidePlugin({
+      'require.extensions': null
+    }),
 
     // print a webpack progress
     new webpack.ProgressPlugin((percentage) => {
