@@ -40,7 +40,7 @@ module.exports = {
     loaders: [
       {
         exclude: /(node_modules|public)/,
-        loader: "babel",
+        loader: "babel-loader",
         query: {
           "plugins": [
             ["react-transform", {
@@ -57,14 +57,13 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ["", ".js", ".jsx"],
+    extensions: [".js", ".jsx"],
   },
-  progress: true,
   plugins: [
     // hot reload
     new webpack.HotModuleReplacementPlugin(),
 
-    new webpack.NoErrorsPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
 
     // print a webpack progress
     new webpack.ProgressPlugin((percentage) => {

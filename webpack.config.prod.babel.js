@@ -30,15 +30,14 @@ module.exports = {
     loaders: [
       {
         exclude: /(node_modules|public)/,
-        loader: "babel",
+        loader: "babel-loader",
         test: /\.(js|jsx)$/,
       },
     ],
   },
   resolve: {
-    extensions: ["", ".js", ".jsx"],
+    extensions: [".js", ".jsx"],
   },
-  progress: true,
   plugins: [
 
     // set global vars
