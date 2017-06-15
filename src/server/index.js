@@ -24,8 +24,11 @@ function startServer(state) {
   server.use((err, req, res, next) => {
     winston.error(req.method + " " + req.url, {error: err})
     if (server.get("env") === "production") {
-      res.status(500).send("Something unexpected happened, sorry. The error has been logged.\n" +
-        "Details : " + Date().toISOString() + ", " + err.stack
+      res.status(500).send(
+        "<pre>"
+        + "Something unexpected happened, sorry. The error has been logged.\n"
+        + "Details : " + new Date().toISOString() + ", " + err.stack
+        + "</pre>"
       )
     } else {
       next(err)
