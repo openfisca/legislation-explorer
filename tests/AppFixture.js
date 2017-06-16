@@ -1,3 +1,3 @@
-baseline = /OpenFisca rend le droit calculable. Il s’agit d’un moteur de calcul libre et ouvert qui permet de modéliser le système socio-fiscal de manière collaborative et transparente. Ce logiciel est utilisé par des chercheurs en économie et des services publics./
-stats = /\d+ \d+ variables et \d+ \d+ paramètres référencés/
+baseline = /OpenFisca makes law computable. It is a free and open-source computation engine that allows modelling tax and benefit systems in a collaborative and transparent way. This software is used by researchers and public agencies./
+stats = /\d+ \d+ variables and \d+ \d+ parameters referenced/
 countryPackageNameAndDescription = /.+@\d+.\d+.\d+/
