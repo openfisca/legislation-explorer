@@ -28,7 +28,16 @@ function loadTranslations(){
   return messages
 }
 
-const localeProp = navigator.language ? navigator.language : DEFAULT_LANGUAGE
+function getLocale(){
+  var locale = navigator.language ? navigator.language : DEFAULT_LANGUAGE
+  //Remove suffix (ex: en-US > en)
+  const dash_index = locale.indexOf('-')
+  if (dash_index >= 0){
+    return locale.substring(0, dash_index)
+  }
+  return locale
+}
+const localeProp = getLocale()
 const messagesProp = loadTranslations()
 
 
