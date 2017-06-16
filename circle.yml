@@ -7,6 +7,8 @@ machine:
     SAUCE_USERNAME: openfisca
     # SAUCE_ACCESS_KEY is defined in the CircleCI web UI
     PORT: 2030 # Legislation Explorer ExpressJS server port
+    LANG: fr_FR.UTF-8
+    LC_ALL: fr_FR.UTF-8
 
 dependencies:
   post:
