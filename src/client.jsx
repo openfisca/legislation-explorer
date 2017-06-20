@@ -14,19 +14,10 @@ require("babel-polyfill")
 
 
 //Load languages:
-const TRANSLATIONS = ['fr', 'en']
-const DEFAULT_LANGUAGE = 'fr'
-
 addLocaleData(...fr)
 addLocaleData(...en)
 
-function loadTranslations(){
-  var messages = new Map()
-  for (var t of TRANSLATIONS){
-    messages.set(t, require('json!./assets/lang/' + t + '.json'))
-  }
-  return messages
-}
+const DEFAULT_LANGUAGE = 'fr'
 
 function getLocale(){
   var locale = navigator.language ? navigator.language : DEFAULT_LANGUAGE
@@ -38,8 +29,18 @@ function getLocale(){
   return locale
 }
 const localeProp = getLocale()
-const messagesProp = loadTranslations()
 
+
+function loadTranslations(){
+  const TRANSLATIONS = ['fr', 'en']
+  var messages = new Map()
+
+  for (var t of TRANSLATIONS){
+    messages.set(t, require('json!./assets/lang/' + t + '.json'))
+  }
+  return messages
+}
+const messagesProp = loadTranslations()
 
 // Adapted from: https://github.com/ReactTraining/react-router/issues/394#issuecomment-230116115
 function hashLinkScroll() {

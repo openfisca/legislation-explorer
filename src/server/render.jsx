@@ -10,21 +10,33 @@ import routes from "../routes"
 import HtmlDocument from "./html-document"
 
 
-export default function handleRender(state) {
+export default function handleRender(state, messages) {
   return function (req, res, /*, next*/) {
+    const acceptLanguage = req.headers['accept-language']
+    const locale = acceptLanguage ? acceptLanguage.substring(0, 2) : DEFAULT_LANGUAGE
+
     match({routes, location: req.url}, (error, redirectLocation, renderProps) => {
       if (error) {
         res.status(500).send(error.message)
       } else if (redirectLocation) {
         res.redirect(302, redirectLocation.pathname + redirectLocation.search)
       } else if (renderProps) {
-        res.send(renderHtmlDocument(renderProps, state))
+        res.send(renderHtmlDocument(renderProps, state, locale, messages))
       } else {
         res.status(404).send("Not found")
       }
     })
   }
 }
+
+//Load languages:
+
+const DEFAULT_LANGUAGE = 'fr'
+
+
+
+
+
 
 
 function loadWebpackAssets() {
@@ -42,9 +54,9 @@ function loadWebpackAssets() {
 }
 
 
-function renderHtmlDocument(renderProps, state) {
+function renderHtmlDocument(renderProps, state, locale, messages) {
   const appHtml = renderToString(
-    <IntlProvider locale='fr'>
+    <IntlProvider locale={locale} messages={messages.get(locale)}>
       <RouterContext
         {...renderProps}
         createElement={(Component, props) => <Component {...props} {...state} />}

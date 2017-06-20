@@ -9,16 +9,30 @@ import {addNormalizedDescription} from "../search"
 import {fetchParameters, fetchVariables, fetchSwagger} from "../webservices"
 import config from "../config"
 
+import {addLocaleData} from "react-intl"
+import fr from "react-intl/locale-data/fr"
+import en from "react-intl/locale-data/en"
 
 winston.configure(config.winstonConfig);
 
+function loadTranslations(){
+  addLocaleData(...fr)
+  addLocaleData(...en)
+
+  const TRANSLATIONS = ['fr', 'en'] //TODO Lire fichiers
+  var messages = new Map()
+  for (var t of TRANSLATIONS){
+    messages.set(t, require('../assets/lang/' + t + '.json'))
+  }
+  return messages
+}
 
 function startServer(state) {
   const server = express()
   server.use(favicon(path.resolve(__dirname, "../assets/favicon.ico")))
   server.use(express.static(path.resolve(__dirname, "../../public")))
 
-  server.use(handleRender(state))
+  server.use(handleRender(state, loadTranslations()))
 
   // Generic server errors (e.g. not caught by components)
   server.use((err, req, res, next) => {
