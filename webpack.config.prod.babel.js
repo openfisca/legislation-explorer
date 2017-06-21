@@ -33,6 +33,10 @@ module.exports = {
         loader: "babel",
         test: /\.(js|jsx)$/,
       },
+      {
+        loader: 'json-loader',
+        test: /\.json$/,
+      }
     ],
   },
   resolve: {
