@@ -11,10 +11,10 @@ export function loadTranslations(langDir){
   addLocaleData(...fr)
   addLocaleData(...en)
 
-  var messages = new Map()
+  var messages = {}
   var dotIndex = -1
   var json
-  readdir(langDir, (err, files) => { 
+  readdir(langDir, (err, files) => {
     if(err){
       console.log("Unable to load translation files.", err)
     }
@@ -22,7 +22,7 @@ export function loadTranslations(langDir){
     files.forEach(file => {
       dotIndex = file.indexOf('.')
       json = path.resolve(langDir, file)
-      messages.set(file.substring(0, dotIndex), require(json))
+      messages[file.substring(0, dotIndex)] = require(json)
     })
   })
   return messages
@@ -31,7 +31,7 @@ export function loadTranslations(langDir){
 export function getLocale(acceptLanguage, messages){
   var locale = acceptLanguage ? acceptLanguage.substring(0, 2) : DEFAULT_LANGUAGE //ex: en-US;q=0.4,fr-FR;q=0.2 > en
 
-  if(!messages.has(locale)){
+  if(! messages[locale]) {
     console.log('Unsupported locale "' + locale + '". Switching to default language: ' + DEFAULT_LANGUAGE)
     locale = DEFAULT_LANGUAGE
   }
@@ -39,5 +39,5 @@ export function getLocale(acceptLanguage, messages){
 }
 
 export function getLocaleMessages(locale, messages){
-  return messages.get(locale)
+  return messages[locale]
 }
