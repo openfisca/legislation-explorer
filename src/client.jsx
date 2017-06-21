@@ -40,7 +40,7 @@ export function renderApp() {
     ? PiwikReactRouter(config.piwikConfig).connectToHistory(browserHistory)
     : browserHistory
   render(
-    <IntlProvider locale={initialState.locale} key={initialState.locale} messages={initialState.messages.get(initialState.locale)}>
+    <IntlProvider locale={initialState.locale} key={initialState.locale} messages={initialState.messages[initialState.locale]}>
       <Router
         createElement={(Component, props) => <Component {...props} {...initialState} />}
         history={history}
