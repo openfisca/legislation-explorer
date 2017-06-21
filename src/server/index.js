@@ -25,10 +25,11 @@ function startServer(state) {
     winston.error(req.method + " " + req.url, {error: err})
     if (server.get("env") === "production") {
       res.status(500).send(
-        "<pre>"
-        + "Something unexpected happened, sorry. The error has been logged.\n"
-        + "Details : " + new Date().toISOString() + ", " + err.stack
-        + "</pre>"
+        '<h1>Error: ' + err.message + '</h1>'
+        + '<p>This error has been logged at ' + new Date().toISOString() + '.</p>'
+        + '<p>If this happens often, please <a href="https://github.com/openfisca/legislation-explorer/issues/new?title=' + err.message + '">open an issue</a>.</p>'
+        + '<h2>Technical details</h2>'
+        + '<pre>' + err.stack + '</pre>'
       )
     } else {
       next(err)
