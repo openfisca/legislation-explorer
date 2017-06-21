@@ -6,14 +6,14 @@ import {renderToString, renderToStaticMarkup} from "react-dom/server"
 import {match, RouterContext} from "react-router"
 import {IntlProvider} from "react-intl"
 
+import {getLocale, getLocaleMessages} from "./lang"
 import routes from "../routes"
 import HtmlDocument from "./html-document"
 
 
-export default function handleRender(state, messages) {
+export default function handleRender(state) {
   return function (req, res, /*, next*/) {
-    const acceptLanguage = req.headers['accept-language']
-    const locale = acceptLanguage ? acceptLanguage.substring(0, 2) : DEFAULT_LANGUAGE
+    state.locale = getLocale(req.headers['accept-language'], state.messages)
 
     match({routes, location: req.url}, (error, redirectLocation, renderProps) => {
       if (error) {
@@ -21,23 +21,13 @@ export default function handleRender(state, messages) {
       } else if (redirectLocation) {
         res.redirect(302, redirectLocation.pathname + redirectLocation.search)
       } else if (renderProps) {
-        res.send(renderHtmlDocument(renderProps, state, locale, messages))
+        res.send(renderHtmlDocument(renderProps, state))
       } else {
         res.status(404).send("Not found")
       }
     })
   }
 }
-
-//Load languages:
-
-const DEFAULT_LANGUAGE = 'fr'
-
-
-
-
-
-
 
 function loadWebpackAssets() {
   const webpackAssetsFilePath = "../../webpack-assets.json"
@@ -54,9 +44,9 @@ function loadWebpackAssets() {
 }
 
 
-function renderHtmlDocument(renderProps, state, locale, messages) {
+function renderHtmlDocument(renderProps, state) {
   const appHtml = renderToString(
-    <IntlProvider locale={locale} messages={messages.get(locale)}>
+    <IntlProvider locale={state.locale} messages={getLocaleMessages(state.locale, state.messages)}>
       <RouterContext
         {...renderProps}
         createElement={(Component, props) => <Component {...props} {...state} />}

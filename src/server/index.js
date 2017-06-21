@@ -8,31 +8,18 @@ import handleRender from "./render"
 import {addNormalizedDescription} from "../search"
 import {fetchParameters, fetchVariables, fetchSwagger} from "../webservices"
 import config from "../config"
+import {loadTranslations} from "./lang"
 
-import {addLocaleData} from "react-intl"
-import fr from "react-intl/locale-data/fr"
-import en from "react-intl/locale-data/en"
 
 winston.configure(config.winstonConfig);
 
-function loadTranslations(){
-  addLocaleData(...fr)
-  addLocaleData(...en)
-
-  const TRANSLATIONS = ['fr', 'en'] //TODO Lire fichiers
-  var messages = new Map()
-  for (var t of TRANSLATIONS){
-    messages.set(t, require('../assets/lang/' + t + '.json'))
-  }
-  return messages
-}
 
 function startServer(state) {
   const server = express()
   server.use(favicon(path.resolve(__dirname, "../assets/favicon.ico")))
   server.use(express.static(path.resolve(__dirname, "../../public")))
 
-  server.use(handleRender(state, loadTranslations()))
+  server.use(handleRender(state))
 
   // Generic server errors (e.g. not caught by components)
   server.use((err, req, res, next) => {
@@ -69,12 +56,17 @@ Promise.all([fetchParameters(), fetchVariables(), fetchSwagger()])
       assoc('itemType', 'variable'),
       addNormalizedDescription(variablesResponse.data),
     )
+
+    console.log("Fetching text translations...")
+    const messages = loadTranslations(path.resolve(__dirname, "../assets/lang/"))
+
     const state = {
       countryPackageName: variablesResponse['country-package'],
       countryPackageVersion: variablesResponse['country-package-version'],
       parameters: normalizedParameters,
       variables: normalizedVariables,
       swaggerSpec: swaggerResponse.data,
+      messages: messages,
     }
     startServer(state)
   }, error => {

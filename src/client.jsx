@@ -13,34 +13,9 @@ import routes from "./routes"
 require("babel-polyfill")
 
 
-//Load languages:
 addLocaleData(...fr)
 addLocaleData(...en)
 
-const DEFAULT_LANGUAGE = 'fr'
-
-function getLocale(){
-  var locale = navigator.language ? navigator.language : DEFAULT_LANGUAGE
-  //Remove suffix (ex: en-US > en)
-  const dash_index = locale.indexOf('-')
-  if (dash_index >= 0){
-    return locale.substring(0, dash_index)
-  }
-  return locale
-}
-const localeProp = getLocale()
-
-
-function loadTranslations(){
-  const TRANSLATIONS = ['fr', 'en']
-  var messages = new Map()
-
-  for (var t of TRANSLATIONS){
-    messages.set(t, require('json!./assets/lang/' + t + '.json'))
-  }
-  return messages
-}
-const messagesProp = loadTranslations()
 
 // Adapted from: https://github.com/ReactTraining/react-router/issues/394#issuecomment-230116115
 function hashLinkScroll() {
@@ -65,7 +40,7 @@ export function renderApp() {
     ? PiwikReactRouter(config.piwikConfig).connectToHistory(browserHistory)
     : browserHistory
   render(
-    <IntlProvider locale={localeProp} key={localeProp} messages={messagesProp.get(localeProp)}>
+    <IntlProvider locale={initialState.locale} key={initialState.locale} messages={initialState.messages.get(initialState.locale)}>
       <Router
         createElement={(Component, props) => <Component {...props} {...initialState} />}
         history={history}
