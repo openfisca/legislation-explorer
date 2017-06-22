@@ -4,17 +4,11 @@ import {render} from "react-dom"
 import {Router, browserHistory} from "react-router"
 
 import {addLocaleData, IntlProvider} from "react-intl"
-import fr from "react-intl/locale-data/fr"
-import en from "react-intl/locale-data/en"
 
 import config from "./config"
 import routes from "./routes"
 
 require("babel-polyfill")
-
-
-addLocaleData(...fr)
-addLocaleData(...en)
 
 
 // Adapted from: https://github.com/ReactTraining/react-router/issues/394#issuecomment-230116115
@@ -39,6 +33,9 @@ export function renderApp() {
   const history = config.piwikConfig
     ? PiwikReactRouter(config.piwikConfig).connectToHistory(browserHistory)
     : browserHistory
+
+  addLocaleData(require(`react-intl/locale-data/${initialState.locale}`))
+
   render(
     <IntlProvider locale={initialState.locale} key={initialState.locale} messages={initialState.messages[initialState.locale]}>
       <Router

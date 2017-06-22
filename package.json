@@ -21,6 +21,7 @@
   "author": "Christophe Benz <christophe.benz@data.gouv.fr>",
   "license": "AGPLv3+",
   "dependencies": {
+    "accept-language": "^3.0.17",
     "babel-cli": "^6.11.4",
     "bootstrap": "^3.3.5",
     "classnames": "^2.2.5",

@@ -1,31 +1,34 @@
 import path from "path"
 import {readdir} from "fs"
+import acceptLanguage from "accept-language"
 
-import {addLocaleData} from "react-intl"
 
 const DEFAULT_LANGUAGE = 'fr'
+
 
 export function loadTranslations(langDir) {
   var messages = {}
   readdir(langDir, (err, files) => {
     if(err) {
-      console.log("Unable to load translation files.", err)
+      throw new Error("Unable to load translation files from '" + langDir + "' directory. See following error for more information: " + err)
     }
 
-    var possibleLocale
     files.forEach(file => {
-      possibleLocale = path.basename(file, '.json')
-      addLocaleData(require(`react-intl/locale-data/${possibleLocale}`))
-      messages[possibleLocale] = require(path.resolve(langDir, file))
+      messages[path.basename(file, '.json')] = require(path.resolve(langDir, file))
     })
   })
-
   return messages
 }
 
-export function getLocale(acceptLanguage, messages){
-  var locale = acceptLanguage ? acceptLanguage.substring(0, 2) : DEFAULT_LANGUAGE //ex: en-US;q=0.4,fr-FR;q=0.2 > en
 
+export function getLocale(clientAcceptLanguage, messages){
+  try {
+    acceptLanguage.languages(Object.keys(messages))
+  } catch (error) {
+    throw new Error("Unable to get known languages. See following error for more information: " + error)
+  }
+
+  var locale = clientAcceptLanguage ? acceptLanguage.get(clientAcceptLanguage) : DEFAULT_LANGUAGE
   if(! messages[locale]) {
     locale = DEFAULT_LANGUAGE
   }
