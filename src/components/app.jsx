@@ -3,10 +3,21 @@ import url from "url"
 import DocumentTitle from "react-document-title"
 import React, {PropTypes} from "react"
 import {locationShape, Link} from "react-router"
+import {defineMessages, FormattedMessage} from "react-intl"
 
 import * as AppPropTypes from "../app-prop-types"
 import config from "../config"
 import {findParametersAndVariables} from "../search"
+
+
+const messages = defineMessages({
+    header: {
+        id: 'header',
+    },
+    stats: {
+        id: 'stats',
+    },
+})
 
 
 const App = React.createClass({
@@ -68,8 +79,14 @@ const App = React.createClass({
                 </div>
                 <div className="col-md-9">
                   <p id="baseline">
-                    {Object.keys(variables).length} variables et {Object.keys(parameters).length} paramètres
-                    référencés pour modéliser le système socio-fiscal français.
+                    <span className="message">
+                      <FormattedMessage {...messages.header} />
+                    </span>
+                    <span className="message">
+                      <small id="stats">
+                        <FormattedMessage {...messages.stats} values={{variablesCount: Object.keys(variables).length, parametersCount: Object.keys(parameters).length}}/>
+                      </small>
+                    </span>
                   </p>
                   <a href={config.websiteUrl}>En savoir plus</a>
                   <nav className="btn-group btn-group-lg">

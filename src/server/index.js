@@ -8,6 +8,7 @@ import handleRender from "./render"
 import {addNormalizedDescription} from "../search"
 import {fetchParameters, fetchVariables, fetchSwagger} from "../webservices"
 import config from "../config"
+import {loadTranslations} from "./lang"
 
 
 winston.configure(config.winstonConfig);
@@ -55,12 +56,16 @@ Promise.all([fetchParameters(), fetchVariables(), fetchSwagger()])
       assoc('itemType', 'variable'),
       addNormalizedDescription(variablesResponse.data),
     )
+
+    const messages = loadTranslations(path.join(__dirname, "../assets/lang/"))
+
     const state = {
       countryPackageName: variablesResponse['country-package'],
       countryPackageVersion: variablesResponse['country-package-version'],
       parameters: normalizedParameters,
       variables: normalizedVariables,
       swaggerSpec: swaggerResponse.data,
+      messages: messages,
     }
     startServer(state)
   }, error => {
