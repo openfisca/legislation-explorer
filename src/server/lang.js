@@ -7,24 +7,21 @@ import en from "react-intl/locale-data/en"
 
 const DEFAULT_LANGUAGE = 'fr'
 
-export function loadTranslations(langDir){
+export function loadTranslations(langDir) {
   addLocaleData(...fr)
   addLocaleData(...en)
 
   var messages = {}
-  var dotIndex = -1
-  var json
   readdir(langDir, (err, files) => {
-    if(err){
+    if(err) {
       console.log("Unable to load translation files.", err)
     }
 
     files.forEach(file => {
-      dotIndex = file.indexOf('.')
-      json = path.resolve(langDir, file)
-      messages[file.substring(0, dotIndex)] = require(json)
+      messages[path.basename(file, '.json')] = require(path.resolve(langDir, file))
     })
   })
+
   return messages
 }
 
@@ -32,7 +29,6 @@ export function getLocale(acceptLanguage, messages){
   var locale = acceptLanguage ? acceptLanguage.substring(0, 2) : DEFAULT_LANGUAGE //ex: en-US;q=0.4,fr-FR;q=0.2 > en
 
   if(! messages[locale]) {
-    console.log('Unsupported locale "' + locale + '". Switching to default language: ' + DEFAULT_LANGUAGE)
     locale = DEFAULT_LANGUAGE
   }
   return locale

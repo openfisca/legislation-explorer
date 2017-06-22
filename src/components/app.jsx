@@ -13,13 +13,9 @@ import {findParametersAndVariables} from "../search"
 const messages = defineMessages({
     header: {
         id: 'header',
-        defaultMessage: 'OpenFisca rend le droit calculable. '
-          + 'Il s’agit d’un moteur de calcul libre et ouvert qui permet de modéliser le système socio-fiscal de manière collaborative et transparente. '
-          + 'Ce logiciel est utilisé par des chercheurs en économie et des services publics.',
     },
     stats: {
         id: 'stats',
-        defaultMessage: '{nbv, number} variables et {nbp, number} paramètres référencés pour modéliser le système socio-fiscal français.',
     },
 })
 
@@ -83,12 +79,14 @@ const App = React.createClass({
                 </div>
                 <div className="col-md-9">
                   <p id="baseline">
-                    <FormattedMessage {...messages.header} />
-                    <br/>
-                    <br/>
-                    <small id="stats">
-                      <FormattedMessage {...messages.stats} values={{nbv: Object.keys(variables).length, nbp: Object.keys(parameters).length}}/>
-                    </small>
+                    <span className="message">
+                      <FormattedMessage {...messages.header} />
+                    </span>
+                    <span className="message">
+                      <small id="stats">
+                        <FormattedMessage {...messages.stats} values={{variablesCount: Object.keys(variables).length, parametersCount: Object.keys(parameters).length}}/>
+                      </small>
+                    </span>
                   </p>
                   <a href={config.websiteUrl}>En savoir plus</a>
                   <nav className="btn-group btn-group-lg">

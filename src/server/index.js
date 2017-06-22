@@ -57,8 +57,7 @@ Promise.all([fetchParameters(), fetchVariables(), fetchSwagger()])
       addNormalizedDescription(variablesResponse.data),
     )
 
-    console.log("Fetching text translations...")
-    const messages = loadTranslations(path.resolve(__dirname, "../assets/lang/"))
+    const messages = loadTranslations(path.join(__dirname, "../assets/lang/"))
 
     const state = {
       countryPackageName: variablesResponse['country-package'],
