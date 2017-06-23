@@ -1,6 +1,7 @@
 import DocumentTitle from "react-document-title"
 import { FormattedDate } from "react-intl"
 import React, { PropTypes } from "react"
+import {Link} from "react-router"
 import { keys } from "ramda"
 
 import config from "../config"
@@ -22,6 +23,7 @@ const Variable = React.createClass({
   },
   render() {
     const {variable} = this.props
+    console.log(variable.id)
     return (
       <DocumentTitle title={`${variable.id} - Explorateur de la législation`}>
         <div>
@@ -89,6 +91,8 @@ const Variable = React.createClass({
   renderFormulas(formulas) {
     const startDates = keys(formulas).sort().reverse()
     const severalFormulas = (startDates.length > 2) || (startDates.length == 2) && formulas[startDates[0]]
+    console.log("startDates ", startDates)
+    console.log("severalFormulas ", severalFormulas)
     return (
       <div>
         <h2>Formule{severalFormulas && 's'} de calcul</h2>
@@ -107,7 +111,7 @@ const Variable = React.createClass({
                 {startDate && stopDate &&
                   <h3>Du <FormattedDate value={startDate} /> au <FormattedDate value={stopDate} />&nbsp;:</h3>
                 }
-                <pre><code>{formulas[date].content}</code></pre>
+                <pre><code>{renderLinkedFormulaVariables(formulas[date].content)}</code></pre>
               </div>
             )
           })
@@ -116,6 +120,18 @@ const Variable = React.createClass({
     )
   },
 })
+
+
+// Change every OpenFisca variable in the formula by a link to the variable page.
+function renderLinkedFormulaVariables(formula){
+  return formula.split("'").map((substring, index) => {
+    if(index % 2 != 0) {
+      return <Link to={"/" + substring}>{substring}</Link>
+    } else {
+      return substring
+    }
+  })
+}
 
 
 export default Variable
