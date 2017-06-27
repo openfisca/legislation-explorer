@@ -1,7 +1,7 @@
 import DocumentTitle from "react-document-title"
 import { FormattedDate } from "react-intl"
 import React, { PropTypes } from "react"
-import {Link} from "react-router"
+import {routerShape, locationShape, Link} from "react-router"
 import { keys } from "ramda"
 
 import config from "../config"
@@ -11,9 +11,14 @@ import getDayBefore from "../periods"
 
 
 const Variable = React.createClass({
+  contextTypes: {
+    router: routerShape.isRequired,
+    searchQuery: PropTypes.string.isRequired,
+  },
   propTypes: {
     countryPackageName: PropTypes.string.isRequired,
     countryPackageVersion: PropTypes.string.isRequired,
+    location: locationShape.isRequired,
     parameters: PropTypes.objectOf(AppPropTypes.parameter).isRequired,
     variable: AppPropTypes.variable.isRequired,
     variables: PropTypes.objectOf(AppPropTypes.variable).isRequired,
@@ -21,9 +26,41 @@ const Variable = React.createClass({
   getTodayInstant() {
     return new Date().toJSON().slice(0, 10)
   },
+  navigateProgramatically(e) {
+    console.log("Variable > navigateProgramatically location ", location)
+    const searchQuery = ""
+    this.setState({variable: searchQuery})
+    this.context.setSearchQuery(searchQuery)
+    this.context.router.push({
+      query: {q: searchQuery},
+    })
+  },
+  componentDidMount() {
+    console.log("Variable > componentDidMount")
+    this._isMounted = true
+    const {router} = this.context
+    this.unregisterRouterListen = router.listen(this.locationHasChanged)
+  },
+  componentWillUnmount() {
+    console.log("Variable > componentWillUnmount")
+    this._isMounted = false
+    this.unregisterRouterListen()
+  },
+  locationHasChanged(location) {
+    console.log("Variable > locationHasChanged ", location.pathname)
+    const {router} = this.context
+    const oldLocation = this.props.location
+    // Check that the new location stays on the Home page, to avoid overwriting searchQuery in App state.
+    if (this._isMounted && router.isActive(oldLocation)) {
+      const searchQuery = location.query.q || ""
+      this.context.setSearchQuery(searchQuery)
+      this.setState({variable: variable.data, waitingForResponse: false})
+    }
+  },
   render() {
     const {variable} = this.props
     console.log(variable.id)
+    console.log("render Variable ", location.pathname)
     return (
       <DocumentTitle title={`${variable.id} - Explorateur de la législation`}>
         <div>
@@ -91,8 +128,6 @@ const Variable = React.createClass({
   renderFormulas(formulas) {
     const startDates = keys(formulas).sort().reverse()
     const severalFormulas = (startDates.length > 2) || (startDates.length == 2) && formulas[startDates[0]]
-    console.log("startDates ", startDates)
-    console.log("severalFormulas ", severalFormulas)
     return (
       <div>
         <h2>Formule{severalFormulas && 's'} de calcul</h2>
@@ -111,7 +146,7 @@ const Variable = React.createClass({
                 {startDate && stopDate &&
                   <h3>Du <FormattedDate value={startDate} /> au <FormattedDate value={stopDate} />&nbsp;:</h3>
                 }
-                <pre><code>{renderLinkedFormulaVariables(formulas[date].content)}</code></pre>
+                <pre><code>{this.renderLinkedFormulaVariables(formulas[date].content)}</code></pre>
               </div>
             )
           })
@@ -119,19 +154,18 @@ const Variable = React.createClass({
       </div>
     )
   },
+  // Change every OpenFisca variable in the formula by a link to the variable page:
+  renderLinkedFormulaVariables(formula){
+    console.log("renderLinkedFormulaVariables ")
+    return formula.split("'").map((substring, index) => {
+      if(index % 2 != 0) {
+        return <Link key={substring} to={substring} onClick={this.navigateProgramatically}>'{substring}'</Link>
+      } else {
+        return substring
+      }
+    })
+  },
 })
-
-
-// Change every OpenFisca variable in the formula by a link to the variable page.
-function renderLinkedFormulaVariables(formula){
-  return formula.split("'").map((substring, index) => {
-    if(index % 2 != 0) {
-      return <Link to={"/" + substring}>{substring}</Link>
-    } else {
-      return substring
-    }
-  })
-}
 
 
 export default Variable
