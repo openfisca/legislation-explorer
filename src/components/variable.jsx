@@ -27,7 +27,6 @@ const Variable = React.createClass({
     return new Date().toJSON().slice(0, 10)
   },
   navigateProgramatically(e) {
-    console.log("Variable > navigateProgramatically location ", location)
     const searchQuery = ""
     this.setState({variable: searchQuery})
     this.context.setSearchQuery(searchQuery)
@@ -36,18 +35,16 @@ const Variable = React.createClass({
     })
   },
   componentDidMount() {
-    console.log("Variable > componentDidMount")
     this._isMounted = true
     const {router} = this.context
     this.unregisterRouterListen = router.listen(this.locationHasChanged)
   },
-  componentWillUnmount() {
-    console.log("Variable > componentWillUnmount")
-    this._isMounted = false
-    this.unregisterRouterListen()
-  },
+//  componentWillUnmount() {
+//    console.log("Variable > componentWillUnmount")
+//    this._isMounted = false
+//    this.unregisterRouterListen()
+//  },
   locationHasChanged(location) {
-    console.log("Variable > locationHasChanged ", location.pathname)
     const {router} = this.context
     const oldLocation = this.props.location
     // Check that the new location stays on the Home page, to avoid overwriting searchQuery in App state.
@@ -59,8 +56,6 @@ const Variable = React.createClass({
   },
   render() {
     const {variable} = this.props
-    console.log(variable.id)
-    console.log("render Variable ", location.pathname)
     return (
       <DocumentTitle title={`${variable.id} - Explorateur de la législation`}>
         <div>
@@ -146,6 +141,7 @@ const Variable = React.createClass({
                 {startDate && stopDate &&
                   <h3>Du <FormattedDate value={startDate} /> au <FormattedDate value={stopDate} />&nbsp;:</h3>
                 }
+                <Link key="toto" to="toto" onClick={this.navigateProgramatically}>toto</Link>
                 <pre><code>{this.renderLinkedFormulaVariables(formulas[date].content)}</code></pre>
               </div>
             )
@@ -154,15 +150,19 @@ const Variable = React.createClass({
       </div>
     )
   },
+  link(substring, quote) {
+    if (!substring.includes(" ") && this.props.variables[substring]) {
+      return <Link key={substring} to={substring} onClick={this.navigateProgramatically}>{quote + substring + quote}</Link>
+    } 
+    return quote + substring + quote
+  },
   // Change every OpenFisca variable in the formula by a link to the variable page:
-  renderLinkedFormulaVariables(formula){
-    console.log("renderLinkedFormulaVariables ")
+  renderLinkedFormulaVariables(formula) {
     return formula.split("'").map((substring, index) => {
-      if(index % 2 != 0) {
-        return <Link key={substring} to={substring} onClick={this.navigateProgramatically}>'{substring}'</Link>
-      } else {
-        return substring
-      }
+      return (index % 2 != 0) ? 
+        this.link(substring, "'") : substring.split('"').map((substring, index) => {
+          return (index % 2 != 0) ? this.link(substring, '"') : substring
+        })
     })
   },
 })
