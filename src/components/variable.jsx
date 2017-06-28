@@ -38,11 +38,6 @@ const Variable = React.createClass({
     const {router} = this.context
     this.unregisterRouterListen = router.listen(this.locationHasChanged)
   },
-//  componentWillUnmount() {
-//    console.log("Variable > componentWillUnmount")
-//    this._isMounted = false
-//    this.unregisterRouterListen()
-//  },
   locationHasChanged(location) {
     const {router} = this.context
     const oldLocation = this.props.location
@@ -140,7 +135,6 @@ const Variable = React.createClass({
                 {startDate && stopDate &&
                   <h3>Du <FormattedDate value={startDate} /> au <FormattedDate value={stopDate} />&nbsp;:</h3>
                 }
-                <Link key="toto" to="toto" onClick={this.navigateProgramatically}>toto</Link>
                 <pre><code>{this.renderLinkedFormulaVariables(formulas[date].content)}</code></pre>
               </div>
             )
