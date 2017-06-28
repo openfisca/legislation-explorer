@@ -18,7 +18,6 @@ const Variable = React.createClass({
   propTypes: {
     countryPackageName: PropTypes.string.isRequired,
     countryPackageVersion: PropTypes.string.isRequired,
-    location: locationShape.isRequired,
     parameters: PropTypes.objectOf(AppPropTypes.parameter).isRequired,
     variable: AppPropTypes.variable.isRequired,
     variables: PropTypes.objectOf(AppPropTypes.variable).isRequired,
@@ -48,10 +47,10 @@ const Variable = React.createClass({
     const {router} = this.context
     const oldLocation = this.props.location
     // Check that the new location stays on the Home page, to avoid overwriting searchQuery in App state.
-    if (this._isMounted && router.isActive(oldLocation)) {
+    if (this._isMounted && oldLocation && router.isActive(oldLocation)) {
       const searchQuery = location.query.q || ""
       this.context.setSearchQuery(searchQuery)
-      this.setState({variable: variable.data, waitingForResponse: false})
+      this.setState({variable: variable.data, location: location, waitingForResponse: false})
     }
   },
   render() {
