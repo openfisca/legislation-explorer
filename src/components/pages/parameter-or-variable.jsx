@@ -26,8 +26,7 @@ const ParameterOrVariablePage = React.createClass({
   getInitialState() {
     return {variable: null, parameter: null, waitingForResponse: true}
   },
-  componentDidMount() {
-    const name = this.props.params.name
+  fetchPageContent(name) {
     if (this.props.variables[name]) {
       fetchVariable(name).then(
         variable => {
@@ -43,6 +42,12 @@ const ParameterOrVariablePage = React.createClass({
     } else {
         this.setState({waitingForResponse: false})
     }
+  },
+  componentWillReceiveProps(nextProps) {
+    this.fetchPageContent(nextProps.params.name)
+  },
+  componentDidMount() {
+    this.fetchPageContent(this.props.params.name)
   },
   render() {
     const { searchQuery, searchResults } = this.context

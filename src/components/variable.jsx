@@ -11,10 +11,6 @@ import getDayBefore from "../periods"
 
 
 const Variable = React.createClass({
-  contextTypes: {
-    router: routerShape.isRequired,
-    searchQuery: PropTypes.string.isRequired,
-  },
   propTypes: {
     countryPackageName: PropTypes.string.isRequired,
     countryPackageVersion: PropTypes.string.isRequired,
@@ -24,29 +20,6 @@ const Variable = React.createClass({
   },
   getTodayInstant() {
     return new Date().toJSON().slice(0, 10)
-  },
-  navigateProgramatically(e) {
-    const searchQuery = ""
-    this.setState({variable: searchQuery})
-    this.context.setSearchQuery(searchQuery)
-    this.context.router.push({
-      query: {q: searchQuery},
-    })
-  },
-  componentDidMount() {
-    this._isMounted = true
-    const {router} = this.context
-    this.unregisterRouterListen = router.listen(this.locationHasChanged)
-  },
-  locationHasChanged(location) {
-    const {router} = this.context
-    const oldLocation = this.props.location
-    // Check that the new location stays on the Home page, to avoid overwriting searchQuery in App state.
-    if (this._isMounted && oldLocation && router.isActive(oldLocation)) {
-      const searchQuery = location.query.q || ""
-      this.context.setSearchQuery(searchQuery)
-      this.setState({variable: variable.data, location: location, waitingForResponse: false})
-    }
   },
   render() {
     const {variable} = this.props
@@ -145,14 +118,14 @@ const Variable = React.createClass({
   },
   link(substring, quote) {
     if (!substring.includes(" ") && this.props.variables[substring]) {
-      return <Link key={substring} to={substring} onClick={this.navigateProgramatically}>{quote + substring + quote}</Link>
-    } 
+      return <Link key={substring} to={substring}>{quote + substring + quote}</Link>
+    }
     return quote + substring + quote
   },
   // Change every OpenFisca variable in the formula by a link to the variable page:
   renderLinkedFormulaVariables(formula) {
     return formula.split("'").map((substring, index) => {
-      return (index % 2 != 0) ? 
+      return (index % 2 != 0) ?
         this.link(substring, "'") : substring.split('"').map((substring, index) => {
           return (index % 2 != 0) ? this.link(substring, '"') : substring
         })
