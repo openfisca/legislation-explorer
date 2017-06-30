@@ -11,24 +11,47 @@ function preprocessParametersAndVariables(parameters, variables) {
   )
 }
 
+function countMatches(words, string) {
+  var matches = 0
+  for (var i in words) {
+    if (string.includes(words[i])) {
+      matches += 1
+    }
+  }
+  return matches
+}
+
 export function findParametersAndVariables(parameters, variables, query) {
+  console.log("query ", query)
+
   const normalizedQuery = diacritics.remove(query.toLowerCase())
+
   const parametersAndVariables = preprocessParametersAndVariables(parameters, variables)
   if (isEmpty(normalizedQuery)) {
     return sortBy(prop('name'), parametersAndVariables)
   }
+
+  const queryWords = normalizedQuery.split(" ")
+  console.log(queryWords)
+
+
   let [matchesInName, others] = partition(
-    item => item.name.includes(normalizedQuery),
+    item => (countMatches(queryWords, item.name) > 0),
     parametersAndVariables,
   )
+  console.log("matchesInName ", matchesInName)
   matchesInName = sortWith([
     ascend(item => item.name.indexOf(normalizedQuery)),
     ascend(prop('name')),
   ], matchesInName)
+  console.log("matchesInName ", matchesInName)
+
   const matchesInDescriptionOnly = pipe(
     filter(item => item.normalizedDescription.includes(normalizedQuery)),
     sortBy(prop('name')),
   )(others)
+  console.log("matchesInDescriptionOnly ", matchesInDescriptionOnly)
+
   return concat(matchesInName, matchesInDescriptionOnly)
 }
 
