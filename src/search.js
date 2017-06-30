@@ -1,4 +1,4 @@
-import {ascend, assoc, concat, filter, flatten, isEmpty, keys, map, merge, pipe, prop, sortBy, sortWith, partition} from "ramda"
+import {ascend, assoc, concat, descend, filter, flatten, isEmpty, keys, map, merge, pipe, prop, sortBy, sortWith, partition} from "ramda"
 import * as diacritics from 'diacritics'
 
 function preprocessParametersAndVariables(parameters, variables) {
@@ -22,28 +22,26 @@ function countMatches(words, string) {
 }
 
 export function findParametersAndVariables(parameters, variables, query) {
-  console.log("query ", query)
-
   const normalizedQuery = diacritics.remove(query.toLowerCase())
+  const queryWords = normalizedQuery.split(" ")
 
   const parametersAndVariables = preprocessParametersAndVariables(parameters, variables)
   if (isEmpty(normalizedQuery)) {
     return sortBy(prop('name'), parametersAndVariables)
   }
 
-  const queryWords = normalizedQuery.split(" ")
-  console.log(queryWords)
-
-
   let [matchesInName, others] = partition(
-    item => (countMatches(queryWords, item.name) > 0),
+    item => ((item.matches = countMatches(queryWords, item.name)) > 0),
     parametersAndVariables,
   )
-  console.log("matchesInName ", matchesInName)
-  matchesInName = sortWith([
-    ascend(item => item.name.indexOf(normalizedQuery)),
-    ascend(prop('name')),
-  ], matchesInName)
+
+  for(var i = queryWords.length; i--;){
+    matchesInName = sortWith([
+      descend(prop('matches')),
+      ascend(item => item.name.indexOf(queryWords[i])),
+      ascend(prop('name')),
+    ], matchesInName)
+  }
   console.log("matchesInName ", matchesInName)
 
   const matchesInDescriptionOnly = pipe(
