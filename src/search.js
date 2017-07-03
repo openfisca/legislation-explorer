@@ -25,14 +25,18 @@ export function findParametersAndVariables(parameters, variables, query) {
       item.matchesInName = 0
       item.indexesSum = 0
       for (const word of queryWords) {
-        if (item.name.includes(word)) {
+        const indexInName = item.name.indexOf(word)
+        if (indexInName > -1) {
           item.matchesInName += 1
-          item.indexesSum += item.name.indexOf(word)
-        } else if (item.normalizedDescription.includes(word)) {
-          item.indexesSum += item.normalizedDescription.indexOf(word)
+          item.indexesSum += indexInName
         } else {
-          // This query word is included neither in the name, nor in the descriptions. We don't add it to the result an move on to the next item.
-          return matches
+          const indexInDescription = item.normalizedDescription.indexOf(word)
+          if (indexInDescription > -1) {
+            item.indexesSum += item.normalizedDescription.indexOf(word)
+          } else {
+            // This query word is included neither in the name, nor in the descriptions. We don't add it to the result an move on to the next item.
+            return matches
+          }
         }
       }
       matches.push(item)
