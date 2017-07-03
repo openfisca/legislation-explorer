@@ -21,6 +21,21 @@ function countMatches(words, string) {
   return matches
 }
 
+function sumIndexes(words, string) {
+  var sum = 0
+  var index = 0
+  for (var i in words) {
+    sum += string.indexOf(words[i])
+  }
+  return sum
+}
+
+function answersQuery(queryWords, parameterOrVariable){
+  parameterOrVariable.indexes_sum = sumIndexes(queryWords, parameterOrVariable.name)
+  parameterOrVariable.matches = countMatches(queryWords, parameterOrVariable.name)
+  return parameterOrVariable.matches > 0
+}
+
 export function findParametersAndVariables(parameters, variables, query) {
   const normalizedQuery = diacritics.remove(query.toLowerCase())
   const queryWords = normalizedQuery.split(" ")
@@ -31,18 +46,19 @@ export function findParametersAndVariables(parameters, variables, query) {
   }
 
   let [matchesInName, others] = partition(
-    item => ((item.matches = countMatches(queryWords, item.name)) > 0),
+    item => (answersQuery(queryWords, item) > 0),
     parametersAndVariables,
   )
 
   //First words in query are more important than next ones:
-  for(var i=queryWords.length; i--;) {
+  //for(var i=queryWords.length; i--;) {
     matchesInName = sortWith([
       descend(prop('matches')),
-      ascend(item => item.name.indexOf(queryWords[i])),
+      //ascend(item => item.name.indexOf(queryWords[i])),
+      ascend(prop('indexes_sum'))
       //ascend(prop('name')),
     ], matchesInName)
-  }
+  //}
 
   console.log("matchesInName ", matchesInName)
 
