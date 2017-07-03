@@ -11,28 +11,15 @@ function preprocessParametersAndVariables(parameters, variables) {
   )
 }
 
-function countMatches(words, string) {
-  var matches = 0
-  for (var i in words) {
-    if (string.includes(words[i])) {
-      matches += 1
-    }
-  }
-  return matches
-}
-
-function sumIndexes(words, string) {
-  var sum = 0
-  var index = 0
-  for (var i in words) {
-    sum += string.indexOf(words[i])
-  }
-  return sum
-}
-
 function answersQuery(queryWords, parameterOrVariable){
-  parameterOrVariable.indexes_sum = sumIndexes(queryWords, parameterOrVariable.name)
-  parameterOrVariable.matches = countMatches(queryWords, parameterOrVariable.name)
+  //Declare new properties for name/query matching:
+  parameterOrVariable.matches = 0
+  parameterOrVariable.indexes_sum = 0
+
+  for (var j in queryWords) {
+    parameterOrVariable.matches += parameterOrVariable.name.includes(queryWords[j]) ? 1 : 0
+    parameterOrVariable.indexes_sum += parameterOrVariable.name.indexOf(queryWords[j])
+  }
   return parameterOrVariable.matches > 0
 }
 
@@ -51,23 +38,15 @@ export function findParametersAndVariables(parameters, variables, query) {
   )
 
   //First words in query are more important than next ones:
-  //for(var i=queryWords.length; i--;) {
-    matchesInName = sortWith([
-      descend(prop('matches')),
-      //ascend(item => item.name.indexOf(queryWords[i])),
-      ascend(prop('indexes_sum'))
-      //ascend(prop('name')),
-    ], matchesInName)
-  //}
-
-  console.log("matchesInName ", matchesInName)
-
+  matchesInName = sortWith([
+    descend(prop('matches')),
+    ascend(prop('indexes_sum'))
+  ], matchesInName)
 
   const matchesInDescriptionOnly = pipe(
     filter(item => queryWords.some(function(v) { return item.normalizedDescription.includes(v); }) != []),
     sortBy(prop('name')),
   )(others)
-  console.log("matchesInDescriptionOnly ", matchesInDescriptionOnly)
 
   return concat(matchesInName, matchesInDescriptionOnly)
 }
