@@ -40,7 +40,8 @@ export function findParametersAndVariables(parameters, variables, query) {
   //First words in query are more important than next ones:
   matchesInName = sortWith([
     descend(prop('matches')),
-    ascend(prop('indexes_sum'))
+    ascend(prop('indexes_sum')),
+    ascend(prop('name')),
   ], matchesInName)
 
   const matchesInDescriptionOnly = pipe(
