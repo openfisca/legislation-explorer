@@ -1,4 +1,4 @@
-import {ascend, assoc, concat, descend, filter, flatten, isEmpty, keys, map, merge, pipe, prop, sortBy, sortWith, partition} from "ramda"
+import {ascend, assoc, descend, flatten, isEmpty, keys, map, merge, prop, sortBy, sortWith} from "ramda"
 import * as diacritics from 'diacritics'
 
 function preprocessParametersAndVariables(parameters, variables) {
@@ -11,18 +11,6 @@ function preprocessParametersAndVariables(parameters, variables) {
   )
 }
 
-function answersQuery(queryWords, parameterOrVariable){
-  //Declare new properties for name/query matching:
-  parameterOrVariable.matches = 0
-  parameterOrVariable.indexes_sum = 0
-
-  for (var j in queryWords) {
-    parameterOrVariable.matches += parameterOrVariable.name.includes(queryWords[j]) ? 1 : 0
-    parameterOrVariable.indexes_sum += parameterOrVariable.name.indexOf(queryWords[j])
-  }
-  return parameterOrVariable.matches > 0
-}
-
 export function findParametersAndVariables(parameters, variables, query) {
   const normalizedQuery = diacritics.remove(query.toLowerCase())
   const queryWords = normalizedQuery.split(" ")
@@ -32,24 +20,31 @@ export function findParametersAndVariables(parameters, variables, query) {
     return sortBy(prop('name'), parametersAndVariables)
   }
 
-  let [matchesInName, others] = partition(
-    item => (answersQuery(queryWords, item) > 0),
-    parametersAndVariables,
-  )
+  const matches = parametersAndVariables.reduce(
+    (matches, item) => {
+      item.matchesInName = 0
+      item.indexesSum = 0
+      for (const word of queryWords) {
+        if (item.name.includes(word)) {
+          item.matchesInName += 1
+          item.indexesSum += item.name.indexOf(word)
+        } else if (item.normalizedDescription.includes(word)) {
+          item.indexesSum += item.normalizedDescription.indexOf(word)
+        } else {
+          // This query word is included neither in the name, nor in the descriptions. We don't add it to the result an move on to the next item.
+          return matches
+        }
+      }
+      matches.push(item)
+      return matches
+    },
+  []);
 
-  //First words in query are more important than next ones:
-  matchesInName = sortWith([
-    descend(prop('matches')),
-    ascend(prop('indexes_sum')),
+  return sortWith([
+    descend(prop('matchesInName')),
+    ascend(prop('indexesSum')),
     ascend(prop('name')),
-  ], matchesInName)
-
-  const matchesInDescriptionOnly = pipe(
-    filter(item => queryWords.some(function(v) { return item.normalizedDescription.includes(v); }) != []),
-    sortBy(prop('name')),
-  )(others)
-
-  return concat(matchesInName, matchesInDescriptionOnly)
+  ], matches)
 }
 
 export function addNormalizedDescription(objects) {
