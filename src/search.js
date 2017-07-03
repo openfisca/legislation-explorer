@@ -35,17 +35,20 @@ export function findParametersAndVariables(parameters, variables, query) {
     parametersAndVariables,
   )
 
-  for(var i = queryWords.length; i--;){
+  //First words in query are more important than next ones:
+  for(var i=queryWords.length; i--;) {
     matchesInName = sortWith([
       descend(prop('matches')),
       ascend(item => item.name.indexOf(queryWords[i])),
-      ascend(prop('name')),
+      //ascend(prop('name')),
     ], matchesInName)
   }
+
   console.log("matchesInName ", matchesInName)
 
+
   const matchesInDescriptionOnly = pipe(
-    filter(item => item.normalizedDescription.includes(normalizedQuery)),
+    filter(item => queryWords.some(function(v) { return item.normalizedDescription.includes(v); }) != []),
     sortBy(prop('name')),
   )(others)
   console.log("matchesInDescriptionOnly ", matchesInDescriptionOnly)
