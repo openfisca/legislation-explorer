@@ -5,10 +5,11 @@ import should from "should"
 
 const parameters = addNormalizedDescription({
     'aah': {description: 'Allocation adulte handicapé'},
-    'cotisation': {description: 'cotisation payée sur le salaire'},
+    'cotisation': {description: 'cotisation payée sur le salaire (de base)'},
     'salaire_de_base': {description: 'Salaire brut'},
     'crds_salaire': {description: 'CRDS payée sur les salaires'},
     'super_brut': {description: 'Salaire super brut'},
+    'rsa_base_ressource': {description: 'Base ressource du RSA (salaires, chômage...)'},
 });
 
 describe('Searching a single word', function() {
@@ -35,6 +36,11 @@ describe('Searching several words', function() {
     const results = findParametersAndVariables(parameters, {}, 'salaire base')
         .map(item => item.name);
     it('should only return variables that contain all query words', function() {
-        results.sort().should.be.eql(['salaire_de_base']);
+        results.should.containDeep(['salaire_de_base', 'rsa_base_ressource', 'cotisation']);
+        results.should.have.size(3)
+    });
+
+    it('should prioritize matches in name over matches in description', function() {
+        results.should.containDeepOrdered(['salaire_de_base', 'rsa_base_ressource', 'cotisation']);
     });
 });
