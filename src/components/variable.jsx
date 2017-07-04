@@ -116,8 +116,9 @@ const Variable = React.createClass({
       </div>
     )
   },
-  link(substring) {
-    return <Link key={substring + Math.random()} to={substring}>{substring}</Link> 
+  link(variable) {
+    return <Link key={variable + Math.random()} to={variable} 
+      data-toggle="popover" title={this.props.variables[variable].description}>{variable}</Link> 
   },
   isVariable(substring) {
     //Ignore every text that isn't a single word like a variable must be:
