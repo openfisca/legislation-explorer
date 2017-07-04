@@ -12,6 +12,8 @@ See https://legislation.openfisca.fr/
 
 ## Run the server
 
+This package requires node 6.xx.x.
+
 The following `npm run` commands are declared in `package.json`.
 
 Type the following commands from the project root directory:

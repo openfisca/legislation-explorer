@@ -7,6 +7,8 @@ import config from "../config"
 import * as AppPropTypes from "../app-prop-types"
 import ExternalLink from "./external-link"
 import getDayBefore from "../periods"
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import { tomorrow } from 'react-syntax-highlighter/dist/styles';
 
 
 const Variable = React.createClass({
@@ -107,7 +109,7 @@ const Variable = React.createClass({
                 {startDate && stopDate &&
                   <h3>Du <FormattedDate value={startDate} /> au <FormattedDate value={stopDate} />&nbsp;:</h3>
                 }
-                <pre><code>{formulas[date].content}</code></pre>
+                <code><SyntaxHighlighter language='python' style={tomorrow}>{formulas[date].content}</SyntaxHighlighter></code>
               </div>
             )
           })
