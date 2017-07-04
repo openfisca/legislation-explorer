@@ -1,6 +1,7 @@
 import DocumentTitle from "react-document-title"
 import { FormattedDate } from "react-intl"
 import React, { PropTypes } from "react"
+import {routerShape, locationShape, Link} from "react-router"
 import { keys } from "ramda"
 
 import config from "../config"
@@ -107,13 +108,44 @@ const Variable = React.createClass({
                 {startDate && stopDate &&
                   <h3>Du <FormattedDate value={startDate} /> au <FormattedDate value={stopDate} />&nbsp;:</h3>
                 }
-                <pre><code>{formulas[date].content}</code></pre>
+                <pre><code>{this.renderLinkedFormulaVariables(formulas[date].content)}</code></pre>
               </div>
             )
           })
         }
       </div>
     )
+  },
+  link(variable) {
+    return <Link key={variable + Math.random()} to={variable} 
+      data-toggle="popover" title={this.props.variables[variable].description}>{variable}</Link> 
+  },
+  isVariable(substring) {
+    //Ignore every text that isn't a single word like a variable must be:
+    return (!substring.includes(" ") && this.props.variables[substring])
+  },
+  linkCodeSplits(splits, separator) {
+    var previousIsLink = false
+    return splits.map((substring, index) => {
+      if (this.isVariable(substring)) {
+        substring = this.link(substring)
+        previousIsLink = true
+      } else {
+        substring = previousIsLink ? separator + substring : substring  //No jsx and separator concatenation.
+        substring = index < splits.length - 1 ? substring + separator : substring
+        previousIsLink = false
+      }
+      return substring
+    })
+  },
+  //Change every OpenFisca variable in the formula by a link to the variable page:
+  renderLinkedFormulaVariables(formula) {
+    //Split on double quotes first (preventing collision with Link):
+    var splits = this.linkCodeSplits(formula.split('"'), '"') 
+    for (var s of splits) {
+      s = this.linkCodeSplits(s.split("'"), "'")
+    }
+    return s
   },
 })
 
