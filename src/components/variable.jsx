@@ -120,8 +120,8 @@ const Variable = React.createClass({
     return <Link key={substring + Math.random()} to={substring}>{substring}</Link> 
   },
   isVariable(substring) {
-    //Ignore every text that isn't a single word like a variable must be:
-    return (!substring.includes(" ") && this.props.variables[substring])
+    // Ignore every text that isn't a single word like a variable must be:
+    return (! substring.includes(" ") && this.props.variables[substring])
   },
   linkCodeSplits(splits, separator) {
     var previousIsLink = false
@@ -130,21 +130,21 @@ const Variable = React.createClass({
         substring = this.link(substring)
         previousIsLink = true
       } else {
-        substring = previousIsLink ? separator + substring : substring  //No jsx and separator concatenation.
+        substring = previousIsLink ? separator + substring : substring  // No jsx and separator concatenation.
         substring = index < splits.length - 1 ? substring + separator : substring
         previousIsLink = false
       }
       return substring
     })
   },
-  //Change every OpenFisca variable in the formula by a link to the variable page:
+  // Change every OpenFisca variable in the formula by a link to the variable page:
   renderLinkedFormulaVariables(formula) {
-    //Split on double quotes first (preventing collision with Link):
+    // Split on double quotes first (preventing collision with Link):
     var splits = this.linkCodeSplits(formula.split('"'), '"') 
-    for (var s of splits) {
-      s = this.linkCodeSplits(s.split("'"), "'")
-    }
-    return s
+    console.log(splits)
+    return splits.map((substring, index) => {
+      return typeof substring === 'string' ? this.linkCodeSplits(substring.split("'"), "'") : substring
+    })
   },
 })
 
