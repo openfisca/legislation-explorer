@@ -124,15 +124,11 @@ const Variable = React.createClass({
     return (! substring.includes(" ") && this.props.variables[substring])
   },
   linkCodeSplits(splits, separator) {
-    var previousIsLink = false
     return splits.map((substring, index) => {
       if (this.isVariable(substring)) {
-        substring = this.link(substring)
-        previousIsLink = true
+        substring = [this.link(substring), separator]  // Concatenate JSX with a string (+ doesn't work).
       } else {
-        substring = previousIsLink ? separator + substring : substring  // No jsx and separator concatenation.
         substring = index < splits.length - 1 ? substring + separator : substring
-        previousIsLink = false
       }
       return substring
     })
@@ -141,7 +137,6 @@ const Variable = React.createClass({
   renderLinkedFormulaVariables(formula) {
     // Split on double quotes first (preventing collision with Link):
     var splits = this.linkCodeSplits(formula.split('"'), '"') 
-    console.log(splits)
     return splits.map((substring, index) => {
       return typeof substring === 'string' ? this.linkCodeSplits(substring.split("'"), "'") : substring
     })
