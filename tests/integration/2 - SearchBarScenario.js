@@ -10,4 +10,3 @@ steps: [
     "AppComponent.firstResultName": salaireBaseResultName
   }
 ]
-

@@ -1,7 +1,7 @@
 import DocumentTitle from "react-document-title"
 import { FormattedDate } from "react-intl"
 import React, { PropTypes } from "react"
-import {routerShape, locationShape, Link} from "react-router"
+import {Link} from "react-router"
 import { keys } from "ramda"
 
 import config from "../config"
