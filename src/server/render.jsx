@@ -58,7 +58,7 @@ function renderHtmlDocument(renderProps, state) {
   const bootstrapCss = process.env.NODE_ENV === "production"
     ? "/bootstrap/css/bootstrap.min.css"
     : "/bootstrap/css/bootstrap.css"
-  let externalCss = [bootstrapCss, '/swagger-ui.css', '/style.css', '/github-gist.css']
+  let externalCss = [bootstrapCss, '/swagger-ui.css', '/github-gist.css', '/style.css']
   if (process.env.NODE_ENV === "development") {
     externalCss = externalCss.map(
       value => "http://localhost:2031" + value // FIXME: the port should not be hard-coded.
