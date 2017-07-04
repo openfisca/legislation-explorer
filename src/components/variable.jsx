@@ -1,6 +1,7 @@
 import DocumentTitle from "react-document-title"
 import { FormattedDate } from "react-intl"
 import React, { PropTypes } from "react"
+import {Link} from "react-router"
 import { keys } from "ramda"
 
 import config from "../config"
@@ -107,13 +108,41 @@ const Variable = React.createClass({
                 {startDate && stopDate &&
                   <h3>Du <FormattedDate value={startDate} /> au <FormattedDate value={stopDate} />&nbsp;:</h3>
                 }
-                <pre><code>{formulas[date].content}</code></pre>
+                <pre><code>{this.renderLinkedFormulaVariables(formulas[date].content)}</code></pre>
               </div>
             )
           })
         }
       </div>
     )
+  },
+  link(variable) {
+    return <Link key={variable + Math.random()} to={variable}
+      data-toggle="popover" title={this.props.variables[variable].description}>{variable}</Link>
+  },
+  isVariable(substring) {
+    // Ignore every text that isn't a single word like a variable must be:
+    return (! substring.includes(" ") && this.props.variables[substring])
+  },
+  splitAndLink(text, separator) {
+    const splits = text.split(separator)
+    return splits.map((substring, index) => {
+      if (this.isVariable(substring)) {
+        substring = [this.link(substring), separator]  // Concatenate JSX with a string (+ doesn't work).
+      } else {
+        substring = index < splits.length - 1 ? substring + separator : substring
+      }
+      return substring
+    })
+  },
+  // Change every OpenFisca variable in the formula by a link to the variable page:
+  renderLinkedFormulaVariables(formula) {
+    // Split on double quotes first (preventing collision with Link):
+    const splits = this.splitAndLink(formula, '"')
+    return splits.map((substring) => {
+      // Only split strings, as trying to split JSX Links would raise an error
+      return typeof substring == 'string' ? this.splitAndLink(substring, '\'') : substring
+    })
   },
 })
 
