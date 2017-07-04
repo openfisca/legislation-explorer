@@ -61,6 +61,8 @@
     "json-loader": "^0.5.4",
     "mocha": "^3.4.2",
     "piping": "^1.0.0-rc.3",
+    "react-addons-test-utils": "^15.6.0",
+    "react-dom": "^15.6.1",
     "react-transform-hmr": "^1.0.4",
     "should": "^11.2.1",
     "watai": "^0.7.0",
