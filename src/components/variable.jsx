@@ -123,7 +123,8 @@ const Variable = React.createClass({
     // Ignore every text that isn't a single word like a variable must be:
     return (! substring.includes(" ") && this.props.variables[substring])
   },
-  linkCodeSplits(splits, separator) {
+  splitAndLink(text, separator) {
+    const splits = text.split(separator)
     return splits.map((substring, index) => {
       if (this.isVariable(substring)) {
         substring = [this.link(substring), separator]  // Concatenate JSX with a string (+ doesn't work).
@@ -136,9 +137,10 @@ const Variable = React.createClass({
   // Change every OpenFisca variable in the formula by a link to the variable page:
   renderLinkedFormulaVariables(formula) {
     // Split on double quotes first (preventing collision with Link):
-    var splits = this.linkCodeSplits(formula.split('"'), '"')
-    return splits.map((substring, index) => {
-      return typeof substring === 'string' ? this.linkCodeSplits(substring.split("'"), "'") : substring
+    const splits = this.splitAndLink(formula, '"')
+    return splits.map((substring) => {
+      // Only split strings, as trying to split JSX Links would raise an error
+      return typeof substring == 'string' ? this.splitAndLink(substring, '\'') : substring
     })
   },
 })
