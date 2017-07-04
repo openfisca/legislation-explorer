@@ -117,7 +117,7 @@ const Variable = React.createClass({
     )
   },
   link(substring) {
-    return <Link key={substring + Math.random()} to={substring}>{substring}</Link> 
+    return <Link key={substring + Math.random()} to={substring}>{substring}</Link>
   },
   isVariable(substring) {
     // Ignore every text that isn't a single word like a variable must be:
@@ -136,7 +136,7 @@ const Variable = React.createClass({
   // Change every OpenFisca variable in the formula by a link to the variable page:
   renderLinkedFormulaVariables(formula) {
     // Split on double quotes first (preventing collision with Link):
-    var splits = this.linkCodeSplits(formula.split('"'), '"') 
+    var splits = this.linkCodeSplits(formula.split('"'), '"')
     return splits.map((substring, index) => {
       return typeof substring === 'string' ? this.linkCodeSplits(substring.split("'"), "'") : substring
     })
