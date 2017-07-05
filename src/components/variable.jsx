@@ -8,7 +8,7 @@ import config from "../config"
 import * as AppPropTypes from "../app-prop-types"
 import ExternalLink from "./external-link"
 import getDayBefore from "../periods"
-
+import Highlight from 'react-highlight'
 
 const Variable = React.createClass({
   propTypes: {
@@ -108,7 +108,7 @@ const Variable = React.createClass({
                 {startDate && stopDate &&
                   <h3>Du <FormattedDate value={startDate} /> au <FormattedDate value={stopDate} />&nbsp;:</h3>
                 }
-                <pre><code>{this.renderLinkedFormulaVariables(formulas[date].content)}</code></pre>
+                <Highlight className='python'>{this.renderLinkedFormulaVariables(formulas[date].content)}</Highlight>
               </div>
             )
           })

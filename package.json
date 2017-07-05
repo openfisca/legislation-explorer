@@ -37,6 +37,7 @@
     "react": "^15.1.0",
     "react-document-title": "^2.0.2",
     "react-dom": "^15.1.0",
+    "react-highlight": "^0.10.0",
     "react-intl": "^2.1.2",
     "react-router": "^2.4.1",
     "serve-favicon": "^2.3.0",

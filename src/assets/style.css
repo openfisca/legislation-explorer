@@ -18,6 +18,15 @@ footer {
     background: none;
 }
 
+/* Fix CSS collision between Bootstrap and Highlight*/
+.hljs {
+    background: inherit;
+}
+
+.hljs a:hover {
+    color: #df5000;
+}
+
 nav.btn-group{
     margin-top: 2em;
     display: block;
