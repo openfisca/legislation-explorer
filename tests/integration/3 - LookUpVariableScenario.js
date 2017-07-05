@@ -7,12 +7,14 @@ steps: [
     "VariableComponent.description": aahResultDescription,
     "VariableComponent.definitionPeriod": aahDefinitionPeriod,
   },
+  VariableComponent.goBack(),
+  {
+    "SearchBarComponent.field": aahQuery
+  },
+  AppComponent.goToFirstResult(),
   VariableComponent.goToDependency(),
   {
     "VariableComponent.title": aahDependencyTitle,
   },
   VariableComponent.goBack(),
-  {
-    "SearchBarComponent.field": aahQuery
-  }
 ]
