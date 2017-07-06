@@ -48,30 +48,65 @@ const Variable = React.createClass({
   },
   renderVariableMetadata(variable) {
     const entityMessage = {
-      famille: "une famille",
-      foyer_fiscal: "un foyer fiscal",
-      individu: "un individu",
-      menage: "un ménage",
+      famille: "famille",
+      foyer_fiscal: "foyer fiscal",
+      individu: "individu",
+      menage: "ménage",
     }
     const definitionPeriodMessage = {
-      YEAR: "de l'année",
-      MONTH: "du mois",
-      ETERNITY: "de l'éternité (cette variable ne peut pas évoluer avec le temps)",
+      YEAR: "d'un an",
+      MONTH: "d'un mois",
+      ETERNITY: "qui est l'éternité. Sa valeur est fixe dans le temps",
     }
+    const valueTypeMessage = {
+      Int: "un entier",
+      Float: "un nombre décimal",
+      Date: "une date",
+    }
+
     return (
       <div>
-        <dl>
-          <dt>Cette variable est définie pour</dt>
-          <dd>{entityMessage[variable.entity]}.</dd>
-          <dt>Elle se calcule à l'échelle</dt>
-          <dd>{definitionPeriodMessage[variable.definitionPeriod]}.</dd>
-          <dt>Elle est de type</dt>
-          <dd>{variable.valueType}.</dd>
-          <dt>Sa valeur par défault est</dt>
-          <dd>{String(variable.defaultValue)}.</dd>
-          { variable.references && <dt>Références&nbsp;:</dt> }
-          { variable.references && (
-            <dd><ul>
+        <p>
+          Cette <a href="https://doc.openfisca.fr/variables.html">variable</a> s'applique aux <a href="https://doc.openfisca.fr/person,_entities,_role.html">entités </a>
+          <span className="variableMetadataHighlight">
+            {entityMessage[variable.entity]}
+          </span>
+          .
+        </p>
+        <p>
+          Elle a une <a href="https://doc.openfisca.fr/periodsinstants.html">période de définition </a>
+          <span className="variableMetadataHighlight">
+            {definitionPeriodMessage[variable.definitionPeriod]}
+          </span>
+          .
+        </p>
+        <p>
+          Sa valeur est 
+          <span className="variableMetadataHighlight">
+            {variable.valueType in valueTypeMessage ?(
+              <span> {valueTypeMessage[variable.valueType]}.</span>
+            ) : (
+              <span> {variable.valueType}.</span>
+            )}
+          </span>
+        </p>
+        <p>
+          Sa <a href="https://doc.openfisca.fr/coding-the-legislation/20_input_variables.html">valeur par défaut est </a> 
+          <span className="variableMetadataHighlight">
+            {variable.valueType == "Date" ?(
+              <span>{<FormattedDate value={variable.defaultValue} year='numeric' month='2-digit' day='2-digit'/>}</span>
+            ) : (
+              <span>{String(variable.defaultValue)}</span>
+            )}
+          </span>
+          .
+        </p> 
+          { variable.references && 
+            (<span>Références&nbsp;:</span>)
+          }
+
+          { variable.references && 
+            (<ul>
               {
                 variable.references.map((reference, idx) =>
                   <li key={idx}>
@@ -79,12 +114,10 @@ const Variable = React.createClass({
                       {reference}
                     </ExternalLink>
                   </li>
-                )
-              }
-            </ul></dd>
-          )}
-        </dl>
-      </div>
+                )}
+           </ul>)
+          }
+    </div>
     )
   },
   renderFormulas(formulas) {

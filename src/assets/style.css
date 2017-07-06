@@ -6,6 +6,9 @@ p.descriptionForVariables{
   font-size: large;
   margin-top: 3%;
 }
+span.variableMetadataHighlight{
+  font-weight: bold;
+}
 
 span.message {
   display: block;
