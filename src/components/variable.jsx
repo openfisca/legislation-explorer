@@ -1,5 +1,5 @@
 import DocumentTitle from "react-document-title"
-import { FormattedDate } from "react-intl"
+import {defineMessages, FormattedMessage} from "react-intl"
 import React, { PropTypes } from "react"
 import {Link} from "react-router"
 import { keys } from "ramda"
@@ -54,34 +54,48 @@ const Variable = React.createClass({
       menage: "ménage",
     }
     const definitionPeriodMessage = {
-      YEAR: "d'un an",
-      MONTH: "d'un mois",
-      ETERNITY: "qui est l'éternité. Sa valeur est fixe dans le temps",
+      YEAR: <FormattedMessage id='aYear'/>,
+      MONTH: <FormattedMessage id='aMonth'/>,
+      ETERNITY: <FormattedMessage id='forEternity'/>
     }
     const valueTypeMessage = {
-      Int: "un entier",
-      Float: "un nombre décimal",
-      Date: "une date",
+      Int: <FormattedMessage id='anInteger'/>,
+      Float: <FormattedMessage id='aFloat'/>,
+      Date: <FormattedMessage id='aDate'/>,
     }
-
+    
     return (
       <div>
         <p>
-          Cette <a href="https://doc.openfisca.fr/variables.html">variable</a> s'applique aux <a href="https://doc.openfisca.fr/person,_entities,_role.html">entités </a>
-          <span className="variableMetadataHighlight">
-            {entityMessage[variable.entity]}
-          </span>
+            <FormattedMessage id='entityParagraph'
+              values={{
+                variableLink: 
+                  <a href="href='https://doc.openfisca.fr/variables.html'">
+                    <FormattedMessage id='variableText'/>
+                  </a>,
+                entityLink:
+                  <a href="https://doc.openfisca.fr/periodsinstants.html">
+                    <FormattedMessage id='entityText'/>
+                  </a>
+                }}/>
+            <span className="variableMetadataHighlight">
+              {entityMessage[variable.entity]}
+            </span>
           .
         </p>
         <p>
-          Elle a une <a href="https://doc.openfisca.fr/periodsinstants.html">période de définition </a>
+          <FormattedMessage id='definitionPeriodParagraph' 
+            values={{definitionPeriodLink: 
+              <a href="https://doc.openfisca.fr/periodsinstants.html">
+              <FormattedMessage id='definitionPeriodText'/></a>}}
+            />
           <span className="variableMetadataHighlight">
             {definitionPeriodMessage[variable.definitionPeriod]}
           </span>
           .
         </p>
         <p>
-          Sa valeur est 
+          <FormattedMessage id='valueTypeParagraph'/> 
           <span className="variableMetadataHighlight">
             {variable.valueType in valueTypeMessage ?(
               <span> {valueTypeMessage[variable.valueType]}.</span>
@@ -91,7 +105,13 @@ const Variable = React.createClass({
           </span>
         </p>
         <p>
-          Sa <a href="https://doc.openfisca.fr/coding-the-legislation/20_input_variables.html">valeur par défaut est </a> 
+          <FormattedMessage id='defaultValueParagraph'
+            values={{defaultValueLink:
+              <a href="https://doc.openfisca.fr/coding-the-legislation/20_input_variables.html">
+              <FormattedMessage id='defaultValueText'/>
+              </a>}
+            }
+          />
           <span className="variableMetadataHighlight">
             {variable.valueType == "Date" ?(
               <span>{<FormattedDate value={variable.defaultValue} year='numeric' month='2-digit' day='2-digit'/>}</span>
@@ -102,9 +122,8 @@ const Variable = React.createClass({
           .
         </p> 
           { variable.references && 
-            (<span>Références&nbsp;:</span>)
+            (<span><FormattedMessage id='referencesText'/>&nbsp;:</span>)
           }
-
           { variable.references && 
             (<ul>
               {
@@ -125,7 +144,7 @@ const Variable = React.createClass({
     const severalFormulas = (startDates.length > 2) || (startDates.length == 2) && formulas[startDates[0]]
     return (
       <div>
-        <h2>Formule{severalFormulas && 's'} de calcul</h2>
+        <h2><FormattedMessage id='formula'/>{severalFormulas && 's'} de calcul</h2>
         {startDates.map(
           (date, dateIndex) => {
             const startDate = (date != '0001-01-01') && date
