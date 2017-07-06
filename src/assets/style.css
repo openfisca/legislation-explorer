@@ -2,6 +2,11 @@ tr.first-bracket:not(:first-child) > td {
   border-top-width: 5px;
 }
 
+p.descriptionForVariables{
+  font-size: large;
+  margin-top: 3%;
+}
+
 span.message {
   display: block;
   margin-bottom: 1.5em;
