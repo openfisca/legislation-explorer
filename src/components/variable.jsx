@@ -1,5 +1,5 @@
 import DocumentTitle from "react-document-title"
-import {defineMessages, FormattedMessage} from "react-intl"
+import {defineMessages, FormattedMessage, FormattedDate} from "react-intl"
 import React, { PropTypes } from "react"
 import {Link} from "react-router"
 import { keys } from "ramda"
@@ -36,7 +36,7 @@ const Variable = React.createClass({
               Code source de cette variable
             </ExternalLink>
           </div>
-          {variable.formulas && this.renderFormulas(variable.formulas)}
+          {keys(variable.formulas).length != 0 && this.renderFormulas(variable.formulas)}
           <div>
             <ExternalLink href={`${config.apiBaseUrl}/variable/${variable.id}`}>
               Donnée brute au format JSON
@@ -136,6 +136,18 @@ const Variable = React.createClass({
                 )}
            </ul>)
           }
+          {keys(variable.formulas).length == 0 &&
+            <p>
+              <FormattedMessage id='noFormulaParagraph'
+                values={{
+                  formulaNotComputable:
+                  <span className="variableMetadataHighlight">
+                    <FormattedMessage id='formulaNotComputableText'/>
+                  </span>
+                }}
+              />
+            </p>
+          }
     </div>
     )
   },
@@ -144,7 +156,13 @@ const Variable = React.createClass({
     const severalFormulas = (startDates.length > 2) || (startDates.length == 2) && formulas[startDates[0]]
     return (
       <div>
-        <h2><FormattedMessage id='formula'/>{severalFormulas && 's'} de calcul</h2>
+        <h2>
+        {severalFormulas ? (
+              <FormattedMessage id='formulasTitle'/>
+            ) : (
+              <FormattedMessage id='formulaTitle'/>
+            )}
+        </h2>
         {startDates.map(
           (date, dateIndex) => {
             const startDate = (date != '0001-01-01') && date

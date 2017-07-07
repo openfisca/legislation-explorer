@@ -16,7 +16,8 @@
 	"anInteger":"an integer",
 	"aFloat":"a float",
 	"aDate":"a date",
-	"formula":"formula",
+	"formulaTitle":"Computation Formula",
+  	"formulasTitle":"Computation Formulas",
   	"noFormulaParagraph":"It does not have a formula and therefore is {formulaNotComputable}. It can only be used as an input for a computation.",
   	"formulaNotComputableText":"not computable"
 }
