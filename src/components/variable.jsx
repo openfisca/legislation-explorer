@@ -33,7 +33,7 @@ const Variable = React.createClass({
           {this.renderVariableMetadata(variable)}
           <div>
             <ExternalLink href={variable.source}>
-              Code source de cette variable
+              <FormattedMessage id='editThisVariable'/>
             </ExternalLink>
           </div>
           {keys(variable.formulas).length != 0 && this.renderFormulas(variable.formulas)}
@@ -113,6 +113,7 @@ const Variable = React.createClass({
             }
           />
           <span className="variableMetadataHighlight">
+          
             {variable.valueType == "Date" ?(
               <span>{<FormattedDate value={variable.defaultValue} year='numeric' month='2-digit' day='2-digit'/>}</span>
             ) : (

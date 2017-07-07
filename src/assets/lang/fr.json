@@ -16,8 +16,9 @@
   "anInteger":"un entier",
   "aFloat":"un nombre décimal",
   "aDate":"une date",
-  "formulaTitle":"{formula} de calcul",
-  "formulaText":"Formule",
+  "formulaTitle":"Formule de calcul",
+  "formulasTitle":"Formules de calcul",
   "noFormulaParagraph":"Elle n'a pas de formule et n'est donc {formulaNotComputable}. Elle ne peut qu'être fournie en entrée lors d'un calcul.",
-  "formulaNotComputableText":"pas calculable"
+  "formulaNotComputableText":"pas calculable",
+  "editThisVariable":"Modifier ces informations"
 }
