@@ -63,6 +63,19 @@ const Variable = React.createClass({
       Float: <FormattedMessage id='aFloat'/>,
       Date: <FormattedMessage id='aDate'/>,
     }
+    function formatDefaultValue(variable){
+    if (variable.valueType == "Date"){
+      return <FormattedDate value={variable.defaultValue} year='numeric' month='2-digit' day='2-digit'/>
+    }else if(variable.valueType == "Float"){
+      if (String(variable.defaultValue).indexOf('.')!= -1){
+        return String("variable.defaultValue").indexOf('.')
+      }else{
+        return String(variable.defaultValue) + '.0';
+      }
+    }else{
+      return String(variable.defaultValue)
+    }
+  }
     
     return (
       <div>
@@ -113,12 +126,7 @@ const Variable = React.createClass({
             }
           />
           <span className="variableMetadataHighlight">
-          
-            {variable.valueType == "Date" ?(
-              <span>{<FormattedDate value={variable.defaultValue} year='numeric' month='2-digit' day='2-digit'/>}</span>
-            ) : (
-              <span>{String(variable.defaultValue)}</span>
-            )}
+            {formatDefaultValue(variable)}
           </span>
           .
         </p> 
