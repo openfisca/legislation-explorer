@@ -20,5 +20,7 @@
   	"formulasTitle":"Computation Formulas",
   	"noFormulaParagraph":"It does not have a formula and therefore is {formulaNotComputable}. It can only be used as an input for a computation.",
   	"formulaNotComputableText":"not computable",
-    "editThisVariable":"Edit this variable"
+    "editThisVariable":"Edit this variable",
+  	"editThisFormula":"Edit this formula",
+  	"thisVariableJson":"Get the JSON for this variable"
 }

@@ -1,5 +1,5 @@
 import DocumentTitle from "react-document-title"
-import {defineMessages, FormattedMessage, FormattedDate} from "react-intl"
+import {FormattedMessage, FormattedDate} from "react-intl"
 import React, { PropTypes } from "react"
 import {Link} from "react-router"
 import { keys } from "ramda"
@@ -39,7 +39,7 @@ const Variable = React.createClass({
           {keys(variable.formulas).length != 0 && this.renderFormulas(variable.formulas)}
           <div>
             <ExternalLink href={`${config.apiBaseUrl}/variable/${variable.id}`}>
-              Donnée brute au format JSON
+              <FormattedMessage id='thisVariableJson'/>
             </ExternalLink>
           </div>
         </div>
@@ -67,7 +67,7 @@ const Variable = React.createClass({
     if (variable.valueType == "Date"){
       return <FormattedDate value={variable.defaultValue} year='numeric' month='2-digit' day='2-digit'/>
     }else if(variable.valueType == "Float"){
-      if (String(variable.defaultValue).indexOf('.')!= -1){
+      if (String(variable.defaultValue).indexOf('.') != -1){
         return String("variable.defaultValue").indexOf('.')
       }else{
         return String(variable.defaultValue) + '.0';
@@ -76,7 +76,6 @@ const Variable = React.createClass({
       return String(variable.defaultValue)
     }
   }
-    
     return (
       <div>
         <p>
@@ -110,7 +109,7 @@ const Variable = React.createClass({
         <p>
           <FormattedMessage id='valueTypeParagraph'/> 
           <span className="variableMetadataHighlight">
-            {variable.valueType in valueTypeMessage ?(
+            {variable.valueType in valueTypeMessage ? (
               <span> {valueTypeMessage[variable.valueType]}.</span>
             ) : (
               <span> {variable.valueType}.</span>
@@ -138,9 +137,7 @@ const Variable = React.createClass({
               {
                 variable.references.map((reference, idx) =>
                   <li key={idx}>
-                    <ExternalLink href={reference}>
-                      {reference}
-                    </ExternalLink>
+                    <a href={reference}>{reference}</a>
                   </li>
                 )}
            </ul>)
@@ -185,13 +182,17 @@ const Variable = React.createClass({
                   <h3>Jusqu'au <FormattedDate value={stopDate} />&nbsp;:</h3>
                 }
                 {startDate && stopDate &&
-                  <h3>Du <FormattedDate value={startDate} /> au <FormattedDate value={stopDate} />&nbsp;:</h3>
+                  <h3>Du <FormattedDate value={startDate}/> au <FormattedDate value={stopDate} />&nbsp;:</h3>
                 }
                 <Highlight className='python'>{this.renderLinkedFormulaVariables(formulas[date].content)}</Highlight>
+              <p>
+                 <a href={formulas[date].source}><FormattedMessage id='editThisFormula'/></a>
+              </p>
               </div>
             )
           })
         }
+        
       </div>
     )
   },
