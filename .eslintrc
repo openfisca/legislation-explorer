@@ -13,7 +13,11 @@
   "rules": {
       "no-console": "off",
       "space-infix-ops": "error",
-      "react/prop-types": "off"
+      "react/prop-types": "off",
+      "keyword-spacing": "error",
+      "jsx-quotes": "error",
+      "no-trailing-spaces": "error",
+      "eol-last": "error",
   },
   "plugins": [
     "react"
