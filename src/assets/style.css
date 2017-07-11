@@ -2,11 +2,11 @@ tr.first-bracket:not(:first-child) > td {
   border-top-width: 5px;
 }
 
-p.descriptionForVariables{
+p.variable-description{
   font-size: large;
   margin-top: 3%;
 }
-span.variableMetadataHighlight{
+span.variable-metadata{
   font-weight: bold;
 }
 

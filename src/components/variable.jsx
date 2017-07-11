@@ -28,7 +28,7 @@ const Variable = React.createClass({
         <div>
           <header className = "page-header">
             <h1><code> { variable.id } </code></h1>
-            <p className = "descriptionForVariables">{variable.description}</p>
+            <p className = "variable-description">{variable.description}</p>
           </header>
           {this.renderVariableMetadata(variable)}
           <div>
@@ -77,7 +77,7 @@ const Variable = React.createClass({
         <p>
             <FormattedMessage id = "entityParagraph"
               values = {{
-                variableLink: 
+                variableLink:
                   <a href = "https://doc.openfisca.fr/variables.html" target = "_blank">
                     <FormattedMessage id = "variableText"/>
                   </a>,
@@ -86,7 +86,7 @@ const Variable = React.createClass({
                     <FormattedMessage id = "entityText"/>
                   </a>
                 }} />
-            <span className = "variableMetadataHighlight">
+            <span className = "variable-metadata">
               { entityMessage[variable.entity] }
             </span>
           .
@@ -97,14 +97,14 @@ const Variable = React.createClass({
               <a href = "https://doc.openfisca.fr/coding-the-legislation/35_periods.html#periods-for-variable" target = "_blank">
               <FormattedMessage id = "definitionPeriodText"/></a> }}
             />
-          <span className = "variableMetadataHighlight">
+          <span className = "variable-metadata">
             { definitionPeriodMessage[variable.definitionPeriod] }
           </span>
           .
         </p>
         <p>
           <FormattedMessage id = "valueTypeParagraph"/>
-          <span className = "variableMetadataHighlight">
+          <span className = "variable-metadata">
             {variable.valueType in valueTypeMessage ? (
               <span> { valueTypeMessage[variable.valueType] }.</span>
             ) : (
@@ -120,15 +120,15 @@ const Variable = React.createClass({
               </a> }
             }
           />
-          <span className = "variableMetadataHighlight">
+          <span className = "variable-metadata">
             {formatDefaultValue(variable)}
           </span>
           .
-        </p> 
-          { variable.references && 
+        </p>
+          { variable.references &&
             (<span><FormattedMessage id = "referencesText"/>&nbsp;:</span>)
           }
-          { variable.references && 
+          { variable.references &&
             (<ul>
               {
                 variable.references.map((reference, idx) =>
@@ -143,7 +143,7 @@ const Variable = React.createClass({
               <FormattedMessage id = "noFormulaParagraph"
                 values = {{
                   formulaNotComputable:
-                  <span className = "variableMetadataHighlight">
+                  <span className = "variable-metadata">
                     <FormattedMessage id = "formulaNotComputableText"/>
                   </span>
                 }}
@@ -188,7 +188,6 @@ const Variable = React.createClass({
             )
           })
         }
-        
       </div>
     )
   },
@@ -221,6 +220,5 @@ const Variable = React.createClass({
     })
   },
 })
-
 
 export default Variable
