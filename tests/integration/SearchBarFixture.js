@@ -1,7 +1,7 @@
 aahQuery = "aah"
 aahResultName = "aah"
 aahResultDescription = /Allocation adulte handicapé/
-aahDefinitionPeriod = /mois/
+aahDefinitionPeriod = /month/
 impotRevenuBaremeQuery = "impot_revenu.bareme"
 impotRevenuBaremeResultDescription = "Tranches de l'IR"
 smicQuery = "smic_h_b"
