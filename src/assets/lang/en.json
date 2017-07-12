@@ -1,4 +1,26 @@
 {
-  "header" : "OpenFisca makes law computable. It is a free and open-source computation engine that allows modelling tax and benefit systems in a collaborative and transparent way. This software is used by researchers and public agencies.",
-  "stats" : "{variablesCount, number} variables and {parametersCount, number} parameters referenced to modelize the french tax-benefit system."
+  "header": "OpenFisca makes law computable. It is a free and open-source computation engine that allows modelling tax and benefit systems in a collaborative and transparent way. This software is used by researchers and public agencies.",
+  "stats": "{variablesCount, number} variables and {parametersCount, number} parameters referenced to modelize the french tax-benefit system.",
+  "entityParagraph" : "This {variableLink} applies to the {entityLink} ",
+  "variableText":"variable ",
+  "entityText":"entities ",
+  "definitionPeriodParagraph": "It has a {definitionPeriodLink} ",
+  "definitionPeriodText":"definition period ",
+  "valueTypeParagraph":"Its value is ",
+  "defaultValueParagraph":"Its {defaultValueLink} is ",
+  "defaultValueText":"default value",
+  "referencesText":"References",
+  "aYear":"of a year",
+  "aMonth":"of a month",
+  "forEternity":"which is the eternity. It's value is fixed over time",
+  "anInteger":"an integer",
+  "aFloat":"a float",
+  "aDate":"a date",
+  "formulaTitle":"Computation Formula",
+  "formulasTitle":"Computation Formulas",
+  "noFormulaParagraph":"It does not have a formula and therefore is {formulaNotComputable}. It can only be used as an input for a computation.",
+  "formulaNotComputableText":"not computable",
+  "editThisVariable":"Edit this variable",
+  "editThisFormula":"Edit this formula",
+  "thisVariableJson":"Get the JSON for this variable"
 }

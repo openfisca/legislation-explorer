@@ -2,6 +2,14 @@ tr.first-bracket:not(:first-child) > td {
   border-top-width: 5px;
 }
 
+p.variable-description{
+  font-size: large;
+  margin-top: 3%;
+}
+span.variable-metadata{
+  font-weight: bold;
+}
+
 span.message {
   display: block;
   margin-bottom: 1.5em;

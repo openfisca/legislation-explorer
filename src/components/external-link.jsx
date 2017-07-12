@@ -9,7 +9,6 @@ const ExternalLink = React.createClass({
     const {children, ...otherProps} = this.props
     return (
       <a rel="external" target="_blank" {...otherProps}>
-        <span aria-hidden="true" className="glyphicon glyphicon-new-window"></span>
         {children && " "}
         {children}
       </a>
