@@ -115,7 +115,7 @@ const Variable = React.createClass({
         <p>
           <FormattedMessage id = "defaultValueParagraph"
             values = {{ defaultValueLink:
-              <a href = "https://doc.openfisca.fr/coding-the-legislation/20_input_variables.html" target = "_blank">
+              <a href = "https://doc.openfisca.fr/variables.html#default-values" target = "_blank">
               <FormattedMessage id = "defaultValueText"/>
               </a> }
             }
