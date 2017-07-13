@@ -38,7 +38,7 @@ const Variable = React.createClass({
           </div>
           { keys(variable.formulas).length != 0 && this.renderFormulas(variable.formulas) }
           <div>
-            <ExternalLink href = { `${ config.apiBaseUrl } /variable/${ variable.id }` } target = "_blank" >
+            <ExternalLink href = { `${ config.apiBaseUrl }/variable/${ variable.id }` } target = "_blank" >
               <FormattedMessage id = "thisVariableJson"/>
             </ExternalLink>
           </div>
@@ -133,7 +133,7 @@ const Variable = React.createClass({
               {
                 variable.references.map((reference, idx) =>
                   <li key = { idx } >
-                    <a href = { reference } > { reference } target = "_blank"</a>
+                    <a href = { reference } target= "_blank" > { reference } </a>
                   </li>
                 )}
            </ul>)
@@ -182,7 +182,7 @@ const Variable = React.createClass({
                 }
                 <Highlight className = "python"> { this.renderLinkedFormulaVariables(formulas[date].content) } </Highlight>
               <p>
-                 <a href = { formulas[date].source } ><FormattedMessage id = "editThisFormula" target = "_blank"/></a>
+                 <a href = { formulas[date].source }  target = "_blank"><FormattedMessage id = "editThisFormula"/></a>
               </p>
               </div>
             )
@@ -193,7 +193,7 @@ const Variable = React.createClass({
   },
   link(variable) {
     return <Link key = { variable + Math.random() } to = { variable }
-      data-toggle="popover" title = { this.props.variables[variable].description } > { variable } </Link>
+      data-toggle="popover" title = { this.props.variables[variable].description } >{ variable }</Link>
   },
   isVariable(substring) {
     // Ignore every text that isn't a single word like a variable must be:
