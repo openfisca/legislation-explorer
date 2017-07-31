@@ -66,6 +66,7 @@ const ParameterOrVariablePage = React.createClass({
         <NotFoundPage
           location={location}
           message={`« ${name} » n'est ni un paramètre ni une variable d'OpenFisca.`}
+          countryPackageName={countryPackageName}
         />
       )
     }
