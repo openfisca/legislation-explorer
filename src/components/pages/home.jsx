@@ -36,6 +36,7 @@ const HomePage = React.createClass({
   handleClearSearchClicked() {
     const searchQuery = ""
     this.setState({inputValue: searchQuery})
+    this.setState({source: "search"})
     this.context.setSearchQuery(searchQuery)
     this.context.router.push({
       query: {q: searchQuery},
@@ -44,6 +45,7 @@ const HomePage = React.createClass({
   },
   handleInputChange(event) {
     this.setState({inputValue: event.target.value})
+    this.setState({source: "search"})
     // Use scrollIntoView before pushing searchInputId in the hash, to scroll after the first character is typed.
     this.searchInput.scrollIntoView()
   },
@@ -54,6 +56,7 @@ const HomePage = React.createClass({
       query: {q: this.state.inputValue},
       hash: `#${searchInputId}`,
     })
+    this.setState({source: "search"})
   },
   locationHasChanged(location) {
     const {router} = this.context
@@ -61,21 +64,35 @@ const HomePage = React.createClass({
     // Check that the new location stays on the Home page, to avoid overwriting searchQuery in App state.
     if (this._isMounted && router.isActive(oldLocation)) {
       const searchQuery = location.query.q || ""
+      const sourceOfQuery = location.query.source || ""
       this.context.setSearchQuery(searchQuery)
       this.setState({inputValue: searchQuery})
+      this.setState({source: sourceOfQuery})
     }
   },
   render() {
-    const {inputValue} = this.state
+    const inputValue = this.state.inputValue
+    const source = this.state.source
     const {searchQuery, searchResults} = this.context
+    const countryPackageName = this.props.countryPackageName
+    const changelogURL = "http://www.github.com/openfisca/openfisca-france/blob/master/CHANGELOG.md"
     return (
       <div>
+        {source == "404" ?(
+            <div className="alert alert-info" id="not-found">
+            <h4 >
+              La page « /{inputValue} » n'existe pas.
+            </h4>
+            <p>" {inputValue} " n'est ni un paramètre ni une variable d'OpenFisca.</p>
+            <p>Vérifiez l'orthographe de l'URL. Si ce lien fonctionnait et ne fonctionne plus, vérifiez le <a href={changelogURL}>changelog</a>.</p>
+          </div>):(console.log(source))
+          }   
         <form onSubmit={this.handleSubmit}>
           <div className="input-group input-group-lg" style={{margin: "2em 0"}}>
             <input
               autoFocus={true}
               className="form-control"
-              id={searchInputId}
+              id="search-input"
               onChange={this.handleInputChange}
               placeholder="smic, salaire net…"
               ref={element => this.searchInput = element}

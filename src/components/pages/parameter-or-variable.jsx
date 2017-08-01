@@ -1,6 +1,6 @@
 import React, { PropTypes } from "react"
 import { isNil } from "ramda"
-import { Link, locationShape } from "react-router"
+import { Link, locationShape, routerShape } from "react-router"
 
 import * as AppPropTypes from "../../app-prop-types"
 import NotFoundPage from "./not-found"
@@ -12,6 +12,7 @@ import { fetchParameter, fetchVariable } from "../../webservices"
 
 const ParameterOrVariablePage = React.createClass({
   contextTypes: {
+    router: routerShape.isRequired,
     searchQuery: PropTypes.string.isRequired,
     searchResults: PropTypes.array.isRequired,
   },
@@ -63,11 +64,10 @@ const ParameterOrVariablePage = React.createClass({
 
     if (isNil(parameter) && isNil(variable)) {
       return (
-        <NotFoundPage
-          location={location}
-          message={`« ${name} » n'est ni un paramètre ni une variable d'OpenFisca.`}
-          countryPackageName={countryPackageName}
-        />
+         this.context.router.push({
+          query: {q: name, source: '404'},
+          hash: `#not-found`,
+            })
       )
     }
     const goBackLocation = {
