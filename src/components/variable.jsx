@@ -68,6 +68,8 @@ const Variable = React.createClass({
       return <FormattedDate value = { variable.defaultValue } year = "numeric" month = "2-digit" day = "2-digit" />
     } else if (variable.valueType == "Float") {
         return variable.defaultValue.toFixed(1);
+    } else if (variable.valueType == "String") {
+        return `"${ variable.defaultValue }"`;
     } else {
       return String(variable.defaultValue)
     }
