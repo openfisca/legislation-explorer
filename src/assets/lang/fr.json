@@ -25,5 +25,11 @@
   "formulaNotComputableText":"pas calculable",
   "editThisVariable":"Modifier ces informations",
   "editThisFormula":"Modifier cette formule",
-  "thisVariableJson":"Donnée brute au format JSON"
+  "thisVariableJson":"Donnée brute au format JSON",
+  "checkChangelog":"Vérifiez l'orthographe de l'URL. Si ce lien fonctionnait et ne fonctionne plus, vérifiez le {changelogURLLink}.",
+  "notParamNotVariable":"' {inputValueRef} ' n'est ni un paramètre ni une variable d'OpenFisca.",
+  "pageDoesNotExist":"La page « /{inputValueRef} » n'existe pas.",
+  "backToHP":"Retour à l'accueil",
+  "explore":"Explorez la base de paramètres et variables OpenFisca",
+  "find":"Trouver"
 }

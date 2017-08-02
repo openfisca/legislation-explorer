@@ -1,6 +1,7 @@
 import {isEmpty} from "ramda"
 import React, {PropTypes} from "react"
 import {Link, locationShape, routerShape} from "react-router"
+import {FormattedMessage} from "react-intl"
 
 import * as AppPropTypes from "../../app-prop-types"
 import List from "../list"
@@ -81,10 +82,19 @@ const HomePage = React.createClass({
         {source == "404" &&
             <div className="alert alert-info" id="not-found">
             <h4 >
-              La page « /{inputValue} » n'existe pas.
+              <FormattedMessage id = "pageDoesNotExist" values=
+              {{inputValueRef:`${inputValue}`}}/>
             </h4>
-            <p>" {inputValue} " n'est ni un paramètre ni une variable d'OpenFisca.</p>
-            <p>Vérifiez l'orthographe de l'URL. Si ce lien fonctionnait et ne fonctionne plus, vérifiez le <a href={changelogURL}>changelog</a>.</p>
+            <p>
+              <FormattedMessage id = "notParamNotVariable" values=
+              {{inputValueRef:`${inputValue}`}}/>
+            </p>
+            <p>
+              <FormattedMessage id = "checkChangelog" values=
+              {{changelogURLLink:
+                <a href = {changelogURL} target = "_blank">changelog</a>
+              }}/>
+            </p>
           </div>
           }
         <form onSubmit={this.handleSubmit}>
@@ -112,7 +122,7 @@ const HomePage = React.createClass({
                   </button>
                 )
               }
-              <button className="btn btn-primary" type="submit">Trouver</button>
+              <button className="btn btn-primary" type="submit"><FormattedMessage id = "find"/></button>
             </div>
           </div>
         </form>
