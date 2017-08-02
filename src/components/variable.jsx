@@ -1,5 +1,5 @@
 import DocumentTitle from "react-document-title"
-import {FormattedMessage, FormattedDate} from "react-intl"
+import {FormattedMessage, FormattedDate, FormattedHTMLMessage} from "react-intl"
 import React, { PropTypes } from "react"
 import { Link } from "react-router"
 import { keys } from "ramda"
@@ -116,6 +116,15 @@ const Variable = React.createClass({
           }
           </span>
         </p>
+        { variable.possibleValues
+          ? <p>
+            <FormattedHTMLMessage id = "authorizedValues"/>
+              <ul>
+              { variable.possibleValues.map(value => <li>"{value}"</li>)}
+              </ul>
+            </p>
+          : null
+        }
         <p>
           <FormattedMessage id = "defaultValueParagraph"
             values = {{ defaultValueLink:
