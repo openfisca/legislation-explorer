@@ -139,7 +139,7 @@ const Variable = React.createClass({
           .
         </p>
           { variable.references &&
-            (<span><FormattedMessage id = "referencesText"/>&nbsp;:</span>)
+            (<span><FormattedHTMLMessage id = "referencesText"/></span>)
           }
           { variable.references &&
             (<ul>

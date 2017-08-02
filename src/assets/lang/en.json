@@ -10,7 +10,7 @@
   "authorizedValues":"The allowed values are:",
   "defaultValueParagraph":"Its {defaultValueLink} is ",
   "defaultValueText":"default value",
-  "referencesText":"References",
+  "referencesText":"References:",
   "aYear":"of a year",
   "aMonth":"of a month",
   "forEternity":"which is the eternity. It's value is fixed over time",
