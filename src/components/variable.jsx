@@ -62,6 +62,7 @@ const Variable = React.createClass({
       Int: <FormattedMessage id = "anInteger"/>,
       Float: <FormattedMessage id = "aFloat"/>,
       Date: <FormattedMessage id = "aDate"/>,
+      String: <FormattedMessage id = "aString"/>,
     }
     function formatDefaultValue(variable) {
     if (variable.valueType == "Date") {

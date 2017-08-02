@@ -16,6 +16,7 @@
   "anInteger":"un entier",
   "aFloat":"un nombre décimal",
   "aDate":"une date",
+  "aString":"une chaîne de caractères",
   "ofType":"de type {type}",
   "formulaTitle":"Formule de calcul",
   "formulasTitle":"Formules de calcul",

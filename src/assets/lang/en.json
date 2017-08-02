@@ -16,6 +16,7 @@
   "anInteger":"an integer",
   "aFloat":"a float",
   "aDate":"a date",
+  "aString":"a character string",
   "ofType":"of type {type}",
   "formulaTitle":"Computation Formula",
   "formulasTitle":"Computation Formulas",
