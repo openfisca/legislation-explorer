@@ -104,12 +104,13 @@ const Variable = React.createClass({
         </p>
         <p>
           <FormattedMessage id = "valueTypeParagraph"/>
-          <span className = "variable-metadata">
-            {variable.valueType in valueTypeMessage ? (
-              <span> { valueTypeMessage[variable.valueType] }.</span>
+          <span className = "variable-metadata"> {
+            variable.valueType in valueTypeMessage ? (
+              <span>{ valueTypeMessage[variable.valueType] }.</span>
             ) : (
-              <span> { variable.valueType }.</span>
-            )}
+              <span><FormattedMessage id = "ofType" values = {{type: variable.valueType}}/>.</span>
+            )
+          }
           </span>
         </p>
         <p>
