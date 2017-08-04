@@ -2,6 +2,7 @@ import { Link, locationShape, routerShape } from "react-router"
 import React, {PropTypes} from "react"
 import DocumentTitle from "react-document-title"
 import {FormattedMessage} from "react-intl"
+import config from "../../config"
 
 const NotFoundPage = React.createClass({
   contextTypes: {
@@ -29,7 +30,7 @@ const NotFoundPage = React.createClass({
   render() {
     const {pathname} = this.props.location
     const countryPackageName = this.props.countryPackageName
-    const changelogURL = `http://www.github.com/openfisca/${countryPackageName}/blob/master/CHANGELOG.md`
+    const changelogURL = `https://www.github.com/${config.gitHubProject}/blob/master/CHANGELOG.md`
     return (
       <DocumentTitle title={`Page non trouvée - Explorateur de la législation`}>
         <div>

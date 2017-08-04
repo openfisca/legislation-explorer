@@ -6,6 +6,7 @@ import {FormattedMessage} from "react-intl"
 import * as AppPropTypes from "../../app-prop-types"
 import List from "../list"
 
+import config from "../../config"
 export const searchInputId = "search-input"
 
 const HomePage = React.createClass({
@@ -76,7 +77,7 @@ const HomePage = React.createClass({
     const source = this.state.source
     const {searchQuery, searchResults} = this.context
     const countryPackageName = this.props.countryPackageName
-    const changelogURL = `http://www.github.com/openfisca/` + `${countryPackageName}` + `/blob/master/CHANGELOG.md`
+    const changelogURL = `https://www.github.com/${config.gitHubProject}/blob/master/CHANGELOG.md`
     return (
       <div>
         {source == "404" &&
