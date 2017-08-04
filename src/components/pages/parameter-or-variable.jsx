@@ -52,9 +52,9 @@ const ParameterOrVariablePage = React.createClass({
   handleNotFound(){
     const name = this.props.params.name
     return this.context.router.push({
-    query: {q: name, source: '404'},
-    hash: `#not-found`,
-    })
+      query: {q: name, is404: true},
+      hash: `#not-found`,
+      })
   },
 
   render() {

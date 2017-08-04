@@ -12,7 +12,6 @@ const NotFoundPage = React.createClass({
   propTypes: {
     location: locationShape.isRequired,
     message: PropTypes.string,
-    countryPackageName: PropTypes.string
   },
 
   handleInputChange(event) {
@@ -29,7 +28,6 @@ const NotFoundPage = React.createClass({
 
   render() {
     const {pathname} = this.props.location
-    const countryPackageName = this.props.countryPackageName
     const changelogURL = `https://www.github.com/${config.gitHubProject}/blob/master/CHANGELOG.md`
     return (
       <DocumentTitle title={`Page non trouvée - Explorateur de la législation`}>
