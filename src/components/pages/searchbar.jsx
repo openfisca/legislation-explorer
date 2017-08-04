@@ -1,4 +1,4 @@
-import { Link, routerShape } from "react-router"
+import { routerShape } from "react-router"
 import React, {PropTypes} from "react"
 import {FormattedMessage} from "react-intl"
 
