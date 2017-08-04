@@ -5,8 +5,8 @@ import {FormattedMessage} from "react-intl"
 
 import * as AppPropTypes from "../../app-prop-types"
 import List from "../list"
-
 import config from "../../config"
+import SearchBarComponent from "./searchbar"
 export const searchInputId = "search-input"
 
 const HomePage = React.createClass({
@@ -35,38 +35,21 @@ const HomePage = React.createClass({
   getInitialState() {
     return {inputValue: ""}
   },
-  handleClearSearchClicked() {
-    const searchQuery = ""
-    this.setState({inputValue: searchQuery})
-    this.setState({is404: false})
-    this.context.setSearchQuery(searchQuery)
-    this.context.router.push({
-      query: {q: searchQuery},
-      hash: `#${searchInputId}`,
-    })
-  },
-  handleInputChange(event) {
-    this.setState({inputValue: event.target.value})
-    this.setState({is404: false})
-    // Use scrollIntoView before pushing searchInputId in the hash, to scroll after the first character is typed.
-    this.searchInput.scrollIntoView()
-  },
-  handleSubmit(event) {
-    event.preventDefault()
-    this.context.setSearchQuery(this.state.inputValue)
-    this.context.router.push({
-      query: {q: this.state.inputValue},
-      hash: `#${searchInputId}`,
-    })
-    this.setState({is404: false})
-  },
+
   locationHasChanged(location) {
     const {router} = this.context
     const oldLocation = this.props.location
     // Check that the new location stays on the Home page, to avoid overwriting searchQuery in App state.
-    if (this._isMounted && router.isActive(oldLocation)) {
-      const searchQuery = location.query.q || ""
-      this.context.setSearchQuery(searchQuery)
+    if (this._isMounted) {
+      let searchQuery = ""
+      if (location.query.q || !location.query.is404) {
+        searchQuery = location.query.q
+      }
+
+      if(searchQuery){
+        console.log("it passed")
+        this.context.setSearchQuery(searchQuery)
+      }
       this.setState({inputValue: searchQuery})
       this.setState({is404: location.query.is404})
     }
@@ -97,35 +80,7 @@ const HomePage = React.createClass({
             </p>
           </div>
           }
-        <form onSubmit={this.handleSubmit}>
-          <div className="input-group input-group-lg" style={{margin: "2em 0"}}>
-            <input
-              autoFocus={true}
-              className="form-control"
-              id="search-input"
-              onChange={this.handleInputChange}
-              placeholder="smic, salaire net…"
-              ref={element => this.searchInput = element}
-              type="text"
-              value={inputValue}
-            />
-            <div className="input-group-btn">
-              {
-                !isEmpty(searchQuery) && (
-                  <button
-                    className="btn btn-default"
-                    onClick={this.handleClearSearchClicked}
-                    title="Effacer la recherche"
-                    type="button"
-                  >
-                    <span className="glyphicon glyphicon-remove" aria-hidden="true" />
-                  </button>
-                )
-              }
-              <button className="btn btn-primary" type="submit"><FormattedMessage id = "find"/></button>
-            </div>
-          </div>
-        </form>
+        <SearchBarComponent/>
         <section>
           {
             isEmpty(searchResults)
@@ -149,6 +104,7 @@ const SearchResults = React.createClass({
     return nextProps.searchQuery !== this.props.searchQuery
   },
   render() {
+    console.log(this.props.searchQuery)
     const {items} = this.props
     return (
       <List items={items} type="unstyled">

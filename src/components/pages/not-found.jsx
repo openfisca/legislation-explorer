@@ -2,7 +2,9 @@ import { Link, locationShape, routerShape } from "react-router"
 import React, {PropTypes} from "react"
 import DocumentTitle from "react-document-title"
 import {FormattedMessage} from "react-intl"
+import SearchBarComponent from "./searchbar"
 import config from "../../config"
+
 
 const NotFoundPage = React.createClass({
   contextTypes: {
@@ -14,17 +16,6 @@ const NotFoundPage = React.createClass({
     message: PropTypes.string,
   },
 
-  handleInputChange(event) {
-    this.setState({inputValue: event.target.value})
-  },
-
-  handleSubmit(event) {
-    event.preventDefault()
-    this.context.router.push({
-      query: {q: this.state.inputValue},
-      hash: `#search-input`,
-    })
-  },
 
   render() {
     const {pathname} = this.props.location
@@ -48,22 +39,7 @@ const NotFoundPage = React.createClass({
           <Link className="btn btn-default" to="/"><FormattedMessage id = "backToHP"/></Link>
           <hr></hr>
           <h3><FormattedMessage id = "explore"/></h3>
-          <div>
-            <form onSubmit={this.handleSubmit}>
-              <div className="input-group input-group-lg" style={{margin: "2em 0"}}>
-                <input
-                  className="form-control"
-                  id="searchInputId"
-                  placeholder="smic, salaire net…"
-                  type="text"
-                  onChange={this.handleInputChange}
-                />
-                <div className="input-group-btn">
-                  <button className="btn btn-primary" type="submit" ><FormattedMessage id = "find"/></button>
-                </div>
-              </div>
-            </form>
-          </div>
+          <SearchBarComponent/>
         </div>
       </DocumentTitle>
     )
