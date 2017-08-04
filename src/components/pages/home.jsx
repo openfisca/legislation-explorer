@@ -76,7 +76,7 @@ const HomePage = React.createClass({
             </p>
           </div>
           }
-        <SearchBarComponent/>
+        <SearchBarComponent initialValue={inputValue}/>
         <section>
           {
             isEmpty(searchResults)

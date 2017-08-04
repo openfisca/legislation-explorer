@@ -1,5 +1,5 @@
 import { routerShape } from "react-router"
-import React, {PropTypes} from "react"
+import React from "react"
 import {FormattedMessage} from "react-intl"
 
 import { searchInputId } from "./home"
@@ -7,11 +7,10 @@ import { searchInputId } from "./home"
 const SearchBarComponent = React.createClass({
   contextTypes: {
     router: routerShape.isRequired,
-    searchQuery: PropTypes.string.isRequired,
   },
 
   getInitialState() {
-    return {inputValue: this.context.searchQuery}
+    return {inputValue: this.props.initialValue}
   },
 
   handleInputChange(event) {
@@ -25,6 +24,10 @@ const SearchBarComponent = React.createClass({
       query: {q: this.state.inputValue},
       hash: `#search-input`,
     })
+  },
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({inputValue: nextProps.initialValue})
   },
 
   render() {
