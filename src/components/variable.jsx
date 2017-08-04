@@ -1,5 +1,5 @@
 import DocumentTitle from "react-document-title"
-import {FormattedMessage, FormattedDate} from "react-intl"
+import {FormattedMessage, FormattedDate, FormattedHTMLMessage} from "react-intl"
 import React, { PropTypes } from "react"
 import { Link } from "react-router"
 import { keys } from "ramda"
@@ -62,12 +62,15 @@ const Variable = React.createClass({
       Int: <FormattedMessage id = "anInteger"/>,
       Float: <FormattedMessage id = "aFloat"/>,
       Date: <FormattedMessage id = "aDate"/>,
+      String: <FormattedMessage id = "aString"/>,
     }
     function formatDefaultValue(variable) {
     if (variable.valueType == "Date") {
       return <FormattedDate value = { variable.defaultValue } year = "numeric" month = "2-digit" day = "2-digit" />
     } else if (variable.valueType == "Float") {
         return variable.defaultValue.toFixed(1);
+    } else if (variable.valueType == "String") {
+        return `"${ variable.defaultValue }"`;
     } else {
       return String(variable.defaultValue)
     }
@@ -104,14 +107,24 @@ const Variable = React.createClass({
         </p>
         <p>
           <FormattedMessage id = "valueTypeParagraph"/>
-          <span className = "variable-metadata">
-            {variable.valueType in valueTypeMessage ? (
-              <span> { valueTypeMessage[variable.valueType] }.</span>
+          <span className = "variable-metadata"> {
+            variable.valueType in valueTypeMessage ? (
+              <span>{ valueTypeMessage[variable.valueType] }.</span>
             ) : (
-              <span> { variable.valueType }.</span>
-            )}
+              <span><FormattedMessage id = "ofType" values = {{type: variable.valueType}}/>.</span>
+            )
+          }
           </span>
         </p>
+        { variable.possibleValues
+          ? <p>
+            <FormattedHTMLMessage id = "authorizedValues"/>
+              <ul>
+              { variable.possibleValues.map(value => <li>"{value}"</li>)}
+              </ul>
+            </p>
+          : null
+        }
         <p>
           <FormattedMessage id = "defaultValueParagraph"
             values = {{ defaultValueLink:
@@ -126,7 +139,7 @@ const Variable = React.createClass({
           .
         </p>
           { variable.references &&
-            (<span><FormattedMessage id = "referencesText"/>&nbsp;:</span>)
+            (<span><FormattedHTMLMessage id = "referencesText"/></span>)
           }
           { variable.references &&
             (<ul>
