@@ -39,7 +39,7 @@ const HomePage = React.createClass({
   locationHasChanged(location) {
     if (this._isMounted) {
       let searchQuery = ""
-      if (location.query.q || !location.query.is404) {
+      if (location.query.q) {
         searchQuery = location.query.q
       }
 
