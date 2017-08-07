@@ -70,15 +70,12 @@ const App = React.createClass({
                 <div className="col-md-9">
                   <p id="baseline">
                     <span className="message">
-                      <FormattedMessage
-                        id = "header"
-                        values = {{
-                          learnMoreLink:
-                            <ExternalLink href  = "https://www.openfisca.fr" target = "_blank">
-                              <strong><FormattedMessage id = "learnMore"/></strong>
-                            </ExternalLink>
-                        }}
-                      />
+                      <FormattedMessage id = "header"/>
+                      <small>
+                        <ExternalLink href = "https://www.openfisca.fr" target = "_blank">
+                          <strong><FormattedMessage id = "learnMore"/></strong>
+                        </ExternalLink>
+                      </small>
                     </span>
                     <span className="message">
                       <small>
