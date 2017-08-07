@@ -3,20 +3,12 @@ import url from "url"
 import DocumentTitle from "react-document-title"
 import React, {PropTypes} from "react"
 import {locationShape, Link} from "react-router"
-import {defineMessages, FormattedMessage} from "react-intl"
+import {FormattedMessage} from "react-intl"
 import ExternalLink from "./external-link"
 
 import * as AppPropTypes from "../app-prop-types"
 import config from "../config"
 import {findParametersAndVariables} from "../search"
-
-
-const messages = defineMessages({
-    stats: {
-        id: 'stats',
-    },
-})
-
 
 const App = React.createClass({
   childContextTypes: {
@@ -89,8 +81,8 @@ const App = React.createClass({
                       />
                     </span>
                     <span className="message">
-                      <small id="stats">
-                        <FormattedMessage 
+                      <small>
+                        <FormattedMessage
                           id = "stats"
                           values={{
                             explorerLink:
@@ -124,15 +116,6 @@ const App = React.createClass({
                       </small>
                     </span>
                   </p>
-                  <a href={config.websiteUrl}>En savoir plus</a>
-                  <nav className="btn-group btn-group-lg">
-                    <Link to="/" className={"btn btn-primary" + (this.isCurrentRoute("/") ? " active" : "")}>
-                      Législation
-                    </Link>
-                    <Link to="/swagger" className={"btn btn-primary" + (this.isCurrentRoute("/swagger") ? " active" : "")}>
-                      API
-                    </Link>
-                  </nav>
                 </div>
               </div>
             </section>
