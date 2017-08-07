@@ -70,12 +70,12 @@ const App = React.createClass({
                 <div className="col-md-9">
                   <p id="baseline">
                     <span className="message">
-                      <FormattedMessage 
+                      <FormattedMessage
                         id = "header"
                         values = {{
                           learnMoreLink:
                             <ExternalLink href  = "https://www.openfisca.fr" target = "_blank">
-                              <FormattedMessage id = "learnMore"/>
+                              <strong><FormattedMessage id = "learnMore"/></strong>
                             </ExternalLink>
                         }}
                       />
@@ -90,13 +90,13 @@ const App = React.createClass({
                                 pathname: '/',
                                 hash: '#search-input'
                               }}>
-                                <FormattedMessage
+                                <strong><FormattedMessage
                                   id = "explorerText"
                                   values={{
                                     variablesCount: Object.keys(variables).length,
                                     parametersCount: Object.keys(parameters).length
                                   }}
-                                />
+                                /></strong>
                               </Link>
                           }}
                         />
