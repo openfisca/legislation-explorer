@@ -1,5 +1,5 @@
 {
-  "header": "OpenFisca makes law computable. It is a free and open-source computation engine that allows modelling tax and benefit systems in a collaborative and transparent way. This software is used by researchers and public agencies.",
+  "header": "OpenFisca makes law computable. It is a free and open-source computation engine that allows modelling tax and benefit systems in a collaborative and transparent way. This software is used by researchers and public agencies.{learnMoreLink}",
   "stats": "{variablesCount, number} variables and {parametersCount, number} parameters referenced to modelize the french tax-benefit system.",
   "entityParagraph" : "This {variableLink} applies to the {entityLink} ",
   "variableText":"variable ",
@@ -31,5 +31,6 @@
   "pageDoesNotExist":"The page '{inputValueRef}' does not exist.",
   "backToHP":"Back to the homepage",
   "explore":"Explore OpenFisca's parameter and variable database",
-  "find":"Find"
+  "find":"Find",
+  "learnMore":"Learn more"
 }

@@ -4,6 +4,7 @@ import DocumentTitle from "react-document-title"
 import React, {PropTypes} from "react"
 import {locationShape, Link} from "react-router"
 import {defineMessages, FormattedMessage} from "react-intl"
+import ExternalLink from "./external-link"
 
 import * as AppPropTypes from "../app-prop-types"
 import config from "../config"
@@ -11,9 +12,6 @@ import {findParametersAndVariables} from "../search"
 
 
 const messages = defineMessages({
-    header: {
-        id: 'header',
-    },
     stats: {
         id: 'stats',
     },
@@ -80,7 +78,12 @@ const App = React.createClass({
                 <div className="col-md-9">
                   <p id="baseline">
                     <span className="message">
-                      <FormattedMessage {...messages.header} />
+                      <FormattedMessage id = "header" values=
+                        {{learnMoreLink:
+                          <ExternalLink href  = "https://www.openfisca.fr" target = "_blank">
+                            <FormattedMessage id = "learnMore"/>
+                          </ExternalLink>
+                        }}/>
                     </span>
                     <span className="message">
                       <small id="stats">
