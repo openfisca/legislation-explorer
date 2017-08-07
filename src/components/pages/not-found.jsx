@@ -16,7 +16,6 @@ const NotFoundPage = React.createClass({
     message: PropTypes.string,
   },
 
-
   render() {
     const {pathname} = this.props.location
     const changelogURL = `https://www.github.com/${config.gitHubProject}/blob/master/CHANGELOG.md`
@@ -45,5 +44,6 @@ const NotFoundPage = React.createClass({
     )
   },
 })
+
 
 export default NotFoundPage

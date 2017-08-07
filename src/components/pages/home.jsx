@@ -100,7 +100,6 @@ const SearchResults = React.createClass({
     return nextProps.searchQuery !== this.props.searchQuery
   },
   render() {
-    console.log(this.props.searchQuery)
     const {items} = this.props
     return (
       <List items={items} type="unstyled">

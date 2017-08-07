@@ -55,4 +55,5 @@ const SearchBarComponent = React.createClass({
   },
 })
 
+
 export default SearchBarComponent
