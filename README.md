@@ -45,20 +45,25 @@ To maintain the legislation at its latest version, you can check the [auto-updat
 
 > Legislation Explorer integration tests are implemented with [Watai](https://github.com/MattiSG/Watai).
 
-In order to run integration tests, please install [Selenium standalone server](http://www.seleniumhq.org/download/).
+### Install the necessary helpers
 
-Run Selenium standalone server in a terminal:
+Install [Selenium standalone server](http://www.seleniumhq.org/download/).
+
+Install Chrome WebDriver : The `tests/config.js` in this package is pre-configured to use Chrome WebDriver. 
+* Under Debian GNU/Linux install it with `apt install chromium-driver` (Chromium is the free software version of Chrome).
+* Under Mac OS X install it with `brew install chromedriver`
+    
+### Run the integration tests 
+
+- Terminal window 1 : run Selenium standalone server
 
 ```sh
-java -jar selenium-server-standalone-3.3.0.jar
+java -jar selenium-server-standalone-3.4.0.jar
 18:51:36.494 INFO - Selenium build info: version: '3.3.0', revision: 'b526bd5'
 [...]
 18:51:36.722 INFO - Selenium Server is up and running
 ```
-
-The `tests/config.js` is pre-configured to use Chrome WebDriver. Under Debian GNU/Linux install it with `apt install chromium-driver` (Chromium is the free software version of Chrome).
-
-Run Chrome WebDriver in a terminal:
+- Terminal window 2 : run Chrome WebDriver
 
 ```sh
 chromedriver
@@ -66,9 +71,9 @@ Starting ChromeDriver 2.25 (undefined) on port 9515
 Only local connections are allowed.
 ```
 
-Start the application development server if not already done (`npm run dev:prod-api`).
+- Terminal window 3 : start the application development server if not already done (`npm run dev:prod-api`).
 
-Run the integration tests:
+- Terminal window 4 : run the integration tests
 
 ```sh
 npm run test:integration

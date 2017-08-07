@@ -1,9 +1,7 @@
 import React, { PropTypes } from "react"
-import { isNil } from "ramda"
-import { Link, locationShape } from "react-router"
+import { Link, locationShape, routerShape } from "react-router"
 
 import * as AppPropTypes from "../../app-prop-types"
-import NotFoundPage from "./not-found"
 import Parameter from "../parameter"
 import Variable from "../variable"
 import { searchInputId } from "./home"
@@ -12,6 +10,7 @@ import { fetchParameter, fetchVariable } from "../../webservices"
 
 const ParameterOrVariablePage = React.createClass({
   contextTypes: {
+    router: routerShape.isRequired,
     searchQuery: PropTypes.string.isRequired,
     searchResults: PropTypes.array.isRequired,
   },
@@ -41,6 +40,7 @@ const ParameterOrVariablePage = React.createClass({
       )
     } else {
         this.setState({waitingForResponse: false})
+        this.handleNotFound()
     }
   },
   componentWillReceiveProps(nextProps) {
@@ -49,11 +49,23 @@ const ParameterOrVariablePage = React.createClass({
   componentDidMount() {
     this.fetchPageContent(this.props.params.name)
   },
+  handleNotFound(){
+    const name = this.props.params.name
+    return this.context.router.push({
+      query: {q: name, is404: true},
+      hash: '#not-found',
+      })
+  },
+
   render() {
     const { searchQuery, searchResults } = this.context
-    const {countryPackageName, countryPackageVersion, location, parameters, params, variables} = this.props
-    const {name} = params
+    const {countryPackageName, countryPackageVersion, parameters, variables} = this.props
     const {parameter, variable} = this.state
+    const goBackLocation = {
+      pathname: "/",
+      query: {q: searchQuery},
+      hash: `#${searchInputId}`,
+    }
 
     if (this.state.waitingForResponse) {
       return (
@@ -61,19 +73,6 @@ const ParameterOrVariablePage = React.createClass({
       )
     }
 
-    if (isNil(parameter) && isNil(variable)) {
-      return (
-        <NotFoundPage
-          location={location}
-          message={`« ${name} » n'est ni un paramètre ni une variable d'OpenFisca.`}
-        />
-      )
-    }
-    const goBackLocation = {
-      pathname: "/",
-      query: {q: searchQuery},
-      hash: `#${searchInputId}`,
-    }
     return (
       <div>
         <Link className="btn btn-default" to={goBackLocation}>
