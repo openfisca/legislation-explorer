@@ -20,7 +20,7 @@ Type the following commands from the project root directory:
 
     ```sh
     npm install
-    npm run dev # To use http://localhost:2000/ for the Web API
+    npm run dev # To use http://localhost:5000/ for the Web API
     npm run dev:prod-api # To use https://api.openfisca.fr/ for the Web API
     ```
 
