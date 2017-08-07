@@ -110,6 +110,19 @@ const App = React.createClass({
                         />
                       </small>
                     </span>
+                    <span className="message">
+                      <small>
+                        <FormattedMessage
+                          id = "api"
+                          values={{
+                            apiLink:
+                              <Link to="/swagger">
+                                <strong><FormattedMessage id = "apiText"/></strong>
+                              </Link>
+                          }}
+                        />
+                      </small>
+                    </span>
                   </p>
                   <a href={config.websiteUrl}>En savoir plus</a>
                   <nav className="btn-group btn-group-lg">
