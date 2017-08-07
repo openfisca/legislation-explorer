@@ -78,16 +78,36 @@ const App = React.createClass({
                 <div className="col-md-9">
                   <p id="baseline">
                     <span className="message">
-                      <FormattedMessage id = "header" values=
-                        {{learnMoreLink:
-                          <ExternalLink href  = "https://www.openfisca.fr" target = "_blank">
-                            <FormattedMessage id = "learnMore"/>
-                          </ExternalLink>
-                        }}/>
+                      <FormattedMessage 
+                        id = "header"
+                        values = {{
+                          learnMoreLink:
+                            <ExternalLink href  = "https://www.openfisca.fr" target = "_blank">
+                              <FormattedMessage id = "learnMore"/>
+                            </ExternalLink>
+                        }}
+                      />
                     </span>
                     <span className="message">
                       <small id="stats">
-                        <FormattedMessage {...messages.stats} values={{variablesCount: Object.keys(variables).length, parametersCount: Object.keys(parameters).length}}/>
+                        <FormattedMessage 
+                          id = "stats"
+                          values={{
+                            explorerLink:
+                              <Link to={{
+                                pathname: '/',
+                                hash: '#search-input'
+                              }}>
+                                <FormattedMessage
+                                  id = "explorerText"
+                                  values={{
+                                    variablesCount: Object.keys(variables).length,
+                                    parametersCount: Object.keys(parameters).length
+                                  }}
+                                />
+                              </Link>
+                          }}
+                        />
                       </small>
                     </span>
                   </p>
