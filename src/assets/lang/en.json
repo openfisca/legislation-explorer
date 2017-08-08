@@ -1,9 +1,9 @@
 {
-  "header": "OpenFisca makes law computable. It is a free and open-source computation engine that allows modelling tax and benefit systems in a collaborative and transparent way. This software is used by researchers and public agencies.",
-  "learnMore":"Learn more.",
-  "stats": "{explorerLink} that modelize the french tax-benefit system.",
+  "header":"OpenFisca makes law computable. It is a free and open-source computation engine that allows modelling tax and benefit systems in a collaborative and transparent way. This software is used by researchers and public agencies.",
+  "learnMore":" Learn more.",
+  "stats":"{explorerLink} that model the French tax and benefit system.",
   "explorerText":"Explore the {variablesCount, number} variables and {parametersCount, number} parameters",
-  "api":"{apiLink} that lets you compute them from any software.",
+  "api":"{apiLink} that lets you compute them from any app.",
   "apiText":"Use the API",
   "entityParagraph" : "This {variableLink} applies to the {entityLink} ",
   "variableText":"variable ",
