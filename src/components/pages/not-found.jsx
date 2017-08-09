@@ -24,20 +24,23 @@ const NotFoundPage = React.createClass({
         <div>
           <div className="page-header">
             <h1>
-            <FormattedMessage id = "pageDoesNotExist" values=
-              {{inputValueRef:`${pathname}`}}/>
+            <FormattedMessage
+              id="pageDoesNotExist"
+              values={{inputValueRef: `${pathname}`}}
+            />
             </h1>
           </div>
           <div className="alert alert-info">
-            <p> <FormattedMessage id = "checkChangelog" values=
-              {{changelogURLLink:
-                <a href = {changelogURL} target = "_blank">changelog</a>
-              }}/>
+            <p>
+              <FormattedMessage
+                id="checkChangelog"
+                values={{changelogURLLink: <a href={changelogURL} target="_blank">changelog</a>}}
+              />
             </p>
           </div>
-          <Link className="btn btn-default" to="/"><FormattedMessage id = "backToHP"/></Link>
+          <Link className="btn btn-default" to="/"><FormattedMessage id="backToHP"/></Link>
           <hr></hr>
-          <h3><FormattedMessage id = "explore"/></h3>
+          <h3><FormattedMessage id="explore"/></h3>
           <SearchBarComponent/>
         </div>
       </DocumentTitle>

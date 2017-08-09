@@ -42,11 +42,11 @@ const SearchBarComponent = React.createClass({
               placeholder="smic, salaire net…"
               type="text"
               onChange={this.handleInputChange}
-              value = {inputValue}
+              value={inputValue}
               ref={element => this.searchInput = element}
             />
             <div className="input-group-btn">
-              <button className="btn btn-primary" type="submit" ><FormattedMessage id = "find"/></button>
+              <button className="btn btn-primary" type="submit" ><FormattedMessage id="find"/></button>
             </div>
           </div>
         </form>

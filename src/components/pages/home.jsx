@@ -61,18 +61,22 @@ const HomePage = React.createClass({
         {is404 &&
             <div className="alert alert-info" id="not-found">
             <h4 >
-              <FormattedMessage id = "pageDoesNotExist" values=
-              {{inputValueRef: inputValue}}/>
+              <FormattedMessage
+                id="pageDoesNotExist"
+                values={{inputValueRef: inputValue}}
+              />
             </h4>
             <p>
-              <FormattedMessage id = "notParamNotVariable" values=
-              {{inputValueRef: inputValue}}/>
+              <FormattedMessage
+                id="notParamNotVariable"
+                values={{inputValueRef: inputValue}}
+              />
             </p>
             <p>
-              <FormattedMessage id = "checkChangelog" values=
-              {{changelogURLLink:
-                <a href = {changelogURL} target = "_blank">changelog</a>
-              }}/>
+              <FormattedMessage
+                id="checkChangelog"
+                values={{changelogURLLink: <a href={changelogURL} target="_blank">changelog</a>}}
+              />
             </p>
           </div>
           }

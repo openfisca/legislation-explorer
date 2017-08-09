@@ -72,15 +72,15 @@ const App = React.createClass({
                     <span className="message">
                       <FormattedMessage id="header"/>
                       <small>
-                        <ExternalLink href = "https://www.openfisca.fr" target = "_blank">
-                          <strong><FormattedMessage id = "learnMore"/></strong>
+                        <ExternalLink href="https://www.openfisca.fr" target="_blank">
+                          <strong><FormattedMessage id="learnMore"/></strong>
                         </ExternalLink>
                       </small>
                     </span>
                     <span className="message" id="stats">
                       <small>
                         <FormattedMessage
-                          id = "stats"
+                          id="stats"
                           values={{
                             explorerLink:
                               <Link to={{
@@ -88,7 +88,7 @@ const App = React.createClass({
                                 hash: '#search-input'
                               }}>
                                 <strong><FormattedMessage
-                                  id = "explorerText"
+                                  id="explorerText"
                                   values={{
                                     variablesCount: Object.keys(variables).length,
                                     parametersCount: Object.keys(parameters).length
@@ -102,11 +102,11 @@ const App = React.createClass({
                     <span className="message">
                       <small>
                         <FormattedMessage
-                          id = "api"
+                          id="api"
                           values={{
                             apiLink:
                               <Link to="/swagger">
-                                <strong><FormattedMessage id = "apiText"/></strong>
+                                <strong><FormattedMessage id="apiText"/></strong>
                               </Link>
                           }}
                         />

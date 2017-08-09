@@ -24,22 +24,22 @@ const Variable = React.createClass({
   render() {
     const { variable } = this.props
     return (
-      <DocumentTitle title = { `${ variable.id } - Explorateur de la législation` } >
+      <DocumentTitle title={ `${ variable.id } - Explorateur de la législation` } >
         <div>
-          <header className = "page-header">
+          <header className="page-header">
             <h1><code> { variable.id } </code></h1>
-            <p className = "variable-description">{variable.description}</p>
+            <p className="variable-description">{variable.description}</p>
           </header>
           {this.renderVariableMetadata(variable)}
           <div>
-            <ExternalLink href = { variable.source } target = "_blank">
-              <FormattedMessage id = "editThisVariable"/>
+            <ExternalLink href={ variable.source } target="_blank">
+              <FormattedMessage id="editThisVariable"/>
             </ExternalLink>
           </div>
           { keys(variable.formulas).length != 0 && this.renderFormulas(variable.formulas) }
           <div>
-            <ExternalLink href = { `${ config.apiBaseUrl }/variable/${ variable.id }` } target = "_blank" >
-              <FormattedMessage id = "thisVariableJson"/>
+            <ExternalLink href={ `${ config.apiBaseUrl }/variable/${ variable.id }` } target="_blank" >
+              <FormattedMessage id="thisVariableJson"/>
             </ExternalLink>
           </div>
         </div>
@@ -54,19 +54,24 @@ const Variable = React.createClass({
       menage: "ménage",
     }
     const definitionPeriodMessage = {
-      YEAR: <FormattedMessage id = "aYear"/>,
-      MONTH: <FormattedMessage id = "aMonth"/>,
-      ETERNITY: <FormattedMessage id = "forEternity"/>
+      YEAR: <FormattedMessage id="aYear"/>,
+      MONTH: <FormattedMessage id="aMonth"/>,
+      ETERNITY: <FormattedMessage id="forEternity"/>
     }
     const valueTypeMessage = {
-      Int: <FormattedMessage id = "anInteger"/>,
-      Float: <FormattedMessage id = "aFloat"/>,
-      Date: <FormattedMessage id = "aDate"/>,
-      String: <FormattedMessage id = "aString"/>,
+      Int: <FormattedMessage id="anInteger"/>,
+      Float: <FormattedMessage id="aFloat"/>,
+      Date: <FormattedMessage id="aDate"/>,
+      String: <FormattedMessage id="aString"/>,
     }
     function formatDefaultValue(variable) {
     if (variable.valueType == "Date") {
-      return <FormattedDate value = { variable.defaultValue } year = "numeric" month = "2-digit" day = "2-digit" />
+      return <FormattedDate
+                value={ variable.defaultValue }
+                year="numeric"
+                month="2-digit"
+                day="2-digit"
+              />
     } else if (variable.valueType == "Float") {
         return variable.defaultValue.toFixed(1);
     } else if (variable.valueType == "String") {
@@ -78,47 +83,51 @@ const Variable = React.createClass({
     return (
       <div>
         <p>
-            <FormattedMessage id = "entityParagraph"
-              values = {{
+            <FormattedMessage
+              id="entityParagraph"
+              values={{
                 variableLink:
-                  <a href = "https://doc.openfisca.fr/variables.html" target = "_blank">
-                    <FormattedMessage id = "variableText"/>
+                  <a href="https://doc.openfisca.fr/variables.html" target="_blank">
+                    <FormattedMessage id="variableText"/>
                   </a>,
                 entityLink:
-                  <a href = "https://doc.openfisca.fr/person,_entities,_role.html" target = "_blank">
-                    <FormattedMessage id = "entityText"/>
+                  <a href="https://doc.openfisca.fr/person,_entities,_role.html" target="_blank">
+                    <FormattedMessage id="entityText"/>
                   </a>
                 }} />
-            <span className = "variable-metadata">
+            <span className="variable-metadata">
               { entityMessage[variable.entity] }
             </span>
           .
         </p>
         <p>
-          <FormattedMessage id = "definitionPeriodParagraph"
-            values = {{ definitionPeriodLink:
-              <a href = "https://doc.openfisca.fr/coding-the-legislation/35_periods.html#periods-for-variable" target = "_blank">
-              <FormattedMessage id = "definitionPeriodText"/></a> }}
-            />
-          <span className = "variable-metadata">
+          <FormattedMessage
+            id="definitionPeriodParagraph"
+            values={{definitionPeriodLink:
+                <a href="https://doc.openfisca.fr/coding-the-legislation/35_periods.html#periods-for-variable" target="_blank">
+                  <FormattedMessage id="definitionPeriodText"/>
+                </a>
+            }}
+          />
+          <span className="variable-metadata">
             { definitionPeriodMessage[variable.definitionPeriod] }
           </span>
           .
         </p>
         <p>
-          <FormattedMessage id = "valueTypeParagraph"/>
-          <span className = "variable-metadata"> {
+          <FormattedMessage id="valueTypeParagraph"/>
+          <span className="variable-metadata"> {
             variable.valueType in valueTypeMessage ? (
               <span>{ valueTypeMessage[variable.valueType] }.</span>
             ) : (
-              <span><FormattedMessage id = "ofType" values = {{type: variable.valueType}}/>.</span>
+              <span><FormattedMessage id="ofType" values={{type: variable.valueType}}/>.</span>
             )
           }
           </span>
         </p>
         { variable.possibleValues
           ? <p>
-            <FormattedHTMLMessage id = "authorizedValues"/>
+            <FormattedHTMLMessage id="authorizedValues"/>
               <ul>
               { variable.possibleValues.map(value => <li>"{value}"</li>)}
               </ul>
@@ -126,38 +135,38 @@ const Variable = React.createClass({
           : null
         }
         <p>
-          <FormattedMessage id = "defaultValueParagraph"
-            values = {{ defaultValueLink:
-              <a href = "https://doc.openfisca.fr/variables.html#default-values" target = "_blank">
-              <FormattedMessage id = "defaultValueText"/>
+          <FormattedMessage id="defaultValueParagraph"
+            values={{ defaultValueLink:
+              <a href="https://doc.openfisca.fr/variables.html#default-values" target="_blank">
+              <FormattedMessage id="defaultValueText"/>
               </a> }
             }
           />
-          <span className = "variable-metadata">
+          <span className="variable-metadata">
             {formatDefaultValue(variable)}
           </span>
           .
         </p>
           { variable.references &&
-            (<span><FormattedHTMLMessage id = "referencesText"/></span>)
+            (<span><FormattedHTMLMessage id="referencesText"/></span>)
           }
           { variable.references &&
             (<ul>
               {
                 variable.references.map((reference, idx) =>
-                  <li key = { idx } >
-                    <a href = { reference } target= "_blank" > { reference } </a>
+                  <li key={ idx } >
+                    <a href={ reference } target="_blank" > { reference } </a>
                   </li>
                 )}
            </ul>)
           }
           {keys(variable.formulas).length == 0 &&
             <p>
-              <FormattedMessage id = "noFormulaParagraph"
-                values = {{
+              <FormattedMessage id="noFormulaParagraph"
+                values={{
                   formulaNotComputable:
-                  <span className = "variable-metadata">
-                    <FormattedMessage id = "formulaNotComputableText"/>
+                  <span className="variable-metadata">
+                    <FormattedMessage id="formulaNotComputableText"/>
                   </span>
                 }}
               />
@@ -173,9 +182,9 @@ const Variable = React.createClass({
       <div>
         <h2>
         {severalFormulas ? (
-              <FormattedMessage id = "formulasTitle"/>
+              <FormattedMessage id="formulasTitle"/>
             ) : (
-              <FormattedMessage id = "formulaTitle"/>
+              <FormattedMessage id="formulaTitle"/>
             )}
         </h2>
         { startDates.map(
@@ -183,19 +192,19 @@ const Variable = React.createClass({
             const startDate = (date != "0001-01-01") && date
             const stopDate = startDates[dateIndex - 1] && getDayBefore(startDates[dateIndex - 1])
             return formulas[date] && (
-              <div key = { date } >
+              <div key={ date } >
                 {startDate && (! stopDate) &&
-                  <h3>À partir du <FormattedDate value = { startDate } />&nbsp;:</h3>
+                  <h3>À partir du <FormattedDate value={ startDate } />&nbsp;:</h3>
                 }
                 {stopDate && (! startDate) &&
-                  <h3>Jusqu'au <FormattedDate value = { stopDate } />&nbsp;:</h3>
+                  <h3>Jusqu'au <FormattedDate value={ stopDate } />&nbsp;:</h3>
                 }
                 {startDate && stopDate &&
-                  <h3>Du <FormattedDate value = { startDate } /> au <FormattedDate value = { stopDate } />&nbsp;:</h3>
+                  <h3>Du <FormattedDate value={ startDate } /> au <FormattedDate value={ stopDate } />&nbsp;:</h3>
                 }
-                <Highlight className = "python"> { this.renderLinkedFormulaVariables(formulas[date].content) } </Highlight>
+                <Highlight className="python"> { this.renderLinkedFormulaVariables(formulas[date].content) } </Highlight>
               <p>
-                 <a href = { formulas[date].source }  target = "_blank"><FormattedMessage id = "editThisFormula"/></a>
+                 <a href={ formulas[date].source }  target="_blank"><FormattedMessage id="editThisFormula"/></a>
               </p>
               </div>
             )
@@ -205,8 +214,8 @@ const Variable = React.createClass({
     )
   },
   link(variable) {
-    return <Link key = { variable + Math.random() } to = { variable }
-      data-toggle="popover" title = { this.props.variables[variable].description } >{ variable }</Link>
+    return <Link key={ variable + Math.random() } to={ variable }
+      data-toggle="popover" title={ this.props.variables[variable].description } >{ variable }</Link>
   },
   isVariable(substring) {
     // Ignore every text that isn't a single word like a variable must be:
