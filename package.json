@@ -19,7 +19,6 @@
     "type": "git",
     "url": "https://github.com/openfisca/legislation-explorer.git"
   },
-  "author": "Christophe Benz <christophe.benz@data.gouv.fr>",
   "license": "AGPL-3.0",
   "dependencies": {
     "accept-language": "^3.0.17",
