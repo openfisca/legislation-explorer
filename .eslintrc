@@ -18,6 +18,8 @@
       "jsx-quotes": "error",
       "no-trailing-spaces": "error",
       "eol-last": "error",
+      "react/jsx-equals-spacing": [2, "never"],
+      "key-spacing": ["error", { "beforeColon": false, "afterColon": true }]
   },
   "plugins": [
     "react"

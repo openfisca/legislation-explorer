@@ -3,22 +3,12 @@ import url from "url"
 import DocumentTitle from "react-document-title"
 import React, {PropTypes} from "react"
 import {locationShape, Link} from "react-router"
-import {defineMessages, FormattedMessage} from "react-intl"
+import {FormattedMessage} from "react-intl"
+import ExternalLink from "./external-link"
 
 import * as AppPropTypes from "../app-prop-types"
 import config from "../config"
 import {findParametersAndVariables} from "../search"
-
-
-const messages = defineMessages({
-    header: {
-        id: 'header',
-    },
-    stats: {
-        id: 'stats',
-    },
-})
-
 
 const App = React.createClass({
   childContextTypes: {
@@ -80,23 +70,49 @@ const App = React.createClass({
                 <div className="col-md-9">
                   <p id="baseline">
                     <span className="message">
-                      <FormattedMessage {...messages.header} />
+                      <FormattedMessage id="header"/>
+                      <small>
+                        <ExternalLink href="https://www.openfisca.fr" target="_blank">
+                          <FormattedMessage id="learnMore"/>
+                        </ExternalLink>
+                      </small>
+                    </span>
+                    <span className="message" id="stats">
+                      <small>
+                        <FormattedMessage
+                          id="stats"
+                          values={{
+                            explorerLink:
+                              <Link to={{
+                                pathname: '/',
+                                hash: '#search-input'
+                              }}>
+                                <strong><FormattedMessage
+                                  id="explorerText"
+                                  values={{
+                                    variablesCount: Object.keys(variables).length,
+                                    parametersCount: Object.keys(parameters).length
+                                  }}
+                                /></strong>
+                              </Link>
+                          }}
+                        />
+                      </small>
                     </span>
                     <span className="message">
-                      <small id="stats">
-                        <FormattedMessage {...messages.stats} values={{variablesCount: Object.keys(variables).length, parametersCount: Object.keys(parameters).length}}/>
+                      <small>
+                        <FormattedMessage
+                          id="api"
+                          values={{
+                            apiLink:
+                              <Link to="/swagger">
+                                <strong><FormattedMessage id="apiText"/></strong>
+                              </Link>
+                          }}
+                        />
                       </small>
                     </span>
                   </p>
-                  <a href={config.websiteUrl}>En savoir plus</a>
-                  <nav className="btn-group btn-group-lg">
-                    <Link to="/" className={"btn btn-primary" + (this.isCurrentRoute("/") ? " active" : "")}>
-                      Législation
-                    </Link>
-                    <Link to="/swagger" className={"btn btn-primary" + (this.isCurrentRoute("/swagger") ? " active" : "")}>
-                      API
-                    </Link>
-                  </nav>
                 </div>
               </div>
             </section>
