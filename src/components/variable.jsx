@@ -94,7 +94,7 @@ const Variable = React.createClass({
                   <a href="https://doc.openfisca.fr/person,_entities,_role.html" target="_blank">
                     <FormattedMessage id="entityText"/>
                   </a>
-                }} />
+                }} />&nbsp;
             <span className="variable-metadata">
               { entityMessage[variable.entity] }
             </span>
@@ -108,7 +108,7 @@ const Variable = React.createClass({
                   <FormattedMessage id="definitionPeriodText"/>
                 </a>
             }}
-          />
+          />&nbsp;
           <span className="variable-metadata">
             { definitionPeriodMessage[variable.definitionPeriod] }
           </span>
@@ -141,7 +141,7 @@ const Variable = React.createClass({
               <FormattedMessage id="defaultValueText"/>
               </a> }
             }
-          />
+          />&nbsp;
           <span className="variable-metadata">
             {formatDefaultValue(variable)}
           </span>
