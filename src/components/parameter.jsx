@@ -23,8 +23,8 @@ const Parameter = React.createClass({
       <DocumentTitle title={`${parameter.id} - Explorateur de la législation`}>
         <div>
           <header className="page-header">
-            <h1><code> { parameter.id } </code></h1>
-            <p className="variable-description">{description}</p>
+            <h1><code>{ parameter.id }</code></h1>
+            <p className="description">{description}</p>
           </header>
           <div className="row">
             <div className="col-lg-8">
