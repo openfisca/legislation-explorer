@@ -1,9 +1,10 @@
-description: "Navigating to an parameter should show its current and past values",
+description: "Navigating to a parameter should show its current and past values",
 
 steps: [
   SearchBarComponent.searchFor(smicQuery),
   AppComponent.goToFirstResult(),
   {
+    "ParameterComponent.title": smicResultTitle,
     "ParameterComponent.description": smicResultDescription,
     "ParameterTableComponent.firstLineCaption": ongoingDateRange,
     "ParameterTableComponent.firstLineValue": floatValue,
