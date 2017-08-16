@@ -20,11 +20,12 @@ const Parameter = React.createClass({
     const description = parameter.description || "Aucune description"
     const isScale = (! parameter.values)
     return (
-      <DocumentTitle title={`${description} - Explorateur de la législation`}>
+      <DocumentTitle title={`${parameter.id} - Explorateur de la législation`}>
         <div>
-          <div className="page-header">
-            <h1>{description}</h1>
-          </div>
+          <header className="page-header">
+            <h1><code> { parameter.id } </code></h1>
+            <p className="variable-description">{description}</p>
+          </header>
           <div className="row">
             <div className="col-lg-8">
               {
