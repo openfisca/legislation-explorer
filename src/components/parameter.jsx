@@ -19,11 +19,12 @@ const Parameter = React.createClass({
     const {parameter} = this.props
     const description = parameter.description || "Aucune description"
     const isScale = (! parameter.values)
+    const multilineId = parameter.id.replace(/[.]/g, '\u200b.')
     return (
       <DocumentTitle title={`${parameter.id} - Explorateur de la législation`}>
         <div>
           <header className="page-header">
-            <h1><code>{ parameter.id }</code></h1>
+            <h1><code>{multilineId}</code></h1>
             <p className="description">{description}</p>
           </header>
           <div className="row">
