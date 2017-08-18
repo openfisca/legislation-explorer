@@ -19,7 +19,9 @@ const Parameter = React.createClass({
     const {parameter} = this.props
     const description = parameter.description || "Aucune description"
     const isScale = (! parameter.values)
-    const multilineId = parameter.id.replace(/[.]/g, '\u200b.')
+    //Add soft hyphens to break long parameter id before dots
+    const multilineId = parameter.id.replace(/\./g, '\u200b.')
+
     return (
       <DocumentTitle title={`${parameter.id} - Explorateur de la législation`}>
         <div>
