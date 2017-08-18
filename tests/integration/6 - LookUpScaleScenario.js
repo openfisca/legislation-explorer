@@ -1,4 +1,4 @@
-description: "Navigating to an scale should show its current and past values",
+description: "Navigating to a scale should show its current and past values",
 
 steps: [
   SearchBarComponent.searchFor(impotRevenuBaremeQuery),

@@ -2,11 +2,12 @@ tr.first-bracket:not(:first-child) > td {
   border-top-width: 5px;
 }
 
-p.variable-description{
+/* OpenFisca variable and parameter description */
+p.description {
   font-size: large;
   margin-top: 3%;
 }
-span.variable-metadata{
+span.variable-metadata {
   font-weight: bold;
 }
 
@@ -19,14 +20,14 @@ footer {
   margin-top: 10em;
 }
 
-/* Fix CSS collision between Bootstrap and Swagger-UI*/
+/* Fix CSS collision between Bootstrap and Swagger-UI */
 .swagger-ui pre {
     padding: 0;
     border: none;
     background: none;
 }
 
-/* Fix CSS collision between Bootstrap and Highlight*/
+/* Fix CSS collision between Bootstrap and Highlight */
 .hljs {
     background: inherit;
 }
@@ -35,7 +36,7 @@ footer {
     color: #df5000;
 }
 
-nav.btn-group{
+nav.btn-group {
     margin-top: 2em;
     display: block;
 }
