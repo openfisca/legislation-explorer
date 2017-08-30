@@ -88,7 +88,7 @@ npm run test:integration
 
 ## OpenFisca Documentation
 
-Please consult https://doc.openfisca.fr/
+Please consult http://openfisca.org/doc/
 
 ## Contribute
 
