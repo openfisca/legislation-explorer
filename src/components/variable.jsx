@@ -87,11 +87,11 @@ const Variable = React.createClass({
               id="entityParagraph"
               values={{
                 variableLink:
-                  <a href="https://doc.openfisca.fr/variables.html" target="_blank">
+                  <a href="http://openfisca.org/doc/variables.html" target="_blank">
                     <FormattedMessage id="variableText"/>
                   </a>,
                 entityLink:
-                  <a href="https://doc.openfisca.fr/person,_entities,_role.html" target="_blank">
+                  <a href="http://openfisca.org/doc/person,_entities,_role.html" target="_blank">
                     <FormattedMessage id="entityText"/>
                   </a>
                 }} />&nbsp;
@@ -104,7 +104,7 @@ const Variable = React.createClass({
           <FormattedMessage
             id="definitionPeriodParagraph"
             values={{definitionPeriodLink:
-                <a href="https://doc.openfisca.fr/coding-the-legislation/35_periods.html#periods-for-variable" target="_blank">
+                <a href="http://openfisca.org/doc/coding-the-legislation/35_periods.html#periods-for-variable" target="_blank">
                   <FormattedMessage id="definitionPeriodText"/>
                 </a>
             }}
@@ -137,7 +137,7 @@ const Variable = React.createClass({
         <p>
           <FormattedMessage id="defaultValueParagraph"
             values={{ defaultValueLink:
-              <a href="https://doc.openfisca.fr/variables.html#default-values" target="_blank">
+              <a href="http://openfisca.org/doc/variables.html#default-values" target="_blank">
               <FormattedMessage id="defaultValueText"/>
               </a> }
             }
