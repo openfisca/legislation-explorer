@@ -292,15 +292,18 @@ const Variable = React.createClass({
   renderLinkedFormulaVariables(formula) {
     // Split on double quotes first (preventing collision with Link):
     let splits = this.splitAndLinkParam(formula)
+    splits = [].concat.apply([], splits)
 
     splits = splits.map((substring) => {
       // Only split strings, as trying to split JSX Links would raise an error
       return typeof substring == 'string' ? this.splitAndLink(substring, '\'') : substring
     })
+    splits = [].concat.apply([], splits)
     splits = splits.map((substring) => {
       // Only split strings, as trying to split JSX Links would raise an error
       return typeof substring == 'string' ? this.splitAndLink(substring, '\"') : substring
     })
+    splits = [].concat.apply([], splits)
     return splits
   },
 })
