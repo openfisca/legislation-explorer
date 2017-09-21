@@ -217,9 +217,29 @@ const Variable = React.createClass({
     return <Link key={ variable + Math.random() } to={ variable }
       data-toggle="popover" title={ this.props.variables[variable].description } >{ variable }</Link>
   },
+  linkParam(parameter, linkText) {
+    return <Link key={ parameter + Math.random() } to={ parameter }
+      data-toggle="popover" title={ this.props.parameters[parameter].description } >{ linkText } </Link>
+  },
   isVariable(substring) {
     // Ignore every text that isn't a single word like a variable must be:
     return (! substring.includes(" ") && this.props.variables[substring])
+  },
+  isParameterNode(substring) {
+    if (substring.match(/parameters\([\S]*\)\.([\S]*)[,\s]/)){
+      return true
+    } else {
+      return false
+    }
+  },
+  isParameter(substring) {
+    const split = substring.match(/parameters\([\S]*\)\.([\S]*)[,\s]/)
+    const parameterForLink = split[1]
+    if (typeof this.props.parameters[parameterForLink] ==   "object"){
+      return true
+    } else {
+      return false
+    }
   },
   splitAndLink(text, separator) {
     const splits = text.split(separator)
@@ -232,14 +252,68 @@ const Variable = React.createClass({
       return substring
     })
   },
+  splitAndLinkParam(text) {
+    // This list will contain the variable created in the formula that contains a parameter node
+    const paramVariable = []
+    // The "split" will take the formula string and split it to find parameters (x=parameter(x).x.x) and variables ('x' and "x").
+    // Idea : This could be done before this function
+    const splits = text.split(/([\'][0-9a-zA-Z\_]+[\']|[\"][0-9a-zA-Z\_]+[\"]| [\S]*[\s]*[=][\s]* parameters\([\S]*\)\.[\S]*[,\s])/)
+
+    // The first pass will go through each substring and find parameters(x=parameter(x).x.x) and check if they are a node or an actual parameter.
+    // If it's a node, it records the node and the variable associated. Else, it returns the link.
+    let firstPass = splits.map((substring) => {
+      if (this.isParameterNode(substring)) {
+        const nodeSplit = substring.match(/([\S]*)[\s]*[=][\s]*(parameters\([\S]*\)\.)([\S]*)[,\s]/)
+          if (this.isParameter(substring)){
+            substring = [nodeSplit[2], this.linkParam(nodeSplit[3], nodeSplit[3])]  // Concatenate JSX with a string (+ doesn't work).
+          } else {
+            paramVariable.push({'letter': nodeSplit[1], 'abstraction': nodeSplit[3]})
+            substring = [substring]
+          }
+      } else {
+        substring
+      }
+      return substring
+    })
+    // this takes all the constructed variables and checks the substring to look for parameters
+    paramVariable.map((element)=> {
+      var re = new RegExp('(' + element.letter + '\\.' + '[0-9a-zA-Z\\_]*' + ')')
+      var re2 = new RegExp(element.letter + '\\.' + '([0-9a-zA-Z\\_]*)')
+      firstPass = firstPass.map((substring) => {
+        if (typeof substring == 'string' && re.test(substring)){
+          let newList = substring.split(re)
+          newList = newList.map((substring2) => {
+            if (re.test(substring2)){
+              const nodeSplit2 = substring2.match(re2)
+              const linkThisParam = this.linkParam(element.abstraction + '.' + nodeSplit2[1], nodeSplit2[1])
+              substring2 = [element.letter, '.', linkThisParam]
+            }
+            return substring2
+          })
+          return newList
+        } else {
+          return substring
+        } //enf of if
+      })
+      return element
+    })
+
+    return firstPass
+  },
   // Change every OpenFisca variable in the formula by a link to the variable page:
   renderLinkedFormulaVariables(formula) {
     // Split on double quotes first (preventing collision with Link):
-    const splits = this.splitAndLink(formula, '"')
-    return splits.map((substring) => {
+    let splits = this.splitAndLinkParam(formula)
+
+    splits = splits.map((substring) => {
       // Only split strings, as trying to split JSX Links would raise an error
       return typeof substring == 'string' ? this.splitAndLink(substring, '\'') : substring
     })
+    splits = splits.map((substring) => {
+      // Only split strings, as trying to split JSX Links would raise an error
+      return typeof substring == 'string' ? this.splitAndLink(substring, '\"') : substring
+    })
+    return splits
   },
 })
 
