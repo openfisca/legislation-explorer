@@ -218,8 +218,8 @@ const Variable = React.createClass({
       data-toggle="popover" title={ this.props.variables[variable].description } >{ variable }</Link>
   },
   linkParam(parameter, linkText) {
-    return <Link key={ parameter + Math.random() } to={ parameter }
-      data-toggle="popover" title={ this.props.parameters[parameter].description } >{ linkText } </Link>
+    return <Link key={parameter + Math.random()} to={parameter}
+      data-toggle="popover" title={this.props.parameters[parameter].description} >{linkText} </Link>
   },
   isVariable(substring) {
     // Ignore every text that isn't a single word like a variable must be:
@@ -248,15 +248,14 @@ const Variable = React.createClass({
     const paramVariable = []
     // The "split" will take the formula string and split it to find parameters (x=parameter(x).x.x) and variables ('x' and "x").
     // Idea : This could be done before this function
-    const splits = text.split(/([\'][0-9a-zA-Z\_]+[\']|[\"][0-9a-zA-Z\_]+[\"]| [\S]*[\s]*[=][\s]* parameters\([\S]*\)\.[\S]*[,\s])/)
-
+    const splits = text.split(/([\'][0-9a-zA-Z\_]+[\']|[\"][0-9a-zA-Z\_]+[\"]|[\S]*[\s]*[=][\s]* parameters\([\S]*\)\.[\S]*[,\s])/)
     // The first pass will go through each substring and find parameters(x=parameter(x).x.x) and check if they are a node or an actual parameter.
     // If it's a node, it records the node and the variable associated. Else, it returns the link.
     let firstPass = splits.map((substring) => {
       if (this.isParameterCall(substring)) {
-        const nodeSplit = substring.match(/([\S]*)[\s]*[=][\s]*(parameters\([\S]*\)\.)([\S]*)[,\s]/)
+        const nodeSplit = substring.match(/([\S]*)([\s]*[=][\s]*parameters\([\S]*\)\.)([\S]*)[,\s]/)
           if (this.isParameterLeaf(substring)){
-            substring = [nodeSplit[2], this.linkParam(nodeSplit[3], nodeSplit[3])]  // Concatenate JSX with a string (+ doesn't work).
+            substring = [nodeSplit[1], nodeSplit[2], this.linkParam(nodeSplit[3], nodeSplit[3])]  // Concatenate JSX with a string (+ doesn't work).
           } else {
             paramVariable.push({'letter': nodeSplit[1], 'abstraction': nodeSplit[3]})
             substring = [substring]
@@ -268,23 +267,21 @@ const Variable = React.createClass({
     })
     // this takes all the constructed variables and checks the substring to look for parameters
     paramVariable.map((element)=> {
-      var re = new RegExp('(' + element.letter + '\\.' + '[0-9a-zA-Z\\_]*' + ')')
-      var re2 = new RegExp(element.letter + '\\.' + '([0-9a-zA-Z\\_]*)')
+      const regleParamAbstrait = new RegExp(`(${element.letter}\\.([0-9a-zA-Z\\_]*))`)
       firstPass = firstPass.map((substring) => {
-        if (typeof substring == 'string' && re.test(substring)){
-          let newList = substring.split(re)
-          newList = newList.map((substring2) => {
-            if (re.test(substring2)){
-              const nodeSplit2 = substring2.match(re2)
-              const linkThisParam = this.linkParam(element.abstraction + '.' + nodeSplit2[1], nodeSplit2[1])
+        if (typeof substring == 'object'){
+          return substring
+        }
+        return substring
+          .split(regleParamAbstrait)
+          .map((substring2) => {
+            const match = substring2.match(regleParamAbstrait)
+            if (match){
+              const linkThisParam = this.linkParam(`${element.abstraction}.${match[2]}`, match[2])
               substring2 = [element.letter, '.', linkThisParam]
             }
             return substring2
           })
-          return newList
-        } else {
-          return substring
-        } //enf of if
       })
       return element
     })

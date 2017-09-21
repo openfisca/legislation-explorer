@@ -2,8 +2,10 @@ import React from 'react';
 import Variable from '../../src/components/variable'
 import { shallow } from 'enzyme';
 import {flatten} from 'ramda'
-import {Link} from "react-router"
-import should from "should"
+import {Link} from 'react-router'
+import should from 'should'
+import fs from 'fs'
+import path from 'path'
 
 const variables = {
     rsa: {},
@@ -14,7 +16,9 @@ const variables = {
 
 const parameters = {
     "prestations.prestations_familiales.af.bmaf": {},
-    "bourses_education.bourse_college.montant_taux_3": {}
+    "bourses_education.bourse_college.montant_taux_3": {},
+    "bourses_education.bourse_college.montant_taux_2": {},
+    "bourses_education.bourse_college.montant_taux_1": {}
 }
 
 const variable = {id: 'rsa'}
@@ -39,12 +43,32 @@ describe('Parameter checking', function(){
         const substring = 'P = parameters(period).bourses_education.bourse_college'
         const output = component.isParameterLeaf(substring)
         should(output).not.be.ok()
-
     })
 })
-// function renderLinkedFormulaVariables(formula) {
-//     return shallow(<div>{component.renderLinkedFormulaVariables(formula)}</div>)
-// }
+
+function splitAndLinkParam(formula) {
+    return shallow(<div>{component.splitAndLinkParam(formula)}</div>)
+}
+describe('Add links to parameters', function(){
+    it ('should return one link when there is one leaf', function(){
+        const formula = fs.readFileSync(path.join(__dirname, "formula2.txt")).toString()
+        const output = splitAndLinkParam(formula)
+        const links = output.find(Link)
+        links.should.have.length(1)
+        links.get(0).props.to.should.equal('prestations.prestations_familiales.af.bmaf')
+    })
+    it ('should return a link for each parameter present', function(){
+        const formula = fs.readFileSync(path.join(__dirname, "formula1.txt")).toString()
+        const output = splitAndLinkParam(formula)
+        const links = output.find(Link)
+        links.should.have.length(4)
+        links.get(0).props.to.should.equal('prestations.prestations_familiales.af.bmaf')
+        links.get(1).props.to.should.equal('bourses_education.bourse_college.montant_taux_3')
+        links.get(2).props.to.should.equal('bourses_education.bourse_college.montant_taux_2')
+        links.get(3).props.to.should.equal('bourses_education.bourse_college.montant_taux_1')
+    })
+})
+
 
 // describe('Link rendering in variables', function() {
 //     it('should add links to a variables with double quotes', function() {
