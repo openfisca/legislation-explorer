@@ -225,21 +225,12 @@ const Variable = React.createClass({
     // Ignore every text that isn't a single word like a variable must be:
     return (! substring.includes(" ") && this.props.variables[substring])
   },
-  isParameterNode(substring) {
-    if (substring.match(/parameters\([\S]*\)\.([\S]*)[,\s]/)){
-      return true
-    } else {
-      return false
-    }
+  isParameterCall(substring) {
+    return /parameters\([\S]*\)\.([\S]*)[,\s]/.test(substring)
   },
-  isParameter(substring) {
-    const split = substring.match(/parameters\([\S]*\)\.([\S]*)[,\s]/)
-    const parameterForLink = split[1]
-    if (typeof this.props.parameters[parameterForLink] ==   "object"){
-      return true
-    } else {
-      return false
-    }
+  isParameterLeaf(substring) {
+    const parameterName = substring.match(/parameters\([\S]*\)\.([\S]*)/)
+    return this.props.parameters[parameterName[1]]
   },
   splitAndLink(text, separator) {
     const splits = text.split(separator)
@@ -262,9 +253,9 @@ const Variable = React.createClass({
     // The first pass will go through each substring and find parameters(x=parameter(x).x.x) and check if they are a node or an actual parameter.
     // If it's a node, it records the node and the variable associated. Else, it returns the link.
     let firstPass = splits.map((substring) => {
-      if (this.isParameterNode(substring)) {
+      if (this.isParameterCall(substring)) {
         const nodeSplit = substring.match(/([\S]*)[\s]*[=][\s]*(parameters\([\S]*\)\.)([\S]*)[,\s]/)
-          if (this.isParameter(substring)){
+          if (this.isParameterLeaf(substring)){
             substring = [nodeSplit[2], this.linkParam(nodeSplit[3], nodeSplit[3])]  // Concatenate JSX with a string (+ doesn't work).
           } else {
             paramVariable.push({'letter': nodeSplit[1], 'abstraction': nodeSplit[3]})
