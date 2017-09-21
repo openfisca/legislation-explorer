@@ -243,21 +243,25 @@ const Variable = React.createClass({
       return substring
     })
   },
+
   splitAndLinkParam(text) {
-    // This list will contain the variable created in the formula that contains a parameter node
     const paramVariable = []
-    // The "split" will take the formula string and split it to find parameters (x=parameter(x).x.x) and variables ('x' and "x").
-    // Idea : This could be done before this function
-    const splits = text.split(/([\'][0-9a-zA-Z\_]+[\']|[\"][0-9a-zA-Z\_]+[\"]|[\S]*[\s]*[=][\s]* parameters\([\S]*\)\.[\S]*[,\s])/)
+    const splits = text.split(/([\S]*[\s]*[=][\s]* parameters\([\S]*\)\.[\S]*[,\s])/)
     // The first pass will go through each substring and find parameters(x=parameter(x).x.x) and check if they are a node or an actual parameter.
     // If it's a node, it records the node and the variable associated. Else, it returns the link.
     let firstPass = splits.map((substring) => {
       if (this.isParameterCall(substring)) {
-        const nodeSplit = substring.match(/([\S]*)([\s]*[=][\s]*parameters\([\S]*\)\.)([\S]*)[,\s]/)
+        const parameterCall = substring.match(/([\S]*)([\s]*[=][\s]*parameters\([\S]*\)\.)([\S]*)[,\s]/)
           if (this.isParameterLeaf(substring)){
-            substring = [nodeSplit[1], nodeSplit[2], this.linkParam(nodeSplit[3], nodeSplit[3])]  // Concatenate JSX with a string (+ doesn't work).
+            substring = [parameterCall[1], parameterCall[2], this.linkParam(parameterCall[3], parameterCall[3])]  // Concatenate JSX with a string (+ doesn't work).
           } else {
-            paramVariable.push({'letter': nodeSplit[1], 'abstraction': nodeSplit[3]})
+            const regleParamAbstrait = new RegExp(`(${parameterCall[1]}\\.[0-9a-zA-Z\\_]*)`)
+            const regleParamAbstraitMatch = new RegExp(`(${parameterCall[1]}\\.([0-9a-zA-Z\\_]*))`)
+            paramVariable.push({
+              'letter': parameterCall[1],
+              'abstraction': parameterCall[3],
+              'regexSplit': regleParamAbstrait,
+              'regexMatch': regleParamAbstraitMatch})
             substring = [substring]
           }
       } else {
@@ -267,15 +271,14 @@ const Variable = React.createClass({
     })
     // this takes all the constructed variables and checks the substring to look for parameters
     paramVariable.map((element)=> {
-      const regleParamAbstrait = new RegExp(`(${element.letter}\\.([0-9a-zA-Z\\_]*))`)
       firstPass = firstPass.map((substring) => {
         if (typeof substring == 'object'){
           return substring
         }
         return substring
-          .split(regleParamAbstrait)
+          .split(element.regexSplit)
           .map((substring2) => {
-            const match = substring2.match(regleParamAbstrait)
+            const match = substring2.match(element.regexMatch)
             if (match){
               const linkThisParam = this.linkParam(`${element.abstraction}.${match[2]}`, match[2])
               substring2 = [element.letter, '.', linkThisParam]
@@ -283,16 +286,16 @@ const Variable = React.createClass({
             return substring2
           })
       })
+
       return element
     })
-
+    firstPass = [].concat.apply([], firstPass)
     return firstPass
   },
   // Change every OpenFisca variable in the formula by a link to the variable page:
   renderLinkedFormulaVariables(formula) {
     // Split on double quotes first (preventing collision with Link):
     let splits = this.splitAndLinkParam(formula)
-    splits = [].concat.apply([], splits)
 
     splits = splits.map((substring) => {
       // Only split strings, as trying to split JSX Links would raise an error
