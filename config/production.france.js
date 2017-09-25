@@ -4,7 +4,7 @@
 import winston from "winston"
 
 
-const  apiBaseUrl = process.env.API_URL || `https://fr.openfisca.org/api/v2`,
+const apiBaseUrl = process.env.API_URL || `https://fr.openfisca.org/api/v18`,
   gitHubProject = "openfisca/openfisca-france",
   gitWebpageUrl = "https://github.com/openfisca/legislation-explorer",
   piwikConfig = {
@@ -13,7 +13,7 @@ const  apiBaseUrl = process.env.API_URL || `https://fr.openfisca.org/api/v2`,
     trackErrors: true
   },
   useCommitReferenceFromApi = true,
-  websiteUrl = "https://www.openfisca.fr/",
+  websiteUrl = "https://fr.openfisca.org/",
   winstonConfig = {
     transports: [
       new (winston.transports.Console)({timestamp: true}),
