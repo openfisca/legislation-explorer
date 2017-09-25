@@ -243,22 +243,24 @@ const Variable = React.createClass({
   },
 
   splitAndLinkParams(text) {
-    const paramVariable = []
-    const recordNodeVariable = (nodeVariableName, path) => {
-      const regleParamAbstrait = new RegExp(`((?:[\\S]*[\\s]*[=][\\s]*)?${nodeVariableName}\\.[0-9a-zA-Z\\_\\.]*)`)
-      const regleParamAbstraitMatch = new RegExp(`(?:([\\S]*)([\\s]*[=][\\s]*))?(${nodeVariableName}\\.)([0-9a-zA-Z\\_\\.]*)`)
-      paramVariable.push({
+    const recordedParamNodes = []
+    const recordParamNode = (nodeVariableName, path) => {
+      // Matches "P_2 = P.af" or "P.af"
+      const splitRegex = new RegExp(`((?:[\\S]*[\\s]*[=][\\s]*)?${nodeVariableName}\\.[0-9a-zA-Z\\_\\.]*)`)
+      const matchRegex = new RegExp(`(?:([\\S]*)([\\s]*[=][\\s]*))?(${nodeVariableName}\\.)([0-9a-zA-Z\\_\\.]*)`)
+      recordedParamNodes.push({
         'nodeVariableName': nodeVariableName,
         'parameterPath': path,
-        'regexSplit': regleParamAbstrait,
-        'regexMatch': regleParamAbstraitMatch
+        'splitRegex': splitRegex,
+        'matchRegex': matchRegex
       })
     }
+    // Matches "P = parameters(period).af"
     const splits = text.split(/([\S]*[\s]*[=][\s]* parameters\([\S]*\)\.?[\S]*)/)
-    // The first pass will go through each substring and find parameters(x=parameter(x).x.x) and check if they are a node or an actual parameter.
+    // We go through each substring and find parameters(x=parameter(x).x.x) and check if they are a node or an actual parameter.
     // If it's a node, it records the node and the variable associated. Else, it returns the link.
     return splits.map((substring, index) => {
-      //this checks if the split actually happened
+      // This checks if the split actually happened
       if (index % 2 == 1) {
         const parameterCall = substring.match(/([\S]*)([\s]*[=][\s]*parameters\([\S]*\)\.?)([\S]*)/)
         const parameterPath = parameterCall[3]
@@ -266,20 +268,20 @@ const Variable = React.createClass({
           if (this.props.parameters[parameterPath]) {
             return [nodeVariableName, parameterCall[2], this.linkParam(parameterPath, parameterPath)]  // Concatenate JSX with a string (+ doesn't work).
           } else {
-            recordNodeVariable(nodeVariableName,parameterPath)
+            recordParamNode(nodeVariableName,parameterPath)
             return [substring]
           }
       } else {
         let substrings = [substring]
-        for (let i = 0; i < paramVariable.length; i++) {
-          const element = paramVariable[i]
+        for (let i = 0; i < recordedParamNodes.length; i++) {
+          const element = recordedParamNodes[i]
           substrings = substrings.map(substring2 => {
             return ! is(String, substring2)
               ? substring2
               : substring2
-                .split(element.regexSplit)
+                .split(element.splitRegex)
                 .map(substring3 => {
-                  const match = substring3.match(element.regexMatch)
+                  const match = substring3.match(element.matchRegex)
                   if ( ! match) {
                     return substring3
                   } else {
@@ -290,7 +292,7 @@ const Variable = React.createClass({
                       return [match[1],match[2],match[3], linkThisParam]
                     } else {
                       const nodeVariableName = match[1]
-                      recordNodeVariable(nodeVariableName,nodePath)
+                      recordParamNode(nodeVariableName,nodePath)
                       return [substring3]
                     }
                   }
