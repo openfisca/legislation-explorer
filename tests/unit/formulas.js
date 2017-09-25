@@ -26,28 +26,28 @@ const parameters = {
 const variable = {id: 'rsa'}
 const component = shallow(<Variable variable={variable} variables={variables} parameters={parameters} />).instance()
 
-describe('Parameter checking', function(){
-    it ('should return true when given a parameter', function(){
-        const substring = 'parameters(period.this_year.first_month).prestations.prestations_familiales.af.bmaf '
-        const output = component.isParameterCall(substring)
-        output.should.be.true()
-    })
-    it ('should return false when given a random string', function(){
-        const substring = "scolarite_i = famille.members('scolarite',"
-        const output = component.isParameterCall(substring)
-        output.should.be.false()
-    })
-    it ('should return true when parameter node is a leaf', function(){
-        const substring = 'P = parameters(period.this_year.first_month).prestations.prestations_familiales.af.bmaf'
-        const output = component.isParameterLeaf(substring)
-        output.should.be.ok()
-    })
-    it('should return false if parameter is a node', function(){
-        const substring = 'P = parameters(period).bourses_education.bourse_college'
-        const output = component.isParameterLeaf(substring)
-        should(output).not.be.ok()
-    })
-})
+// describe('Parameter checking', function(){
+//     it ('should return true when given a parameter', function(){
+//         const substring = 'parameters(period.this_year.first_month).prestations.prestations_familiales.af.bmaf '
+//         const output = component.isParameterCall(substring)
+//         output.should.be.true()
+//     })
+//     it ('should return false when given a random string', function(){
+//         const substring = "scolarite_i = famille.members('scolarite',"
+//         const output = component.isParameterCall(substring)
+//         output.should.be.false()
+//     })
+//     it ('should return true when parameter node is a leaf', function(){
+//         const substring = 'P = parameters(period.this_year.first_month).prestations.prestations_familiales.af.bmaf'
+//         const output = component.isParameterLeaf(substring)
+//         output.should.be.ok()
+//     })
+//     it('should return false if parameter is a node', function(){
+//         const substring = 'P = parameters(period).bourses_education.bourse_college'
+//         const output = component.isParameterLeaf(substring)
+//         should(output).not.be.ok()
+//     })
+// })
 
 function splitAndLinkParams(formula) {
     return shallow(<div>{component.splitAndLinkParams(formula)}</div>)

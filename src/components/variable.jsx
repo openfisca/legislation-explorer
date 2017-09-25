@@ -2,7 +2,7 @@ import DocumentTitle from "react-document-title"
 import { FormattedMessage, FormattedDate, FormattedHTMLMessage } from "react-intl"
 import React, { PropTypes } from "react"
 import { Link } from "react-router"
-import { keys, flatten } from "ramda"
+import { keys, flatten, pipe, map, is } from "ramda"
 
 import config from "../config"
 import * as AppPropTypes from "../app-prop-types"
@@ -215,26 +215,20 @@ const Variable = React.createClass({
   },
   link(variable) {
     return <Link key={ variable + Math.random() } to={ variable }
-      data-toggle="popover" title={ this.props.variables[variable].description } >{ variable }</Link>
+      data-toggle="popover" title={ this.props.variables[variable].description }>{ variable }</Link>
   },
   linkParam(parameter, linkText) {
     return <Link key={parameter + Math.random()} to={parameter}
-      data-toggle="popover" title={this.props.parameters[parameter].description}>{linkText} </Link>
+      data-toggle="popover" title={this.props.parameters[parameter].description}>{ linkText }</Link>
   },
   isVariable(substring) {
     // Ignore every text that isn't a single word like a variable must be:
     return (! substring.includes(" ") && this.props.variables[substring])
   },
-  isParameterCall(substring) {
-    return /parameters\([\S]*\)\.([\S]*)[,\s]/.test(substring)
-  },
-  isParameterLeaf(substring) {
-    const parameterName = substring.match(/parameters\([\S]*\)\.([\S]*)/)
-    return this.props.parameters[parameterName[1]]
-  },
+
   splitAndLinkVariables(text, separator) {
     // Only split strings, as trying to split JSX Links would raise an error
-    if (typeof text != 'string'){
+    if (! is(String, text)) {
       return text
     }
     const splits = text.split(separator)
@@ -250,20 +244,24 @@ const Variable = React.createClass({
 
   splitAndLinkParams(text) {
     const paramVariable = []
-    const splits = text.split(/([\S]*[\s]*[=][\s]* parameters\([\S]*\)\.[\S]*[,\s])/)
+    const splits = text.split(/([\S]*[\s]*[=][\s]* parameters\([\S]*\)\.?[\S]*)/)
     // The first pass will go through each substring and find parameters(x=parameter(x).x.x) and check if they are a node or an actual parameter.
     // If it's a node, it records the node and the variable associated. Else, it returns the link.
-    let result = splits.map((substring) => {
-      if (this.isParameterCall(substring)) {
-        const parameterCall = substring.match(/([\S]*)([\s]*[=][\s]*parameters\([\S]*\)\.)([\S]*)[,\s]/)
-          if (this.isParameterLeaf(substring)) {
-            substring = [parameterCall[1], parameterCall[2], this.linkParam(parameterCall[3], parameterCall[3])]  // Concatenate JSX with a string (+ doesn't work).
+    let result = splits.map((substring, index) => {
+      //this checks if the split actually happened
+      console.log(index)
+      if (index % 2 == 1) {
+        const parameterCall = substring.match(/([\S]*)([\s]*[=][\s]*parameters\([\S]*\)\.?)([\S]*)/)
+        const parameterPath = parameterCall[3]
+        const nodeVariableName = parameterCall[1]
+          if (this.props.parameters[parameterPath]) {
+            substring = [nodeVariableName, parameterCall[2], this.linkParam(parameterPath, parameterPath)]  // Concatenate JSX with a string (+ doesn't work).
           } else {
-            const regleParamAbstrait = new RegExp(`(${parameterCall[1]}\\.[0-9a-zA-Z\\_]*)`)
-            const regleParamAbstraitMatch = new RegExp(`(${parameterCall[1]}\\.([0-9a-zA-Z\\_]*))`)
+            const regleParamAbstrait = new RegExp(`(${nodeVariableName}\\.[0-9a-zA-Z\\_]*)`)
+            const regleParamAbstraitMatch = new RegExp(`(${nodeVariableName}\\.([0-9a-zA-Z\\_]*))`)
             paramVariable.push({
-              'letter': parameterCall[1],
-              'abstraction': parameterCall[3],
+              'nodeVariableName': nodeVariableName,
+              'parameterPath': parameterPath,
               'regexSplit': regleParamAbstrait,
               'regexMatch': regleParamAbstraitMatch})
             substring = [substring]
@@ -282,13 +280,13 @@ const Variable = React.createClass({
           .map((substring2) => {
             const match = substring2.match(element.regexMatch)
             if (match) {
-              const linkThisParam = this.linkParam(`${element.abstraction}.${match[2]}`, match[2])
-              substring2 = [element.letter, '.', linkThisParam]
+            const parameterPath = match[2]
+              const linkThisParam = this.linkParam(`${element.parameterPath}.${parameterPath}`, parameterPath)
+              substring2 = [element.nodeVariableName, '.', linkThisParam]
             }
             return substring2
           })
       })
-
     })
     result = flatten(result)
     return result
@@ -296,17 +294,17 @@ const Variable = React.createClass({
   // Change every OpenFisca parameter and variable in the formula by a link to the variable page:
   renderLinkedFormula(formula) {
     // Split on double quotes first (preventing collision with Link):
-    let result = this.splitAndLinkParams(formula)
-
-    result = result.map((substring) => {
-      return this.splitAndLinkVariables(substring, '\'')
-    })
-    result = flatten(result)
-    result = result.map((substring) => {
-      return this.splitAndLinkVariables(substring, '\"')
-    })
-    result = flatten(result)
-    return result
+    return pipe(
+      this.splitAndLinkParams,
+      map((substring) => {
+        return this.splitAndLinkVariables(substring, `"`)
+      }),
+      flatten,
+      map((substring) => {
+        return this.splitAndLinkVariables(substring, `'`)
+      }),
+      flatten,
+      )(formula)
   },
 })
 
