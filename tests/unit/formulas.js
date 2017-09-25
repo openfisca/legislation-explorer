@@ -38,7 +38,7 @@ describe('Parameter checking', function(){
         output.should.be.false()
     })
     it ('should return true when parameter node is a leaf', function(){
-        const substring = 'parameters(period.this_year.first_month).prestations.prestations_familiales.af.bmaf'
+        const substring = 'P = parameters(period.this_year.first_month).prestations.prestations_familiales.af.bmaf'
         const output = component.isParameterLeaf(substring)
         output.should.be.ok()
     })
@@ -49,20 +49,20 @@ describe('Parameter checking', function(){
     })
 })
 
-function splitAndLinkParam(formula) {
-    return shallow(<div>{component.splitAndLinkParam(formula)}</div>)
+function splitAndLinkParams(formula) {
+    return shallow(<div>{component.splitAndLinkParams(formula)}</div>)
 }
 describe('Add links to parameters', function(){
     it ('should return one link when there is one leaf', function(){
         const formula = fs.readFileSync(path.join(__dirname, "formula2.txt")).toString()
-        const output = splitAndLinkParam(formula)
+        const output = splitAndLinkParams(formula)
         const links = output.find(Link)
         links.should.have.length(1)
         links.get(0).props.to.should.equal('prestations.prestations_familiales.af.bmaf')
     })
     it ('should return a link for each parameter present', function(){
         const formula = fs.readFileSync(path.join(__dirname, "formula1.txt")).toString()
-        const output = splitAndLinkParam(formula)
+        const output = splitAndLinkParams(formula)
         const links = output.find(Link)
         links.should.have.length(4)
         links.get(0).props.to.should.equal('prestations.prestations_familiales.af.bmaf')
@@ -73,15 +73,15 @@ describe('Add links to parameters', function(){
 })
 
 
-function renderLinkedFormulaVariables(formula) {
-    return shallow(<div>{component.renderLinkedFormulaVariables(formula)}</div>)
+function renderLinkedFormula(formula) {
+    return shallow(<div>{component.renderLinkedFormula(formula)}</div>)
 }
 
 describe('Add links to the whole formula', function(){
 
     it ('should return 2 links when there is very one parameter and one variable', function(){
         const formula = fs.readFileSync(path.join(__dirname, "formula3.txt")).toString()
-        const output = renderLinkedFormulaVariables(formula)
+        const output = renderLinkedFormula(formula)
         const links = output.find(Link)
         links.should.have.length(2)
         links.get(0).props.to.should.equal('rsa_eligible')
@@ -90,7 +90,7 @@ describe('Add links to the whole formula', function(){
     })
     it ('should return 2 links when there is one parameter and one variable and a node', function(){
         const formula = fs.readFileSync(path.join(__dirname, "formula2.txt")).toString()
-        const output = renderLinkedFormulaVariables(formula)
+        const output = renderLinkedFormula(formula)
         const links = output.find(Link)
         links.should.have.length(2)
         links.get(0).props.to.should.equal('rsa_eligible')
@@ -98,7 +98,7 @@ describe('Add links to the whole formula', function(){
     })
     it ('should return 6 links', function(){
         const formula = fs.readFileSync(path.join(__dirname, "formula1.txt")).toString()
-        const output = renderLinkedFormulaVariables(formula)
+        const output = renderLinkedFormula(formula)
         const links = output.find(Link)
         links.should.have.length(6)
         links.get(0).props.to.should.equal('prestations.prestations_familiales.af.bmaf')
@@ -114,14 +114,14 @@ describe('Add links to the whole formula', function(){
 describe('Link rendering in variables', function() {
     it('should add links to a variables with double quotes', function() {
         const formula = 'simulation.calculate("rsa_base_ressource")'
-        const output = renderLinkedFormulaVariables(formula)
+        const output = renderLinkedFormula(formula)
         const links = output.find(Link)
         links.should.have.length(1)
         links.get(0).props.to.should.equal('rsa_base_ressource')
     });
     it('should add links to a variables with simple quotes', function() {
         const formula = 'simulation.calculate(\'rsa_base_ressource\')'
-        const output = renderLinkedFormulaVariables(formula)
+        const output = renderLinkedFormula(formula)
         const links = output.find(Link)
         links.should.have.length(1)
         links.get(0).props.to.should.equal('rsa_base_ressource')
@@ -129,7 +129,7 @@ describe('Link rendering in variables', function() {
 
     it('should handle simple quotes and double quotes mixed', function() {
         const formula = 'simulation.calculate(\'rsa_base_ressource\') simulation.calculate("rsa_fictif") simulation.calculate(\'rsa_eligible\')'
-        const output = renderLinkedFormulaVariables(formula)
+        const output = renderLinkedFormula(formula)
         const links = output.find(Link)
         links.should.have.length(3)
         links.get(0).props.to.should.equal('rsa_base_ressource');
@@ -139,7 +139,7 @@ describe('Link rendering in variables', function() {
 
     it('should be robust to quotes in comments', function() {
         const formula = ' # This a a comment with a quote \' simulation.calculate(\'rsa_base_ressource\') simulation.calculate(\'rsa_eligible\')'
-        const output = renderLinkedFormulaVariables(formula)
+        const output = renderLinkedFormula(formula)
         const links = output.find(Link)
         links.should.have.length(2)
         links.get(0).props.to.should.equal('rsa_base_ressource');

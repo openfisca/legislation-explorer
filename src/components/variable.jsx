@@ -1,8 +1,8 @@
 import DocumentTitle from "react-document-title"
-import {FormattedMessage, FormattedDate, FormattedHTMLMessage} from "react-intl"
+import { FormattedMessage, FormattedDate, FormattedHTMLMessage } from "react-intl"
 import React, { PropTypes } from "react"
 import { Link } from "react-router"
-import { keys } from "ramda"
+import { keys, flatten } from "ramda"
 
 import config from "../config"
 import * as AppPropTypes from "../app-prop-types"
@@ -202,7 +202,7 @@ const Variable = React.createClass({
                 {startDate && stopDate &&
                   <h3>Du <FormattedDate value={ startDate } /> au <FormattedDate value={ stopDate } />&nbsp;:</h3>
                 }
-                <Highlight className="python"> { this.renderLinkedFormulaVariables(formulas[date].content) } </Highlight>
+                <Highlight className="python"> { this.renderLinkedFormula(formulas[date].content) } </Highlight>
               <p>
                  <a href={ formulas[date].source }  target="_blank"><FormattedMessage id="editThisFormula"/></a>
               </p>
@@ -219,7 +219,7 @@ const Variable = React.createClass({
   },
   linkParam(parameter, linkText) {
     return <Link key={parameter + Math.random()} to={parameter}
-      data-toggle="popover" title={this.props.parameters[parameter].description} >{linkText} </Link>
+      data-toggle="popover" title={this.props.parameters[parameter].description}>{linkText} </Link>
   },
   isVariable(substring) {
     // Ignore every text that isn't a single word like a variable must be:
@@ -232,7 +232,11 @@ const Variable = React.createClass({
     const parameterName = substring.match(/parameters\([\S]*\)\.([\S]*)/)
     return this.props.parameters[parameterName[1]]
   },
-  splitAndLink(text, separator) {
+  splitAndLinkVariables(text, separator) {
+    // Only split strings, as trying to split JSX Links would raise an error
+    if (typeof text != 'string'){
+      return text
+    }
     const splits = text.split(separator)
     return splits.map((substring, index) => {
       if (this.isVariable(substring)) {
@@ -244,12 +248,12 @@ const Variable = React.createClass({
     })
   },
 
-  splitAndLinkParam(text) {
+  splitAndLinkParams(text) {
     const paramVariable = []
     const splits = text.split(/([\S]*[\s]*[=][\s]* parameters\([\S]*\)\.[\S]*[,\s])/)
     // The first pass will go through each substring and find parameters(x=parameter(x).x.x) and check if they are a node or an actual parameter.
     // If it's a node, it records the node and the variable associated. Else, it returns the link.
-    let firstPass = splits.map((substring) => {
+    let result = splits.map((substring) => {
       if (this.isParameterCall(substring)) {
         const parameterCall = substring.match(/([\S]*)([\s]*[=][\s]*parameters\([\S]*\)\.)([\S]*)[,\s]/)
           if (this.isParameterLeaf(substring)) {
@@ -264,14 +268,12 @@ const Variable = React.createClass({
               'regexMatch': regleParamAbstraitMatch})
             substring = [substring]
           }
-      } else {
-        substring
       }
       return substring
     })
     // this takes all the constructed variables and checks the substring to look for parameters
-      firstPass = firstPass.map((substring) => {
-    paramVariable.forEach((element) => {
+    paramVariable.forEach(element => {
+      result = result.map(substring => {
         if (typeof substring == 'object') {
           return substring
         }
@@ -287,27 +289,24 @@ const Variable = React.createClass({
           })
       })
 
-      return element
     })
-    firstPass = [].concat.apply([], firstPass)
-    return firstPass
+    result = flatten(result)
+    return result
   },
-  // Change every OpenFisca variable in the formula by a link to the variable page:
-  renderLinkedFormulaVariables(formula) {
+  // Change every OpenFisca parameter and variable in the formula by a link to the variable page:
+  renderLinkedFormula(formula) {
     // Split on double quotes first (preventing collision with Link):
-    let splits = this.splitAndLinkParam(formula)
+    let result = this.splitAndLinkParams(formula)
 
-    splits = splits.map((substring) => {
-      // Only split strings, as trying to split JSX Links would raise an error
-      return typeof substring == 'string' ? this.splitAndLink(substring, '\'') : substring
+    result = result.map((substring) => {
+      return this.splitAndLinkVariables(substring, '\'')
     })
-    splits = [].concat.apply([], splits)
-    splits = splits.map((substring) => {
-      // Only split strings, as trying to split JSX Links would raise an error
-      return typeof substring == 'string' ? this.splitAndLink(substring, '\"') : substring
+    result = flatten(result)
+    result = result.map((substring) => {
+      return this.splitAndLinkVariables(substring, '\"')
     })
-    splits = [].concat.apply([], splits)
-    return splits
+    result = flatten(result)
+    return result
   },
 })
 
