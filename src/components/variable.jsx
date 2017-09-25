@@ -264,41 +264,42 @@ const Variable = React.createClass({
         const parameterPath = parameterCall[3]
         const nodeVariableName = parameterCall[1]
           if (this.props.parameters[parameterPath]) {
-            substring = [nodeVariableName, parameterCall[2], this.linkParam(parameterPath, parameterPath)]  // Concatenate JSX with a string (+ doesn't work).
+            return [nodeVariableName, parameterCall[2], this.linkParam(parameterPath, parameterPath)]  // Concatenate JSX with a string (+ doesn't work).
           } else {
             recordNodeVariable(nodeVariableName,parameterPath)
-            substring = [substring]
+            return [substring]
           }
       } else {
-        substring = [substring]
+        let substrings = [substring]
         for (let i = 0; i < paramVariable.length; i++) {
           const element = paramVariable[i]
-          substring = substring.map(substring2 => {
+          substrings = substrings.map(substring2 => {
             return ! is(String, substring2)
               ? substring2
               : substring2
                 .split(element.regexSplit)
                 .map(substring3 => {
                   const match = substring3.match(element.regexMatch)
-                  if (match) {
+                  if ( ! match) {
+                    return substring3
+                  } else {
                     const parameterPath = match[4]
                     const nodePath = element.parameterPath ? `${element.parameterPath}.${parameterPath}` : parameterPath
                     if (this.props.parameters[nodePath]) {
                       const linkThisParam = this.linkParam(nodePath, parameterPath)
-                      substring3 = [match[1],match[2],match[3], linkThisParam]
+                      return [match[1],match[2],match[3], linkThisParam]
                     } else {
                       const nodeVariableName = match[1]
                       recordNodeVariable(nodeVariableName,nodePath)
-                      substring3 = [substring3]
+                      return [substring3]
                     }
                   }
-                  return substring3
                 })
           })
-          substring = flatten(substring)
+          substrings = flatten(substrings)
         }
+        return substrings
       }
-      return substring
     })
   },
   // Change every OpenFisca parameter and variable in the formula by a link to the variable page:
