@@ -11,6 +11,7 @@
     "node": true
   },
   "rules": {
+      "arrow-spacing": "error",
       "space-before-blocks": "error",
       "no-console": "off",
       "space-infix-ops": "error",

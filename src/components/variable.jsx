@@ -270,8 +270,8 @@ const Variable = React.createClass({
       return substring
     })
     // this takes all the constructed variables and checks the substring to look for parameters
-    paramVariable.map((element)=> {
       firstPass = firstPass.map((substring) => {
+    paramVariable.forEach((element) => {
         if (typeof substring == 'object') {
           return substring
         }
