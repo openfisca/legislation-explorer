@@ -1,0 +1,3 @@
+P = parameters(period.this_year.first_month)
+P_2 = P.prestations.prestations_familiales
+P_3 = P_2.af.bmaf

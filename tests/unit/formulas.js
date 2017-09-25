@@ -70,6 +70,13 @@ describe('Add links to parameters', function(){
         links.get(2).props.to.should.equal('bourses_education.bourse_college.montant_taux_2')
         links.get(3).props.to.should.equal('bourses_education.bourse_college.montant_taux_1')
     })
+    it ('should return a link when embeded in several nodes', function(){
+        const formula = fs.readFileSync(path.join(__dirname, "formula4.txt")).toString()
+        const output = splitAndLinkParams(formula)
+        const links = output.find(Link)
+        links.should.have.length(1)
+        links.get(0).props.to.should.equal('prestations.prestations_familiales.af.bmaf')
+    })
 })
 
 

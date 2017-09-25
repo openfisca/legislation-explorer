@@ -244,12 +244,21 @@ const Variable = React.createClass({
 
   splitAndLinkParams(text) {
     const paramVariable = []
+    const recordNodeVariable = (nodeVariableName, path) => {
+      const regleParamAbstrait = new RegExp(`((?:[\\S]*[\\s]*[=][\\s]*)?${nodeVariableName}\\.[0-9a-zA-Z\\_]*)`)
+      const regleParamAbstraitMatch = new RegExp(`(?:([\\S]*)([\\s]*[=][\\s]*))?(${nodeVariableName}\\.)([0-9a-zA-Z\\_]*)`)
+      paramVariable.push({
+        'nodeVariableName': nodeVariableName,
+        'parameterPath': path,
+        'regexSplit': regleParamAbstrait,
+        'regexMatch': regleParamAbstraitMatch
+      })
+    }
     const splits = text.split(/([\S]*[\s]*[=][\s]* parameters\([\S]*\)\.?[\S]*)/)
     // The first pass will go through each substring and find parameters(x=parameter(x).x.x) and check if they are a node or an actual parameter.
     // If it's a node, it records the node and the variable associated. Else, it returns the link.
-    let result = splits.map((substring, index) => {
+    return splits.map((substring, index) => {
       //this checks if the split actually happened
-      console.log(index)
       if (index % 2 == 1) {
         const parameterCall = substring.match(/([\S]*)([\s]*[=][\s]*parameters\([\S]*\)\.?)([\S]*)/)
         const parameterPath = parameterCall[3]
@@ -257,39 +266,32 @@ const Variable = React.createClass({
           if (this.props.parameters[parameterPath]) {
             substring = [nodeVariableName, parameterCall[2], this.linkParam(parameterPath, parameterPath)]  // Concatenate JSX with a string (+ doesn't work).
           } else {
-            const regleParamAbstrait = new RegExp(`(${nodeVariableName}\\.[0-9a-zA-Z\\_]*)`)
-            const regleParamAbstraitMatch = new RegExp(`(${nodeVariableName}\\.([0-9a-zA-Z\\_]*))`)
-            paramVariable.push({
-              'nodeVariableName': nodeVariableName,
-              'parameterPath': parameterPath,
-              'regexSplit': regleParamAbstrait,
-              'regexMatch': regleParamAbstraitMatch})
+            recordNodeVariable(nodeVariableName,parameterPath)
             substring = [substring]
           }
-      }
-      return substring
-    })
-    // this takes all the constructed variables and checks the substring to look for parameters
-    paramVariable.forEach(element => {
-      result = result.map(substring => {
-        if (typeof substring == 'object') {
-          return substring
-        }
-        return substring
-          .split(element.regexSplit)
-          .map((substring2) => {
+      } else {
+        paramVariable.forEach(element => {
+          substring = substring.split(element.regexSplit)
+          substring = substring.map(substring2 => {
             const match = substring2.match(element.regexMatch)
             if (match) {
-            const parameterPath = match[2]
-              const linkThisParam = this.linkParam(`${element.parameterPath}.${parameterPath}`, parameterPath)
-              substring2 = [element.nodeVariableName, '.', linkThisParam]
+              const parameterPath = match[4]
+              const nodePath = `${element.parameterPath}.${parameterPath}`
+              if (this.props.parameters[nodePath]) {
+                const linkThisParam = this.linkParam(nodePath, parameterPath)
+                substring2 = [match[1],match[2],match[3], linkThisParam]
+              } else {
+                const nodeVariableName = match[1]
+                recordNodeVariable(nodeVariableName,nodePath)
+                substring2 = [substring2]
+              }
             }
             return substring2
           })
-      })
+        })
+      }
+      return substring
     })
-    result = flatten(result)
-    return result
   },
   // Change every OpenFisca parameter and variable in the formula by a link to the variable page:
   renderLinkedFormula(formula) {
