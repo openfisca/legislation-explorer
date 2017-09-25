@@ -49,7 +49,7 @@ const ParameterOrVariablePage = React.createClass({
   componentDidMount() {
     this.fetchPageContent(this.props.params.name)
   },
-  handleNotFound(){
+  handleNotFound() {
     const name = this.props.params.name
     return this.context.router.push({
       query: {q: name, is404: true},

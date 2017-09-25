@@ -1,14 +1,13 @@
 import DocumentTitle from "react-document-title"
-import {FormattedMessage, FormattedDate, FormattedHTMLMessage} from "react-intl"
+import { FormattedMessage, FormattedDate, FormattedHTMLMessage } from "react-intl"
 import React, { PropTypes } from "react"
-import { Link } from "react-router"
 import { keys } from "ramda"
 
 import config from "../config"
 import * as AppPropTypes from "../app-prop-types"
 import ExternalLink from "./external-link"
+import Formula from "./formula"
 import getDayBefore from "../periods"
-import Highlight from 'react-highlight'
 
 const Variable = React.createClass({
   propTypes: {
@@ -192,54 +191,20 @@ const Variable = React.createClass({
             const startDate = (date != "0001-01-01") && date
             const stopDate = startDates[dateIndex - 1] && getDayBefore(startDates[dateIndex - 1])
             return formulas[date] && (
-              <div key={ date } >
-                {startDate && (! stopDate) &&
-                  <h3>À partir du <FormattedDate value={ startDate } />&nbsp;:</h3>
-                }
-                {stopDate && (! startDate) &&
-                  <h3>Jusqu'au <FormattedDate value={ stopDate } />&nbsp;:</h3>
-                }
-                {startDate && stopDate &&
-                  <h3>Du <FormattedDate value={ startDate } /> au <FormattedDate value={ stopDate } />&nbsp;:</h3>
-                }
-                <Highlight className="python"> { this.renderLinkedFormulaVariables(formulas[date].content) } </Highlight>
-              <p>
-                 <a href={ formulas[date].source }  target="_blank"><FormattedMessage id="editThisFormula"/></a>
-              </p>
-              </div>
+              <Formula
+                key={startDate}
+                start-date={startDate}
+                stop-date={stopDate}
+                content={formulas[date].content}
+                source={formulas[date].source}
+                variables={this.props.variables}
+                parameters={this.props.parameters}
+                />
             )
           })
         }
       </div>
     )
-  },
-  link(variable) {
-    return <Link key={ variable + Math.random() } to={ variable }
-      data-toggle="popover" title={ this.props.variables[variable].description } >{ variable }</Link>
-  },
-  isVariable(substring) {
-    // Ignore every text that isn't a single word like a variable must be:
-    return (! substring.includes(" ") && this.props.variables[substring])
-  },
-  splitAndLink(text, separator) {
-    const splits = text.split(separator)
-    return splits.map((substring, index) => {
-      if (this.isVariable(substring)) {
-        substring = [this.link(substring), separator]  // Concatenate JSX with a string (+ doesn't work).
-      } else {
-        substring = index < splits.length - 1 ? substring + separator : substring
-      }
-      return substring
-    })
-  },
-  // Change every OpenFisca variable in the formula by a link to the variable page:
-  renderLinkedFormulaVariables(formula) {
-    // Split on double quotes first (preventing collision with Link):
-    const splits = this.splitAndLink(formula, '"')
-    return splits.map((substring) => {
-      // Only split strings, as trying to split JSX Links would raise an error
-      return typeof substring == 'string' ? this.splitAndLink(substring, '\'') : substring
-    })
   },
 })
 

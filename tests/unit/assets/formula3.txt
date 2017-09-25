@@ -1,0 +1,3 @@
+# On prends en compte la BMAF du premier janvier de l'année de la rentrée scolaire
+simulation.calculate('rsa_eligible')
+bmaf_1er_janvier = parameters(period.this_year.first_month).prestations.prestations_familiales.af.bmaf

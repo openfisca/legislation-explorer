@@ -1,3 +1,4 @@
+
 import path from "path"
 import {readdir} from "fs"
 import acceptLanguage from "accept-language"
@@ -21,7 +22,7 @@ export function loadTranslations(langDir) {
 }
 
 
-export function getLocale(clientAcceptLanguage, messages){
+export function getLocale(clientAcceptLanguage, messages) {
   try {
     acceptLanguage.languages(Object.keys(messages))
   } catch (error) {
@@ -35,6 +36,6 @@ export function getLocale(clientAcceptLanguage, messages){
   return locale
 }
 
-export function getLocaleMessages(locale, messages){
+export function getLocaleMessages(locale, messages) {
   return messages[locale]
 }
