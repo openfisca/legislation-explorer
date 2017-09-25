@@ -273,28 +273,27 @@ const Variable = React.createClass({
         substring = [substring]
         for (let i = 0; i < paramVariable.length; i++) {
           const element = paramVariable[i]
-          substring = substring.map(substring3 => {
-            if (! is(String, substring3)) {
-              return substring3
-            }
-            substring3 = substring3.split(element.regexSplit)
-            substring3 = substring3.map(substring2 => {
-              const match = substring2.match(element.regexMatch)
-              if (match) {
-                const parameterPath = match[4]
-                const nodePath = element.parameterPath ? `${element.parameterPath}.${parameterPath}` : parameterPath
-                if (this.props.parameters[nodePath]) {
-                  const linkThisParam = this.linkParam(nodePath, parameterPath)
-                  substring2 = [match[1],match[2],match[3], linkThisParam]
-                } else {
-                  const nodeVariableName = match[1]
-                  recordNodeVariable(nodeVariableName,nodePath)
-                  substring2 = [substring2]
-                }
-              }
-              return substring2
-            })
-          return substring3
+          substring = substring.map(substring2 => {
+            return ! is(String, substring2)
+              ? substring2
+              : substring2
+                .split(element.regexSplit)
+                .map(substring3 => {
+                  const match = substring3.match(element.regexMatch)
+                  if (match) {
+                    const parameterPath = match[4]
+                    const nodePath = element.parameterPath ? `${element.parameterPath}.${parameterPath}` : parameterPath
+                    if (this.props.parameters[nodePath]) {
+                      const linkThisParam = this.linkParam(nodePath, parameterPath)
+                      substring3 = [match[1],match[2],match[3], linkThisParam]
+                    } else {
+                      const nodeVariableName = match[1]
+                      recordNodeVariable(nodeVariableName,nodePath)
+                      substring3 = [substring3]
+                    }
+                  }
+                  return substring3
+                })
           })
           substring = flatten(substring)
         }
