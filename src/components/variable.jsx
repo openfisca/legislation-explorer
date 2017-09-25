@@ -252,7 +252,7 @@ const Variable = React.createClass({
     let firstPass = splits.map((substring) => {
       if (this.isParameterCall(substring)) {
         const parameterCall = substring.match(/([\S]*)([\s]*[=][\s]*parameters\([\S]*\)\.)([\S]*)[,\s]/)
-          if (this.isParameterLeaf(substring)){
+          if (this.isParameterLeaf(substring)) {
             substring = [parameterCall[1], parameterCall[2], this.linkParam(parameterCall[3], parameterCall[3])]  // Concatenate JSX with a string (+ doesn't work).
           } else {
             const regleParamAbstrait = new RegExp(`(${parameterCall[1]}\\.[0-9a-zA-Z\\_]*)`)
@@ -272,14 +272,14 @@ const Variable = React.createClass({
     // this takes all the constructed variables and checks the substring to look for parameters
     paramVariable.map((element)=> {
       firstPass = firstPass.map((substring) => {
-        if (typeof substring == 'object'){
+        if (typeof substring == 'object') {
           return substring
         }
         return substring
           .split(element.regexSplit)
           .map((substring2) => {
             const match = substring2.match(element.regexMatch)
-            if (match){
+            if (match) {
               const linkThisParam = this.linkParam(`${element.abstraction}.${match[2]}`, match[2])
               substring2 = [element.letter, '.', linkThisParam]
             }
