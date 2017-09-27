@@ -20,13 +20,14 @@ const Parameter = React.createClass({
     const description = parameter.description || "Aucune description"
     const isScale = (! parameter.values)
     //Add soft hyphens to break long parameter id before dots
-    const multilineId = parameter.id.replace(/\./g, '\u200b.')
+    //const multilineId = parameter.id.replace(/\./g, '\u200b.')
+    const multilineId = '<span>' + parameter.id.replace(/\./g, '</span><span>.') + '</span>'
 
     return (
       <DocumentTitle title={`${parameter.id} - Explorateur de la législation`}>
         <div>
           <header className="page-header">
-            <h1><code>{multilineId}</code></h1>
+            <h1><code dangerouslySetInnerHTML={{__html: multilineId}}></code></h1>
             <p className="description">{description}</p>
           </header>
           <div className="row">
