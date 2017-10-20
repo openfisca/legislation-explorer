@@ -193,8 +193,8 @@ const Variable = React.createClass({
             return formulas[date] && (
               <Formula
                 key={startDate}
-                start-date={startDate}
-                stop-date={stopDate}
+                startDate={startDate}
+                stopDate={stopDate}
                 content={formulas[date].content}
                 source={formulas[date].source}
                 variables={this.props.variables}
