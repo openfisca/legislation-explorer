@@ -14,7 +14,8 @@
     "start": "NODE_ENV=production PORT=2030 node index.js",
     "test:unit": "mocha --compilers js:babel-core/register tests/unit/**/*.js",
     "test:integration": "watai tests/integration",
-    "test": "npm run lint && npm run test:unit && npm run test:integration"
+    "test": "npm run lint && npm run test:unit && npm run test:integration",
+    "openfisca": "openfisca serve -p 2000"
   },
   "repository": {
     "type": "git",

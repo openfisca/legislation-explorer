@@ -1,2 +1,3 @@
 aahDependencyTitle = "aah_base"
-enumVariableFirstValue = /Marié/
+enumVariableTitle = "statut_marital"
+enumVariableDefault = /Célibataire/

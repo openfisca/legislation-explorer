@@ -1,3 +1,4 @@
+
 tr.first-bracket:not(:first-child) > td {
   border-top-width: 5px;
 }
@@ -14,6 +15,14 @@ span.variable-metadata {
 span.message {
   display: block;
   margin-bottom: 1.5em;
+}
+
+table.in-metadata{
+  margin-top: 1em;
+}
+
+td.list-entry{
+  font-weight: bold;
 }
 
 footer {
