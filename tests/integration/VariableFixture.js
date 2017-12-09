@@ -1,2 +1,2 @@
 aahDependencyTitle = "aah_base"
-enumVariableFirstValue = /Marié/
+enumVariableFirstValue = "0"
