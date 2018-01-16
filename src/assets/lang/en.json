@@ -35,5 +35,7 @@
   "pageDoesNotExist": "The page '{inputValueRef}' does not exist.",
   "backToHP": "Back to the homepage",
   "explore": "Explore OpenFisca's parameter and variable database",
-  "find": "Find"
+  "find": "Find",
+  "keyword": "Keyword",
+  "definition":"Definition"
 }

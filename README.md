@@ -49,11 +49,11 @@ To maintain the legislation at its latest version, you can check the [auto-updat
 
 Install [Selenium standalone server](http://www.seleniumhq.org/download/).
 
-Install Chrome WebDriver : The `tests/config.js` in this package is pre-configured to use Chrome WebDriver. 
+Install Chrome WebDriver : The `tests/config.js` in this package is pre-configured to use Chrome WebDriver.
 * Under Debian GNU/Linux install it with `apt install chromium-driver` (Chromium is the free software version of Chrome).
 * Under Mac OS X install it with `brew install chromedriver`
-    
-### Run the integration tests 
+
+### Run the integration tests
 
 - Terminal window 1 : run Selenium standalone server
 

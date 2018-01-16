@@ -35,5 +35,7 @@
   "pageDoesNotExist": "La page '{inputValueRef}'' n'existe pas.",
   "backToHP": "Retour à l'accueil",
   "explore": "Explorez la base de paramètres et variables OpenFisca",
-  "find": "Trouver"
+  "find": "Trouver",
+  "keyword": "Identifiant",
+  "definition":"Définition"
 }

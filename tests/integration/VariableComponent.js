@@ -3,4 +3,5 @@ description: "header p",
 definitionPeriod: "p:nth-of-type(2)",
 goBackLink: {a: "Voir"},
 goToDependencyLink: {a: "aah_base"},
-firstPossibleValue: "li"
+defaultValue:"p:nth-of-type(4)",
+firstPossibleValue: "samp"
