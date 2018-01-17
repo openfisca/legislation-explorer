@@ -6,6 +6,8 @@ steps: [
   {
     "VariableComponent.title": enumVariableTitle,
     "VariableComponent.defaultValue": enumVariableDefault,
+    "VariableComponent.enumFirstPossibleValue": enumVariableDefault,
+    "VariableComponent.enumFirstPossibleValueDefinition": enumVariableDefinition,
   },
   VariableComponent.goBack(),
 ]

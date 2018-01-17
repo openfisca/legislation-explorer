@@ -3,5 +3,6 @@ description: "header p",
 definitionPeriod: "p:nth-of-type(2)",
 goBackLink: {a: "Voir"},
 goToDependencyLink: {a: "aah_base"},
-defaultValue:"p:nth-of-type(4)",
-firstPossibleValue: "samp"
+defaultValue:"p:nth-of-type(4) .variable-metadata",
+enumFirstPossibleValue: "samp",
+enumFirstPossibleValueDefinition: "td:last-child",
