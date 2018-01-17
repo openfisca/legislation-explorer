@@ -6,27 +6,17 @@ machine:
     WATAI_TESTS: tests/integration
     SAUCE_USERNAME: openfisca
     # SAUCE_ACCESS_KEY is defined in the CircleCI web UI
-    APP_PORT: 2030 # Legislation Explorer ExpressJS server port
-    API_PORT: 5000 # OpenFisca API port
-    API_VERSION: 21.0.2 # OpenFisca API version
-    FRANCE_VERSION: 20.0.0 # OpenFisca France version
+    PORT: 2030 # Legislation Explorer ExpressJS server port
 
 dependencies:
   post:
     - npm install saucelabs # allow sending Watai results to SauceLabs
     - wget https://saucelabs.com/downloads/sc-4.4.9-linux.tar.gz
     - tar -xzf sc-4.4.9-linux.tar.gz
-    - virtualenv --python=python2 ~/virtualenv
-    - source ~/virtualenv/bin/activate && pip install --upgrade pip
-    - source ~/virtualenv/bin/activate && pip install openfisca-core==$API_VERSION
-    - source ~/virtualenv/bin/activate && pip install openfisca-france==$FRANCE_VERSION
     - npm run build
 
 test:
   pre:
-    - source ~/virtualenv/bin/activate && openfisca serve --country-package openfisca_france -p $API_PORT:
-        background: true
-        parallel: true
     - npm start:
         background: true
         parallel: true
@@ -38,19 +28,13 @@ test:
     - while [ ! -e ~/sauce_is_ready ]; do sleep 1; done:
         parallel: true
     # wait for server (after Sauce Connect because it is faster to start)
-    - wget --retry-connrefused --waitretry=1 --output-document=/dev/null http://localhost:$API_PORT/variables:
-        parallel: true
-    # wait for server (after Sauce Connect because it is faster to start)
-    - wget --retry-connrefused --waitretry=1 --output-document=/dev/null http://localhost:$APP_PORT/:
+    - wget --retry-connrefused --waitretry=1 --output-document=/dev/null http://localhost:$PORT:
         parallel: true
     # prepare CI-specific config holder and add CI-specific config to Watai
     - mkdir $HOME/.watai && cp $WATAI_TESTS/config-ci.js $HOME/.watai/config.js:
         parallel: true
 
   override:
-    - npm run dev:
-        background: true
-        parallel: true
     - npm test:
         parallel: true
 
