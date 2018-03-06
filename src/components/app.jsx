@@ -1,4 +1,3 @@
-import url from "url"
 
 import DocumentTitle from "react-document-title"
 import React, {PropTypes} from "react"
