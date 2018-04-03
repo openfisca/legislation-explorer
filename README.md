@@ -26,7 +26,7 @@ Type the following commands from the project root directory:
 
     Open http://localhost:2030/
 
-- Production server:
+- Production server, served on root directory (e.g. legislation.openfisca.fr):
 
     ```sh
     npm install
@@ -36,6 +36,20 @@ Type the following commands from the project root directory:
     ```
 
     Open http://localhost:2030/
+
+- Production server, served on sub-directory (e.g. fr.openfisca.org/legislation):
+
+    ```sh
+    npm install
+    npm run clean
+    BASENAME=/legislation npm run build
+    BASENAME=/legislation NODE_ENV=production PORT=2030 node index.js
+    ```
+
+    Open http://your.reverse.proxy/legislation
+
+    To work with nginx as a reverse proxy, you need to set up a [ngx_http_upstream_module](http://nginx.org/en/docs/http/ngx_http_upstream_module.html).
+    See the [fr.openfisca.org nginx configuration](https://github.com/openfisca/openfisca-ops/blob/master/fr.openfisca.org/fr.openfisca.org.conf) to learn more.
 
 ## Auto-update the legislation
 
