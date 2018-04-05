@@ -1,7 +1,8 @@
 import PiwikReactRouter from "piwik-react-router"
 import React from "react"
 import {render} from "react-dom"
-import {Router, browserHistory} from "react-router"
+import {createHistory} from "history"
+import {Router, useRouterHistory} from "react-router"
 
 import {addLocaleData, IntlProvider} from "react-intl"
 
@@ -30,9 +31,12 @@ function hashLinkScroll() {
 export function renderApp() {
   const appMountNode = document.getElementById("app-mount-node")
   const initialState = window.__INITIAL_STATE__
-  const history = config.piwikConfig
-    ? PiwikReactRouter(config.piwikConfig).connectToHistory(browserHistory)
-    : browserHistory
+  const basename = process.env.BASENAME || "/"
+  let history = useRouterHistory(createHistory)({basename: basename})
+
+  if (config.piwikConfig) {
+    history = PiwikReactRouter(config.piwikConfig).connectToHistory(history)
+  }
 
   addLocaleData(require(`react-intl/locale-data/${initialState.locale}`))
 

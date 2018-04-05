@@ -21,8 +21,9 @@ const SearchBarComponent = React.createClass({
   handleSubmit(event) {
     event.preventDefault()
     this.context.router.push({
+      pathname: "/",
       query: {q: this.state.inputValue},
-      hash: `#search-input`,
+      hash: "#search-input",
     })
   },
 
