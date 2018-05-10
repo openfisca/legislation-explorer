@@ -1,5 +1,4 @@
-// App config the for production environment.
-// Do not require this directly. Use ./src/config instead.
+// App config in a production environment.
 
 const HOST = process.env.HOST || "api.openfisca.tn",
   apiBaseUrl = process.env.API_URL || `https://${HOST}`,
