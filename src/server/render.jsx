@@ -30,16 +30,15 @@ export default function handleRender(state) {
 }
 
 function loadWebpackAssets() {
-  const webpackAssetsFilePath = "../../webpack-assets.json"
-  let webpackAssets
-  if (process.env.NODE_ENV === "production") {
-    webpackAssets = require(webpackAssetsFilePath)
-  } else if (process.env.NODE_ENV === "development") {
-    webpackAssets = require(webpackAssetsFilePath)
+  const WEBPACK_ASSETS_FILE_PATH = "../../webpack-assets.json"
+  let webpackAssets = require(WEBPACK_ASSETS_FILE_PATH)
+
+  if (process.env.NODE_ENV === "development") {
     // Do not cache webpack stats: the script file would change since
     // hot module replacement is enabled in the development env
-    delete require.cache[require.resolve(webpackAssetsFilePath)]
+    delete require.cache[require.resolve(WEBPACK_ASSETS_FILE_PATH)]
   }
+
   return webpackAssets
 }
 
