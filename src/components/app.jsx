@@ -71,7 +71,7 @@ const App = React.createClass({
                     <span className="message">
                       <FormattedMessage id="header"/>
                       <small>
-                        <ExternalLink href="https://www.openfisca.fr" target="_blank">
+                        <ExternalLink href="http://openfisca.org" target="_blank">
                           <FormattedMessage id="learnMore"/>
                         </ExternalLink>
                       </small>
