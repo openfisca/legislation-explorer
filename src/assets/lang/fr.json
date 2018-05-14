@@ -40,6 +40,7 @@
   "thisVariableJson": "Donnée brute au format JSON",
   "checkChangelog": "Vérifiez l'orthographe de l'URL. Si ce lien fonctionnait et ne fonctionne plus, vérifiez le {changelogURLLink}.",
   "notParamNotVariable": "'{inputValueRef}' n'est ni un paramètre ni une variable d'OpenFisca.",
+  "noDescription": "Aucune description",
   "pageDoesNotExist": "La page '{inputValueRef}'' n'existe pas.",
   "backToHP": "Retour à l'accueil",
   "explore": "Explorez la base de paramètres et variables OpenFisca",

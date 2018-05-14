@@ -17,7 +17,6 @@ const Parameter = React.createClass({
   },
   render() {
     const {parameter} = this.props
-    const description = parameter.description || "Aucune description"
     const isScale = (! parameter.values)
     //Add word break opportunities before dots for long parameter id
     const multilineId = parameter.id.replace(/\./g, '<wbr>.')
@@ -27,7 +26,11 @@ const Parameter = React.createClass({
         <div>
           <header className="page-header">
             <h1><code dangerouslySetInnerHTML={{__html: multilineId}}></code></h1>
-            <p className="description">{description}</p>
+            { parameter.description
+              ? <p className="description">{parameter.description}</p>
+              : <em><FormattedMessage id="noDescription"/></em>
+            }
+
           </header>
           <div className="row">
             <div className="col-lg-8">

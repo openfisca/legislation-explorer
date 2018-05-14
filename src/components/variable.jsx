@@ -28,7 +28,10 @@ const Variable = React.createClass({
         <div>
           <header className="page-header">
             <h1><code>{ variable.id }</code></h1>
-            <p className="description">{variable.description}</p>
+            { variable.description
+              ? <p className="description">{variable.description}</p>
+              : <em><FormattedMessage id="noDescription"/></em>
+            }
           </header>
           {this.renderVariableMetadata(variable)}
           <div>
