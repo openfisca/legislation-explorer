@@ -1,5 +1,6 @@
 import React, { PropTypes } from "react"
 import { Link, locationShape, routerShape } from "react-router"
+import { FormattedMessage } from "react-intl"
 
 import * as AppPropTypes from "../../app-prop-types"
 import Parameter from "../parameter"
@@ -67,6 +68,7 @@ const ParameterOrVariablePage = React.createClass({
       query: {q: searchQuery},
       hash: `#${searchInputId}`,
     }
+    const otherResultsCount = searchResults.length - 1
 
     if (this.state.waitingForResponse) {
       return (
@@ -77,14 +79,9 @@ const ParameterOrVariablePage = React.createClass({
     return (
       <div>
         <Link className="btn btn-default" to={goBackLocation}>
-          {
-            do {
-              const count = searchResults.length - 1
-              count > 1
-                ? `Voir les ${count} autres variables et paramètres`
-                : "Voir la page de recherche"
-            }
-          }
+          <FormattedMessage id={ otherResultsCount > 1 ? 'seeOtherResults' : 'backToHP' }
+            values={{ otherResultsCount }}
+          />
         </Link>
         {
           parameter && (
