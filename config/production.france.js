@@ -21,9 +21,11 @@ const apiBaseUrl = process.env.API_URL || `https://fr.openfisca.org/api/v21`,
   ui = {
     en: {
       countryName: 'France',
+      search_placeholder: 'smic, salaire net',
     },
     fr: {
       countryName: 'France',
+      search_placeholder: 'smic, salaire net',
     }
   }
 

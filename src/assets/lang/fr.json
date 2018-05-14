@@ -7,6 +7,8 @@
   "cta_api_text": "Utiliser l’API",
   "cta_openfisca": "Ce modèle a été créé avec {cta_openfisca_link}, un moteur de calcul libre et ouvert qui rend la loi calculable de manière transparente et collaborative.",
 
+  "search_placeholder": "salaire, impot",
+
   "entityParagraph" : "Cette {variableLink} s'applique aux {entityLink}",
   "variableText": "variable",
   "entityText": "entités",

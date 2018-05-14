@@ -7,9 +7,11 @@ export default {
   ui: {
     en: {
       countryName: 'Aotearoa New Zealand',
+      search_placeholder: 'rates rebate, threshold',
     },
     fr: {
       countryName: 'Nouvelle-Zélande',
+      search_placeholder: 'rates rebate, threshold',
     }
   }
 }

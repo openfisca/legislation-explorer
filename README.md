@@ -28,7 +28,20 @@ This config file needs to expose a JavaScript object with the following properti
 - `gitHubProject`: The GitHub fully qualified name of the source repository for this OpenFisca instance. For example: `ServiceInnovationLab/openfisca-aotearoa`.
 - `gitWebpageUrl`: The URL at which the source repository for this OpenFisca instance can be found. For example: `https://github.com/ServiceInnovationLab/openfisca-aotearoa`.
 - `websiteUrl`: The URL at which more information can be obtained on OpenFisca. For example: `https://openfisca.org`.
-- `ui`: An object defining textual parts to be displayed in the user interface. Its keys are ISO two-letters language codes, and values are strings. You should at least define `countryName` to the name of the tax and benefit system you are modelling here. You can also override any string defined in the `src/assets/lang` directory there, including `forCountry` in case the default interpolation for your `countryName` does not give good results.
+
+### Localisation (l12n / i18n)
+
+The user interface of the legislation explorer has full support for internationalisation. Supported languages can be found in the `src/assets/lang` directory, and can be added by simply creating a new file with the two-letter language code to add support for.
+
+For localisation, you can override any of the strings defined in these files through the `ui` property of your configuration file.
+
+If you export `ui` as an object whose keys are ISO two-letters language codes and values are strings, these values will take precedence over any strings defined in the `lang` folder.
+
+The following strings are strongly recommended to be overridden:
+
+- `countryName`: The name of the tax and benefit system you are modelling here.
+    - `forCountry`: In case the default interpolation for your `countryName` does not give good results, you can also edit the prefix added before the `countryName` value.
+- `search_placeholder`: One or two suggested searches, preferably comma-separated, for your users to make sense of the search field. Best results will be obtained by using the most well-known parameters for your tax and benefit system.
 
 ### Optional configuration
 

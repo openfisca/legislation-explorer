@@ -1,6 +1,6 @@
 import { routerShape } from "react-router"
 import React from "react"
-import {FormattedMessage} from "react-intl"
+import {FormattedMessage, injectIntl, intlShape} from "react-intl"
 
 import { searchInputId } from "./home"
 
@@ -40,7 +40,7 @@ const SearchBarComponent = React.createClass({
             <input
               className="form-control"
               id={searchInputId}
-              placeholder="smic, salaire net…"
+              placeholder={this.props.intl.formatMessage({ id: 'search_placeholder' }) + '…'}
               type="text"
               onChange={this.handleInputChange}
               value={inputValue}
@@ -56,5 +56,9 @@ const SearchBarComponent = React.createClass({
   },
 })
 
+SearchBarComponent.propTypes = {
+  intl: intlShape.isRequired
+}
 
-export default SearchBarComponent
+
+export default injectIntl(SearchBarComponent)

@@ -7,6 +7,8 @@
   "cta_api_text": "Use the API",
   "cta_openfisca": "This model is created with {cta_openfisca_link}, a free and open-source computation engine that makes law computable in a collaborative and transparent way.",
 
+  "search_placeholder": "income, threshold",
+
   "entityParagraph": "This {variableLink} applies to the {entityLink}",
   "variableText": "variable",
   "entityText": "entities",
