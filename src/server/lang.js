@@ -1,3 +1,4 @@
+import config from '../config'
 
 import path from "path"
 import {readdir} from "fs"
@@ -17,7 +18,13 @@ export function loadTranslations(langDir) {
     files.forEach(file => {
       messages[path.basename(file, '.json')] = require(path.resolve(langDir, file))
     })
+
+      // load all config-provided locale strings
+    Object.keys(messages).forEach(lang => {
+      Object.assign(messages[lang], config.ui[lang])
+    })
   })
+
   return messages
 }
 

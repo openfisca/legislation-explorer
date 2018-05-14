@@ -1,5 +1,6 @@
 {
   "cta_header": "Calculate and explore the legal and regulatory rules {forCountry}.",
+  "forCountry": "of {countryName}",
   "cta_explore": "{cta_explore_link} through the history and values of the currently modelled {parametersCount, number} law parameters and read the formula code that makes {variablesCount, number} variables computable.",
   "cta_explore_text": "Search",
   "cta_api": "{cta_api_link} to calculate them in any app.",

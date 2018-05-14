@@ -14,6 +14,14 @@ const HOST = process.env.HOST || "localhost",
     transports: [
       new (winston.transports.Console)({timestamp: true}),
     ]
+  },
+  ui = {
+    en: {
+      countryName: 'the development environment',
+    },
+    fr: {
+      countryName: 'l’environnement de développement',
+    }
   }
 
 
@@ -22,6 +30,7 @@ export default {
   gitHubProject,
   gitWebpageUrl,
   piwikConfig,
+  ui,
   useCommitReferenceFromApi,
   websiteUrl,
   winstonConfig,

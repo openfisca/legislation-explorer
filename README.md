@@ -28,6 +28,7 @@ This config file needs to expose a JavaScript object with the following properti
 - `gitHubProject`: The GitHub fully qualified name of the source repository for this OpenFisca instance. For example: `ServiceInnovationLab/openfisca-aotearoa`.
 - `gitWebpageUrl`: The URL at which the source repository for this OpenFisca instance can be found. For example: `https://github.com/ServiceInnovationLab/openfisca-aotearoa`.
 - `websiteUrl`: The URL at which more information can be obtained on OpenFisca. For example: `https://openfisca.org`.
+- `ui`: An object defining textual parts to be displayed in the user interface. Its keys are ISO two-letters language codes, and values are strings. You should at least define `countryName` to the name of the tax and benefit system you are modelling here. You can also override any string defined in the `src/assets/lang` directory there, including `forCountry` in case the default interpolation for your `countryName` does not give good results.
 
 ### Optional configuration
 

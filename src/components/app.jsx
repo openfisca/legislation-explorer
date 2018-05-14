@@ -74,8 +74,13 @@ const App = React.createClass({
               </div>
               <div className="col-md-9">
                 <h1>
+                  { /* Self-reference strings to allow for config override of static strings. */}
                   <FormattedMessage id="cta_header"
-                    values={{ forCountry: 'in Aotearoa New Zealand' }}
+                    values={{ forCountry:
+                      <FormattedMessage id="forCountry"
+                        values={{ countryName: <FormattedMessage id="countryName"/> }}
+                      />
+                    }}
                   />
                 </h1>
                 <p>
