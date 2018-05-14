@@ -1,10 +1,11 @@
 {
-  "header": "OpenFisca rend le droit calculable. Il s’agit d’un moteur de calcul libre et ouvert qui permet de modéliser le système socio-fiscal de manière collaborative et transparente. Ce logiciel est utilisé par des chercheurs en économie et des services publics.",
-  "learnMore": "En savoir plus.",
-  "stats": "{explorerLink} qui modélisent le système socio-fiscal français.",
-  "explorerText": "Parcourir les {variablesCount, number} variables et {parametersCount, number} paramètres",
-  "api": "{apiLink} qui permet de les calculer dans n'importe quel logiciel.",
-  "apiText": "Utiliser l'API",
+  "cta_header": "Calculez et explorez les règles légales et règlementaires {forCountry}.",
+  "cta_explore": "{cta_explore_link} l’historique des valeurs des {parametersCount, number} paramètres législatifs déjà modélisés et lisez le code des formules qui rendent {variablesCount, number} variables calculables.",
+  "cta_explore_text": "Rechercher",
+  "cta_api": "{cta_api_link} pour les calculer dans n’importe quelle application.",
+  "cta_api_text": "Utiliser l’API",
+  "cta_openfisca": "Ce modèle a été créé avec {cta_openfisca_link}, un moteur de calcul libre et ouvert qui rend la loi calculable de manière transparente et collaborative.",
+
   "entityParagraph" : "Cette {variableLink} s'applique aux {entityLink}",
   "variableText": "variable",
   "entityText": "entités",

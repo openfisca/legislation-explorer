@@ -1,10 +1,11 @@
 {
-  "header": "OpenFisca makes law computable. It is a free and open-source computation engine that allows modelling tax and benefit systems in a collaborative and transparent way. This software is used by researchers and public agencies.",
-  "learnMore": "Learn more.",
-  "stats": "{explorerLink} that model the French tax and benefit system.",
-  "explorerText": "Explore the {variablesCount, number} variables and {parametersCount, number} parameters",
-  "api": "{apiLink} that lets you compute them from any app.",
-  "apiText": "Use the API",
+  "cta_header": "Calculate and explore the legal and regulatory rules {forCountry}.",
+  "cta_explore": "{cta_explore_link} through the history and values of the currently modelled {parametersCount, number} law parameters and read the formula code that makes {variablesCount, number} variables computable.",
+  "cta_explore_text": "Search",
+  "cta_api": "{cta_api_link} to calculate them in any app.",
+  "cta_api_text": "Use the API",
+  "cta_openfisca": "This model is created with {cta_openfisca_link}, a free and open-source computation engine that makes law computable in a collaborative and transparent way.",
+
   "entityParagraph": "This {variableLink} applies to the {entityLink}",
   "variableText": "variable",
   "entityText": "entities",

@@ -1,3 +1,3 @@
-baseline = /OpenFisca makes law computable./
-stats = /[0-9,]+ variables and [0-9,]+ parameters/
+valueProposition = /legal and regulatory/
+stats = /[0-9,]+ variables/
 countryPackageNameAndDescription = /.+@\d+.\d+.\d+/
