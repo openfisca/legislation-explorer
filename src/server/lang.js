@@ -5,7 +5,7 @@ import {readdir} from "fs"
 import acceptLanguage from "accept-language"
 
 
-const DEFAULT_LANGUAGE = 'fr'
+const DEFAULT_LANGUAGE = 'en'
 
 
 export function loadTranslations(langDir) {
