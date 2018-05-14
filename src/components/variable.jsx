@@ -1,5 +1,5 @@
 import DocumentTitle from "react-document-title"
-import { FormattedMessage, FormattedDate, FormattedHTMLMessage } from "react-intl"
+import { FormattedMessage, FormattedDate, FormattedHTMLMessage, injectIntl, intlShape } from "react-intl"
 import React, { PropTypes } from "react"
 import { keys } from "ramda"
 
@@ -13,6 +13,7 @@ const Variable = React.createClass({
   propTypes: {
     countryPackageName: PropTypes.string.isRequired,
     countryPackageVersion: PropTypes.string.isRequired,
+    intl: intlShape.isRequired,
     parameters: PropTypes.objectOf(AppPropTypes.parameter).isRequired,
     variable: AppPropTypes.variable.isRequired,
     variables: PropTypes.objectOf(AppPropTypes.variable).isRequired,
@@ -23,7 +24,7 @@ const Variable = React.createClass({
   render() {
     const { variable } = this.props
     return (
-      <DocumentTitle title={ `${ variable.id } - Explorateur de la législation` } >
+      <DocumentTitle title={variable.id + ' — ' + this.props.intl.formatMessage({ id: 'appName' })}>
         <div>
           <header className="page-header">
             <h1><code>{ variable.id }</code></h1>
@@ -229,4 +230,4 @@ const Variable = React.createClass({
   },
 })
 
-export default Variable
+export default injectIntl(Variable)

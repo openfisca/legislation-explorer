@@ -9,6 +9,8 @@
 
   "search_placeholder": "salaire, impot",
 
+  "appName": "Explorateur de la législation",
+
   "entityParagraph" : "Cette {variableLink} s'applique aux {entityLink}",
   "variableText": "variable",
   "entityText": "entités",

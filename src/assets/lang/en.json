@@ -9,6 +9,8 @@
 
   "search_placeholder": "income, threshold",
 
+  "appName": "Legislation explorer",
+
   "entityParagraph": "This {variableLink} applies to the {entityLink}",
   "variableText": "variable",
   "entityText": "entities",

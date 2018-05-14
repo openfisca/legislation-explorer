@@ -23,7 +23,7 @@ const Parameter = React.createClass({
     const multilineId = parameter.id.replace(/\./g, '<wbr>.')
 
     return (
-      <DocumentTitle title={`${parameter.id} - Explorateur de la législation`}>
+      <DocumentTitle title={parameter.id + ' — ' + this.props.intl.formatMessage({ id: 'appName' })}>
         <div>
           <header className="page-header">
             <h1><code dangerouslySetInnerHTML={{__html: multilineId}}></code></h1>

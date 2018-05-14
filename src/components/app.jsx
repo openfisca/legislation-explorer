@@ -2,7 +2,7 @@
 import DocumentTitle from "react-document-title"
 import React, {PropTypes} from "react"
 import {locationShape, Link} from "react-router"
-import {FormattedMessage} from "react-intl"
+import {FormattedMessage, injectIntl, intlShape} from "react-intl"
 import ExternalLink from "./external-link"
 
 import * as AppPropTypes from "../app-prop-types"
@@ -50,7 +50,7 @@ const App = React.createClass({
   render() {
     const {countryPackageName, countryPackageVersion, parameters, variables} = this.props
     return (
-      <DocumentTitle title="Explorateur de la législation">
+      <DocumentTitle title={this.props.intl.formatMessage({ id: 'appName' })}>
         <div className="container">
           <header className="jumbotron">
             <div className="row">
@@ -122,4 +122,9 @@ const App = React.createClass({
   },
 })
 
-export default App
+
+App.propTypes = {
+  intl: intlShape.isRequired
+}
+
+export default injectIntl(App)
