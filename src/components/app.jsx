@@ -113,7 +113,7 @@ const App = React.createClass({
 
           <footer>
             <a href={config.gitWebpageUrl} target="_blank">
-              Améliorer ce site
+              <FormattedMessage id="improveThisApp"/>
             </a>
           </footer>
         </div>
