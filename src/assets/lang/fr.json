@@ -10,6 +10,7 @@
   "search_placeholder": "salaire, impot",
 
   "appName": "Explorateur de la législation",
+  "elementNotFound": "Élément inexistant",
 
   "entityParagraph" : "Cette {variableLink} s'applique aux {entityLink}",
   "variableText": "variable",

@@ -10,6 +10,7 @@
   "search_placeholder": "income, threshold",
 
   "appName": "Legislation explorer",
+  "elementNotFound": "Element does not exist",
 
   "entityParagraph": "This {variableLink} applies to the {entityLink}",
   "variableText": "variable",
