@@ -11,6 +11,7 @@
 
   "appName": "Legislation explorer",
   "elementNotFound": "Element does not exist",
+  "noResultsFor": "No element in the current model matches “{input}”.",
 
   "entityParagraph": "This {variableLink} applies to the {entityLink}",
   "variableText": "variable",
