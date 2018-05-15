@@ -68,7 +68,7 @@ You can edit all files in the source folder you cloned. In order to ease develop
 ```sh
 npm install  # install development dependencies
 npm run dev # To use http://localhost:5000/ for the Web API
-npm run dev:prod-api # To use https://api.openfisca.fr/ for the Web API
+npm run dev:prod-api # To use the latest https://fr.openfisca.org/api/ for the Web API
 ```
 
 > Some additional commands can be useful for development. You can discover all of them by running `npm run`.
