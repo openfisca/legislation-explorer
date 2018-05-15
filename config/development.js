@@ -5,7 +5,7 @@ import winston from "winston"
 
 const HOST = process.env.HOST || "localhost",
   apiBaseUrl = process.env.API_URL || `http://${HOST}:5000`,
-  gitHubProject = "openfisca/openfisca-france",
+  gitHubProject = "openfisca/country-template",
   gitWebpageUrl = "https://github.com/openfisca/legislation-explorer",
   piwikConfig = null,
   useCommitReferenceFromApi = true,
