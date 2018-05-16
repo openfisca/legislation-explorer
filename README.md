@@ -18,7 +18,7 @@ npm install --production
 ```
 
 
-## Configure the deployment
+## Configure your instance
 
 You will need to tell the Legislation Explorer server where your OpenFisca API instance can be reached, as well as where your repository resides for contributors to be directed to. This is done with a configuration file.
 
