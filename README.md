@@ -4,6 +4,7 @@ A web user interface to explore an [OpenFisca](http://openfisca.org/) tax and be
 
 This application consumes a legislation description made available by the OpenFisca web API and makes its parameters and formulas searchable and interlinked. [Example](https://fr.openfisca.org/legislation).
 
+
 ## Development stack
 
 This application is based on [Node](https://nodejs.org) on the backend and [React](https://reactjs.org) on the frontend.
