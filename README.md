@@ -1,114 +1,86 @@
 # OpenFisca Legislation explorer
 
-[![CircleCI](https://circleci.com/gh/openfisca/legislation-explorer.svg?style=svg)](https://circleci.com/gh/openfisca/legislation-explorer)
+A web user interface to explore an [OpenFisca](http://openfisca.org/) tax and benefit system.
 
-## Presentation
+This application consumes a legislation description made available by the OpenFisca web API and makes its parameters and formulas searchable and interlinked. [Example](https://fr.openfisca.org/legislation).
 
-[OpenFisca](https://www.openfisca.fr/) is a versatile microsimulation free software.
 
-This application allows to explore the legislation with its parameters and formulas.
+## Development stack
 
-See https://legislation.openfisca.fr/
+This application is based on [Node](https://nodejs.org) on the backend and [React](https://reactjs.org) on the frontend.
+
+In order to run the server or to improve the app, first install [Node and NPM](https://nodejs.org/en/download/) and [Git](https://git-scm.com). Then, run the following commands:
+
+```sh
+git clone https://github.com/openfisca/legislation-explorer.git
+cd legislation-explorer
+npm install --production
+```
+
+
+## Configure your instance
+
+You will need to tell the Legislation Explorer server where your OpenFisca API instance can be reached, as well as where your repository resides for contributors to be directed to. This is done with a configuration file.
+
+This config file needs to expose a JavaScript object with the following properties:
+
+- `apiBaseUrl`: The URL at which your OpenFisca API resides. For example: `https://openfisca-aotearoa.herokuapp.com`.
+- `gitHubProject`: The GitHub fully qualified name of the source repository for this OpenFisca instance. For example: `ServiceInnovationLab/openfisca-aotearoa`.
+- `gitWebpageUrl`: The URL at which the source repository for this OpenFisca instance can be found. For example: `https://github.com/ServiceInnovationLab/openfisca-aotearoa`.
+- `websiteUrl`: The URL at which more information can be obtained on OpenFisca. For example: `https://openfisca.org`.
+
+### Optional configuration
+
+You can also add the following properties:
+
+- `piwikConfig`: An object describing how to contact a [Piwik analytics](https://piwik.org) instance to which usage stats will be sent. Contains the following subproperties:
+    - `url`: The base URL at which the Piwik instance can be contacted. For example: `https://stats.data.gouv.fr`.
+    - `siteId`: The ID of the site to track in this Piwik instance.
+    - `trackErrors`: _A Boolean value._
+- `useCommitReferenceFromApi`: _A Boolean value._
+- `winstonConfig`: A configuration object to pass to the [`winston` logger](https://github.com/winstonjs/winston/tree/2.x#instantiating-your-own-logger) (i.e. what is passed to a `new winston.Logger`).
+
+Some other elements can be configured through environment variables passed to both `npm build` and `npm start`:
+
+- `API_URL`: overrides the `apiBaseUrl` config property.
+- `BASENAME` defines the path at which the Legislation Explorer is served. Defaults to `/`. For example: `BASENAME=/legislation` to serve on `https://fr.openfisca.org/legislation`.
+- `COUNTRY_PRODUCTION_CONFIG`: defines the name of the configuration file to use in the build stage. This file has to be in the `config` folder and be named `production.$COUNTRY_PRODUCTION_CONFIG.js`. For example: `COUNTRY_PRODUCTION_CONFIG=tunisia npm run build`
+- `NODE_ENV` defines if assets should be served minified or with hot module remplacement. Can be either `development` or `production`. Example: `NODE_ENV=production PORT=2030 node index.js`. Prefer using `npm start`.
+- `HOST`: defines the host on which the app is served. Example: `HOST=0.0.0.0 PORT=2030 node index.js`. Prefer using `npm start`.
+- `PORT` defines the port on which the app is served. Example: `NODE_ENV=production PORT=2030 node index.js`. Prefer using `npm start`.
+
 
 ## Run the server
 
-The following `npm run` commands are declared in `package.json`.
-
-Type the following commands from the project root directory:
-
-- Development server:
-
-    ```sh
-    npm install
-    npm run dev # To use http://localhost:5000/ for the Web API
-    npm run dev:prod-api # To use https://api.openfisca.fr/ for the Web API
-    ```
-
-    Open http://localhost:2030/
-
-- Production server, served on root directory (e.g. legislation.openfisca.fr):
-
-    ```sh
-    npm install
-    npm run clean
-    npm run build
-    npm start
-    ```
-
-    Open http://localhost:2030/
-
-- Production server, served on sub-directory (e.g. fr.openfisca.org/legislation):
-
-    ```sh
-    npm install
-    npm run clean
-    BASENAME=/legislation npm run build
-    BASENAME=/legislation NODE_ENV=production PORT=2030 node index.js
-    ```
-
-    Open http://your.reverse.proxy/legislation
-
-    To work with nginx as a reverse proxy, you need to set up a [ngx_http_upstream_module](http://nginx.org/en/docs/http/ngx_http_upstream_module.html).
-    See the [fr.openfisca.org nginx configuration](https://github.com/openfisca/openfisca-ops/blob/master/fr.openfisca.org/fr.openfisca.org.conf) to learn more.
-
-## Auto-update the legislation
-
-To maintain the legislation at its latest version, you can check the [auto-update tool](https://github.com/openfisca/openfisca-ops/tree/master/auto-update-pip-packages).
-
-## Integration tests
-
-> Legislation Explorer integration tests are implemented with [Watai](https://github.com/MattiSG/Watai).
-
-### Install the necessary helpers
-
-Install [Selenium standalone server](http://www.seleniumhq.org/download/).
-
-Install Chrome WebDriver : The `tests/config.js` in this package is pre-configured to use Chrome WebDriver.
-* Under Debian GNU/Linux install it with `apt install chromium-driver` (Chromium is the free software version of Chrome).
-* Under Mac OS X install it with `brew install chromedriver`
-
-### Run the integration tests
-
-- Terminal window 1 : run Selenium standalone server
+`cd` to the cloned `legislation-explorer` directory, and run the following commands:
 
 ```sh
-java -jar selenium-server-standalone-3.4.0.jar
-18:51:36.494 INFO - Selenium build info: version: '3.3.0', revision: 'b526bd5'
-[...]
-18:51:36.722 INFO - Selenium Server is up and running
+npm run build  # compile the frontend code
+npm start  # start the server
 ```
-- Terminal window 2 : run Chrome WebDriver
+
+
+## Improve the app
+
+You can edit all files in the source folder you cloned. In order to ease development, a different set of commands will allow you to run the app with hot module replacement, which will reflect your changes almost instantly rather than rebuilding the whole package.
+
+`cd` to the cloned `legislation-explorer` directory, and run the following commands:
 
 ```sh
-chromedriver
-Starting ChromeDriver 2.25 (undefined) on port 9515
-Only local connections are allowed.
+npm install  # install development dependencies
+npm run dev # To use http://localhost:5000/ for the Web API
+npm run dev:prod-api # To use the latest https://fr.openfisca.org/api/ for the Web API
 ```
 
-- Terminal window 3 : start the application development server if not already done (`npm run dev:prod-api`).
+> Some additional commands can be useful for development. You can discover all of them by running `npm run`.
 
-- Terminal window 4 : run the integration tests
+
+### Tests
+
+This app has both unit and integration tests. Its integration tests are implemented with [Watai](https://github.com/MattiSG/Watai). You will first need to [install its Selenium WebDriver dependencies](https://github.com/MattiSG/Watai/wiki/Installing) to run these tests.
+
+Then, build the app, [run the server](#run-the-server), [run a Selenium instance](https://github.com/MattiSG/Watai/wiki/Installing#selenium-server) and, in another Terminal, run:
 
 ```sh
-npm run test:integration
-> legislation-explorer@0.0.1 test:integration /home/cbenz/Dev/openfisca/legislation-explorer
-> watai tests
-
-⨁  tests
-✔  The header should show metadata on the loaded tax benefit system.
-✔  The search should filter the list.
-✔  Navigating to an item of the list should show details, going back should keep the search.
+npm run test
 ```
-
-## OpenFisca Documentation
-
-Please consult http://openfisca.org/doc/
-
-## Contribute
-
-OpenFisca is a free software project.
-Its source code is distributed under the [GNU Affero General Public Licence](http://www.gnu.org/licenses/agpl.html)
-version 3 or later (see COPYING).
-
-Feel free to join the OpenFisca development team on [GitHub](https://github.com/openfisca) or contact us by email at
-contact@openfisca.fr

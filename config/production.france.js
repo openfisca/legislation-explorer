@@ -1,5 +1,4 @@
-// App config the for production environment.
-// Do not require this directly. Use ./src/config instead.
+// App config in a production environment.
 
 import winston from "winston"
 
