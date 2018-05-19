@@ -50,30 +50,17 @@ const Parameter = React.createClass({
     )
   },
   renderStartStopValue(parameter, startDate, stopDate, value, index) {
-    if (value === null) {
-      return (
-        <tr key={index}>
-          <td colSpan="2">
-            <FormattedMessage id="parameterNotInLegislationSince"
-              values={{ date: <FormattedDate value={startDate} /> }}
-            />
-          </td>
-        </tr>
-      )
-    }
     return (
       <tr key={index}>
-        <td>
-          <FormattedMessage id={stopDate ? 'fromToDate' : 'fromDate'}
+        <td colSpan={value ? 1 : 2}>
+          <FormattedMessage id={value ? (stopDate ? 'fromToDate' : 'fromDate') : 'parameterNotInLegislationSince'}
             values={{
               startDate: <FormattedDate value={startDate} />,
               stopDate: stopDate && <FormattedDate value={stopDate} />
             }}
           />
         </td>
-        <td>
-          <samp>{value}</samp>
-        </td>
+        { value && <td><samp>{value}</samp></td> }
       </tr>
     )
   },

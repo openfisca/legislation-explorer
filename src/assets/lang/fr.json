@@ -13,7 +13,7 @@
   "elementNotFound": "Élément inexistant",
   "noResultsFor": "Aucun élément du modèle actuel ne correspond à « {input} ».",
 
-  "parameterNotInLegislationSince": "Ce paramètre ne figure plus dans la législation depuis le {date}",
+  "parameterNotInLegislationSince": "Ce paramètre ne figure plus dans la législation depuis le {startDate}",
   "fromDate": "À partir du {startDate}",
   "fromToDate": "Du {startDate} au {stopDate}",
 
