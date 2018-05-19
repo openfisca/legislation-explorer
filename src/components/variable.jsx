@@ -42,7 +42,7 @@ const Variable = React.createClass({
           { keys(variable.formulas).length != 0 && this.renderFormulas(variable.formulas) }
           <div>
             <ExternalLink href={ `${ config.apiBaseUrl }/variable/${ variable.id }` } target="_blank" >
-              <FormattedMessage id="thisVariableJson"/>
+              <FormattedMessage id="rawJSONData"/>
             </ExternalLink>
           </div>
         </div>

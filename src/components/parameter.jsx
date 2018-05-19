@@ -1,5 +1,5 @@
 import DocumentTitle from "react-document-title"
-import {injectIntl, intlShape, FormattedDate} from 'react-intl';
+import {injectIntl, intlShape, FormattedDate, FormattedMessage} from 'react-intl';
 import React, {PropTypes} from "react"
 
 import config from "../config"
@@ -43,7 +43,7 @@ const Parameter = React.createClass({
           </div>
           <hr/>
           <ExternalLink href={`${config.apiBaseUrl}/parameter/${parameter.id}`}>
-            Donnée brute au format JSON
+            <FormattedMessage id="rawJSONData"/>
           </ExternalLink>
         </div>
       </DocumentTitle>
