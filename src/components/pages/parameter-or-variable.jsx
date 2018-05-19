@@ -72,7 +72,7 @@ const ParameterOrVariablePage = React.createClass({
 
     if (this.state.waitingForResponse) {
       return (
-        <p>Chargement des valeurs…</p>
+        <FormattedMessage id="loading"/>
       )
     }
 

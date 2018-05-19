@@ -48,5 +48,6 @@
   "improveThisApp": "Improve this application",
   "find": "Find",
   "keyword": "Keyword",
-  "definition":"Definition"
+  "definition":"Definition",
+  "loading": "Loading…"
 }

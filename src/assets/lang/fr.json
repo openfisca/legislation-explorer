@@ -48,5 +48,6 @@
   "improveThisApp": "Améliorer cette application",
   "find": "Trouver",
   "keyword": "Identifiant",
-  "definition":"Définition"
+  "definition":"Définition",
+  "loading": "Chargement…"
 }
