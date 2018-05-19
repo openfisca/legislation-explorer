@@ -13,6 +13,10 @@
   "elementNotFound": "Element does not exist",
   "noResultsFor": "No element in the current model matches “{input}”.",
 
+  "parameterNotInLegislationSince": "The legislation defining this parameter is not in effect from {date}",
+  "fromDate": "From {startDate}",
+  "fromToDate": "From {startDate} to {stopDate}",
+
   "entityParagraph": "This {variableLink} applies to the {entityLink}",
   "variableText": "variable",
   "entityText": "entities",
