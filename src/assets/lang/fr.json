@@ -17,6 +17,12 @@
   "fromDate": "À partir du {startDate}",
   "fromToDate": "Du {startDate} au {stopDate}",
 
+  "date": "Date",
+  "bracket": "Tranche",
+  "marginalRate": "Taux marginal",
+  "betweenValues": "Entre {startValue} et {stopValue}",
+  "overValue": "Plus de {startValue}",
+
   "entityParagraph" : "Cette {variableLink} s'applique aux {entityLink}",
   "variableText": "variable",
   "entityText": "entités",

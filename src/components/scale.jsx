@@ -1,6 +1,6 @@
 import classNames from "classnames"
 import React from "react"
-import {FormattedDate} from 'react-intl';
+import { FormattedMessage, FormattedDate } from 'react-intl';
 
 import * as AppPropTypes from "../app-prop-types"
 
@@ -20,45 +20,50 @@ const Scale = React.createClass({
       <table className="table table-bordered table-hover table-striped">
         <thead>
           <tr>
-            <th>Date</th>
-            <th>Tranche</th>
-            <th>Taux marginal</th>
+            <th><FormattedMessage id="date"/></th>
+            <th><FormattedMessage id="bracket"/></th>
+            <th><FormattedMessage id="marginalRate"/></th>
           </tr>
         </thead>
         <tbody>
           {
-            Object.keys(brackets).sort().reverse().map((startDate, startDateIndex) => {
-              const bracketAtDate = brackets[startDate]
-              const thresholds = Object.keys(bracketAtDate).sort((a,b) => Number(a) -  Number(b))
-              return thresholds.map((thresholdKey, thresholdIndex) => {
-                const threshold = parseFloat(thresholdKey)
-                const value = bracketAtDate[thresholdKey]
+            Object.keys(brackets).sort().reverse().map((startDate, bracketIndex) => {
+              const bracket = brackets[startDate]
+              const thresholds = Object.keys(bracket).sort((a,b) => Number(a) - Number(b))
+
+              return thresholds.map((threshold, thresholdIndex) => {
+                const isFirstBracket = thresholdIndex === 0
+                const hasNextThreshold = thresholds[thresholdIndex + 1]
+                const nextThreshold = hasNextThreshold && Number(hasNextThreshold)  // '0' is truthy while Number('0') is falsy
+                const marginalRate = bracket[threshold];
+                threshold = parseFloat(threshold)
+
                 return (
                   <tr
-                    className={classNames({"first-bracket": thresholdIndex === 0})}
-                    key={`${startDateIndex}-${thresholdIndex}`}
+                    className={classNames({"first-bracket": isFirstBracket})}
+                    key={`${bracketIndex}-${thresholdIndex}`}
                   >
                     {
-                      thresholdIndex === 0 && (
-                        <td rowSpan={Object.keys(bracketAtDate).length}>
-                          À partir du <FormattedDate value={startDate} />
+                      isFirstBracket && (
+                        <td rowSpan={Object.keys(bracket).length}>
+                          <FormattedMessage id="fromDate"
+                            values={{
+                              startDate: <FormattedDate value={startDate} />
+                            }}
+                          />
                         </td>
                       )
                     }
-                    {
-                      thresholdIndex < thresholds.length - 1
-                        ? (
-                          <td>
-                            Entre <samp>{threshold}</samp> et <samp>{parseFloat(thresholds[thresholdIndex + 1])}</samp>
-                          </td>
-                        ) : (
-                          <td>
-                            Plus de <samp>{threshold}</samp>
-                          </td>
-                        )
-                    }
                     <td>
-                      <samp>{formatRate(value)}</samp>
+                      <FormattedMessage id={hasNextThreshold ? 'betweenValues' : 'overValue'}
+                        values={{
+                          startValue: <samp>{threshold}</samp>,
+                          stopValue: <samp>{nextThreshold}</samp>,
+                        }}
+                      />
+                    </td>
+                    <td>
+                      <samp>{formatRate(marginalRate)}</samp>
                     </td>
                   </tr>
                 )
