@@ -52,8 +52,8 @@ const Scale = React.createClass({
                     <td>
                       <FormattedMessage id={hasNextThreshold ? 'betweenValues' : 'overValue'}
                         values={{
-                          startValue: <samp>{threshold}</samp>,
-                          stopValue: <samp>{nextThreshold}</samp>,
+                          startValue: <samp><FormattedNumber value={threshold}/></samp>,
+                          stopValue: hasNextThreshold && <samp><FormattedNumber value={nextThreshold}/></samp>,
                         }}
                       />
                     </td>
