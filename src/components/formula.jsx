@@ -24,8 +24,8 @@ const Formula = React.createClass({
         <h3>
           <FormattedMessage id={stopDate ? 'fromToDate' : 'fromDate'}
             values={{
-              startDate: <FormattedDate value={startDate} />,
-              stopDate: stopDate && <FormattedDate value={stopDate} />,
+              startDate: <FormattedDate value={startDate} year="numeric" month="2-digit" day="2-digit" />,
+              stopDate: stopDate && <FormattedDate value={stopDate} year="numeric" month="2-digit" day="2-digit" />,
             }}
           />
         </h3>

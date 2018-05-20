@@ -55,8 +55,8 @@ const Parameter = React.createClass({
         <td colSpan={value ? 1 : 2}>
           <FormattedMessage id={value ? (stopDate ? 'fromToDate' : 'fromDate') : 'parameterNotInLegislationSince'}
             values={{
-              startDate: <FormattedDate value={startDate} />,
-              stopDate: stopDate && <FormattedDate value={stopDate} />
+              startDate: <FormattedDate value={startDate} year="numeric" month="2-digit" day="2-digit" />,
+              stopDate: stopDate && <FormattedDate value={stopDate} year="numeric" month="2-digit" day="2-digit" />
             }}
           />
         </td>

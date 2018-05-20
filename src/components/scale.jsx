@@ -43,7 +43,7 @@ const Scale = React.createClass({
                         <td rowSpan={Object.keys(bracket).length}>
                           <FormattedMessage id="fromDate"
                             values={{
-                              startDate: <FormattedDate value={startDate} />
+                              startDate: <FormattedDate value={startDate} year="numeric" month="2-digit" day="2-digit" />
                             }}
                           />
                         </td>
