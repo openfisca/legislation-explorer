@@ -1,5 +1,5 @@
 import DocumentTitle from "react-document-title"
-import {injectIntl, intlShape, FormattedDate, FormattedMessage} from 'react-intl';
+import { FormattedMessage, FormattedDate, FormattedNumber, injectIntl, intlShape } from 'react-intl';
 import React, {PropTypes} from "react"
 
 import config from "../config"
@@ -60,7 +60,7 @@ const Parameter = React.createClass({
             }}
           />
         </td>
-        { value && <td><samp>{value}</samp></td> }
+        { value && <td><samp><FormattedNumber value={value}/></samp></td> }
       </tr>
     )
   },
