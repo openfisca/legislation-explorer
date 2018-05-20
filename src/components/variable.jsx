@@ -25,27 +25,21 @@ const Variable = React.createClass({
     const { variable } = this.props
     return (
       <DocumentTitle title={variable.id + ' — ' + this.props.intl.formatMessage({ id: 'appName' })}>
-        <div>
-          <header className="page-header">
-            <h1><code>{ variable.id }</code></h1>
-            { variable.description
-              ? <p className="description">{variable.description}</p>
-              : <em><FormattedMessage id="noDescription"/></em>
-            }
-          </header>
+        <section>
+          <h1><code>{ variable.id }</code></h1>
+          { variable.description
+            ? <p className="description">{variable.description}</p>
+            : <em><FormattedMessage id="noDescription"/></em>
+          }
           {this.renderVariableMetadata(variable)}
-          <div>
-            <ExternalLink href={ variable.source } target="_blank">
-              <FormattedMessage id="editThisVariable"/>
-            </ExternalLink>
-          </div>
+          <ExternalLink href={ variable.source } target="_blank">
+            <FormattedMessage id="editThisVariable"/>
+          </ExternalLink>
           { keys(variable.formulas).length != 0 && this.renderFormulas(variable.formulas) }
-          <div>
-            <ExternalLink href={ `${ config.apiBaseUrl }/variable/${ variable.id }` } target="_blank" >
-              <FormattedMessage id="rawJSONData"/>
-            </ExternalLink>
-          </div>
-        </div>
+          <ExternalLink href={ `${ config.apiBaseUrl }/variable/${ variable.id }` } target="_blank" >
+            <FormattedMessage id="rawJSONData"/>
+          </ExternalLink>
+        </section>
       </DocumentTitle>
     )
   },

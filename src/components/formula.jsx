@@ -21,14 +21,16 @@ const Formula = React.createClass({
 
     return (
       <div>
-        <h3>
-          <FormattedMessage id={stopDate ? 'fromToDate' : 'fromDate'}
-            values={{
-              startDate: <FormattedDate value={startDate} year="numeric" month="2-digit" day="2-digit" />,
-              stopDate: stopDate && <FormattedDate value={stopDate} year="numeric" month="2-digit" day="2-digit" />,
-            }}
-          />
-        </h3>
+        {startDate &&
+          <h3>
+            <FormattedMessage id={stopDate ? 'fromToDate' : 'fromDate'}
+              values={{
+                startDate: startDate && <FormattedDate value={startDate} year="numeric" month="2-digit" day="2-digit" />,
+                stopDate: stopDate && <FormattedDate value={stopDate} year="numeric" month="2-digit" day="2-digit" />,
+              }}
+            />
+          </h3>
+        }
         <Highlight className="python">{this.renderLinkedFormula(content)}</Highlight>
         <p>
           <a href={source} target="_blank"><FormattedMessage id="editThisFormula"/></a>
