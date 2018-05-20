@@ -127,9 +127,7 @@ const Variable = React.createClass({
               </a>
             }}
           />&nbsp;
-          <span className="variable-metadata">
-            {formatDefaultValue(variable)}
-          </span>.
+          <samp>{formatDefaultValue(variable)}</samp>.
         </p>
         {
           variable.possibleValues &&
