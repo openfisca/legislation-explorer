@@ -9,7 +9,7 @@ const HOST = process.env.HOST || "localhost",
   gitWebpageUrl = "https://github.com/openfisca/legislation-explorer",
   piwikConfig = null,
   useCommitReferenceFromApi = true,
-  websiteUrl = "http://openfisca.org",
+  websiteUrl = "https://openfisca.org",
   winstonConfig = {
     transports: [
       new (winston.transports.Console)({timestamp: true}),

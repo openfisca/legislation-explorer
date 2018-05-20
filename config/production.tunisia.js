@@ -10,7 +10,7 @@ const HOST = process.env.HOST || "api.openfisca.tn",
     trackErrors: true
   },
   useCommitReferenceFromApi = false,
-  websiteUrl = "http://openfisca.org",
+  websiteUrl = "https://openfisca.org",
   ui = {
     en: {
       countryName: 'Tunisia',
