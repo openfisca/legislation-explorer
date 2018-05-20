@@ -1,14 +1,9 @@
 import classNames from "classnames"
 import React from "react"
-import { FormattedMessage, FormattedDate } from 'react-intl';
+import { FormattedMessage, FormattedDate, FormattedNumber } from 'react-intl';
 
 import * as AppPropTypes from "../app-prop-types"
 
-
-function formatRate(value) {
-  const formattedValue = (value * 100).toFixed(2).replace(/\.00$/, '')
-  return `${formattedValue} %`
-}
 
 const Scale = React.createClass({
   propTypes: {
@@ -63,7 +58,7 @@ const Scale = React.createClass({
                       />
                     </td>
                     <td>
-                      <samp>{formatRate(marginalRate)}</samp>
+                      <samp><FormattedNumber value={marginalRate} style="percent" maximumFractionDigits={3}/></samp>
                     </td>
                   </tr>
                 )
