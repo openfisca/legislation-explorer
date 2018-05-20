@@ -18,21 +18,23 @@ const Formula = React.createClass({
 
   render() {
     const { startDate, stopDate, content, source } = this.props
-    return <div>
-      {startDate && (! stopDate) &&
-        <h3>À partir du <FormattedDate value={ startDate } />&nbsp;:</h3>
-      }
-      {stopDate && (! startDate) &&
-        <h3>Jusqu'au <FormattedDate value={ stopDate } />&nbsp;:</h3>
-      }
-      {startDate && stopDate &&
-        <h3>Du <FormattedDate value={ startDate } /> au <FormattedDate value={ stopDate } />&nbsp;:</h3>
-      }
-      <Highlight className="python">{this.renderLinkedFormula(content)}</Highlight>
-    <p>
-       <a href={source} target="_blank"><FormattedMessage id="editThisFormula"/></a>
-    </p>
-    </div>
+
+    return (
+      <div>
+        <h3>
+          <FormattedMessage id={stopDate ? 'fromToDate' : 'fromDate'}
+            values={{
+              startDate: <FormattedDate value={startDate} />,
+              stopDate: stopDate && <FormattedDate value={stopDate} />,
+            }}
+          />
+        </h3>
+        <Highlight className="python">{this.renderLinkedFormula(content)}</Highlight>
+        <p>
+          <a href={source} target="_blank"><FormattedMessage id="editThisFormula"/></a>
+        </p>
+      </div>
+    )
   },
   link(variable) {
     return <Link key={ variable + Math.random() } to={ variable }
