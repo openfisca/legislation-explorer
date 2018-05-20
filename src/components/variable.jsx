@@ -1,5 +1,5 @@
 import DocumentTitle from "react-document-title"
-import { FormattedMessage, FormattedDate, FormattedHTMLMessage, injectIntl, intlShape } from "react-intl"
+import { FormattedMessage, FormattedDate, FormattedNumber, FormattedHTMLMessage, injectIntl, intlShape } from "react-intl"
 import React, { PropTypes } from "react"
 import { keys } from "ramda"
 
@@ -76,7 +76,7 @@ const Variable = React.createClass({
                 day="2-digit"
               />
     } else if (variable.valueType == "Float") {
-        return variable.defaultValue.toFixed(1);
+        return <FormattedNumber value={variable.defaultValue} />;
     } else if (variable.valueType == "String") {
         return `"${ variable.defaultValue }"`;
     } else {
