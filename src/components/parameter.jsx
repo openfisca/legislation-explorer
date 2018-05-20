@@ -23,15 +23,12 @@ const Parameter = React.createClass({
 
     return (
       <DocumentTitle title={parameter.id + ' — ' + this.props.intl.formatMessage({ id: 'appName' })}>
-        <div>
-          <header className="page-header">
-            <h1><code dangerouslySetInnerHTML={{__html: multilineId}}></code></h1>
-            { parameter.description
-              ? <p className="description">{parameter.description}</p>
-              : <em><FormattedMessage id="noDescription"/></em>
-            }
-
-          </header>
+        <section>
+          <h1><code dangerouslySetInnerHTML={{__html: multilineId}}></code></h1>
+          { parameter.description
+            ? <p className="description">{parameter.description}</p>
+            : <em><FormattedMessage id="noDescription"/></em>
+          }
           <div className="row">
             <div className="col-lg-8">
               {
@@ -45,7 +42,7 @@ const Parameter = React.createClass({
           <ExternalLink href={`${config.apiBaseUrl}/parameter/${parameter.id}`}>
             <FormattedMessage id="rawJSONData"/>
           </ExternalLink>
-        </div>
+        </section>
       </DocumentTitle>
     )
   },
