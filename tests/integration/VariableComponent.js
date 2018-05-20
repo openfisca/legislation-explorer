@@ -1,7 +1,7 @@
 title: "section h1",
 description: ".description",
 definitionPeriod: ".description + div p:nth-of-type(2)",
-goBackLink: {a: "Voir"},
+goBackLink: ".btn-default",
 goToDependencyLink: {a: "aah_base"},
 defaultValue:".description + div p:nth-of-type(4) .variable-metadata",
 enumFirstPossibleValue: "samp",
