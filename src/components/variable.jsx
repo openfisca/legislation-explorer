@@ -1,5 +1,5 @@
 import DocumentTitle from "react-document-title"
-import { FormattedMessage, FormattedDate, FormattedNumber, FormattedHTMLMessage, injectIntl, intlShape } from "react-intl"
+import { FormattedMessage, FormattedDate, FormattedNumber, injectIntl, intlShape } from "react-intl"
 import React, { PropTypes } from "react"
 import { keys } from "ramda"
 
@@ -18,9 +18,7 @@ const Variable = React.createClass({
     variable: AppPropTypes.variable.isRequired,
     variables: PropTypes.objectOf(AppPropTypes.variable).isRequired,
   },
-  getTodayInstant() {
-    return new Date().toJSON().slice(0, 10)
-  },
+
   render() {
     const { variable } = this.props
     return (
@@ -43,6 +41,7 @@ const Variable = React.createClass({
       </DocumentTitle>
     )
   },
+
   renderVariableMetadata(variable) {
     const entityMessage = {
       famille: "famille",
@@ -50,47 +49,51 @@ const Variable = React.createClass({
       individu: "individu",
       menage: "ménage",
     }
+
     const definitionPeriodMessage = {
       YEAR: <FormattedMessage id="aYear"/>,
       MONTH: <FormattedMessage id="aMonth"/>,
       ETERNITY: <FormattedMessage id="forEternity"/>
     }
+
     const valueTypeMessage = {
       Int: <FormattedMessage id="anInteger"/>,
       Float: <FormattedMessage id="aFloat"/>,
       Date: <FormattedMessage id="aDate"/>,
       String: <FormattedMessage id="aString"/>,
     }
+
     function formatDefaultValue(variable) {
-    if (variable.valueType == "Date") {
-      return <FormattedDate value={ variable.defaultValue } year="numeric" month="2-digit" day="2-digit" />;
-    } else if (variable.valueType == "Float") {
-        return <FormattedNumber value={variable.defaultValue} />;
-    } else if (variable.valueType == "String") {
-        return `"${ variable.defaultValue }"`;
-    } else {
-      return String(variable.defaultValue)
+      switch (variable.valueType) {
+        case "Date":
+          return <FormattedDate value={ variable.defaultValue } year="numeric" month="2-digit" day="2-digit" />;
+        case "Float":
+          return <FormattedNumber value={variable.defaultValue} />;
+        case "String":
+          return `"${ variable.defaultValue }"`;
+        default:
+          return String(variable.defaultValue);
+      }
     }
-  }
+
     return (
       <div>
         <p>
-            <FormattedMessage
-              id="entityParagraph"
-              values={{
-                variableLink:
-                  <a href="https://openfisca.org/doc/variables.html" target="_blank">
-                    <FormattedMessage id="variableText"/>
-                  </a>,
-                entityLink:
-                  <a href="https://openfisca.org/doc/person,_entities,_role.html" target="_blank">
-                    <FormattedMessage id="entityText"/>
-                  </a>
-                }} />&nbsp;
-            <span className="variable-metadata">
-              { entityMessage[variable.entity] }
-            </span>
-          .
+          <FormattedMessage
+            id="entityParagraph"
+            values={{
+              variableLink:
+                <a href="https://openfisca.org/doc/variables.html" target="_blank">
+                  <FormattedMessage id="variableText"/>
+                </a>,
+              entityLink:
+                <a href="https://openfisca.org/doc/person,_entities,_role.html" target="_blank">
+                  <FormattedMessage id="entityText"/>
+                </a>
+              }} />&nbsp;
+          <span className="variable-metadata">
+            { entityMessage[variable.entity] }
+          </span>.
         </p>
         <p>
           <FormattedMessage
@@ -103,102 +106,97 @@ const Variable = React.createClass({
           />&nbsp;
           <span className="variable-metadata">
             { definitionPeriodMessage[variable.definitionPeriod] }
-          </span>
-          .
+          </span>.
         </p>
         <p>
           <FormattedMessage id="valueTypeParagraph"/>
           <span className="variable-metadata"> {
             variable.valueType in valueTypeMessage ? (
-              <span>{ valueTypeMessage[variable.valueType] }.</span>
+              valueTypeMessage[variable.valueType]
             ) : (
-              <span><FormattedMessage id="ofType" values={{type: variable.valueType}}/>.</span>
+              <FormattedMessage id="ofType" values={{type: variable.valueType}}/>
             )
           }
-          </span>
+          </span>.
         </p>
         <p>
           <FormattedMessage id="defaultValueParagraph"
             values={{ defaultValueLink:
               <a href="https://openfisca.org/doc/variables.html#default-values" target="_blank">
-              <FormattedMessage id="defaultValueText"/>
-              </a> }
-            }
+                <FormattedMessage id="defaultValueText"/>
+              </a>
+            }}
           />&nbsp;
           <span className="variable-metadata">
             {formatDefaultValue(variable)}
-          </span>
-          .
+          </span>.
         </p>
-        { variable.possibleValues
-          ? <div>
-            <FormattedHTMLMessage id="authorizedValues"/>
-              <table className="table table-bordered table-hover table-striped in-metadata">
-                <thead>
-                  <tr>
-                    <th><FormattedHTMLMessage id="keyword"/></th>
-                    <th><FormattedHTMLMessage id="definition"/></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {
-                  Object.keys(variable.possibleValues).map((keyword) => {
-                    return (
-                      <tr>
-                        <td className="list-entry">
-                          <samp>{keyword}</samp>
-                        </td>
-                        <td>
-                          <samp>{variable.possibleValues[keyword]}</samp>
-                        </td>
-                      </tr>
-                        )
-                      })
-                  }
-                </tbody>
-                </table>
-            </div>
-          : null
+        {
+          variable.possibleValues &&
+          (<div>
+            <FormattedMessage id="allowedValues"/>
+            <table className="table table-bordered table-hover table-striped in-metadata">
+              <thead>
+                <tr>
+                  <th><FormattedMessage id="keyword"/></th>
+                  <th><FormattedMessage id="definition"/></th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                Object.keys(variable.possibleValues).map((keyword) => {
+                  return (
+                    <tr>
+                      <td className="list-entry">
+                        <samp>{keyword}</samp>
+                      </td>
+                      <td>
+                        <samp>{variable.possibleValues[keyword]}</samp>
+                      </td>
+                    </tr>
+                      )
+                    })
+                }
+              </tbody>
+            </table>
+          </div>)
         }
-          { variable.references &&
-            (<span><FormattedHTMLMessage id="referencesText"/></span>)
-          }
-          { variable.references &&
-            (<ul>
-              {
-                variable.references.map((reference, idx) =>
-                  <li key={ idx } >
-                    <a href={ reference } target="_blank" > { reference } </a>
-                  </li>
-                )}
-           </ul>)
-          }
-          {keys(variable.formulas).length == 0 &&
-            <p>
-              <FormattedMessage id="noFormulaParagraph"
-                values={{
-                  formulaNotComputable:
+        { variable.references &&
+          (<span><FormattedMessage id="referencesText"/></span>)
+        }
+        { variable.references &&
+          (<ul>
+            {
+              variable.references.map((reference, idx) =>
+                <li key={ idx } >
+                  <a href={ reference } target="_blank" > { reference } </a>
+                </li>
+              )}
+         </ul>)
+        }
+        {keys(variable.formulas).length == 0 &&
+          <p>
+            <FormattedMessage id="noFormulaParagraph"
+              values={{
+                formulaNotComputable:
                   <span className="variable-metadata">
                     <FormattedMessage id="formulaNotComputableText"/>
                   </span>
-                }}
-              />
-            </p>
-          }
+              }}
+            />
+          </p>
+        }
     </div>
     )
   },
+
   renderFormulas(formulas) {
     const startDates = keys(formulas).sort().reverse()
     const severalFormulas = (startDates.length > 2) || (startDates.length == 2) && formulas[startDates[0]]
     return (
       <div>
         <h2>
-        {severalFormulas ? (
-              <FormattedMessage id="formulasTitle"/>
-            ) : (
-              <FormattedMessage id="formulaTitle"/>
-            )}
+          <FormattedMessage id={ severalFormulas ? 'formulasTitle' : 'formulaTitle'}/>
         </h2>
         { startDates.map(
           (date, dateIndex) => {

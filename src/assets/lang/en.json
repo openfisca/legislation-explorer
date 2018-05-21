@@ -29,7 +29,7 @@
   "definitionPeriodParagraph": "It has a {definitionPeriodLink}",
   "definitionPeriodText": "definition period",
   "valueTypeParagraph": "Its value is",
-  "authorizedValues": "The allowed values are:",
+  "allowedValues": "The allowed values are:",
   "defaultValueParagraph": "Its {defaultValueLink} is",
   "defaultValueText": "default value",
   "referencesText": "References:",
