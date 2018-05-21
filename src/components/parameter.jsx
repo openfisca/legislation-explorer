@@ -49,15 +49,20 @@ const Parameter = React.createClass({
   renderStartStopValue(parameter, startDate, stopDate, value, index) {
     return (
       <tr key={index}>
-        <td colSpan={value ? 1 : 2}>
-          <FormattedMessage id={value ? (stopDate ? 'fromToDate' : 'fromDate') : 'parameterNotInLegislationSince'}
+        <td>
+          <FormattedMessage id={stopDate ? 'fromToDate' : 'fromDate'}
             values={{
               startDate: <FormattedDate value={startDate} year="numeric" month="2-digit" day="2-digit" />,
               stopDate: stopDate && <FormattedDate value={stopDate} year="numeric" month="2-digit" day="2-digit" />
             }}
           />
         </td>
-        { value && <td><samp><FormattedNumber value={value}/></samp></td> }
+        <td>
+          { value
+            ? <samp><FormattedNumber value={value}/></samp>
+            : <em><FormattedMessage id="parameterNotInLegislation"/></em>
+          }
+        </td>
       </tr>
     )
   },
