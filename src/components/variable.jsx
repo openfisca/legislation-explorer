@@ -5,7 +5,6 @@ import { keys } from "ramda"
 
 import config from "../config"
 import * as AppPropTypes from "../app-prop-types"
-import ExternalLink from "./external-link"
 import Formula from "./formula"
 import getDayBefore from "../periods"
 
@@ -32,13 +31,15 @@ const Variable = React.createClass({
             : <em><FormattedMessage id="noDescription"/></em>
           }
           {this.renderVariableMetadata(variable)}
-          <ExternalLink href={ variable.source } target="_blank">
+          <a href={variable.source} target="_blank">
             <FormattedMessage id="editThisVariable"/>
-          </ExternalLink>
+          </a>
           { keys(variable.formulas).length != 0 && this.renderFormulas(variable.formulas) }
-          <ExternalLink href={ `${ config.apiBaseUrl }/variable/${ variable.id }` } target="_blank" >
-            <FormattedMessage id="rawJSONData"/>
-          </ExternalLink>
+          <p>
+            <a href={`${ config.apiBaseUrl }/variable/${ variable.id }`} rel="external" target="_blank">
+              <FormattedMessage id="rawJSONData"/>
+            </a>
+          </p>
         </section>
       </DocumentTitle>
     )
