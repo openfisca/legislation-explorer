@@ -4,7 +4,7 @@ import {Link, locationShape, routerShape} from "react-router"
 import {FormattedMessage, injectIntl, intlShape} from "react-intl"
 import DocumentTitle from "react-document-title"
 
-import * as AppPropTypes from "../../app-prop-types"
+import { parameterShape, variableShape } from "../../openfisca-proptypes"
 import List from "../list"
 import config from "../../config"
 import SearchBarComponent from "./searchbar"
@@ -22,8 +22,8 @@ const HomePage = React.createClass({
     countryPackageVersion: PropTypes.string.isRequired,
     intl: intlShape,
     location: locationShape.isRequired,
-    parameters: PropTypes.objectOf(AppPropTypes.parameter).isRequired,
-    variables: PropTypes.objectOf(AppPropTypes.variable).isRequired,
+    parameters: PropTypes.objectOf(parameterShape).isRequired,
+    variables: PropTypes.objectOf(variableShape).isRequired,
   },
   componentDidMount() {
     this._isMounted = true

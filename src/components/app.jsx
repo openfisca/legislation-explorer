@@ -5,7 +5,7 @@ import {locationShape, Link} from "react-router"
 import {FormattedMessage, injectIntl, intlShape} from "react-intl"
 import ExternalLink from "./external-link"
 
-import * as AppPropTypes from "../app-prop-types"
+import { parameterShape, variableShape } from "../openfisca-proptypes"
 import config from "../config"
 import {findParametersAndVariables} from "../search"
 
@@ -20,8 +20,8 @@ const App = React.createClass({
     countryPackageName: PropTypes.string.isRequired,
     countryPackageVersion: PropTypes.string.isRequired,
     location: locationShape.isRequired,
-    parameters: PropTypes.objectOf(AppPropTypes.parameter).isRequired,
-    variables: PropTypes.objectOf(AppPropTypes.variable).isRequired,
+    parameters: PropTypes.objectOf(parameterShape).isRequired,
+    variables: PropTypes.objectOf(variableShape).isRequired,
   },
   getChildContext() {
     const {parameters, variables} = this.props

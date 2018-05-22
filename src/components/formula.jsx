@@ -1,5 +1,5 @@
 import React, { PropTypes } from "react"
-import * as AppPropTypes from "../app-prop-types"
+import { parameterShape, variableShape } from "../openfisca-proptypes"
 import { Link } from "react-router"
 import { FormattedMessage, FormattedDate } from "react-intl"
 import { flatten, pipe, map, is } from "ramda"
@@ -12,8 +12,8 @@ const Formula = React.createClass({
     stopDate: PropTypes.string,
     content: PropTypes.string.isRequired,
     source: PropTypes.string.isRequired,
-    parameters: PropTypes.objectOf(AppPropTypes.parameter).isRequired,
-    variables: PropTypes.objectOf(AppPropTypes.variable).isRequired,
+    parameters: PropTypes.objectOf(parameterShape).isRequired,
+    variables: PropTypes.objectOf(variableShape).isRequired,
   },
 
   render() {

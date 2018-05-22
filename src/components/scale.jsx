@@ -2,12 +2,12 @@ import classNames from "classnames"
 import React from "react"
 import { FormattedMessage, FormattedDate, FormattedNumber } from 'react-intl';
 
-import * as AppPropTypes from "../app-prop-types"
+import { parameterShape } from "../openfisca-proptypes"
 
 
 const Scale = React.createClass({
   propTypes: {
-    parameter: AppPropTypes.parameter.isRequired,
+    parameter: parameterShape.isRequired,
   },
   render() {
     const {brackets} = this.props.parameter
