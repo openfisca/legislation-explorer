@@ -3,12 +3,6 @@ import React, {Component, PropTypes} from "react"
 
 
 export default class HtmlDocument extends Component {
-  static propTypes = {
-    appHtml: PropTypes.string.isRequired,
-    appInitialState: PropTypes.object,
-    cssUrls: PropTypes.arrayOf(PropTypes.string),
-    jsUrls: PropTypes.arrayOf(PropTypes.string),
-  }
   render() {
     const {appHtml, cssUrls, appInitialState, jsUrls} = this.props
     return (
@@ -33,4 +27,11 @@ export default class HtmlDocument extends Component {
       </html>
     )
   }
+}
+
+HtmlDocument.propTypes = {
+  appHtml: PropTypes.string.isRequired,
+  appInitialState: PropTypes.object,
+  cssUrls: PropTypes.arrayOf(PropTypes.string),
+  jsUrls: PropTypes.arrayOf(PropTypes.string),
 }

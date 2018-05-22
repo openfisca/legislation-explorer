@@ -140,8 +140,8 @@ const Formula = React.createClass({
       map((substring) => {
         return this.splitAndLinkVariables(substring, `'`)
       }),
-      flatten,
-      )(formula)
+      flatten
+    )(formula)
   },
 })
 

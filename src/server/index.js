@@ -54,7 +54,7 @@ Promise.all([fetchParameters(), fetchVariables(), fetchSwagger()])
     )
     const normalizedVariables = map(
       assoc('itemType', 'variable'),
-      addNormalizedDescription(variablesResponse.data),
+      addNormalizedDescription(variablesResponse.data)
     )
 
     const messages = loadTranslations(path.join(__dirname, "../assets/lang/"))
