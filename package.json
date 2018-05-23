@@ -1,6 +1,6 @@
 {
   "name": "legislation-explorer",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "OpenFisca - Legislation Explorer",
   "scripts": {
     "build": "webpack --config ./webpack.config.prod.babel.js",
