@@ -1,5 +1,5 @@
 import DocumentTitle from "react-document-title"
-import {injectIntl, intlShape, FormattedDate} from 'react-intl';
+import { FormattedMessage, FormattedDate, FormattedNumber, injectIntl, intlShape } from 'react-intl';
 import React, {PropTypes} from "react"
 
 import config from "../config"
@@ -17,18 +17,18 @@ const Parameter = React.createClass({
   },
   render() {
     const {parameter} = this.props
-    const description = parameter.description || "Aucune description"
     const isScale = (! parameter.values)
     //Add word break opportunities before dots for long parameter id
     const multilineId = parameter.id.replace(/\./g, '<wbr>.')
 
     return (
-      <DocumentTitle title={`${parameter.id} - Explorateur de la législation`}>
-        <div>
-          <header className="page-header">
-            <h1><code dangerouslySetInnerHTML={{__html: multilineId}}></code></h1>
-            <p className="description">{description}</p>
-          </header>
+      <DocumentTitle title={parameter.id + ' — ' + this.props.intl.formatMessage({ id: 'appName' })}>
+        <section>
+          <h1><code dangerouslySetInnerHTML={{__html: multilineId}}></code></h1>
+          { parameter.description
+            ? <p className="description">{parameter.description}</p>
+            : <em><FormattedMessage id="noDescription"/></em>
+          }
           <div className="row">
             <div className="col-lg-8">
               {
@@ -40,33 +40,24 @@ const Parameter = React.createClass({
           </div>
           <hr/>
           <ExternalLink href={`${config.apiBaseUrl}/parameter/${parameter.id}`}>
-            Donnée brute au format JSON
+            <FormattedMessage id="rawJSONData"/>
           </ExternalLink>
-        </div>
+        </section>
       </DocumentTitle>
     )
   },
   renderStartStopValue(parameter, startDate, stopDate, value, index) {
-    const formattedStartDate = <FormattedDate value={startDate} />
-    if (value === null) {
-      return (
-        <tr key={index}>
-          <td colSpan="2"><span>Ce paramètre ne figure plus dans la législation depuis le {formattedStartDate}</span></td>
-        </tr>
-      )
-    }
     return (
       <tr key={index}>
-        <td>
-          {
-            stopDate
-            ? <span>Du {formattedStartDate} au <FormattedDate value={stopDate} /></span>
-            : <span>À partir du {formattedStartDate}</span>
-          }
+        <td colSpan={value ? 1 : 2}>
+          <FormattedMessage id={value ? (stopDate ? 'fromToDate' : 'fromDate') : 'parameterNotInLegislationSince'}
+            values={{
+              startDate: <FormattedDate value={startDate} year="numeric" month="2-digit" day="2-digit" />,
+              stopDate: stopDate && <FormattedDate value={stopDate} year="numeric" month="2-digit" day="2-digit" />
+            }}
+          />
         </td>
-        <td>
-          <samp>{value}</samp>
-        </td>
+        { value && <td><samp><FormattedNumber value={value}/></samp></td> }
       </tr>
     )
   },

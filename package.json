@@ -1,6 +1,6 @@
 {
   "name": "legislation-explorer",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "OpenFisca - Legislation Explorer",
   "scripts": {
     "build": "webpack --config ./webpack.config.prod.babel.js",
@@ -9,7 +9,6 @@
     "dev": "concurrently --kill-others 'npm run dev:app-server' 'npm run dev:webpack-dev-server'",
     "dev:app-server": "NODE_ENV=development PORT=2030 node index.js",
     "dev:webpack-dev-server": "WEBPACK_PORT=2031 babel-node src/server/webpack-dev-server.js",
-    "dev:prod-api": "API_URL=https://fr.openfisca.org/api/v21 npm run dev",
     "lint": "eslint --ext .js,.jsx .",
     "start": "NODE_ENV=production PORT=2030 node index.js",
     "test:unit": "mocha --compilers js:babel-core/register tests/unit/**/*.js",

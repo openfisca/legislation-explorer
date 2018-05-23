@@ -1,10 +1,28 @@
 {
-  "header": "OpenFisca makes law computable. It is a free and open-source computation engine that allows modelling tax and benefit systems in a collaborative and transparent way. This software is used by researchers and public agencies.",
-  "learnMore": "Learn more.",
-  "stats": "{explorerLink} that model the French tax and benefit system.",
-  "explorerText": "Explore the {variablesCount, number} variables and {parametersCount, number} parameters",
-  "api": "{apiLink} that lets you compute them from any app.",
-  "apiText": "Use the API",
+  "cta_header": "Calculate and explore the legal and regulatory rules {forCountry}.",
+  "forCountry": "of {countryName}",
+  "cta_explore": "{cta_explore_link} through the history and values of the currently modelled {parametersCount, number} law parameters and read the formula code that makes {variablesCount, number} variables computable.",
+  "cta_explore_text": "Search",
+  "cta_api": "{cta_api_link} to calculate them in any app.",
+  "cta_api_text": "Use the API",
+  "cta_openfisca": "This model is created with {cta_openfisca_link}, a free and open-source computation engine that makes law computable in a collaborative and transparent way.",
+
+  "search_placeholder": "income, threshold",
+
+  "appName": "Legislation explorer",
+  "elementNotFound": "Element does not exist",
+  "noResultsFor": "No element in the current model matches “{input}”.",
+
+  "parameterNotInLegislationSince": "The legislation defining this parameter is not in effect from {startDate}",
+  "fromDate": "From {startDate}",
+  "fromToDate": "From {startDate} to {stopDate}",
+
+  "date": "Date",
+  "bracket": "Bracket",
+  "marginalRate": "Marginal rate",
+  "betweenValues": "Between {startValue} and {stopValue}",
+  "overValue": "Over {startValue}",
+
   "entityParagraph": "This {variableLink} applies to the {entityLink}",
   "variableText": "variable",
   "entityText": "entities",
@@ -29,13 +47,17 @@
   "formulaNotComputableText": "not computable",
   "editThisVariable": "Edit this variable",
   "editThisFormula": "Edit this formula",
-  "thisVariableJson": "Get the JSON for this variable",
   "checkChangelog": "Check the spelling of the requested URL. If this link used to work and doesn't anymore, check the {changelogURLLink}.",
   "notParamNotVariable": "'{inputValueRef}' is neither a parameter nor a variable in OpenFisca.",
+  "noDescription": "No description",
   "pageDoesNotExist": "The page '{inputValueRef}' does not exist.",
   "backToHP": "Back to the homepage",
   "explore": "Explore OpenFisca's parameter and variable database",
+  "seeOtherResults": "See the other {otherResultsCount} variables and parameters",
+  "improveThisApp": "Improve this application",
   "find": "Find",
   "keyword": "Keyword",
-  "definition":"Definition"
+  "definition":"Definition",
+  "rawJSONData": "Raw data in JSON format",
+  "loading": "Loading…"
 }

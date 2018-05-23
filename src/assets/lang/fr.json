@@ -1,10 +1,28 @@
 {
-  "header": "OpenFisca rend le droit calculable. Il s’agit d’un moteur de calcul libre et ouvert qui permet de modéliser le système socio-fiscal de manière collaborative et transparente. Ce logiciel est utilisé par des chercheurs en économie et des services publics.",
-  "learnMore": "En savoir plus.",
-  "stats": "{explorerLink} qui modélisent le système socio-fiscal français.",
-  "explorerText": "Parcourir les {variablesCount, number} variables et {parametersCount, number} paramètres",
-  "api": "{apiLink} qui permet de les calculer dans n'importe quel logiciel.",
-  "apiText": "Utiliser l'API",
+  "cta_header": "Calculez et explorez les règles légales et règlementaires {forCountry}.",
+  "forCountry": "de {countryName}",
+  "cta_explore": "{cta_explore_link} l’historique des valeurs des {parametersCount, number} paramètres législatifs déjà modélisés et lisez le code des formules qui rendent {variablesCount, number} variables calculables.",
+  "cta_explore_text": "Rechercher",
+  "cta_api": "{cta_api_link} pour les calculer dans n’importe quelle application.",
+  "cta_api_text": "Utiliser l’API",
+  "cta_openfisca": "Ce modèle a été créé avec {cta_openfisca_link}, un moteur de calcul libre et ouvert qui rend la loi calculable de manière transparente et collaborative.",
+
+  "search_placeholder": "salaire, impot",
+
+  "appName": "Explorateur de la législation",
+  "elementNotFound": "Élément inexistant",
+  "noResultsFor": "Aucun élément du modèle actuel ne correspond à « {input} ».",
+
+  "parameterNotInLegislationSince": "Ce paramètre ne figure plus dans la législation depuis le {startDate}",
+  "fromDate": "À partir du {startDate}",
+  "fromToDate": "Du {startDate} au {stopDate}",
+
+  "date": "Date",
+  "bracket": "Tranche",
+  "marginalRate": "Taux marginal",
+  "betweenValues": "Entre {startValue} et {stopValue}",
+  "overValue": "Plus de {startValue}",
+
   "entityParagraph" : "Cette {variableLink} s'applique aux {entityLink}",
   "variableText": "variable",
   "entityText": "entités",
@@ -29,13 +47,17 @@
   "formulaNotComputableText": "pas calculable",
   "editThisVariable": "Modifier ces informations",
   "editThisFormula": "Modifier cette formule",
-  "thisVariableJson": "Donnée brute au format JSON",
   "checkChangelog": "Vérifiez l'orthographe de l'URL. Si ce lien fonctionnait et ne fonctionne plus, vérifiez le {changelogURLLink}.",
   "notParamNotVariable": "'{inputValueRef}' n'est ni un paramètre ni une variable d'OpenFisca.",
+  "noDescription": "Aucune description",
   "pageDoesNotExist": "La page '{inputValueRef}'' n'existe pas.",
   "backToHP": "Retour à l'accueil",
   "explore": "Explorez la base de paramètres et variables OpenFisca",
+  "seeOtherResults": "Voir les {otherResultsCount} autres variables et paramètres",
+  "improveThisApp": "Améliorer cette application",
   "find": "Trouver",
   "keyword": "Identifiant",
-  "definition":"Définition"
+  "definition":"Définition",
+  "rawJSONData": "Donnée brute au format JSON",
+  "loading": "Chargement…"
 }

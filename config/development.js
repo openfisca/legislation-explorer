@@ -5,15 +5,23 @@ import winston from "winston"
 
 const HOST = process.env.HOST || "localhost",
   apiBaseUrl = process.env.API_URL || `http://${HOST}:5000`,
-  gitHubProject = "openfisca/openfisca-france",
+  gitHubProject = "openfisca/country-template",
   gitWebpageUrl = "https://github.com/openfisca/legislation-explorer",
   piwikConfig = null,
   useCommitReferenceFromApi = true,
-  websiteUrl = "https://www.openfisca.fr/",
+  websiteUrl = "https://openfisca.org",
   winstonConfig = {
     transports: [
       new (winston.transports.Console)({timestamp: true}),
     ]
+  },
+  ui = {
+    en: {
+      countryName: 'the development environment',
+    },
+    fr: {
+      countryName: 'l’environnement de développement',
+    }
   }
 
 
@@ -22,6 +30,7 @@ export default {
   gitHubProject,
   gitWebpageUrl,
   piwikConfig,
+  ui,
   useCommitReferenceFromApi,
   websiteUrl,
   winstonConfig,

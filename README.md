@@ -29,6 +29,20 @@ This config file needs to expose a JavaScript object with the following properti
 - `gitWebpageUrl`: The URL at which the source repository for this OpenFisca instance can be found. For example: `https://github.com/ServiceInnovationLab/openfisca-aotearoa`.
 - `websiteUrl`: The URL at which more information can be obtained on OpenFisca. For example: `https://openfisca.org`.
 
+### Localisation (l12n / i18n)
+
+The user interface of the legislation explorer has full support for internationalisation. Supported languages can be found in the `src/assets/lang` directory, and can be added by simply creating a new file with the two-letter language code to add support for.
+
+For localisation, you can override any of the strings defined in these files through the `ui` property of your configuration file.
+
+If you export `ui` as an object whose keys are ISO two-letters language codes and values are strings, these values will take precedence over any strings defined in the `lang` folder.
+
+The following strings are strongly recommended to be overridden:
+
+- `countryName`: The name of the tax and benefit system you are modelling here.
+    - `forCountry`: In case the default interpolation for your `countryName` does not give good results, you can also edit the prefix added before the `countryName` value.
+- `search_placeholder`: One or two suggested searches, preferably comma-separated, for your users to make sense of the search field. Best results will be obtained by using the most well-known parameters for your tax and benefit system.
+
 ### Optional configuration
 
 You can also add the following properties:
@@ -69,7 +83,6 @@ You can edit all files in the source folder you cloned. In order to ease develop
 ```sh
 npm install  # install development dependencies
 npm run dev # To use http://localhost:5000/ for the Web API
-npm run dev:prod-api # To use the latest https://fr.openfisca.org/api/ for the Web API
 ```
 
 > Some additional commands can be useful for development. You can discover all of them by running `npm run`.

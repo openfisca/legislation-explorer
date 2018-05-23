@@ -17,6 +17,16 @@ const apiBaseUrl = process.env.API_URL || `https://fr.openfisca.org/api/v21`,
     transports: [
       new (winston.transports.Console)({timestamp: true}),
     ]
+  },
+  ui = {
+    en: {
+      countryName: 'France',
+      search_placeholder: 'smic, salaire net',
+    },
+    fr: {
+      countryName: 'France',
+      search_placeholder: 'smic, salaire net',
+    }
   }
 
 
@@ -25,6 +35,7 @@ export default {
   gitHubProject,
   gitWebpageUrl,
   piwikConfig,
+  ui,
   useCommitReferenceFromApi,
   websiteUrl,
   winstonConfig,

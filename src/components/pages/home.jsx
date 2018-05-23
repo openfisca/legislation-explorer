@@ -1,7 +1,8 @@
 import {isEmpty} from "ramda"
 import React, {PropTypes} from "react"
 import {Link, locationShape, routerShape} from "react-router"
-import {FormattedMessage} from "react-intl"
+import {FormattedMessage, injectIntl, intlShape} from "react-intl"
+import DocumentTitle from "react-document-title"
 
 import * as AppPropTypes from "../../app-prop-types"
 import List from "../list"
@@ -19,6 +20,7 @@ const HomePage = React.createClass({
   propTypes: {
     countryPackageName: PropTypes.string.isRequired,
     countryPackageVersion: PropTypes.string.isRequired,
+    intl: intlShape,
     location: locationShape.isRequired,
     parameters: PropTypes.objectOf(AppPropTypes.parameter).isRequired,
     variables: PropTypes.objectOf(AppPropTypes.variable).isRequired,
@@ -57,38 +59,46 @@ const HomePage = React.createClass({
     const {searchQuery, searchResults} = this.context
     const changelogURL = `https://www.github.com/${config.gitHubProject}/blob/master/CHANGELOG.md`
     return (
-      <div>
-        {is404 &&
+      <DocumentTitle title={(is404 ? this.props.intl.formatMessage({ id: 'elementNotFound' }) + ' — ' : '') + this.props.intl.formatMessage({ id: 'appName' })}>
+        <div>
+          {is404 &&
             <div className="alert alert-info" id="not-found">
-            <h4 >
-              <FormattedMessage
-                id="pageDoesNotExist"
-                values={{inputValueRef: inputValue}}
-              />
-            </h4>
-            <p>
-              <FormattedMessage
-                id="notParamNotVariable"
-                values={{inputValueRef: inputValue}}
-              />
-            </p>
-            <p>
-              <FormattedMessage
-                id="checkChangelog"
-                values={{changelogURLLink: <a href={changelogURL} target="_blank">changelog</a>}}
-              />
-            </p>
-          </div>
+              <h4>
+                <FormattedMessage
+                  id="pageDoesNotExist"
+                  values={{inputValueRef: inputValue}}
+                />
+              </h4>
+              <p>
+                <FormattedMessage
+                  id="notParamNotVariable"
+                  values={{inputValueRef: inputValue}}
+                />
+              </p>
+              <p>
+                <FormattedMessage
+                  id="checkChangelog"
+                  values={{changelogURLLink: <a href={changelogURL} target="_blank">changelog</a>}}
+                />
+              </p>
+            </div>
           }
-        <SearchBarComponent initialValue={inputValue}/>
-        <section>
-          {
-            isEmpty(searchResults)
-              ? <h4>Aucun résultat</h4>
-              : <SearchResults items={searchResults} searchQuery={searchQuery} />
-          }
-        </section>
-      </div>
+          <SearchBarComponent initialValue={inputValue}/>
+          <section>
+            {
+              isEmpty(searchResults)
+                ? <h4>
+                    <FormattedMessage id="noResultsFor"
+                      values={{
+                        input: <code>{inputValue}</code>
+                      }}
+                    />
+                  </h4>
+                : <SearchResults items={searchResults} searchQuery={searchQuery} />
+            }
+          </section>
+        </div>
+      </DocumentTitle>
     )
   },
 })
@@ -124,4 +134,4 @@ const SearchResults = React.createClass({
 })
 
 
-export default HomePage
+export default injectIntl(HomePage)

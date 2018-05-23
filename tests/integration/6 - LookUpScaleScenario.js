@@ -5,9 +5,6 @@ steps: [
   AppComponent.goToFirstResult(),
   {
     "ParameterComponent.description": impotRevenuBaremeResultDescription,
-    "ScaleTableComponent.headerColumn1": dateHeader,
-    "ScaleTableComponent.headerColumn2": trancheHeader,
-    "ScaleTableComponent.headerColumn3": tauxMarginalHeader,
     "ScaleTableComponent.firstBracketColumn1": ongoingDateRange,
     "ScaleTableComponent.firstBracketColumn2": thresholdRange,
     "ScaleTableComponent.firstBracketColumn3": rate,

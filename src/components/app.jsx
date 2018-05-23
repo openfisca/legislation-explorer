@@ -2,7 +2,7 @@
 import DocumentTitle from "react-document-title"
 import React, {PropTypes} from "react"
 import {locationShape, Link} from "react-router"
-import {FormattedMessage} from "react-intl"
+import {FormattedMessage, injectIntl, intlShape} from "react-intl"
 import ExternalLink from "./external-link"
 
 import * as AppPropTypes from "../app-prop-types"
@@ -50,82 +50,81 @@ const App = React.createClass({
   render() {
     const {countryPackageName, countryPackageVersion, parameters, variables} = this.props
     return (
-      <DocumentTitle title="Explorateur de la législation">
-        <div>
-          <a className="sr-only" href="#content">Sauter au contenu principal</a>
-          <div className="container" id="content" style={{marginBottom: 100}}>
-            <section className="jumbotron" style={{marginTop: "1em"}}>
-              <div className="row">
-                <div className="col-md-3">
-                  <img
-                    alt="OpenFisca"
-                    src="https://openfisca.org/img/logo-openfisca.svg"
-                    style={{maxWidth: "12em"}}
-                  />
-                  <p id="country-package-info">
-                    {countryPackageName}@{countryPackageVersion}
-                  </p>
-                </div>
-                <div className="col-md-9">
-                  <p id="baseline">
-                    <span className="message">
-                      <FormattedMessage id="header"/>
-                      <small>
-                        <ExternalLink href="https://www.openfisca.fr" target="_blank">
-                          <FormattedMessage id="learnMore"/>
+      <DocumentTitle title={this.props.intl.formatMessage({ id: 'appName' })}>
+        <div className="container">
+          <header className="jumbotron">
+            <div className="row">
+              <div className="col-md-3 openfiscaPresentation">
+                <img
+                  alt="OpenFisca"
+                  src="https://openfisca.org/img/logo-openfisca.svg"
+                />
+                <code id="country-package-info">
+                  {countryPackageName}@{countryPackageVersion}
+                </code>
+                <p>
+                  <FormattedMessage id="cta_openfisca"
+                    values={{
+                      cta_openfisca_link: <ExternalLink href="https://openfisca.org" target="_blank">
+                          OpenFisca
                         </ExternalLink>
-                      </small>
-                    </span>
-                    <span className="message" id="stats">
-                      <small>
-                        <FormattedMessage
-                          id="stats"
-                          values={{
-                            explorerLink:
-                              <Link to={{
-                                pathname: '/',
-                                hash: '#search-input'
-                              }}>
-                                <strong><FormattedMessage
-                                  id="explorerText"
-                                  values={{
-                                    variablesCount: Object.keys(variables).length,
-                                    parametersCount: Object.keys(parameters).length
-                                  }}
-                                /></strong>
-                              </Link>
-                          }}
-                        />
-                      </small>
-                    </span>
-                    <span className="message">
-                      <small>
-                        <FormattedMessage
-                          id="api"
-                          values={{
-                            apiLink:
-                              <Link to="/swagger">
-                                <strong><FormattedMessage id="apiText"/></strong>
-                              </Link>
-                          }}
-                        />
-                      </small>
-                    </span>
-                  </p>
-                </div>
+                    }}
+                  />
+                </p>
               </div>
-            </section>
-            {this.props.children}
-            <footer>
-              <a href={config.gitWebpageUrl} target="_blank">
-                Améliorer ce site
-              </a>
-            </footer>
-          </div>
+              <div className="col-md-9">
+                <h1>
+                  { /* Self-reference strings to allow for config override of static strings. */}
+                  <FormattedMessage id="cta_header"
+                    values={{ forCountry:
+                      <FormattedMessage id="forCountry"
+                        values={{ countryName: <FormattedMessage id="countryName"/> }}
+                      />
+                    }}
+                  />
+                </h1>
+                <p>
+                  <FormattedMessage id="cta_explore"
+                    values={{
+                      parametersCount: Object.keys(parameters).length,
+                      variablesCount: Object.keys(variables).length,
+                      cta_explore_link:
+                        <Link to="#search-input">
+                          <FormattedMessage id="cta_explore_text"/>
+                        </Link>
+                    }}
+                  />
+                </p>
+                <p>
+                  <FormattedMessage id="cta_api"
+                    values={{
+                      cta_api_link:
+                        <Link to="/swagger">
+                          <FormattedMessage id="cta_api_text"/>
+                        </Link>
+                    }}
+                  />
+                </p>
+              </div>
+            </div>
+          </header>
+
+          {this.props.children}
+
+          <footer>
+            <a href={config.gitWebpageUrl} target="_blank">
+              <FormattedMessage id="improveThisApp"/>
+            </a>
+          </footer>
         </div>
       </DocumentTitle>
     )
   },
 })
 
-export default App
+
+App.propTypes = {
+  intl: intlShape.isRequired
+}
+
+export default injectIntl(App)

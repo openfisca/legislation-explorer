@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import SwaggerUi, {presets} from 'swagger-ui';
+import { FormattedMessage } from 'react-intl';
+
 
 class SwaggerPage extends Component {
   componentDidMount() {
@@ -13,7 +15,9 @@ class SwaggerPage extends Component {
 
   render() {
     return (
-      <div id="swaggerContainer">Chargement…</div>
+      <div id="swaggerContainer">
+        <FormattedMessage id="loading"/>
+      </div>
     );
   }
 }

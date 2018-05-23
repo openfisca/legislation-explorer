@@ -1,5 +1,5 @@
-baseline: "#baseline",
-stats: "#stats",
+valueProposition: "h1",
+stats: "header h1 + p",
 countryPackageInfo: "#country-package-info",
 goToFirstResultLink: 'ul a h4',
 firstResultName: 'ul h4',

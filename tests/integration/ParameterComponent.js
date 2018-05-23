@@ -1,3 +1,3 @@
-title: "h1",
-description: "header p",
-goBackLink: {a: "Voir"},
+title: "section h1",
+description: ".description",
+goBackLink: ".btn-default",
