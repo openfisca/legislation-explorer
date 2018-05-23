@@ -63,11 +63,11 @@ const Variable = React.createClass({
     }
     function formatDefaultValue(variable) {
       if (variable.valueType == "Date") {
-        return <FormattedDate value={ variable.defaultValue } year="numeric" month="2-digit" day="2-digit" />;
+        return <FormattedDate value={ variable.defaultValue } year="numeric" month="2-digit" day="2-digit" />
       } else if (variable.valueType == "Float") {
-        return <FormattedNumber value={variable.defaultValue} />;
+        return <FormattedNumber value={variable.defaultValue} />
       } else if (variable.valueType == "String") {
-        return `"${ variable.defaultValue }"`;
+        return `"${ variable.defaultValue }"`
       } else {
         return String(variable.defaultValue)
       }

@@ -1,7 +1,6 @@
-import React, {Component} from 'react';
-import SwaggerUi, {presets} from 'swagger-ui';
-import { FormattedMessage } from 'react-intl';
-
+import React, {Component} from 'react'
+import SwaggerUi, {presets} from 'swagger-ui'
+import { FormattedMessage } from 'react-intl'
 
 class SwaggerPage extends Component {
   componentDidMount() {
@@ -10,7 +9,7 @@ class SwaggerPage extends Component {
       spec: this.props.swaggerSpec,
       presets: [presets.apis],
       validatorUrl: null,
-    });
+    })
   }
 
   render() {
@@ -18,8 +17,8 @@ class SwaggerPage extends Component {
       <div id="swaggerContainer">
         <FormattedMessage id="loading"/>
       </div>
-    );
+    )
   }
 }
 
-export default SwaggerPage;
+export default SwaggerPage

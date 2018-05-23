@@ -42,7 +42,7 @@ export function findParametersAndVariables(parameters, variables, query) {
       matches.push(item)
       return matches
     },
-  []);
+  [])
 
   return sortWith([
     descend(prop('matchesInName')),

@@ -1,6 +1,6 @@
 import classNames from "classnames"
 import React from "react"
-import { FormattedMessage, FormattedDate, FormattedNumber } from 'react-intl';
+import { FormattedMessage, FormattedDate, FormattedNumber } from 'react-intl'
 
 import * as AppPropTypes from "../app-prop-types"
 
@@ -30,7 +30,7 @@ const Scale = React.createClass({
                 const isFirstBracket = thresholdIndex === 0
                 const hasNextThreshold = thresholds[thresholdIndex + 1]
                 const nextThreshold = hasNextThreshold && Number(hasNextThreshold)  // '0' is truthy while Number('0') is falsy
-                const marginalRate = bracket[threshold];
+                const marginalRate = bracket[threshold]
                 threshold = parseFloat(threshold)
 
                 return (

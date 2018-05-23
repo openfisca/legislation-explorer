@@ -11,7 +11,7 @@ import config from "../config"
 import {loadTranslations} from "./lang"
 
 
-winston.configure(config.winstonConfig);
+winston.configure(config.winstonConfig)
 
 
 function startServer(state) {
