@@ -32,6 +32,7 @@ p.description {
   font-size: large;
   margin-top: 3%;
 }
+
 span.variable-metadata {
   font-weight: bold;
 }
@@ -41,11 +42,11 @@ span.message {
   margin-bottom: 1.5em;
 }
 
-table.in-metadata{
+table.in-metadata {
   margin-top: 1em;
 }
 
-td.list-entry{
+td.list-entry {
   font-weight: bold;
 }
 
@@ -73,21 +74,21 @@ footer {
 
 /* Fix CSS collision between Bootstrap and Swagger-UI */
 .swagger-ui pre {
-    padding: 0;
-    border: none;
-    background: none;
+  padding: 0;
+  border: none;
+  background: none;
 }
 
 /* Fix CSS collision between Bootstrap and Highlight */
 .hljs {
-    background: inherit;
+  background: inherit;
 }
 
 .hljs a:hover {
-    color: #df5000;
+  color: #df5000;
 }
 
 nav.btn-group {
-    margin-top: 2em;
-    display: block;
+  margin-top: 2em;
+  display: block;
 }

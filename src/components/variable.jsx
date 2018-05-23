@@ -62,16 +62,16 @@ const Variable = React.createClass({
       String: <FormattedMessage id="aString"/>,
     }
     function formatDefaultValue(variable) {
-    if (variable.valueType == "Date") {
-      return <FormattedDate value={ variable.defaultValue } year="numeric" month="2-digit" day="2-digit" />;
-    } else if (variable.valueType == "Float") {
+      if (variable.valueType == "Date") {
+        return <FormattedDate value={ variable.defaultValue } year="numeric" month="2-digit" day="2-digit" />;
+      } else if (variable.valueType == "Float") {
         return <FormattedNumber value={variable.defaultValue} />;
-    } else if (variable.valueType == "String") {
+      } else if (variable.valueType == "String") {
         return `"${ variable.defaultValue }"`;
-    } else {
-      return String(variable.defaultValue)
+      } else {
+        return String(variable.defaultValue)
+      }
     }
-  }
     return (
       <div>
         <p>
@@ -86,7 +86,7 @@ const Variable = React.createClass({
                   <a href="https://openfisca.org/doc/person,_entities,_role.html" target="_blank">
                     <FormattedMessage id="entityText"/>
                   </a>
-                }} />&nbsp;
+              }} />&nbsp;
             <span className="variable-metadata">
               { entityMessage[variable.entity] }
             </span>
@@ -132,7 +132,7 @@ const Variable = React.createClass({
         </p>
         { variable.possibleValues
           ? <div>
-            <FormattedHTMLMessage id="authorizedValues"/>
+              <FormattedHTMLMessage id="authorizedValues"/>
               <table className="table table-bordered table-hover table-striped in-metadata">
                 <thead>
                   <tr>
@@ -152,11 +152,11 @@ const Variable = React.createClass({
                           <samp>{variable.possibleValues[keyword]}</samp>
                         </td>
                       </tr>
-                        )
-                      })
+                    )
+                  })
                   }
                 </tbody>
-                </table>
+              </table>
             </div>
           : null
         }
