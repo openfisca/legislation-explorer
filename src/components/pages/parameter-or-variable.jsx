@@ -72,7 +72,10 @@ const ParameterOrVariablePage = React.createClass({
 
     if (this.state.waitingForResponse) {
       return (
-        <FormattedMessage id="loading"/>
+        <div className="loading">
+          <span className="glyphicon glyphicon-refresh"></span>
+          <FormattedMessage id="loading"/>
+        </div>
       )
     }
 
