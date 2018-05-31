@@ -1,5 +1,5 @@
 import DocumentTitle from "react-document-title"
-import { FormattedMessage, FormattedDate, FormattedNumber, injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage, FormattedDate, FormattedNumber, injectIntl, intlShape } from 'react-intl'
 import React, {PropTypes} from "react"
 
 import config from "../config"

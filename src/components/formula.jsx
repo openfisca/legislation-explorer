@@ -88,12 +88,12 @@ const Formula = React.createClass({
         const parameterCall = substring.match(/([\S]*)([\s]*[=][\s]*parameters\([\S]*\)\.?)([\S]*)/)
         const parameterPath = parameterCall[3]
         const nodeVariableName = parameterCall[1]
-          if (this.props.parameters[parameterPath]) {
-            return [nodeVariableName, parameterCall[2], this.linkParam(parameterPath, parameterPath)]  // Concatenate JSX with a string (+ doesn't work).
-          } else {
-            recordParamNode(nodeVariableName,parameterPath)
-            return [substring]
-          }
+        if (this.props.parameters[parameterPath]) {
+          return [nodeVariableName, parameterCall[2], this.linkParam(parameterPath, parameterPath)]  // Concatenate JSX with a string (+ doesn't work).
+        } else {
+          recordParamNode(nodeVariableName,parameterPath)
+          return [substring]
+        }
       } else {
         let substrings = [substring]
         for (let i = 0; i < recordedParamNodes.length; i++) {
@@ -140,8 +140,8 @@ const Formula = React.createClass({
       map((substring) => {
         return this.splitAndLinkVariables(substring, `'`)
       }),
-      flatten,
-      )(formula)
+      flatten
+    )(formula)
   },
 })
 

@@ -12,7 +12,7 @@ import HtmlDocument from "./html-document"
 
 
 export default function handleRender(state) {
-  return function (req, res, /*, next*/) {
+  return function (req, res) {
     state.locale = getLocale(req.headers['accept-language'], state.messages)
 
     match({routes, location: req.url}, (error, redirectLocation, renderProps) => {

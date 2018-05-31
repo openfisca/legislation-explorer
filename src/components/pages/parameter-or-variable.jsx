@@ -40,8 +40,8 @@ const ParameterOrVariablePage = React.createClass({
         }
       )
     } else {
-        this.setState({waitingForResponse: false})
-        this.handleNotFound()
+      this.setState({waitingForResponse: false})
+      this.handleNotFound()
     }
   },
   componentWillReceiveProps(nextProps) {
@@ -56,7 +56,7 @@ const ParameterOrVariablePage = React.createClass({
       pathname: "/",
       query: {q: name, is404: true},
       hash: "#not-found",
-      })
+    })
   },
 
   render() {
