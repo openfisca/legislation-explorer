@@ -68,5 +68,8 @@
     "webpack-dev-server": "^1.9.0",
     "webpack-error-notification": "^0.1.4"
   },
+  "engines": {
+    "npm": ">=5.0.0"
+  },
   "private": true
 }
