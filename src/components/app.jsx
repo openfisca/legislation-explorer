@@ -2,7 +2,6 @@ import DocumentTitle from "react-document-title"
 import React, {PropTypes} from "react"
 import {locationShape, Link} from "react-router"
 import {FormattedMessage, injectIntl, intlShape} from "react-intl"
-import ExternalLink from "./external-link"
 
 import * as AppPropTypes from "../app-prop-types"
 import config from "../config"
@@ -63,11 +62,7 @@ const App = React.createClass({
                 </code>
                 <p>
                   <FormattedMessage id="cta_openfisca"
-                    values={{
-                      cta_openfisca_link: <ExternalLink href="https://openfisca.org" target="_blank">
-                          OpenFisca
-                        </ExternalLink>
-                    }}
+                    values={{ cta_openfisca_link: <a href="https://openfisca.org">OpenFisca</a> }}
                   />
                 </p>
               </div>

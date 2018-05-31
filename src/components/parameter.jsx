@@ -4,7 +4,6 @@ import React, {PropTypes} from "react"
 
 import config from "../config"
 import * as AppPropTypes from "../app-prop-types"
-import ExternalLink from "./external-link"
 import Scale from "./scale"
 import getDayBefore from "../periods"
 
@@ -39,9 +38,9 @@ const Parameter = React.createClass({
             </div>
           </div>
           <hr/>
-          <ExternalLink href={`${config.apiBaseUrl}/parameter/${parameter.id}`}>
+          <a rel="external" target="_blank" href={`${config.apiBaseUrl}/parameter/${parameter.id}`}>
             <FormattedMessage id="rawJSONData"/>
-          </ExternalLink>
+          </a>
         </section>
       </DocumentTitle>
     )
