@@ -1,4 +1,3 @@
-import classNames from "classnames"
 import React from "react"
 import { FormattedMessage, FormattedDate, FormattedNumber } from 'react-intl'
 
@@ -35,7 +34,7 @@ const Scale = React.createClass({
 
                 return (
                   <tr
-                    className={classNames({"first-bracket": isFirstBracket})}
+                    className={thresholdIndex == 0 && 'first-bracket'}
                     key={`${bracketIndex}-${thresholdIndex}`}
                   >
                     {
