@@ -4,7 +4,7 @@ import React, { PropTypes } from "react"
 import { keys } from "ramda"
 
 import config from "../config"
-import * as AppPropTypes from "../app-prop-types"
+import { parameterShape, variableShape } from "../openfisca-proptypes"
 import Formula from "./formula"
 import getDayBefore from "../periods"
 
@@ -13,9 +13,9 @@ const Variable = React.createClass({
     countryPackageName: PropTypes.string.isRequired,
     countryPackageVersion: PropTypes.string.isRequired,
     intl: intlShape.isRequired,
-    parameters: PropTypes.objectOf(AppPropTypes.parameter).isRequired,
-    variable: AppPropTypes.variable.isRequired,
-    variables: PropTypes.objectOf(AppPropTypes.variable).isRequired,
+    parameters: PropTypes.objectOf(parameterShape).isRequired,
+    variable: variableShape.isRequired,
+    variables: PropTypes.objectOf(variableShape).isRequired,
   },
 
   render() {

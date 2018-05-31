@@ -1,25 +1,21 @@
-import {PropTypes} from "react"
+import { PropTypes } from "react"
 
 
-// Level 0 PropTypes
-
-export const value = PropTypes.oneOfType([
+const valuesShape = PropTypes.objectOf(PropTypes.oneOfType([
   PropTypes.bool,
   PropTypes.number,
   PropTypes.string,
-])
+]))
 
-export const values = PropTypes.objectOf(value)
-
-export const parameter = PropTypes.shape({
+export const parameterShape = PropTypes.shape({
   id: PropTypes.string,
   description: PropTypes.string,
   normalizedDescription: PropTypes.string,
-  brackets: PropTypes.objectOf(values),
-  values,
+  values: valuesShape,
+  brackets: PropTypes.objectOf(valuesShape),
 })
 
-export const variable = PropTypes.shape({
+export const variableShape = PropTypes.shape({
   id: PropTypes.string,
   description: PropTypes.string,
   definitionPeriod: PropTypes.string,

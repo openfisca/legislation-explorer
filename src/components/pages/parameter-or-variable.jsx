@@ -2,7 +2,7 @@ import React, { PropTypes } from "react"
 import { Link, locationShape, routerShape } from "react-router"
 import { FormattedMessage } from "react-intl"
 
-import * as AppPropTypes from "../../app-prop-types"
+import { parameterShape, variableShape } from "../../openfisca-proptypes"
 import Parameter from "../parameter"
 import Variable from "../variable"
 import { searchInputId } from "./home"
@@ -20,8 +20,8 @@ const ParameterOrVariablePage = React.createClass({
     countryPackageVersion: PropTypes.string.isRequired,
     location: locationShape.isRequired,
     params: PropTypes.shape({ name: PropTypes.string.isRequired }).isRequired, // URL params
-    parameters: PropTypes.objectOf(AppPropTypes.parameter).isRequired,
-    variables: PropTypes.objectOf(AppPropTypes.variable).isRequired,
+    parameters: PropTypes.objectOf(parameterShape).isRequired,
+    variables: PropTypes.objectOf(variableShape).isRequired,
   },
   getInitialState() {
     return {variable: null, parameter: null, waitingForResponse: true}

@@ -3,7 +3,7 @@ import { FormattedMessage, FormattedDate, FormattedNumber, injectIntl, intlShape
 import React, {PropTypes} from "react"
 
 import config from "../config"
-import * as AppPropTypes from "../app-prop-types"
+import { parameterShape } from "../openfisca-proptypes"
 import Scale from "./scale"
 import getDayBefore from "../periods"
 
@@ -12,7 +12,7 @@ const Parameter = React.createClass({
     countryPackageName: PropTypes.string.isRequired,
     countryPackageVersion: PropTypes.string.isRequired,
     intl: intlShape.isRequired,
-    parameter: AppPropTypes.parameter.isRequired,
+    parameter: parameterShape.isRequired,
   },
   render() {
     const {parameter} = this.props
