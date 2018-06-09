@@ -1,6 +1,6 @@
 import DocumentTitle from "react-document-title"
-import React, {Component, PropTypes} from "react"
-
+import React, {Component} from "react"
+import PropTypes from 'prop-types'
 
 export default class HtmlDocument extends Component {
   render() {

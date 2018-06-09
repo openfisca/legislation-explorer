@@ -1,4 +1,5 @@
-import React, { PropTypes } from "react"
+import React from "react"
+import PropTypes from 'prop-types'
 import { parameterShape, variableShape } from "../openfisca-proptypes"
 import { Link } from "react-router"
 import { FormattedMessage, FormattedDate } from "react-intl"

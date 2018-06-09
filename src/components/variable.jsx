@@ -1,6 +1,7 @@
 import DocumentTitle from "react-document-title"
 import { FormattedMessage, FormattedDate, FormattedNumber, injectIntl, intlShape } from "react-intl"
-import React, { PropTypes } from "react"
+import React from "react"
+import PropTypes from 'prop-types'
 import { keys } from "ramda"
 
 import config from "../config"

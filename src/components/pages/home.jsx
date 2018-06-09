@@ -1,5 +1,6 @@
 import {isEmpty} from "ramda"
-import React, {PropTypes} from "react"
+import React from "react"
+import PropTypes from 'prop-types'
 import {Link, locationShape, routerShape} from "react-router"
 import {FormattedMessage, injectIntl, intlShape} from "react-intl"
 import DocumentTitle from "react-document-title"
