@@ -29,12 +29,12 @@ const Variable = React.createClass({
             : <em><FormattedMessage id="noDescription"/></em>
           }
           {this.renderVariableMetadata(variable)}
-          <a href={variable.source} target="_blank">
+          <a href={variable.source} rel="noopener" target="_blank">
             <FormattedMessage id="editThisVariable"/>
           </a>
           { keys(variable.formulas).length != 0 && this.renderFormulas(variable.formulas) }
           <p>
-            <a href={`${ config.apiBaseUrl }/variable/${ variable.id }`} rel="external" target="_blank">
+            <a href={`${ config.apiBaseUrl }/variable/${ variable.id }`} rel="external noopener" target="_blank">
               <FormattedMessage id="rawJSONData"/>
             </a>
           </p>
@@ -84,11 +84,11 @@ const Variable = React.createClass({
             id="entityParagraph"
             values={{
               variableLink:
-                <a href="https://openfisca.org/doc/variables.html" target="_blank">
+                <a href="https://openfisca.org/doc/variables.html" rel="noopener" target="_blank">
                   <FormattedMessage id="variableText"/>
                 </a>,
               entityLink:
-                <a href="https://openfisca.org/doc/person,_entities,_role.html" target="_blank">
+                <a href="https://openfisca.org/doc/person,_entities,_role.html" rel="noopener" target="_blank">
                   <FormattedMessage id="entityText"/>
                 </a>
             }} />&nbsp;
@@ -100,7 +100,7 @@ const Variable = React.createClass({
           <FormattedMessage
             id="definitionPeriodParagraph"
             values={{definitionPeriodLink:
-                <a href="https://openfisca.org/doc/coding-the-legislation/35_periods.html#periods-for-variable" target="_blank">
+                <a href="https://openfisca.org/doc/coding-the-legislation/35_periods.html#periods-for-variable" rel="noopener" target="_blank">
                   <FormattedMessage id="definitionPeriodText"/>
                 </a>
             }}
@@ -123,7 +123,7 @@ const Variable = React.createClass({
         <p>
           <FormattedMessage id="defaultValueParagraph"
             values={{ defaultValueLink:
-              <a href="https://openfisca.org/doc/variables.html#default-values" target="_blank">
+              <a href="https://openfisca.org/doc/variables.html#default-values" rel="noopener" target="_blank">
                 <FormattedMessage id="defaultValueText"/>
               </a>
             }}

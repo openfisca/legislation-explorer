@@ -78,7 +78,7 @@ const HomePage = React.createClass({
               <p>
                 <FormattedMessage
                   id="checkChangelog"
-                  values={{changelogURLLink: <a href={changelogURL} target="_blank">changelog</a>}}
+                  values={{changelogURLLink: <a href={changelogURL} rel="noopener" target="_blank">changelog</a>}}
                 />
               </p>
             </div>

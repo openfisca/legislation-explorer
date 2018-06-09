@@ -33,7 +33,7 @@ const Formula = React.createClass({
         }
         <Highlight className="python">{this.renderLinkedFormula(content)}</Highlight>
         <p>
-          <a href={source} target="_blank"><FormattedMessage id="editThisFormula"/></a>
+          <a href={source} rel="noopener" target="_blank"><FormattedMessage id="editThisFormula"/></a>
         </p>
       </div>
     )
