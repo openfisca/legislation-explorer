@@ -6,8 +6,8 @@
 // Inspired from http://webpack.github.io/docs/long-term-caching.html#get-filenames-from-stats
 
 
-import fs from "fs"
-import path from "path"
+import fs from 'fs'
+import path from 'path'
 
 
 // Write only a relevant subset of the stats and attach the public path to it
@@ -27,11 +27,11 @@ export default function writeAssets(filepath) {
         .map(chunk2 => `${publicPath}${chunk2}`) // add public path to it
     }
 
-    const chunkName = "main"
+    const chunkName = 'main'
     const content = {
       main: {
-        css: getChunks(chunkName, "css"),
-        js: getChunks(chunkName, "js"),
+        css: getChunks(chunkName, 'css'),
+        js: getChunks(chunkName, 'js'),
       },
     }
     fs.writeFileSync(filepath, JSON.stringify(content))

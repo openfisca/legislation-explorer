@@ -21,6 +21,7 @@
       "keyword-spacing": "error",
       "no-console": "off",
       "no-trailing-spaces": "error",
+      "quotes": ["error", "single", { "avoidEscape": true }],
       "react/prop-types": "off",
       "semi": ["error", "never"],
       "space-before-blocks": "error",

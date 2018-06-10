@@ -1,4 +1,4 @@
-import {ascend, assoc, descend, flatten, isEmpty, keys, map, merge, prop, sortBy, sortWith} from "ramda"
+import {ascend, assoc, descend, flatten, isEmpty, keys, map, merge, prop, sortBy, sortWith} from 'ramda'
 import * as diacritics from 'diacritics'
 
 function preprocessParametersAndVariables(parameters, variables) {
@@ -13,7 +13,7 @@ function preprocessParametersAndVariables(parameters, variables) {
 
 export function findParametersAndVariables(parameters, variables, query) {
   const normalizedQuery = diacritics.remove(query.toLowerCase())
-  const queryWords = normalizedQuery.split(" ")
+  const queryWords = normalizedQuery.split(' ')
 
   const parametersAndVariables = preprocessParametersAndVariables(parameters, variables)
   if (isEmpty(normalizedQuery)) {

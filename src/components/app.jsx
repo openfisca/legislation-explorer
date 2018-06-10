@@ -1,12 +1,12 @@
-import DocumentTitle from "react-document-title"
-import React from "react"
+import DocumentTitle from 'react-document-title'
+import React from 'react'
 import PropTypes from 'prop-types'
-import {locationShape, Link} from "react-router"
-import {FormattedMessage, injectIntl, intlShape} from "react-intl"
+import {locationShape, Link} from 'react-router'
+import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 
-import { parameterShape, variableShape } from "../openfisca-proptypes"
-import config from "../config"
-import {findParametersAndVariables} from "../search"
+import { parameterShape, variableShape } from '../openfisca-proptypes'
+import config from '../config'
+import {findParametersAndVariables} from '../search'
 
 const App = React.createClass({
   childContextTypes: {
@@ -37,7 +37,7 @@ const App = React.createClass({
   },
   getInitialState() {
     const {location, parameters, variables} = this.props
-    const searchQuery = location.query.q || ""
+    const searchQuery = location.query.q || ''
     return {
       searchQuery,
       searchResults: findParametersAndVariables(parameters, variables, searchQuery),

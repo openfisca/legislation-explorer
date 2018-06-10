@@ -1,7 +1,7 @@
-import React from "react"
+import React from 'react'
 import { FormattedMessage, FormattedDate, FormattedNumber } from 'react-intl'
 
-import { parameterShape } from "../openfisca-proptypes"
+import { parameterShape } from '../openfisca-proptypes'
 
 
 const Scale = React.createClass({

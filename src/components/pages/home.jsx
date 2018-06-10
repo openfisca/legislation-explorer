@@ -1,15 +1,15 @@
-import {isEmpty} from "ramda"
-import React from "react"
+import {isEmpty} from 'ramda'
+import React from 'react'
 import PropTypes from 'prop-types'
-import {Link, locationShape, routerShape} from "react-router"
-import {FormattedMessage, injectIntl, intlShape} from "react-intl"
-import DocumentTitle from "react-document-title"
+import {Link, locationShape, routerShape} from 'react-router'
+import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
+import DocumentTitle from 'react-document-title'
 
-import { parameterShape, variableShape } from "../../openfisca-proptypes"
-import List from "../list"
-import config from "../../config"
-import SearchBarComponent from "./searchbar"
-export const searchInputId = "search-input"
+import { parameterShape, variableShape } from '../../openfisca-proptypes'
+import List from '../list'
+import config from '../../config'
+import SearchBarComponent from './searchbar'
+export const searchInputId = 'search-input'
 
 const HomePage = React.createClass({
   contextTypes: {
@@ -36,12 +36,12 @@ const HomePage = React.createClass({
     this.unregisterRouterListen()
   },
   getInitialState() {
-    return {inputValue: ""}
+    return {inputValue: ''}
   },
 
   locationHasChanged(location) {
     if (this._isMounted) {
-      let searchQuery = ""
+      let searchQuery = ''
       if (location.query.q) {
         searchQuery = location.query.q
       }
@@ -122,7 +122,7 @@ const SearchResults = React.createClass({
           const {description, itemType, name} = item
           return (
             <Link key={`${name}-${itemType}`} to={`/${name}`}>
-              <article style={{margin: "3em 0"}}>
+              <article style={{margin: '3em 0'}}>
                 <h4>{name}</h4>
                 {description && <p>{description}</p>}
               </article>

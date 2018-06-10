@@ -1,24 +1,24 @@
 // Webpack config for creating the production bundle.
 
-import CopyWebpackPlugin from "copy-webpack-plugin"
-import path from "path"
-import webpack from "webpack"
+import CopyWebpackPlugin from 'copy-webpack-plugin'
+import path from 'path'
+import webpack from 'webpack'
 
-import writeAssets from "./src/server/write-assets"
+import writeAssets from './src/server/write-assets'
 
 
-const assetsPath = path.join(__dirname, "public")
-const basename = process.env.BASENAME || ""
+const assetsPath = path.join(__dirname, 'public')
+const basename = process.env.BASENAME || ''
 
 module.exports = {
   // devtool: "eval", // Transformed code
-  devtool: "source-map", // Original code
+  devtool: 'source-map', // Original code
   entry: {
-    "main": "./src/client.jsx",
+    'main': './src/client.jsx',
   },
   output: {
     path: assetsPath,
-    filename: "[name]-[hash].js",
+    filename: '[name]-[hash].js',
     publicPath: `${basename}/`,
   },
   target: 'web',
@@ -30,7 +30,7 @@ module.exports = {
     loaders: [
       {
         exclude: /(node_modules|public)/,
-        loader: "babel",
+        loader: 'babel',
         test: /\.(js|jsx)$/,
       },
       {
@@ -40,22 +40,22 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ["", ".js", ".jsx"],
+    extensions: ['', '.js', '.jsx'],
   },
   progress: true,
   plugins: [
 
     // set global vars
     new webpack.DefinePlugin({
-      "process.env": {
-        NODE_ENV: JSON.stringify("production"), // clean up some react stuff
+      'process.env': {
+        NODE_ENV: JSON.stringify('production'), // clean up some react stuff
         BASENAME: JSON.stringify(basename),
-        COUNTRY_PRODUCTION_CONFIG: JSON.stringify(process.env.COUNTRY_PRODUCTION_CONFIG || "france")
+        COUNTRY_PRODUCTION_CONFIG: JSON.stringify(process.env.COUNTRY_PRODUCTION_CONFIG || 'france')
       },
     }),
 
     new webpack.ProvidePlugin({
-      React: "react", // For babel JSX transformation which generates React.createElement.
+      React: 'react', // For babel JSX transformation which generates React.createElement.
     }),
 
     new CopyWebpackPlugin([
@@ -75,6 +75,6 @@ module.exports = {
       },
     }),
 
-    function() { this.plugin("done", writeAssets(path.resolve(__dirname, "webpack-assets.json"))) },
+    function() { this.plugin('done', writeAssets(path.resolve(__dirname, 'webpack-assets.json'))) },
   ],
 }
