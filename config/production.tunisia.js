@@ -9,7 +9,6 @@ const HOST = process.env.HOST || 'api.openfisca.tn',
     siteId: 4,
     trackErrors: true
   },
-  useCommitReferenceFromApi = false,
   websiteUrl = 'https://openfisca.org',
   ui = {
     en: {
@@ -27,6 +26,5 @@ export default {
   gitWebpageUrl,
   matomo,
   ui,
-  useCommitReferenceFromApi,
   websiteUrl
 }

@@ -8,7 +8,6 @@ const apiBaseUrl = process.env.API_URL || 'https://fr.openfisca.org/api/v21',
     siteId: 4,
     trackErrors: true
   },
-  useCommitReferenceFromApi = true,
   websiteUrl = 'https://fr.openfisca.org/',
   ui = {
     en: {
@@ -28,6 +27,5 @@ export default {
   gitWebpageUrl,
   matomo,
   ui,
-  useCommitReferenceFromApi,
   websiteUrl,
 }

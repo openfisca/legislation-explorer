@@ -5,7 +5,6 @@ const HOST = process.env.HOST || 'localhost',
   gitHubProject = 'openfisca/country-template',
   gitWebpageUrl = 'https://github.com/openfisca/legislation-explorer',
   matomo = null,
-  useCommitReferenceFromApi = true,
   websiteUrl = 'https://openfisca.org',
   ui = {
     en: {
@@ -23,6 +22,5 @@ export default {
   gitWebpageUrl,
   matomo,
   ui,
-  useCommitReferenceFromApi,
   websiteUrl,
 }

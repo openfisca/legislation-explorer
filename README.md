@@ -48,7 +48,6 @@ The following strings are strongly recommended to be overridden:
 You can also add the following properties:
 
 - `matomo`: An object describing how to contact a [Matomo analytics](https://matomo.org) (ex-Piwik) instance to which usage stats will be sent. The value is a configuration object for the `piwik-react-router` package. Defaults to `false`, not sending analytics at all.
-- `useCommitReferenceFromApi`: _A Boolean value._
 
 Some other elements can be configured through environment variables passed to both `npm build` and `npm start`:
 
