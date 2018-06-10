@@ -3,7 +3,7 @@
 const apiBaseUrl = process.env.API_URL || 'https://fr.openfisca.org/api/v21',
   gitHubProject = 'openfisca/openfisca-france',
   gitWebpageUrl = 'https://github.com/openfisca/legislation-explorer',
-  piwikConfig = {
+  matomo = {
     url: 'https://stats.data.gouv.fr',
     siteId: 4,
     trackErrors: true
@@ -26,7 +26,7 @@ export default {
   apiBaseUrl,
   gitHubProject,
   gitWebpageUrl,
-  piwikConfig,
+  matomo,
   ui,
   useCommitReferenceFromApi,
   websiteUrl,

@@ -47,10 +47,7 @@ The following strings are strongly recommended to be overridden:
 
 You can also add the following properties:
 
-- `piwikConfig`: An object describing how to contact a [Piwik analytics](https://piwik.org) instance to which usage stats will be sent. Contains the following subproperties:
-    - `url`: The base URL at which the Piwik instance can be contacted. For example: `https://stats.data.gouv.fr`.
-    - `siteId`: The ID of the site to track in this Piwik instance.
-    - `trackErrors`: _A Boolean value._
+- `matomo`: An object describing how to contact a [Matomo analytics](https://matomo.org) (ex-Piwik) instance to which usage stats will be sent. The value is a configuration object for the `piwik-react-router` package. Defaults to `false`, not sending analytics at all.
 - `useCommitReferenceFromApi`: _A Boolean value._
 
 Some other elements can be configured through environment variables passed to both `npm build` and `npm start`:
