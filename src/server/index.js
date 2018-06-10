@@ -1,4 +1,3 @@
-import config from '../config'
 import { loadTranslations } from './lang'
 import handleRender from './render'
 import { addNormalizedDescription } from '../search'
@@ -7,12 +6,8 @@ import { fetchParameters, fetchVariables, fetchSwagger } from '../webservices'
 import express from 'express'
 import { assoc, map } from 'ramda'
 import favicon from 'serve-favicon'
-import winston from 'winston'
 
 import path from 'path'
-
-
-winston.configure(config.winstonConfig)
 
 
 function startServer(state) {
@@ -24,7 +19,7 @@ function startServer(state) {
 
   // Generic server errors (e.g. not caught by components)
   server.use((err, req, res, next) => {
-    winston.error(req.method + ' ' + req.url, {error: err})
+    console.error(req.method + ' ' + req.url, {error: err})
     if (server.get('env') === 'production') {
       res.status(500).send(
         '<h1>Error: ' + err.message + '</h1>'

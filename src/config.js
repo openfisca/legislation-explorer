@@ -7,4 +7,5 @@ if (process.env.NODE_ENV == 'test') {
   configFilename = 'development'
 }
 const config = require('../config/' + configFilename).default
+
 export default config

@@ -1,8 +1,5 @@
 // App config in a development environment.
 
-import winston from 'winston'
-
-
 const HOST = process.env.HOST || 'localhost',
   apiBaseUrl = process.env.API_URL || `http://${HOST}:5000`,
   gitHubProject = 'openfisca/country-template',
@@ -10,11 +7,6 @@ const HOST = process.env.HOST || 'localhost',
   piwikConfig = null,
   useCommitReferenceFromApi = true,
   websiteUrl = 'https://openfisca.org',
-  winstonConfig = {
-    transports: [
-      new (winston.transports.Console)({timestamp: true}),
-    ]
-  },
   ui = {
     en: {
       countryName: 'the development environment',
@@ -33,5 +25,4 @@ export default {
   ui,
   useCommitReferenceFromApi,
   websiteUrl,
-  winstonConfig,
 }

@@ -52,7 +52,6 @@ You can also add the following properties:
     - `siteId`: The ID of the site to track in this Piwik instance.
     - `trackErrors`: _A Boolean value._
 - `useCommitReferenceFromApi`: _A Boolean value._
-- `winstonConfig`: A configuration object to pass to the [`winston` logger](https://github.com/winstonjs/winston/tree/2.x#instantiating-your-own-logger) (i.e. what is passed to a `new winston.Logger`).
 
 Some other elements can be configured through environment variables passed to both `npm build` and `npm start`:
 

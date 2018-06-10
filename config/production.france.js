@@ -1,8 +1,5 @@
 // App config in a production environment.
 
-import winston from 'winston'
-
-
 const apiBaseUrl = process.env.API_URL || 'https://fr.openfisca.org/api/v21',
   gitHubProject = 'openfisca/openfisca-france',
   gitWebpageUrl = 'https://github.com/openfisca/legislation-explorer',
@@ -13,11 +10,6 @@ const apiBaseUrl = process.env.API_URL || 'https://fr.openfisca.org/api/v21',
   },
   useCommitReferenceFromApi = true,
   websiteUrl = 'https://fr.openfisca.org/',
-  winstonConfig = {
-    transports: [
-      new (winston.transports.Console)({timestamp: true}),
-    ]
-  },
   ui = {
     en: {
       countryName: 'France',
@@ -38,5 +30,4 @@ export default {
   ui,
   useCommitReferenceFromApi,
   websiteUrl,
-  winstonConfig,
 }
