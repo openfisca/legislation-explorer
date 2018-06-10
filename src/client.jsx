@@ -1,14 +1,12 @@
-import PiwikReactRouter from 'piwik-react-router'
-import React from 'react'
-import {render} from 'react-dom'
-import {createHistory} from 'history'
-import {Router, useRouterHistory} from 'react-router'
-
-import {addLocaleData, IntlProvider} from 'react-intl'
-
 import config from './config'
 import routes from './routes'
 
+import { createHistory } from 'history'
+import PiwikReactRouter from 'piwik-react-router'
+import React from 'react'
+import { render } from 'react-dom'
+import { addLocaleData, IntlProvider } from 'react-intl'
+import { Router, useRouterHistory } from 'react-router'
 require('babel-polyfill')
 
 

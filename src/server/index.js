@@ -1,14 +1,15 @@
+import config from '../config'
+import { loadTranslations } from './lang'
+import handleRender from './render'
+import { addNormalizedDescription } from '../search'
+import { fetchParameters, fetchVariables, fetchSwagger } from '../webservices'
+
 import express from 'express'
-import {assoc, map} from 'ramda'
+import { assoc, map } from 'ramda'
 import favicon from 'serve-favicon'
-import path from 'path'
 import winston from 'winston'
 
-import handleRender from './render'
-import {addNormalizedDescription} from '../search'
-import {fetchParameters, fetchVariables, fetchSwagger} from '../webservices'
-import config from '../config'
-import {loadTranslations} from './lang'
+import path from 'path'
 
 
 winston.configure(config.winstonConfig)
