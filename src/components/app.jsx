@@ -106,7 +106,7 @@ const App = React.createClass({
           {this.props.children}
 
           <footer>
-            <a href={config.gitWebpageUrl} target="_blank">
+            <a href={config.gitWebpageUrl} rel="noopener" target="_blank">
               <FormattedMessage id="improveThisApp"/>
             </a>
           </footer>
