@@ -59,6 +59,12 @@ Some other elements can be configured through environment variables passed to bo
 - `PORT` defines the port on which the app is served. Example: `PORT=80 npm start`. Defaults to `2030`.
 
 
+#### Development-specific options
+
+- `WEBPACK_HOST`: sets the host to which `webpack-dev-server` will be bound. Defaults to `localhost`.
+- `WEBPACK_PORT`: sets the port on which `webpack-dev-server` will be bound. Defaults to `2031`.
+
+
 ## Run the server
 
 `cd` to the cloned `legislation-explorer` directory, and run the following commands:

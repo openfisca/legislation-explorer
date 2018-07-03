@@ -8,7 +8,7 @@
     "clean": "rm -rf public",
     "dev": "concurrently --kill-others 'npm run dev:app-server' 'npm run dev:webpack-dev-server'",
     "dev:app-server": "NODE_ENV=development node index.js",
-    "dev:webpack-dev-server": "WEBPACK_PORT=2031 babel-node src/server/webpack-dev-server.js",
+    "dev:webpack-dev-server": "babel-node src/server/webpack-dev-server.js",
     "lint": "eslint --ext .js,.jsx .",
     "start": "NODE_ENV=production node index.js",
     "test:unit": "mocha --compilers js:babel-core/register tests/unit/**/*.js",

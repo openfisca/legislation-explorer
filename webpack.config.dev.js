@@ -11,8 +11,8 @@ import writeAssets from './src/server/write-assets'
 
 const assetsPath = path.resolve(__dirname, 'public')
 
-const WEBPACK_HOST = process.env.HOST || 'localhost'
-const WEBPACK_PORT = parseInt(process.env.PORT) + 1 || 2031
+const WEBPACK_HOST = process.env.WEBPACK_HOST || '0.0.0.0'
+const WEBPACK_PORT = parseInt(process.env.WEBPACK_PORT) || 2031
 
 
 module.exports = {
