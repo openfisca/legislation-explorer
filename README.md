@@ -55,8 +55,8 @@ Some other elements can be configured through environment variables passed to bo
 - `BASENAME` defines the path at which the Legislation Explorer is served. Defaults to `/`. For example: `BASENAME=/legislation` to serve on `https://fr.openfisca.org/legislation`.
 - `COUNTRY_PRODUCTION_CONFIG`: defines the name of the configuration file to use in the build stage. This file has to be in the `config` folder and be named `production.$COUNTRY_PRODUCTION_CONFIG.js`. For example: `COUNTRY_PRODUCTION_CONFIG=tunisia npm run build`
 - `NODE_ENV` defines if assets should be served minified or with hot module remplacement. Can be either `development` or `production`. Example: `NODE_ENV=production PORT=2030 node index.js`. Prefer using `npm start`.
-- `HOST`: defines the host on which the app is served. Example: `HOST=0.0.0.0 PORT=2030 node index.js`. Prefer using `npm start`.
-- `PORT` defines the port on which the app is served. Example: `NODE_ENV=production PORT=2030 node index.js`. Prefer using `npm start`.
+- `HOST`: defines the host on which the app is served. Example: `HOST=192.168.1.1 npm start`. Defaults to `0.0.0.0` (all local interfaces).
+- `PORT` defines the port on which the app is served. Example: `PORT=80 npm start`. Defaults to `2030`.
 
 
 ## Run the server

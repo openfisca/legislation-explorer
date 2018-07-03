@@ -1,3 +1,5 @@
+import config from '../config'
+
 import { loadTranslations } from './lang'
 import handleRender from './render'
 import { addNormalizedDescription } from '../search'
@@ -33,11 +35,7 @@ function startServer(state) {
     }
   })
 
-  const host = process.env.HOST || 'localhost'
-  const port = process.env.PORT || 2030
-  server.listen(port, host, () => {
-    console.log(`Server listening at http://${host}:${port}/`)
-  })
+  server.listen(config.port, config.host, () => console.log(`Server listening on http://${config.host}:${config.port}/`))
 }
 
 console.log('Fetching variables and parameters on Web API...')

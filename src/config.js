@@ -8,4 +8,7 @@ if (process.env.NODE_ENV == 'test') {
 }
 const config = require('../config/' + configFilename).default
 
+config.host = process.env.HOST || '0.0.0.0'
+config.port = process.env.PORT || 2030
+
 export default config
