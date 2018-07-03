@@ -107,7 +107,7 @@ const App = React.createClass({
           {this.props.children}
 
           <footer>
-            <a href={config.gitWebpageUrl} rel="noopener" target="_blank">
+            <a href="https://github.com/openfisca/legislation-explorer" rel="noopener" target="_blank">
               <FormattedMessage id="improveThisApp"/>
             </a>
           </footer>

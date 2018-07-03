@@ -2,7 +2,6 @@
 
 const apiBaseUrl = 'https://fr.openfisca.org/api/v21',
   changelogUrl = 'https://github.com/openfisca/openfisca-france/blob/master/CHANGELOG.md',
-  gitWebpageUrl = 'https://github.com/openfisca/legislation-explorer',
   matomo = {
     url: 'https://stats.data.gouv.fr',
     siteId: 4,
@@ -24,7 +23,6 @@ const apiBaseUrl = 'https://fr.openfisca.org/api/v21',
 export default {
   apiBaseUrl,
   changelogUrl,
-  gitWebpageUrl,
   matomo,
   ui,
   websiteUrl,
