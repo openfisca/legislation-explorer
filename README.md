@@ -61,6 +61,7 @@ Some elements can be overridden, and some other defined only, through environmen
 - `MATOMO_CONFIG`: overrides the `matomo` config object through a JSON string. Example: `'MATOMO_CONFIG='{"url":"https://stats.data.gouv.fr","siteId":4}'`.
 - `HOST`: defines the host on which the app is served. Example: `HOST=192.168.1.1 npm start`. Defaults to `0.0.0.0` (all local interfaces).
 - `PORT` defines the port on which the app is served. Example: `PORT=80 npm start`. Defaults to `2030`.
+- `UI_STRINGS`: overrides the `ui` config object through a JSON string. Example: `UI_STRINGS='{"en":{"countryName":"Tunisia"},"fr":{"countryName":"Tunisie"}}' npm start`.
 
 
 #### Development-specific options

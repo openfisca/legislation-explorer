@@ -23,5 +23,8 @@ if (process.env.MATOMO_CONFIG) {
   }
 }
 
+if (process.env.UI_STRINGS)
+  config.ui = JSON.parse(process.env.UI_STRINGS)
+
 
 export default config
