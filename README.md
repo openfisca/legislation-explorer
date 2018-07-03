@@ -24,8 +24,8 @@ You will need to tell the Legislation Explorer server where your OpenFisca API i
 
 This config file needs to expose a JavaScript object with the following properties:
 
-- `apiBaseUrl`: The URL at which your OpenFisca API resides. For example: `https://openfisca-aotearoa.herokuapp.com`. Defaults to `http://0.0.0.0:5000`.
-- `gitHubProject`: The GitHub fully qualified name of the source repository for this OpenFisca instance. For example: `ServiceInnovationLab/openfisca-aotearoa`.
+- `apiBaseUrl`: The URL at which your OpenFisca API root endpoint can be found. For example: `https://openfisca-aotearoa.herokuapp.com`. Defaults to `http://0.0.0.0:5000`.
+- `changelogUrl`: The URL at which the changelog for the country package can be found. For example: `https://github.com/openfisca/openfisca-tunisia/blob/master/CHANGELOG.md`.
 - `gitWebpageUrl`: The URL at which the source repository for this OpenFisca instance can be found. For example: `https://github.com/ServiceInnovationLab/openfisca-aotearoa`.
 - `websiteUrl`: The URL at which more information can be obtained on OpenFisca. For example: `https://openfisca.org`.
 
@@ -53,6 +53,7 @@ Some other elements can be configured through environment variables passed to bo
 
 - `API_URL`: overrides the `apiBaseUrl` config property.
 - `BASENAME` defines the path at which the Legislation Explorer is served. Defaults to `/`. For example: `BASENAME=/legislation` to serve on `https://fr.openfisca.org/legislation`.
+- `CHANGELOG_URL`: overrides the `changelogUrl` config property.
 - `COUNTRY_PRODUCTION_CONFIG`: defines the name of the configuration file to use in the build stage. This file has to be in the `config` folder and be named `production.$COUNTRY_PRODUCTION_CONFIG.js`. For example: `COUNTRY_PRODUCTION_CONFIG=tunisia npm run build`
 - `NODE_ENV` defines if assets should be served minified or with hot module remplacement. Can be either `development` or `production`. Example: `NODE_ENV=production PORT=2030 node index.js`. Prefer using `npm start`.
 - `HOST`: defines the host on which the app is served. Example: `HOST=192.168.1.1 npm start`. Defaults to `0.0.0.0` (all local interfaces).

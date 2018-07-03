@@ -1,6 +1,6 @@
 export default {
   apiBaseUrl: 'https://openfisca-aotearoa.herokuapp.com',
-  gitHubProject: 'ServiceInnovationLab/openfisca-aotearoa',
+  changelogUrl: 'https://github.com/ServiceInnovationLab/openfisca-aotearoa/blob/master/CHANGELOG.md',
   gitWebpageUrl: 'https://github.com/ServiceInnovationLab/openfisca-aotearoa',
   websiteUrl: 'https://openfisca.org/',
   ui: {

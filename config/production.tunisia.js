@@ -1,7 +1,7 @@
 // App config in a production environment.
 
 const apiBaseUrl = 'https://api.openfisca.tn',
-  gitHubProject = 'openfisca/openfisca-tunisia',
+  changelogUrl = 'https://github.com/openfisca/openfisca-tunisia/blob/master/CHANGELOG.md',
   gitWebpageUrl = 'https://github.com/openfisca/legislation-explorer',
   matomo = {
     url: 'https://stats.data.gouv.fr',
@@ -21,7 +21,7 @@ const apiBaseUrl = 'https://api.openfisca.tn',
 
 export default {
   apiBaseUrl,
-  gitHubProject,
+  changelogUrl,
   gitWebpageUrl,
   matomo,
   ui,

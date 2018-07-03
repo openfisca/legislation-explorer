@@ -58,7 +58,6 @@ const HomePage = React.createClass({
     const inputValue = this.state.inputValue
     const is404 = this.state.is404
     const {searchQuery, searchResults} = this.context
-    const changelogURL = `https://www.github.com/${config.gitHubProject}/blob/master/CHANGELOG.md`
     return (
       <DocumentTitle title={(is404 ? this.props.intl.formatMessage({ id: 'elementNotFound' }) + ' — ' : '') + this.props.intl.formatMessage({ id: 'appName' })}>
         <div>
@@ -79,7 +78,7 @@ const HomePage = React.createClass({
               <p>
                 <FormattedMessage
                   id="checkChangelog"
-                  values={{changelogURLLink: <a href={changelogURL} rel="noopener" target="_blank">changelog</a>}}
+                  values={{changelogURLLink: <a href={config.changelogURL} rel="noopener" target="_blank">changelog</a>}}
                 />
               </p>
             </div>

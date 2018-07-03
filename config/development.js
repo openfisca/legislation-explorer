@@ -1,7 +1,7 @@
 // App config in a development environment.
 
 const apiBaseUrl = 'http://0.0.0.0:5000',
-  gitHubProject = 'openfisca/country-template',
+  changelogUrl = 'https://github.com/openfisca/country-template/blob/master/CHANGELOG.md',
   gitWebpageUrl = 'https://github.com/openfisca/legislation-explorer',
   matomo = null,
   websiteUrl = 'https://openfisca.org',
@@ -17,7 +17,7 @@ const apiBaseUrl = 'http://0.0.0.0:5000',
 
 export default {
   apiBaseUrl,
-  gitHubProject,
+  changelogUrl,
   gitWebpageUrl,
   matomo,
   ui,
