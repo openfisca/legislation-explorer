@@ -49,7 +49,9 @@ You can also add the following properties:
 
 - `matomo`: An object describing how to contact a [Matomo analytics](https://matomo.org) (ex-Piwik) instance to which usage stats will be sent. The value is a configuration object for the `piwik-react-router` package. Defaults to `false`, not sending analytics at all.
 
-Some other elements can be configured through environment variables passed to both `npm build` and `npm start`:
+#### Environment variables
+
+Some elements can be overridden, and some other defined only, through environment variables. To use these options, you need to define them by prefixing the `npm start` or `npm run dev` commands with their definitions, in the `$NAME=$VALUE` syntax.
 
 - `API_URL`: overrides the `apiBaseUrl` config property.
 - `BASENAME` defines the path at which the Legislation Explorer is served. Defaults to `/`. For example: `BASENAME=/legislation` to serve on `https://fr.openfisca.org/legislation`.
