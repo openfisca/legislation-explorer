@@ -27,11 +27,9 @@ export function fetchParameters(apiBaseUrl = config.apiBaseUrl) {
   return fetchJson(`${apiBaseUrl}/parameters`)
 }
 
-
 export function fetchVariables(apiBaseUrl = config.apiBaseUrl) {
   return fetchJson(`${apiBaseUrl}/variables`)
 }
-
 
 export function fetchParameter(parameterId, apiBaseUrl = config.apiBaseUrl) {
   return fetchJson(`${apiBaseUrl}/parameter/${parameterId}`)
