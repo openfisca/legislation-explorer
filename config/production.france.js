@@ -7,7 +7,6 @@ const apiBaseUrl = 'https://fr.openfisca.org/api/v21',
     siteId: 4,
     trackErrors: true
   },
-  websiteUrl = 'https://fr.openfisca.org/',
   ui = {
     en: {
       countryName: 'France',
@@ -25,5 +24,4 @@ export default {
   changelogUrl,
   matomo,
   ui,
-  websiteUrl,
 }

@@ -3,7 +3,6 @@
 const apiBaseUrl = 'http://0.0.0.0:5000',
   changelogUrl = 'https://github.com/openfisca/country-template/blob/master/CHANGELOG.md',
   matomo = null,
-  websiteUrl = 'https://openfisca.org',
   ui = {
     en: {
       countryName: 'the development environment',
@@ -19,5 +18,4 @@ export default {
   changelogUrl,
   matomo,
   ui,
-  websiteUrl,
 }

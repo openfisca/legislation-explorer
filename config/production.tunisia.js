@@ -7,7 +7,6 @@ const apiBaseUrl = 'https://api.openfisca.tn',
     siteId: 4,
     trackErrors: true
   },
-  websiteUrl = 'https://openfisca.org',
   ui = {
     en: {
       countryName: 'Tunisia',
@@ -23,5 +22,4 @@ export default {
   changelogUrl,
   matomo,
   ui,
-  websiteUrl
 }

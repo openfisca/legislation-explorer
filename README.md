@@ -26,7 +26,6 @@ This config file needs to expose a JavaScript object with the following properti
 
 - `apiBaseUrl`: The URL at which your OpenFisca API root endpoint can be found. For example: `https://openfisca-aotearoa.herokuapp.com`. Defaults to `http://0.0.0.0:5000`.
 - `changelogUrl`: The URL at which the changelog for the country package can be found. For example: `https://github.com/openfisca/openfisca-tunisia/blob/master/CHANGELOG.md`.
-- `websiteUrl`: The URL at which more information can be obtained on OpenFisca. For example: `https://openfisca.org`.
 
 ### Localisation (l12n / i18n)
 
