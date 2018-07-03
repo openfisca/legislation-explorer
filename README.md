@@ -56,6 +56,9 @@ Some elements can be overridden, and some other defined only, through environmen
 - `CHANGELOG_URL`: overrides the `changelogUrl` config property.
 - `COUNTRY_PRODUCTION_CONFIG`: defines the name of the configuration file to use in the build stage. This file has to be in the `config` folder and be named `production.$COUNTRY_PRODUCTION_CONFIG.js`. For example: `COUNTRY_PRODUCTION_CONFIG=tunisia npm run build`
 - `NODE_ENV` defines if assets should be served minified or with hot module remplacement. Can be either `development` or `production`. Example: `NODE_ENV=production PORT=2030 node index.js`. Prefer using `npm start`.
+- `MATOMO_URL`: overrides the `url` property of the `matomo` config object. Only taken into account if used in conjunction with `MATOMO_SITE_ID` and if `MATOMO_CONFIG` is not defined.
+- `MATOMO_SITE_ID`: overrides the `siteId` property of the `matomo` config object. Only taken into account if used in conjunction with `MATOMO_URL` and if `MATOMO_CONFIG` is not defined.
+- `MATOMO_CONFIG`: overrides the `matomo` config object through a JSON string. Example: `'MATOMO_CONFIG='{"url":"https://stats.data.gouv.fr","siteId":4}'`.
 - `HOST`: defines the host on which the app is served. Example: `HOST=192.168.1.1 npm start`. Defaults to `0.0.0.0` (all local interfaces).
 - `PORT` defines the port on which the app is served. Example: `PORT=80 npm start`. Defaults to `2030`.
 
