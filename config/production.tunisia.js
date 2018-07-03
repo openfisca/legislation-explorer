@@ -1,6 +1,6 @@
 // App config in a production environment.
 
-const apiBaseUrl = process.env.API_URL || `https://api.openfisca.tn`,
+const apiBaseUrl = 'https://api.openfisca.tn',
   gitHubProject = 'openfisca/openfisca-tunisia',
   gitWebpageUrl = 'https://github.com/openfisca/legislation-explorer',
   matomo = {

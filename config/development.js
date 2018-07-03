@@ -1,6 +1,6 @@
 // App config in a development environment.
 
-const apiBaseUrl = process.env.API_URL || `http://0.0.0.0:5000`,
+const apiBaseUrl = 'http://0.0.0.0:5000',
   gitHubProject = 'openfisca/country-template',
   gitWebpageUrl = 'https://github.com/openfisca/legislation-explorer',
   matomo = null,

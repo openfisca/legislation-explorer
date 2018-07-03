@@ -24,7 +24,7 @@ You will need to tell the Legislation Explorer server where your OpenFisca API i
 
 This config file needs to expose a JavaScript object with the following properties:
 
-- `apiBaseUrl`: The URL at which your OpenFisca API resides. For example: `https://openfisca-aotearoa.herokuapp.com`.
+- `apiBaseUrl`: The URL at which your OpenFisca API resides. For example: `https://openfisca-aotearoa.herokuapp.com`. Defaults to `http://0.0.0.0:5000`.
 - `gitHubProject`: The GitHub fully qualified name of the source repository for this OpenFisca instance. For example: `ServiceInnovationLab/openfisca-aotearoa`.
 - `gitWebpageUrl`: The URL at which the source repository for this OpenFisca instance can be found. For example: `https://github.com/ServiceInnovationLab/openfisca-aotearoa`.
 - `websiteUrl`: The URL at which more information can be obtained on OpenFisca. For example: `https://openfisca.org`.
