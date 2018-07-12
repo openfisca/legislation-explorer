@@ -20,20 +20,21 @@ npm install --production
 
 ## Configure your instance
 
-You will need to tell the Legislation Explorer server where your OpenFisca API instance can be reached, as well as where your repository resides for contributors to be directed to. This is done with a configuration file.
+You will need to tell the Legislation Explorer server where your OpenFisca API instance can be reached, as well as where your repository resides for contributors to be directed to. This is all done through environment variables, allowing you to use the same code for any instance by [injecting these elements at runtime](https://12factor.net/config). To set these options, you need to define them by prefixing the `npm start` or `npm run dev` commands with their definitions, in the `$NAME=$VALUE` syntax.
 
-This config file needs to expose a JavaScript object with the following properties:
+- `API_URL`: the URL at which your OpenFisca API root endpoint can be found. For example: `https://openfisca-aotearoa.herokuapp.com`. Defaults to `http://0.0.0.0:5000`.
+- `CHANGELOG_URL`: the URL at which the changelog for the country package can be found. Used on 404 pages. For example: `https://github.com/openfisca/openfisca-tunisia/blob/master/CHANGELOG.md`.
 
-- `apiBaseUrl`: The URL at which your OpenFisca API root endpoint can be found. For example: `https://openfisca-aotearoa.herokuapp.com`. Defaults to `http://0.0.0.0:5000`.
-- `changelogUrl`: The URL at which the changelog for the country package can be found. For example: `https://github.com/openfisca/openfisca-tunisia/blob/master/CHANGELOG.md`.
 
 ### Localisation (l12n / i18n)
 
 The user interface of the legislation explorer has full support for internationalisation. Supported languages can be found in the `src/assets/lang` directory, and can be added by simply creating a new file with the two-letter language code to add support for.
 
-For localisation, you can override any of the strings defined in these files through the `ui` property of your configuration file.
+For localisation, you can override any of the strings defined in these files through the `UI_STRINGS` environment variable.
 
-If you export `ui` as an object whose keys are ISO two-letters language codes and values are strings, these values will take precedence over any strings defined in the `lang` folder.
+- `UI_STRINGS`: overrides the `ui` config object through a JSON string. Example: `UI_STRINGS='{"en":{"countryName":"Tunisia"},"fr":{"countryName":"Tunisie"}}' npm start`.
+
+The value is a JSON-encoded object whose keys are ISO two-letters language codes and values are strings, these values will take precedence over any strings defined in the `lang` folder.
 
 The following strings are strongly recommended to be overridden:
 
@@ -41,31 +42,26 @@ The following strings are strongly recommended to be overridden:
     - `forCountry`: In case the default interpolation for your `countryName` does not give good results, you can also edit the prefix added before the `countryName` value.
 - `search_placeholder`: One or two suggested searches, preferably comma-separated, for your users to make sense of the search field. Best results will be obtained by using the most well-known parameters for your tax and benefit system.
 
-### Optional configuration
 
-You can also add the following properties:
+### Analytics
 
-- `matomo`: An object describing how to contact a [Matomo analytics](https://matomo.org) (ex-Piwik) instance to which usage stats will be sent. The value is a configuration object for the `piwik-react-router` package. Defaults to `false`, not sending analytics at all.
+This web app supports [Matomo](https://matomo.org) (ex-Piwik) analytics out of the box. To set it up, use the following environment variables:
 
-#### Environment variables
+- `MATOMO_URL`: he base URL at which the Matomo instance can be contacted. For example: `MATOMO_URL=https://stats.data.gouv.fr MATOMO_SITE_ID=4 npm start`. Only taken into account if used in conjunction with `MATOMO_SITE_ID` and if `MATOMO_CONFIG` is not defined.
+- `MATOMO_SITE_ID`: The ID of the site to track in this Matomo instance. For example: `MATOMO_URL=https://stats.data.gouv.fr MATOMO_SITE_ID=4 npm start`. Only taken into account if used in conjunction with `MATOMO_URL` and if `MATOMO_CONFIG` is not defined.
+- `MATOMO_CONFIG`: a JSON-encoded object describing how to contact your Matomo instance. The value is a [configuration object for the `piwik-react-router`](https://github.com/joernroeder/piwik-react-router#options) package (make sure to read its docs for the version specified in `package.json`). Defaults to not sending analytics at all. Example: `'MATOMO_CONFIG='{"url":"https://stats.data.gouv.fr","siteId":4}' npm start`.
 
-Some elements can be overridden, and some other defined only, through environment variables. To use these options, you need to define them by prefixing the `npm start` or `npm run dev` commands with their definitions, in the `$NAME=$VALUE` syntax.
 
-- `API_URL`: overrides the `apiBaseUrl` config property.
+### Server and public URL
+
 - `BASENAME` defines the path at which the Legislation Explorer is served. Defaults to `/`. For example: `BASENAME=/legislation` to serve on `https://fr.openfisca.org/legislation`.
-- `CHANGELOG_URL`: overrides the `changelogUrl` config property.
-- `COUNTRY_PRODUCTION_CONFIG`: defines the name of the configuration file to use in the build stage. This file has to be in the `config` folder and be named `production.$COUNTRY_PRODUCTION_CONFIG.js`. For example: `COUNTRY_PRODUCTION_CONFIG=tunisia npm run build`
-- `NODE_ENV` defines if assets should be served minified or with hot module remplacement. Can be either `development` or `production`. Example: `NODE_ENV=production PORT=2030 node index.js`. Prefer using `npm start`.
-- `MATOMO_URL`: overrides the `url` property of the `matomo` config object. Only taken into account if used in conjunction with `MATOMO_SITE_ID` and if `MATOMO_CONFIG` is not defined.
-- `MATOMO_SITE_ID`: overrides the `siteId` property of the `matomo` config object. Only taken into account if used in conjunction with `MATOMO_URL` and if `MATOMO_CONFIG` is not defined.
-- `MATOMO_CONFIG`: overrides the `matomo` config object through a JSON string. Example: `'MATOMO_CONFIG='{"url":"https://stats.data.gouv.fr","siteId":4}'`.
 - `HOST`: defines the host on which the app is served. Example: `HOST=192.168.1.1 npm start`. Defaults to `0.0.0.0` (all local interfaces).
 - `PORT` defines the port on which the app is served. Example: `PORT=80 npm start`. Defaults to `2030`.
-- `UI_STRINGS`: overrides the `ui` config object through a JSON string. Example: `UI_STRINGS='{"en":{"countryName":"Tunisia"},"fr":{"countryName":"Tunisie"}}' npm start`.
 
 
-#### Development-specific options
+### Development-specific options
 
+- `NODE_ENV` defines if assets should be served minified or with hot module remplacement. Can be either `development` or `production`. Example: `NODE_ENV=production PORT=2030 node index.js`. Prefer using `npm start`.
 - `WEBPACK_HOST`: sets the host to which `webpack-dev-server` will be bound. Defaults to `localhost`.
 - `WEBPACK_PORT`: sets the port on which `webpack-dev-server` will be bound. Defaults to `2031`.
 

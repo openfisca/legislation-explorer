@@ -50,7 +50,6 @@ module.exports = {
       'process.env': {
         NODE_ENV: JSON.stringify('production'), // clean up some react stuff
         BASENAME: JSON.stringify(basename),
-        COUNTRY_PRODUCTION_CONFIG: JSON.stringify(process.env.COUNTRY_PRODUCTION_CONFIG || 'france')
       },
     }),
 

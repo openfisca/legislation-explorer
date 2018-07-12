@@ -1,17 +1,11 @@
-// Load different configurations (for development, production, etc).
-let configFilename = process.env.NODE_ENV || 'development'
-if (process.env.NODE_ENV == 'production') {
-  configFilename += '.' + (process.env.COUNTRY_PRODUCTION_CONFIG || 'france')
-}
-if (process.env.NODE_ENV == 'test') {
-  configFilename = 'development'
-}
-const config = require('../config/' + configFilename).default
+let config = new Object(null)
 
+config.apiBaseUrl = process.env.API_URL || 'http://0.0.0.0:5000'
+config.changelogUrl = process.env.CHANGELOG_URL
+
+config.basename = process.env.BASENAME || '/'
 config.host = process.env.HOST || '0.0.0.0'
 config.port = process.env.PORT || 2030
-config.apiBaseUrl = process.env.API_URL || config.apiBaseUrl
-config.changelogUrl = process.env.CHANGELOG_URL || config.changelogUrl
 
 if (process.env.MATOMO_CONFIG) {
   config.matomo = JSON.parse(process.env.MATOMO_CONFIG)
@@ -23,8 +17,7 @@ if (process.env.MATOMO_CONFIG) {
   }
 }
 
-if (process.env.UI_STRINGS)
-  config.ui = JSON.parse(process.env.UI_STRINGS)
+config.ui = JSON.parse(process.env.UI_STRINGS || '{"en":{"countryName":"the development environment"},"fr":{"countryName":"l’environnement de développement"}}')
 
 
 export default config
