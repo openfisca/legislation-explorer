@@ -1,11 +1,12 @@
-import DocumentTitle from "react-document-title"
+import DocumentTitle from 'react-document-title'
 import { FormattedMessage, FormattedDate, FormattedNumber, injectIntl, intlShape } from 'react-intl'
-import React, {PropTypes} from "react"
+import React from 'react'
+import PropTypes from 'prop-types'
 
-import config from "../config"
-import { parameterShape } from "../openfisca-proptypes"
-import Scale from "./scale"
-import getDayBefore from "../periods"
+import config from '../config'
+import { parameterShape } from '../openfisca-proptypes'
+import Scale from './scale'
+import getDayBefore from '../periods'
 
 const Parameter = React.createClass({
   propTypes: {

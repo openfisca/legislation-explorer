@@ -1,8 +1,8 @@
-import { routerShape } from "react-router"
-import React from "react"
-import {FormattedMessage, injectIntl, intlShape} from "react-intl"
+import { routerShape } from 'react-router'
+import React from 'react'
+import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 
-import { searchInputId } from "./home"
+import { searchInputId } from './home'
 
 const SearchBarComponent = React.createClass({
   contextTypes: {
@@ -21,9 +21,9 @@ const SearchBarComponent = React.createClass({
   handleSubmit(event) {
     event.preventDefault()
     this.context.router.push({
-      pathname: "/",
+      pathname: '/',
       query: {q: this.state.inputValue},
-      hash: "#search-input",
+      hash: '#search-input',
     })
   },
 
@@ -36,7 +36,7 @@ const SearchBarComponent = React.createClass({
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
-          <div className="input-group input-group-lg" style={{margin: "2em 0"}}>
+          <div className="input-group input-group-lg" style={{margin: '2em 0'}}>
             <input
               className="form-control"
               id={searchInputId}

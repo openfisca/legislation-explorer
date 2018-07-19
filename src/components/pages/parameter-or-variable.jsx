@@ -1,12 +1,13 @@
-import React, { PropTypes } from "react"
-import { Link, locationShape, routerShape } from "react-router"
-import { FormattedMessage } from "react-intl"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Link, locationShape, routerShape } from 'react-router'
+import { FormattedMessage } from 'react-intl'
 
-import { parameterShape, variableShape } from "../../openfisca-proptypes"
-import Parameter from "../parameter"
-import Variable from "../variable"
-import { searchInputId } from "./home"
-import { fetchParameter, fetchVariable } from "../../webservices"
+import { parameterShape, variableShape } from '../../openfisca-proptypes'
+import Parameter from '../parameter'
+import Variable from '../variable'
+import { searchInputId } from './home'
+import { fetchParameter, fetchVariable } from '../../webservices'
 
 
 const ParameterOrVariablePage = React.createClass({
@@ -53,9 +54,9 @@ const ParameterOrVariablePage = React.createClass({
   handleNotFound() {
     const name = this.props.params.name
     return this.context.router.push({
-      pathname: "/",
+      pathname: '/',
       query: {q: name, is404: true},
-      hash: "#not-found",
+      hash: '#not-found',
     })
   },
 
@@ -64,7 +65,7 @@ const ParameterOrVariablePage = React.createClass({
     const {countryPackageName, countryPackageVersion, parameters, variables} = this.props
     const {parameter, variable} = this.state
     const goBackLocation = {
-      pathname: "/",
+      pathname: '/',
       query: {q: searchQuery},
       hash: `#${searchInputId}`,
     }

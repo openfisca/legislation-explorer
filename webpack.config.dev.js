@@ -1,33 +1,33 @@
 // This is the webpack config to use during development.
 // It enables the hot module replacement, the source maps and inline CSS styles.
 
-import CopyWebpackPlugin from "copy-webpack-plugin"
-import ErrorNotificationPlugin from "webpack-error-notification"
-import path from "path"
-import webpack from "webpack"
+import CopyWebpackPlugin from 'copy-webpack-plugin'
+import ErrorNotificationPlugin from 'webpack-error-notification'
+import path from 'path'
+import webpack from 'webpack'
 
-import writeAssets from "./src/server/write-assets"
+import writeAssets from './src/server/write-assets'
 
 
-const assetsPath = path.resolve(__dirname, "public")
+const assetsPath = path.resolve(__dirname, 'public')
 
-const WEBPACK_HOST = process.env.HOST || "localhost"
+const WEBPACK_HOST = process.env.HOST || 'localhost'
 const WEBPACK_PORT = parseInt(process.env.PORT) + 1 || 2031
 
 
 module.exports = {
   // devtool: "eval", // Transformed code
-  devtool: "source-map", // Original code
+  devtool: 'source-map', // Original code
   entry: {
-    "main": [
+    'main': [
       `webpack-dev-server/client?http://${WEBPACK_HOST}:${WEBPACK_PORT}`,
-      "webpack/hot/only-dev-server",
-      "./src/client.jsx",
+      'webpack/hot/only-dev-server',
+      './src/client.jsx',
     ],
   },
   output: {
     path: assetsPath,
-    filename: "[name]-bundle-[hash].js",
+    filename: '[name]-bundle-[hash].js',
     publicPath: `http://${WEBPACK_HOST}:${WEBPACK_PORT}/`,
   },
   target: 'web',
@@ -40,14 +40,14 @@ module.exports = {
     loaders: [
       {
         exclude: /(node_modules|public)/,
-        loader: "babel",
+        loader: 'babel',
         query: {
-          "plugins": [
-            ["react-transform", {
-              "transforms": [{
-                "transform": "react-transform-hmr",
-                "imports": ["react"],
-                "locals": ["module"],
+          'plugins': [
+            ['react-transform', {
+              'transforms': [{
+                'transform': 'react-transform-hmr',
+                'imports': ['react'],
+                'locals': ['module'],
               }],
             }],
           ],
@@ -61,7 +61,7 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ["", ".js", ".jsx"],
+    extensions: ['', '.js', '.jsx'],
   },
   progress: true,
   plugins: [
@@ -73,26 +73,26 @@ module.exports = {
     // print a webpack progress
     new webpack.ProgressPlugin((percentage) => {
       if (percentage === 1) {
-        process.stdout.write("Bundle is ready")
+        process.stdout.write('Bundle is ready')
       }
     }),
 
-    new ErrorNotificationPlugin(process.platform === "linux" && function(msg) {
+    new ErrorNotificationPlugin(process.platform === 'linux' && function(msg) {
       if (!this.lastBuildSucceeded) {
-        require("child_process").exec("notify-send --hint=int:transient:1 Webpack " + msg)
+        require('child_process').exec('notify-send --hint=int:transient:1 Webpack ' + msg)
       }
     }),
 
     new webpack.DefinePlugin({
-      "process.env": {
+      'process.env': {
         HOST: JSON.stringify(process.env.HOST),
-        NODE_ENV: JSON.stringify("development"),
+        NODE_ENV: JSON.stringify('development'),
         API_URL: JSON.stringify(process.env.API_URL),
       },
     }),
 
     new webpack.ProvidePlugin({
-      React: "react", // For babel JSX transformation which generates React.createElement.
+      React: 'react', // For babel JSX transformation which generates React.createElement.
     }),
 
     new CopyWebpackPlugin([
@@ -103,6 +103,6 @@ module.exports = {
       {from: 'node_modules/swagger-ui/dist/swagger-ui.css', to: '.'},
     ]),
 
-    function() { this.plugin("done", writeAssets(path.resolve(__dirname, "webpack-assets.json"))) },
+    function() { this.plugin('done', writeAssets(path.resolve(__dirname, 'webpack-assets.json'))) },
   ],
 }

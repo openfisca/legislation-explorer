@@ -1,12 +1,13 @@
-import DocumentTitle from "react-document-title"
-import { FormattedMessage, FormattedDate, FormattedNumber, injectIntl, intlShape } from "react-intl"
-import React, { PropTypes } from "react"
-import { keys } from "ramda"
+import DocumentTitle from 'react-document-title'
+import { FormattedMessage, FormattedDate, FormattedNumber, injectIntl, intlShape } from 'react-intl'
+import React from 'react'
+import PropTypes from 'prop-types'
+import { keys } from 'ramda'
 
-import config from "../config"
-import { parameterShape, variableShape } from "../openfisca-proptypes"
-import Formula from "./formula"
-import getDayBefore from "../periods"
+import config from '../config'
+import { parameterShape, variableShape } from '../openfisca-proptypes'
+import Formula from './formula'
+import getDayBefore from '../periods'
 
 const Variable = React.createClass({
   propTypes: {
@@ -45,10 +46,10 @@ const Variable = React.createClass({
 
   renderVariableMetadata(variable) {
     const entityMessage = {
-      famille: "famille",
-      foyer_fiscal: "foyer fiscal",
-      individu: "individu",
-      menage: "ménage",
+      famille: 'famille',
+      foyer_fiscal: 'foyer fiscal',
+      individu: 'individu',
+      menage: 'ménage',
     }
 
     const definitionPeriodMessage = {
@@ -66,11 +67,11 @@ const Variable = React.createClass({
 
     function formatDefaultValue(variable) {
       switch (variable.valueType) {
-      case "Date":
+      case 'Date':
         return <FormattedDate value={ variable.defaultValue } year="numeric" month="2-digit" day="2-digit" />
-      case "Float":
+      case 'Float':
         return <FormattedNumber value={variable.defaultValue} />
-      case "String":
+      case 'String':
         return `"${ variable.defaultValue }"`
       default:
         return String(variable.defaultValue)
@@ -199,7 +200,7 @@ const Variable = React.createClass({
         </h2>
         { startDates.map(
           (date, dateIndex) => {
-            const startDate = (date != "0001-01-01") && date
+            const startDate = (date != '0001-01-01') && date
             const stopDate = startDates[dateIndex - 1] && getDayBefore(startDates[dateIndex - 1])
             return formulas[date] && (
               <Formula

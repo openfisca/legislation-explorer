@@ -1,15 +1,15 @@
-import PiwikReactRouter from "piwik-react-router"
-import React from "react"
-import {render} from "react-dom"
-import {createHistory} from "history"
-import {Router, useRouterHistory} from "react-router"
+import PiwikReactRouter from 'piwik-react-router'
+import React from 'react'
+import {render} from 'react-dom'
+import {createHistory} from 'history'
+import {Router, useRouterHistory} from 'react-router'
 
-import {addLocaleData, IntlProvider} from "react-intl"
+import {addLocaleData, IntlProvider} from 'react-intl'
 
-import config from "./config"
-import routes from "./routes"
+import config from './config'
+import routes from './routes'
 
-require("babel-polyfill")
+require('babel-polyfill')
 
 
 // Adapted from: https://github.com/ReactTraining/react-router/issues/394#issuecomment-230116115
@@ -29,9 +29,9 @@ function hashLinkScroll() {
 }
 
 export function renderApp() {
-  const appMountNode = document.getElementById("app-mount-node")
+  const appMountNode = document.getElementById('app-mount-node')
   const initialState = window.__INITIAL_STATE__
-  const basename = process.env.BASENAME || "/"
+  const basename = process.env.BASENAME || '/'
   let history = useRouterHistory(createHistory)({basename: basename})
 
   if (config.piwikConfig) {

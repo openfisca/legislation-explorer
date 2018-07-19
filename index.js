@@ -1,8 +1,8 @@
 // Load polyfills, before running the server
-require("babel-polyfill")
+require('babel-polyfill')
 
 // Register babel to have ES6 support on the server
-require("babel-register")
+require('babel-register')
 
 // Intl in node
 // const areIntlLocalesSupported = require("intl-locales-supported")
@@ -23,13 +23,13 @@ require("babel-register")
 
 // Force Intl to be polyfilled because NodeJS French date format does not use padding (1/1/2016)
 // whereas npm intl module does (01/01/2016). This leads to DOM mismatch between server and client in React.
-global.Intl = require("intl")
+global.Intl = require('intl')
 
 // Start the server app
 
-if (process.env.NODE_ENV === "production" || require("piping")({
+if (process.env.NODE_ENV === 'production' || require('piping')({
   hook: true,
   ignore: /(\/\.|~$|webpack-assets.json)/,
 })) {
-  require("./src/server/index.js")
+  require('./src/server/index.js')
 }

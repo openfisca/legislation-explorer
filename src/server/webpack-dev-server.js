@@ -1,10 +1,10 @@
-import webpack from "webpack"
-import WebpackDevServer from "webpack-dev-server"
+import webpack from 'webpack'
+import WebpackDevServer from 'webpack-dev-server'
 
-import config from "../../webpack.config.dev"
+import config from '../../webpack.config.dev'
 
 
-const WEBPACK_HOST = process.env.WEBPACK_HOST || "localhost"
+const WEBPACK_HOST = process.env.WEBPACK_HOST || 'localhost'
 const WEBPACK_PORT = parseInt(process.env.WEBPACK_PORT)
 
 

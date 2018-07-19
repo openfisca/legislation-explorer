@@ -1,8 +1,9 @@
-import React, { PropTypes } from "react"
-import { parameterShape, variableShape } from "../openfisca-proptypes"
-import { Link } from "react-router"
-import { FormattedMessage, FormattedDate } from "react-intl"
-import { flatten, pipe, map, is } from "ramda"
+import React from 'react'
+import PropTypes from 'prop-types'
+import { parameterShape, variableShape } from '../openfisca-proptypes'
+import { Link } from 'react-router'
+import { FormattedMessage, FormattedDate } from 'react-intl'
+import { flatten, pipe, map, is } from 'ramda'
 import Highlight from 'react-highlight'
 
 const Formula = React.createClass({
@@ -48,7 +49,7 @@ const Formula = React.createClass({
   },
   isVariable(substring) {
     // Ignore every text that isn't a single word like a variable must be:
-    return (! substring.includes(" ") && this.props.variables[substring])
+    return (! substring.includes(' ') && this.props.variables[substring])
   },
   splitAndLinkVariables(text, separator) {
     // Only split strings, as trying to split JSX Links would raise an error
@@ -134,11 +135,11 @@ const Formula = React.createClass({
       this.splitAndLinkParams,
       flatten,
       map((substring) => {
-        return this.splitAndLinkVariables(substring, `"`)
+        return this.splitAndLinkVariables(substring, '"')
       }),
       flatten,
       map((substring) => {
-        return this.splitAndLinkVariables(substring, `'`)
+        return this.splitAndLinkVariables(substring, "'")
       }),
       flatten
     )(formula)

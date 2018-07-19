@@ -1,6 +1,6 @@
-import fetch from "isomorphic-fetch"
+import fetch from 'isomorphic-fetch'
 
-import config from "./config"
+import config from './config'
 
 
 function fetchJson(url, options) {

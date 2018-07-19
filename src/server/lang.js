@@ -1,8 +1,8 @@
 import config from '../config'
 
-import path from "path"
-import {readdir} from "fs"
-import acceptLanguage from "accept-language"
+import path from 'path'
+import {readdir} from 'fs'
+import acceptLanguage from 'accept-language'
 
 
 const DEFAULT_LANGUAGE = 'en'
@@ -33,7 +33,7 @@ export function getLocale(clientAcceptLanguage, messages) {
   try {
     acceptLanguage.languages(Object.keys(messages))
   } catch (error) {
-    throw new Error("Unable to get known languages. See following error for more information: " + error)
+    throw new Error('Unable to get known languages. See following error for more information: ' + error)
   }
 
   var locale = clientAcceptLanguage ? acceptLanguage.get(clientAcceptLanguage) : DEFAULT_LANGUAGE
