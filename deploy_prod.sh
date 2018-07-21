@@ -6,7 +6,7 @@ git branch
 
 git pull
 npm install
-BASENAME=/legislation npm run build
+PATHNAME=/legislation npm run build
 
 echo "Restarting legislation-explorer service..."
 sudo systemctl restart legislation-explorer.service

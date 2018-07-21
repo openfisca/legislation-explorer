@@ -29,8 +29,7 @@ function hashLinkScroll() {
 export function renderApp() {
   const appMountNode = document.getElementById('app-mount-node')
   const initialState = window.__INITIAL_STATE__
-  const basename = process.env.BASENAME || '/'
-  let history = useRouterHistory(createHistory)({basename: basename})
+  let history = useRouterHistory(createHistory)({basename: config.pathname})
 
   if (config.matomo)
     history = MatomoReactRouter(config.matomo).connectToHistory(history)

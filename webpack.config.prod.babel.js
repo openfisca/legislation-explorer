@@ -8,7 +8,7 @@ import writeAssets from './src/server/write-assets'
 
 
 const assetsPath = path.join(__dirname, 'public')
-const basename = process.env.BASENAME || ''
+const pathname = process.env.PATHNAME || ''
 
 module.exports = {
   // devtool: "eval", // Transformed code
@@ -19,7 +19,7 @@ module.exports = {
   output: {
     path: assetsPath,
     filename: '[name]-[hash].js',
-    publicPath: `${basename}/`,
+    publicPath: `${pathname}/`,
   },
   target: 'web',
   // yaml-js has a reference to `fs`, this is a workaround
@@ -49,7 +49,7 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production'), // clean up some react stuff
-        BASENAME: JSON.stringify(basename),
+        PATHNAME: JSON.stringify(pathname),
       },
     }),
 
