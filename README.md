@@ -20,10 +20,16 @@ npm install --production
 
 ## Configure your instance
 
-You will need to tell the Legislation Explorer server where your OpenFisca API instance can be reached, as well as where your repository resides for contributors to be directed to. This is all done through environment variables, allowing you to use the same code for any instance by [injecting these elements at runtime](https://12factor.net/config). To set these options, you need to define them by prefixing the `npm start` or `npm run dev` commands with their definitions, in the `$NAME=$VALUE` syntax.
+You will need to tell the Legislation Explorer server where your OpenFisca API instance can be reached, as well as where your repository resides for contributors to be directed to. This is all done through environment variables, allowing you to use the same code for any instance by [injecting these elements at runtime](https://12factor.net/config).
+
+To set these options, you need to define them by prefixing the `npm start` or `npm run dev` commands with their definitions, in the `$NAME=$VALUE` syntax.
 
 - `API_URL`: the URL at which your OpenFisca API root endpoint can be found. For example: `https://openfisca-aotearoa.herokuapp.com`. Defaults to `http://0.0.0.0:5000`.
 - `CHANGELOG_URL`: the URL at which the changelog for the country package can be found. Used on 404 pages. For example: `https://github.com/openfisca/openfisca-tunisia/blob/master/CHANGELOG.md`.
+
+> If it gets lengthy or you want to persist these values, you can also use a `.env` file.
+> Such a file is a plaintext file with name `.env` stored in the root directory of your legislation explorer instance (i.e. next to the `package.json` file). List all of your environment variables in the `$NAME=$VALUE` syntax, one per line. If you have trouble writing this file, read the [parsing rules](https://github.com/motdotla/dotenv#rules).
+> An example file is provided as `.env.example`, setting default values. You can copy it, but changing it won't have any impact: only a file named `.env` will be taken into account. You should not commit this file: it depends on each instance.
 
 
 ### Localisation (l12n / i18n)
