@@ -48,7 +48,7 @@ module.exports = {
     // set global vars
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify('production'), // clean up some react stuff
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
         PATHNAME: JSON.stringify(pathname),
       },
     }),
