@@ -6,10 +6,10 @@
     "build": "webpack --config ./webpack.config.prod.babel.js",
     "clean": "rm -rf public",
     "dev": "concurrently --kill-others 'npm run dev:app-server' 'npm run dev:webpack-dev-server'",
-    "dev:app-server": "NODE_ENV=development node index.js",
-    "dev:webpack-dev-server": "babel-node src/server/webpack-dev-server.js",
+    "dev:app-server": "NODE_ENV=development node --require dotenv/config index.js",
+    "dev:webpack-dev-server": "node --require dotenv/config --require babel-register src/server/webpack-dev-server.js",
     "lint": "eslint --ext .js,.jsx .",
-    "start": "NODE_ENV=production node index.js",
+    "start": "NODE_ENV=production node --require dotenv/config index.js",
     "test:unit": "mocha --compilers js:babel-core/register tests/unit/**/*.js",
     "test:integration": "watai tests/integration",
     "test": "npm run lint && npm run test:unit && npm run test:integration"

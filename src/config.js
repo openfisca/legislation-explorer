@@ -1,5 +1,3 @@
-require('dotenv').config()  // populate process.env with the contents of a .env file if there is one
-
 let config = new Object(null)
 
 config.apiBaseUrl = process.env.API_URL || 'http://0.0.0.0:5000'
