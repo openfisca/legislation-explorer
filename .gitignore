@@ -1,10 +1,17 @@
-*~
-/node_modules/
-/npm-debug.log
-/public/
-/tags
-/webpack-assets.json
+# Build
+public
+webpack-assets.json
+
 # Do not store config. See more at https://12factor.net/config.
 .env
+
+# NPM
+node_modules
+npm-debug.log
+
+# IDEs
 .vscode
-/.project
+.project
+
+# OS
+.DS_Store
