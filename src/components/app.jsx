@@ -5,7 +5,6 @@ import {locationShape, Link} from 'react-router'
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 
 import { parameterShape, variableShape } from '../openfisca-proptypes'
-import config from '../config'
 import {findParametersAndVariables} from '../search'
 
 const App = React.createClass({
