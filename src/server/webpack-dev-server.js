@@ -16,6 +16,8 @@ new WebpackDevServer(webpack(webpackDevConfig), {
   stats: { colors: true },
   quiet: true,
 }).listen(publicURL.port, publicURL.hostname, function (err) {
-  if (err) { console.log(err) }
+  if (err)
+    return console.error(err)
+
   console.log(`Webpack development server listening on ${webpackDevConfig.output.publicPath}`)
 })
