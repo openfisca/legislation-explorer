@@ -1,12 +1,12 @@
+import url from 'url'
+
 import webpack from 'webpack'
 import WebpackDevServer from 'webpack-dev-server'
 
 import webpackDevConfig from '../../webpack.config.dev'
 
 
-const WEBPACK_HOST = process.env.WEBPACK_HOST || '0.0.0.0'
-const WEBPACK_PORT = parseInt(process.env.WEBPACK_PORT) || 2031
-
+const publicURL = url.parse(webpackDevConfig.output.publicPath)
 
 new WebpackDevServer(webpack(webpackDevConfig), {
   historyApiFallback: true,
@@ -15,7 +15,7 @@ new WebpackDevServer(webpack(webpackDevConfig), {
   publicPath: webpackDevConfig.output.publicPath,
   stats: { colors: true },
   quiet: true,
-}).listen(WEBPACK_PORT, WEBPACK_HOST, function (err) {
+}).listen(publicURL.port, publicURL.hostname, function (err) {
   if (err) { console.log(err) }
-  console.log(`Webpack development server listening on http://${WEBPACK_HOST}:${WEBPACK_PORT}`)
+  console.log(`Webpack development server listening on ${webpackDevConfig.output.publicPath}`)
 })

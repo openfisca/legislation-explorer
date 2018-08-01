@@ -68,8 +68,6 @@ This web app supports [Matomo](https://matomo.org) (ex-Piwik) analytics out of t
 ### Development-specific options
 
 - `NODE_ENV` defines if assets should be served minified or with hot module remplacement. Can be either `development` or `production`. Example: `NODE_ENV=production PORT=2030 node index.js`. Prefer using `npm start`.
-- `WEBPACK_HOST`: sets the host to which `webpack-dev-server` will be bound. Defaults to `localhost`.
-- `WEBPACK_PORT`: sets the port on which `webpack-dev-server` will be bound. Defaults to `2031`.
 
 
 ## Run the server
