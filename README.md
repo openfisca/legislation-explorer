@@ -53,7 +53,7 @@ The following strings are strongly recommended to be overridden:
 
 This web app supports [Matomo](https://matomo.org) (ex-Piwik) analytics out of the box. To set it up, use the following environment variables:
 
-- `MATOMO_URL`: he base URL at which the Matomo instance can be contacted. For example: `MATOMO_URL=https://stats.data.gouv.fr MATOMO_SITE_ID=4 npm start`. Only taken into account if used in conjunction with `MATOMO_SITE_ID` and if `MATOMO_CONFIG` is not defined.
+- `MATOMO_URL`: the base URL at which the Matomo instance can be reached. For example: `MATOMO_URL=https://stats.data.gouv.fr MATOMO_SITE_ID=4 npm start`. Only taken into account if used in conjunction with `MATOMO_SITE_ID` and if `MATOMO_CONFIG` is not defined.
 - `MATOMO_SITE_ID`: The ID of the site to track in this Matomo instance. For example: `MATOMO_URL=https://stats.data.gouv.fr MATOMO_SITE_ID=4 npm start`. Only taken into account if used in conjunction with `MATOMO_URL` and if `MATOMO_CONFIG` is not defined.
 - `MATOMO_CONFIG`: a JSON-encoded object describing how to contact your Matomo instance. The value is a [configuration object for the `piwik-react-router`](https://github.com/joernroeder/piwik-react-router#options) package (make sure to read its docs for the version specified in `package.json`). Defaults to not sending analytics at all. Example: `'MATOMO_CONFIG='{"url":"https://stats.data.gouv.fr","siteId":4}' npm start`.
 
