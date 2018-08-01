@@ -88,7 +88,7 @@ You can edit all files in the source folder you cloned. In order to ease develop
 
 ```sh
 npm install  # install development dependencies
-npm run dev # To use http://localhost:5000/ for the Web API
+npm run dev
 ```
 
 > Some additional commands can be useful for development. You can discover all of them by running `npm run`.
