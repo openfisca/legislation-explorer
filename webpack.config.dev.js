@@ -86,8 +86,10 @@ module.exports = {
 
     new webpack.DefinePlugin({
       'process.env': {
-        API_URL: JSON.stringify(process.env.API_URL),
-        CHANGELOG_URL: JSON.stringify(process.env.CHANGELOG_URL),
+        API_URL: JSON.stringify(config.apiBaseUrl),
+        CHANGELOG_URL: JSON.stringify(config.changelogUrl),
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        PATHNAME: JSON.stringify(config.pathname),
       }
     }),
 
