@@ -5,7 +5,7 @@ config.changelogUrl = process.env.CHANGELOG_URL
 
 config.pathname = process.env.PATHNAME || '/'
 config.host = process.env.HOST || '0.0.0.0'
-config.port = process.env.PORT || 2030
+config.port = parseInt(process.env.PORT) || 2030
 
 if (process.env.MATOMO_CONFIG) {
   config.matomo = JSON.parse(process.env.MATOMO_CONFIG)

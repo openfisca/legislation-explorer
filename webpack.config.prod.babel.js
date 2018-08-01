@@ -1,14 +1,13 @@
-// Webpack config for creating the production bundle.
+import path from 'path'
 
 import CopyWebpackPlugin from 'copy-webpack-plugin'
-import path from 'path'
 import webpack from 'webpack'
 
+import config from './src/config'
 import writeAssets from './src/server/write-assets'
 
 
 const assetsPath = path.join(__dirname, 'public')
-const pathname = process.env.PATHNAME || ''
 
 module.exports = {
   // devtool: "eval", // Transformed code
@@ -19,7 +18,7 @@ module.exports = {
   output: {
     path: assetsPath,
     filename: '[name]-[hash].js',
-    publicPath: `${pathname}/`,
+    publicPath: config.pathname,
   },
   target: 'web',
   // yaml-js has a reference to `fs`, this is a workaround
@@ -49,7 +48,7 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        PATHNAME: JSON.stringify(pathname),
+        PATHNAME: JSON.stringify(config.pathname),
       },
     }),
 

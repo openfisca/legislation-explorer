@@ -1,18 +1,19 @@
 // This is the webpack config to use during development.
 // It enables the hot module replacement, the source maps and inline CSS styles.
 
+import path from 'path'
+
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 import ErrorNotificationPlugin from 'webpack-error-notification'
-import path from 'path'
 import webpack from 'webpack'
 
+import config from './src/config'
 import writeAssets from './src/server/write-assets'
 
 
 const assetsPath = path.resolve(__dirname, 'public')
 
-const WEBPACK_HOST = process.env.HOST || '0.0.0.0'
-const WEBPACK_PORT = parseInt(process.env.PORT || '2030') + 1
+const port = config.port + 1
 
 
 module.exports = {
@@ -20,7 +21,7 @@ module.exports = {
   devtool: 'source-map', // Original code
   entry: {
     'main': [
-      `webpack-dev-server/client?http://${WEBPACK_HOST}:${WEBPACK_PORT}`,
+      `webpack-dev-server/client?http://${config.host}:${port}`,
       'webpack/hot/only-dev-server',
       './src/client.jsx',
     ],
@@ -28,7 +29,7 @@ module.exports = {
   output: {
     path: assetsPath,
     filename: '[name]-bundle-[hash].js',
-    publicPath: `http://${WEBPACK_HOST}:${WEBPACK_PORT}/`,
+    publicPath: `http://${config.host}:${port}/`,
   },
   target: 'web',
 
@@ -52,7 +53,7 @@ module.exports = {
             }],
           ],
         },
-        test: /\.(js|jsx)$/,
+        test: /\.jsx?$/,
       },
       {
         loader: 'json-loader',
