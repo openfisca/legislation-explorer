@@ -41,9 +41,3 @@ test:
   post:
     - killall --wait sc:  # wait until Sauce Connect closes the tunnel
         parallel: true
-
-deployment:
-  production:
-    branch: master
-    commands:
-      - ssh -l openfisca legislation.openfisca.fr "cd legislation-explorer; ./deploy_prod.sh"
