@@ -5,7 +5,6 @@ import {locationShape, Link} from 'react-router'
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 
 import { parameterShape, variableShape } from '../openfisca-proptypes'
-import config from '../config'
 import {findParametersAndVariables} from '../search'
 
 const App = React.createClass({
@@ -107,7 +106,7 @@ const App = React.createClass({
           {this.props.children}
 
           <footer>
-            <a href={config.gitWebpageUrl} rel="noopener" target="_blank">
+            <a href="https://github.com/openfisca/legislation-explorer" rel="noopener" target="_blank">
               <FormattedMessage id="improveThisApp"/>
             </a>
           </footer>

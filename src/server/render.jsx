@@ -53,24 +53,24 @@ function renderHtmlDocument(renderProps, state) {
     </IntlProvider>
   )
   const webpackAssets = loadWebpackAssets()
-  const basename = process.env.BASENAME || ''
+  const pathname = process.env.PATHNAME || ''
 
   // Add external CSS copied to the public directory by CopyWebpackPlugin in webpack config.
   const bootstrapCss = process.env.NODE_ENV === 'production'
-    ? `${basename}/bootstrap/css/bootstrap.min.css`
-    : `${basename}/bootstrap/css/bootstrap.css`
+    ? `${pathname}/bootstrap/css/bootstrap.min.css`
+    : `${pathname}/bootstrap/css/bootstrap.css`
 
   let externalCss = [
     bootstrapCss,
-    `${basename}/swagger-ui.css`,
-    `${basename}/github-gist.css`,
-    `${basename}/style.css`
+    `${pathname}/swagger-ui.css`,
+    `${pathname}/github-gist.css`,
+    `${pathname}/style.css`
   ]
 
   if (process.env.NODE_ENV === 'development') {
-    externalCss = externalCss.map(
-      value => 'http://localhost:2031' + value // FIXME: the port should not be hard-coded.
-    )
+    const webpackDevConfig = require('../../webpack.config.dev')
+
+    externalCss = externalCss.map(file => `${webpackDevConfig.output.publicPath}${file}`)
   }
   const css = webpackAssets.main.css.concat(externalCss)
   const html = renderToStaticMarkup(

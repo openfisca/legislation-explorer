@@ -20,22 +20,27 @@ npm install --production
 
 ## Configure your instance
 
-You will need to tell the Legislation Explorer server where your OpenFisca API instance can be reached, as well as where your repository resides for contributors to be directed to. This is done with a configuration file.
+You will need to tell the Legislation Explorer server where your OpenFisca API instance can be reached, as well as where your repository resides for contributors to be directed to. This is all done through environment variables, allowing you to use the same code for any instance by [injecting these elements at runtime](https://12factor.net/config).
 
-This config file needs to expose a JavaScript object with the following properties:
+To set these options, you need to define them by prefixing the `npm start` or `npm run dev` commands with their definitions, in the `$NAME=$VALUE` syntax.
 
-- `apiBaseUrl`: The URL at which your OpenFisca API resides. For example: `https://openfisca-aotearoa.herokuapp.com`.
-- `gitHubProject`: The GitHub fully qualified name of the source repository for this OpenFisca instance. For example: `ServiceInnovationLab/openfisca-aotearoa`.
-- `gitWebpageUrl`: The URL at which the source repository for this OpenFisca instance can be found. For example: `https://github.com/ServiceInnovationLab/openfisca-aotearoa`.
-- `websiteUrl`: The URL at which more information can be obtained on OpenFisca. For example: `https://openfisca.org`.
+- `API_URL`: the URL at which your OpenFisca API root endpoint can be found. For example: `https://openfisca-aotearoa.herokuapp.com`. Defaults to `http://0.0.0.0:5000`.
+- `CHANGELOG_URL`: the URL at which the changelog for the country package can be found. Used on 404 pages. For example: `https://github.com/openfisca/openfisca-tunisia/blob/master/CHANGELOG.md`.
+
+> If it gets lengthy or you want to persist these values, you can also use a `.env` file.
+> Such a file is a plaintext file with name `.env` stored in the root directory of your legislation explorer instance (i.e. next to the `package.json` file). List all of your environment variables in the `$NAME=$VALUE` syntax, one per line. If you have trouble writing this file, read the [parsing rules](https://github.com/motdotla/dotenv#rules).
+> An example file is provided as `.env.example`, setting default values. You can copy it, but changing it won't have any impact: only a file named `.env` will be taken into account. You should not commit this file: it depends on each instance.
+
 
 ### Localisation (l12n / i18n)
 
 The user interface of the legislation explorer has full support for internationalisation. Supported languages can be found in the `src/assets/lang` directory, and can be added by simply creating a new file with the two-letter language code to add support for.
 
-For localisation, you can override any of the strings defined in these files through the `ui` property of your configuration file.
+For localisation, you can override any of the strings defined in these files through the `UI_STRINGS` environment variable.
 
-If you export `ui` as an object whose keys are ISO two-letters language codes and values are strings, these values will take precedence over any strings defined in the `lang` folder.
+- `UI_STRINGS`: overrides the `ui` config object through a JSON string. Example: `UI_STRINGS='{"en":{"countryName":"Tunisia"},"fr":{"countryName":"Tunisie"}}' npm start`.
+
+The value is a JSON-encoded object whose keys are ISO two-letters language codes and values are strings, these values will take precedence over any strings defined in the `lang` folder.
 
 The following strings are strongly recommended to be overridden:
 
@@ -43,25 +48,26 @@ The following strings are strongly recommended to be overridden:
     - `forCountry`: In case the default interpolation for your `countryName` does not give good results, you can also edit the prefix added before the `countryName` value.
 - `search_placeholder`: One or two suggested searches, preferably comma-separated, for your users to make sense of the search field. Best results will be obtained by using the most well-known parameters for your tax and benefit system.
 
-### Optional configuration
 
-You can also add the following properties:
+### Analytics
 
-- `piwikConfig`: An object describing how to contact a [Piwik analytics](https://piwik.org) instance to which usage stats will be sent. Contains the following subproperties:
-    - `url`: The base URL at which the Piwik instance can be contacted. For example: `https://stats.data.gouv.fr`.
-    - `siteId`: The ID of the site to track in this Piwik instance.
-    - `trackErrors`: _A Boolean value._
-- `useCommitReferenceFromApi`: _A Boolean value._
-- `winstonConfig`: A configuration object to pass to the [`winston` logger](https://github.com/winstonjs/winston/tree/2.x#instantiating-your-own-logger) (i.e. what is passed to a `new winston.Logger`).
+This web app supports [Matomo](https://matomo.org) (ex-Piwik) analytics out of the box. To set it up, use the following environment variables:
 
-Some other elements can be configured through environment variables passed to both `npm build` and `npm start`:
+- `MATOMO_URL`: the base URL at which the Matomo instance can be reached. For example: `MATOMO_URL=https://stats.data.gouv.fr MATOMO_SITE_ID=4 npm start`. Only taken into account if used in conjunction with `MATOMO_SITE_ID` and if `MATOMO_CONFIG` is not defined.
+- `MATOMO_SITE_ID`: The ID of the site to track in this Matomo instance. For example: `MATOMO_URL=https://stats.data.gouv.fr MATOMO_SITE_ID=4 npm start`. Only taken into account if used in conjunction with `MATOMO_URL` and if `MATOMO_CONFIG` is not defined.
+- `MATOMO_CONFIG`: a JSON-encoded object describing how to contact your Matomo instance. The value is a [configuration object for the `piwik-react-router`](https://github.com/joernroeder/piwik-react-router#options) package (make sure to read its docs for the version specified in `package.json`). Defaults to not sending analytics at all. Example: `'MATOMO_CONFIG='{"url":"https://stats.data.gouv.fr","siteId":4}' npm start`.
 
-- `API_URL`: overrides the `apiBaseUrl` config property.
-- `BASENAME` defines the path at which the Legislation Explorer is served. Defaults to `/`. For example: `BASENAME=/legislation` to serve on `https://fr.openfisca.org/legislation`.
-- `COUNTRY_PRODUCTION_CONFIG`: defines the name of the configuration file to use in the build stage. This file has to be in the `config` folder and be named `production.$COUNTRY_PRODUCTION_CONFIG.js`. For example: `COUNTRY_PRODUCTION_CONFIG=tunisia npm run build`
+
+### Server and public URL
+
+- `PATHNAME` defines the path at which the Legislation Explorer is served. Defaults to `/`. For example: `PATHNAME=/legislation` to serve on `https://fr.openfisca.org/legislation`.
+- `HOST`: defines the host on which the app is served. Example: `HOST=192.168.1.1 npm start`. Defaults to `0.0.0.0` (all local interfaces).
+- `PORT` defines the port on which the app is served. Example: `PORT=80 npm start`. Defaults to `2030`.
+
+
+### Development-specific options
+
 - `NODE_ENV` defines if assets should be served minified or with hot module remplacement. Can be either `development` or `production`. Example: `NODE_ENV=production PORT=2030 node index.js`. Prefer using `npm start`.
-- `HOST`: defines the host on which the app is served. Example: `HOST=0.0.0.0 PORT=2030 node index.js`. Prefer using `npm start`.
-- `PORT` defines the port on which the app is served. Example: `NODE_ENV=production PORT=2030 node index.js`. Prefer using `npm start`.
 
 
 ## Run the server
@@ -82,7 +88,7 @@ You can edit all files in the source folder you cloned. In order to ease develop
 
 ```sh
 npm install  # install development dependencies
-npm run dev # To use http://localhost:5000/ for the Web API
+npm run dev
 ```
 
 > Some additional commands can be useful for development. You can discover all of them by running `npm run`.

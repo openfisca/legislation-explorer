@@ -1,18 +1,19 @@
 // This is the webpack config to use during development.
 // It enables the hot module replacement, the source maps and inline CSS styles.
 
+import path from 'path'
+
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 import ErrorNotificationPlugin from 'webpack-error-notification'
-import path from 'path'
 import webpack from 'webpack'
 
+import config from './src/config'
 import writeAssets from './src/server/write-assets'
 
 
 const assetsPath = path.resolve(__dirname, 'public')
 
-const WEBPACK_HOST = process.env.HOST || 'localhost'
-const WEBPACK_PORT = parseInt(process.env.PORT) + 1 || 2031
+const port = config.port + 1
 
 
 module.exports = {
@@ -20,7 +21,7 @@ module.exports = {
   devtool: 'source-map', // Original code
   entry: {
     'main': [
-      `webpack-dev-server/client?http://${WEBPACK_HOST}:${WEBPACK_PORT}`,
+      `webpack-dev-server/client?http://${config.host}:${port}`,
       'webpack/hot/only-dev-server',
       './src/client.jsx',
     ],
@@ -28,7 +29,7 @@ module.exports = {
   output: {
     path: assetsPath,
     filename: '[name]-bundle-[hash].js',
-    publicPath: `http://${WEBPACK_HOST}:${WEBPACK_PORT}/`,
+    publicPath: `http://${config.host}:${port}/`,
   },
   target: 'web',
 
@@ -52,7 +53,7 @@ module.exports = {
             }],
           ],
         },
-        test: /\.(js|jsx)$/,
+        test: /\.jsx?$/,
       },
       {
         loader: 'json-loader',
@@ -85,10 +86,11 @@ module.exports = {
 
     new webpack.DefinePlugin({
       'process.env': {
-        HOST: JSON.stringify(process.env.HOST),
-        NODE_ENV: JSON.stringify('development'),
-        API_URL: JSON.stringify(process.env.API_URL),
-      },
+        API_URL: JSON.stringify(config.apiBaseUrl),
+        CHANGELOG_URL: JSON.stringify(config.changelogUrl),
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        PATHNAME: JSON.stringify(config.pathname),
+      }
     }),
 
     new webpack.ProvidePlugin({

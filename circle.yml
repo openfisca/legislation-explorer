@@ -13,11 +13,11 @@ dependencies:
     - npm install saucelabs # allow sending Watai results to SauceLabs
     - wget https://saucelabs.com/downloads/sc-4.4.9-linux.tar.gz
     - tar -xzf sc-4.4.9-linux.tar.gz
-    - npm run build
+    - API_URL=https://fr.openfisca.org/api/v21 npm run build
 
 test:
   pre:
-    - npm start:
+    - API_URL=https://fr.openfisca.org/api/v21 npm start:
         background: true
         parallel: true
     # start Sauce Connect
@@ -41,9 +41,3 @@ test:
   post:
     - killall --wait sc:  # wait until Sauce Connect closes the tunnel
         parallel: true
-
-deployment:
-  production:
-    branch: master
-    commands:
-      - ssh -l openfisca legislation.openfisca.fr "cd legislation-explorer; ./deploy_prod.sh"

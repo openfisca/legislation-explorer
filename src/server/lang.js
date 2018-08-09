@@ -1,8 +1,9 @@
 import config from '../config'
 
+import acceptLanguage from 'accept-language'
+
 import path from 'path'
 import {readdir} from 'fs'
-import acceptLanguage from 'accept-language'
 
 
 const DEFAULT_LANGUAGE = 'en'

@@ -1,17 +1,15 @@
-import express from 'express'
-import {assoc, map} from 'ramda'
-import favicon from 'serve-favicon'
-import path from 'path'
-import winston from 'winston'
-
-import handleRender from './render'
-import {addNormalizedDescription} from '../search'
-import {fetchParameters, fetchVariables, fetchSwagger} from '../webservices'
 import config from '../config'
-import {loadTranslations} from './lang'
 
+import { loadTranslations } from './lang'
+import handleRender from './render'
+import { addNormalizedDescription } from '../search'
+import { fetchParameters, fetchVariables, fetchSwagger } from '../webservices'
 
-winston.configure(config.winstonConfig)
+import express from 'express'
+import { assoc, map } from 'ramda'
+import favicon from 'serve-favicon'
+
+import path from 'path'
 
 
 function startServer(state) {
@@ -23,7 +21,7 @@ function startServer(state) {
 
   // Generic server errors (e.g. not caught by components)
   server.use((err, req, res, next) => {
-    winston.error(req.method + ' ' + req.url, {error: err})
+    console.error(req.method + ' ' + req.url, {error: err})
     if (server.get('env') === 'production') {
       res.status(500).send(
         '<h1>Error: ' + err.message + '</h1>'
@@ -37,11 +35,7 @@ function startServer(state) {
     }
   })
 
-  const host = process.env.HOST || 'localhost'
-  const port = process.env.PORT || 2030
-  server.listen(port, host, () => {
-    console.log(`Server listening at http://${host}:${port}/`)
-  })
+  server.listen(config.port, config.host, () => console.log(`Server listening on http://${config.host}:${config.port}/`))
 }
 
 console.log('Fetching variables and parameters on Web API...')
