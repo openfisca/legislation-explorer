@@ -37,11 +37,14 @@ jobs:
           paths:
             - sc
       - run:
+          name: Copy CI .env file
+          command: cp .circleci/.env.ci .env
+      - run:
           name: Build app
           command: npm run build
       - run:
           name: Run app
-          command: API_URL=https://fr.openfisca.org/api/v22 npm start
+          command: npm start
           background: true
       - run:
           name: Start Sauce Connect
