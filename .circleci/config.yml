@@ -6,7 +6,6 @@ jobs:
     docker:
       - image: circleci/node:8-jessie-browsers
     environment:
-      SAUCE_LOG: $CIRCLE_ARTIFACTS/sauce_log.txt
       WATAI_TESTS: tests/integration
       SAUCE_USERNAME: openfisca
       # SAUCE_ACCESS_KEY is defined in the CircleCI web UI
@@ -46,7 +45,7 @@ jobs:
           background: true
       - run:
           name: Start Sauce Connect
-          command: cd sc/sc-*-linux && ./bin/sc --user $SAUCE_USERNAME --api-key $SAUCE_ACCESS_KEY --tunnel-identifier "circle-$CIRCLE_BUILD_NUM-$CIRCLE_NODE_INDEX" --readyfile ~/sauce_is_ready > $SAUCE_LOG
+          command: cd sc/sc-*-linux && ./bin/sc --user $SAUCE_USERNAME --api-key $SAUCE_ACCESS_KEY --tunnel-identifier "circle-$CIRCLE_BUILD_NUM-$CIRCLE_NODE_INDEX" --readyfile ~/sauce_is_ready > /tmp/sauce_log.txt
           background: true
       - run:
           name: Wait for Sauce Connect
@@ -63,6 +62,9 @@ jobs:
       - run:
           name: Kill Sauce Connect
           command: killall --wait sc
+      - store_artifacts:
+          path: /tmp/sauce_log.txt
+          destination: sauce-log
 
 workflows:
   version: 2
