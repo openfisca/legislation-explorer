@@ -20,7 +20,7 @@ module.exports = {
   output: {
     path: assetsPath,
     filename: '[name]-[hash].js',
-    publicPath: config.pathname + '/',
+    publicPath: config.pathname.endsWith('/') ? config.pathname : `${config.pathname}/`
   },
   target: 'web',
   // yaml-js has a reference to `fs`, this is a workaround
