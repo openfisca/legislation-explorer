@@ -63,7 +63,7 @@
     "react-addons-test-utils": "^15.6.0",
     "react-test-renderer": "^15.6.2",
     "react-transform-hmr": "^1.0.4",
-    "should": "^11.2.1",
+    "should": "^13.2.3",
     "watai": "^0.7.0",
     "webpack-dev-server": "^1.9.0",
     "webpack-error-notification": "^0.1.4"
