@@ -5,8 +5,7 @@ import webpack from 'webpack'
 
 import writeAssets from './src/server/write-assets'
 
-const dotenv = require('dotenv').config('./.env').parsed
-process.env = Object.assign({}, dotenv, process.env)
+require('dotenv').config()
 
 const config = require('./src/config').default
 
