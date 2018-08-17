@@ -23,7 +23,7 @@
     "accept-language": "^3.0.17",
     "babel-cli": "^6.11.4",
     "babel-core": "^6.9.0",
-    "babel-loader": "^6.2.4",
+    "babel-loader": "^7.1.5",
     "babel-plugin-react-transform": "^2.0.2",
     "babel-polyfill": "^6.9.0",
     "babel-preset-es2015": "^6.9.0",
