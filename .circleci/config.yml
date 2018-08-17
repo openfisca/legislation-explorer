@@ -64,7 +64,7 @@ jobs:
           command: npm test
       - run:
           name: Kill Sauce Connect
-          command: killall --wait sc
+          command: pkill sc
       - store_artifacts:
           path: /tmp/sauce_log.txt
           destination: sauce-log
