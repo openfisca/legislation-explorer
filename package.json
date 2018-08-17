@@ -43,7 +43,7 @@
     "piwik-react-router": "^0.12.1",
     "prop-types": "^15.6.2",
     "ramda": "^0.25.0",
-    "react": "^15.6.2",
+    "react": "^16.4.2",
     "react-document-title": "^2.0.2",
     "react-dom": "^15.6.2",
     "react-highlight": "^0.10.0",
