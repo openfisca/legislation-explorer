@@ -9,6 +9,19 @@ import writeAssets from './src/server/write-assets'
 
 const assetsPath = path.join(__dirname, 'public')
 
+var pathname = config.pathname
+var api_url = config.apiBaseUrl
+
+var dotenv = require('dotenv').config('./.env').parsed
+if (dotenv){
+    if (dotenv.PATHNAME){
+        pathname = dotenv.PATHNAME
+    }
+    if (dotenv.API_URL){
+        api_url = dotenv.API_URL
+    }
+}
+
 module.exports = {
   // devtool: "eval", // Transformed code
   devtool: 'source-map', // Original code
@@ -18,7 +31,7 @@ module.exports = {
   output: {
     path: assetsPath,
     filename: '[name]-[hash].js',
-    publicPath: config.pathname,
+    publicPath: pathname + '/',
   },
   target: 'web',
   // yaml-js has a reference to `fs`, this is a workaround
@@ -47,10 +60,10 @@ module.exports = {
     // set global vars
     new webpack.DefinePlugin({
       'process.env': {
-        API_URL: JSON.stringify(config.apiBaseUrl),
+        API_URL: JSON.stringify(api_url),
         CHANGELOG_URL: JSON.stringify(config.changelogUrl),
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        PATHNAME: JSON.stringify(config.pathname),
+        PATHNAME: JSON.stringify(pathname),
       },
     }),
 
