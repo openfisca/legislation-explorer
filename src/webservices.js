@@ -5,19 +5,15 @@ import config from './config'
 
 async function fetchJson(url, options) {
   const response = await fetch(url, options)
+  if (response.status < 200 || response.status >= 300) {
+    throw new Error(`'${url}' returned the unexpected return code: '${response.status}'.`)
+  }
   const data = await response.json()
-
-  if (response.status >= 200 && response.status < 300) {
-    return {
-      data,
-      'country-package': response.headers.get('country-package'),
-      'country-package-version': response.headers.get('country-package-version'),
-    }
+  return {
+    data,
+    'country-package': response.headers.get('country-package'),
+    'country-package-version': response.headers.get('country-package-version'),
   }
-  if (data.error) {
-    throw new Error(JSON.stringify(data.error))
-  }
-  throw new Error(JSON.stringify({error: 'Unexpected return code ' + response.status}))
 }
 
 

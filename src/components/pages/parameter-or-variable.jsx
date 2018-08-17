@@ -29,17 +29,21 @@ const ParameterOrVariablePage = React.createClass({
   },
   fetchPageContent(name) {
     if (this.props.variables[name]) {
-      fetchVariable(name).then(
-        variable => {
-          this.setState({variable: variable.data, waitingForResponse: false})
-        }
-      )
+      fetchVariable(name)
+      .then(variable => {
+        this.setState({variable: variable.data, waitingForResponse: false})
+      })
+      .catch(error => {
+        this.setState({error: error, waitingForResponse: false})
+      })
     } else if (this.props.parameters[name]) {
-      fetchParameter(name).then(
-        parameter => {
-          this.setState({parameter: parameter.data, waitingForResponse: false})
-        }
-      )
+      fetchParameter(name)
+      .then(parameter => {
+        this.setState({parameter: parameter.data, waitingForResponse: false})
+      })
+      .catch(error => {
+        this.setState({error: error, waitingForResponse: false})
+      })
     } else {
       this.setState({waitingForResponse: false})
       this.handleNotFound()
@@ -70,6 +74,18 @@ const ParameterOrVariablePage = React.createClass({
       hash: `#${searchInputId}`,
     }
     const otherResultsCount = searchResults.length - 1
+
+    if (this.state.error) {
+      return (
+        <div className="alert alert-danger">
+          <h1>
+            <span className="glyphicon glyphicon-alert"></span>
+            <FormattedMessage id="api-error"/>
+          </h1>
+          <samp>{this.state.error.message}</samp>
+        </div>
+      )
+    }
 
     if (this.state.waitingForResponse) {
       return (

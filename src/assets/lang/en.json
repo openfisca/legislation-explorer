@@ -59,5 +59,6 @@
   "keyword": "Keyword",
   "definition":"Definition",
   "rawJSONData": "Raw data in JSON format",
-  "loading": "Loading…"
+  "loading": "Loading…",
+  "api-error": "Unable to reach the OpenFisca Web API."
 }

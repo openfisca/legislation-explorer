@@ -15,6 +15,9 @@ new WebpackDevServer(webpack(webpackDevConfig), {
   publicPath: webpackDevConfig.output.publicPath,
   stats: { colors: true },
   quiet: true,
+  headers: {
+    'Access-Control-Allow-Origin': '*',
+  },
 }).listen(publicURL.port, publicURL.hostname, function (err) {
   if (err)
     return console.error(err)
