@@ -4,10 +4,11 @@ import { FormattedMessage, FormattedDate, FormattedNumber } from 'react-intl'
 import { parameterShape } from '../openfisca-proptypes'
 
 
-const Scale = React.createClass({
-  propTypes: {
+class Scale extends React.Component {
+  static propTypes = {
     parameter: parameterShape.isRequired,
-  },
+  };
+
   render() {
     const {brackets} = this.props.parameter
     return (
@@ -68,7 +69,7 @@ const Scale = React.createClass({
       </table>
     )
   }
-})
+}
 
 
 export default Scale

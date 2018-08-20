@@ -1,13 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const List = React.createClass({
-  propTypes: {
+class List extends React.Component {
+  static propTypes = {
     children: PropTypes.func,
     keyProperty: PropTypes.string,
     type: PropTypes.string,
     items: PropTypes.array.isRequired,
-  },
+  };
+
   render() {
     const {children, keyProperty, items, type} = this.props
     return (
@@ -22,8 +23,8 @@ const List = React.createClass({
         }
       </ul>
     )
-  },
-})
+  }
+}
 
 
 export default List

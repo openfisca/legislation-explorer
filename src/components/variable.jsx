@@ -9,15 +9,15 @@ import { parameterShape, variableShape } from '../openfisca-proptypes'
 import Formula from './formula'
 import getDayBefore from '../periods'
 
-const Variable = React.createClass({
-  propTypes: {
+class Variable extends React.Component {
+  static propTypes = {
     countryPackageName: PropTypes.string.isRequired,
     countryPackageVersion: PropTypes.string.isRequired,
     intl: intlShape.isRequired,
     parameters: PropTypes.objectOf(parameterShape).isRequired,
     variable: variableShape.isRequired,
     variables: PropTypes.objectOf(variableShape).isRequired,
-  },
+  };
 
   render() {
     const { variable } = this.props
@@ -42,9 +42,9 @@ const Variable = React.createClass({
         </section>
       </DocumentTitle>
     )
-  },
+  }
 
-  renderVariableMetadata(variable) {
+  renderVariableMetadata = (variable) => {
     const entityMessage = {
       famille: 'famille',
       foyer_fiscal: 'foyer fiscal',
@@ -188,9 +188,9 @@ const Variable = React.createClass({
         }
     </div>
     )
-  },
+  };
 
-  renderFormulas(formulas) {
+  renderFormulas = (formulas) => {
     const startDates = keys(formulas).sort().reverse()
     const severalFormulas = (startDates.length > 2) || (startDates.length == 2) && formulas[startDates[0]]
     return (
@@ -217,7 +217,7 @@ const Variable = React.createClass({
         }
       </div>
     )
-  },
-})
+  };
+}
 
 export default injectIntl(Variable)
