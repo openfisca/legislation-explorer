@@ -90,12 +90,12 @@ class HomePage extends React.Component {
             {
               isEmpty(searchResults)
                 ? <h4>
-                    <FormattedMessage id="noResultsFor"
-                      values={{
-                        input: <code>{inputValue}</code>
-                      }}
-                    />
-                  </h4>
+                  <FormattedMessage id="noResultsFor"
+                    values={{
+                      input: <code>{inputValue}</code>
+                    }}
+                  />
+                </h4>
                 : <SearchResults items={searchResults} searchQuery={searchQuery} />
             }
           </section>

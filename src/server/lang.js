@@ -20,7 +20,7 @@ export function loadTranslations(langDir) {
       messages[path.basename(file, '.json')] = require(path.resolve(langDir, file))
     })
 
-      // load all config-provided locale strings
+    // load all config-provided locale strings
     Object.keys(messages).forEach(lang => {
       Object.assign(messages[lang], config.ui[lang])
     })

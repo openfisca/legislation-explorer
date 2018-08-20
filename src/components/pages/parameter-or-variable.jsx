@@ -31,20 +31,20 @@ class ParameterOrVariablePage extends React.Component {
   fetchPageContent = (name) => {
     if (this.props.variables[name]) {
       fetchVariable(name)
-      .then(variable => {
-        this.setState({variable: variable.data, waitingForResponse: false})
-      })
-      .catch(error => {
-        this.setState({error: error, waitingForResponse: false})
-      })
+        .then(variable => {
+          this.setState({variable: variable.data, waitingForResponse: false})
+        })
+        .catch(error => {
+          this.setState({error: error, waitingForResponse: false})
+        })
     } else if (this.props.parameters[name]) {
       fetchParameter(name)
-      .then(parameter => {
-        this.setState({parameter: parameter.data, waitingForResponse: false})
-      })
-      .catch(error => {
-        this.setState({error: error, waitingForResponse: false})
-      })
+        .then(parameter => {
+          this.setState({parameter: parameter.data, waitingForResponse: false})
+        })
+        .catch(error => {
+          this.setState({error: error, waitingForResponse: false})
+        })
     } else {
       this.setState({waitingForResponse: false})
       this.handleNotFound()

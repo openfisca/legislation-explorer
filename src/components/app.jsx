@@ -12,7 +12,7 @@ class App extends React.Component {
     searchQuery: PropTypes.string,
     searchResults: PropTypes.array,
     setSearchQuery: PropTypes.func,
-  };
+  }
 
   static propTypes = {
     children: PropTypes.node.isRequired,
@@ -21,17 +21,17 @@ class App extends React.Component {
     location: locationShape.isRequired,
     parameters: PropTypes.objectOf(parameterShape).isRequired,
     variables: PropTypes.objectOf(variableShape).isRequired,
-  };
+  }
 
   constructor(props) {
-    super(props);
+    super(props)
     const {location, parameters, variables} = props
     const searchQuery = location.query.q || ''
 
     this.state = {
       searchQuery,
       searchResults: findParametersAndVariables(parameters, variables, searchQuery),
-    };
+    }
   }
 
   getChildContext() {
