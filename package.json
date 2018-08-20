@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "OpenFisca - Legislation Explorer",
   "scripts": {
-    "build": "webpack --config ./webpack.config.prod.babel.js",
+    "build": "node --require dotenv/config node_modules/webpack/bin/webpack.js --config ./webpack.config.prod.babel.js",
     "clean": "rm -rf public",
     "dev": "concurrently --kill-others 'npm run dev:app-server' 'npm run dev:webpack-dev-server'",
     "dev:app-server": "NODE_ENV=development node --require dotenv/config index.js",

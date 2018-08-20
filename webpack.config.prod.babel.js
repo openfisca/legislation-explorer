@@ -3,11 +3,9 @@ import path from 'path'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 import webpack from 'webpack'
 
+import config from './src/config'
 import writeAssets from './src/server/write-assets'
 
-require('dotenv').config()
-
-const config = require('./src/config').default
 
 const assetsPath = path.join(__dirname, 'public')
 
