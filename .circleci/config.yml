@@ -68,9 +68,21 @@ jobs:
       - store_artifacts:
           path: /tmp/sauce_log.txt
           destination: sauce-log
-
+  deploy:
+    docker:
+      - image: circleci/node:8-jessie-browsers
+    steps:
+      - run:
+          name: Deploy app
+          command: ssh -o StrictHostKeyChecking=no deploy-legislation-explorer@fr.openfisca.org
 workflows:
   version: 2
   build:
     jobs:
       - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
