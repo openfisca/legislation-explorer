@@ -3,23 +3,21 @@ import fetch from 'isomorphic-fetch'
 import config from './config'
 
 
-function fetchJson(url, options) {
-  return fetch(url, options)
-    .then(response => response.json()
-      .then(data => {
-        if (response.status >= 200 && response.status < 300) {
-          return {
-            data,
-            'country-package': response.headers.get('country-package'),
-            'country-package-version': response.headers.get('country-package-version'),
-          }
-        }
-        if (data.error) {
-          throw new Error(JSON.stringify(data.error))
-        }
-        throw new Error(JSON.stringify({error: 'Unexpected return code ' + response.status}))
-      })
-  )
+async function fetchJson(url, options) {
+  const response = await fetch(url, options)
+  const data = await response.json()
+
+  if (response.status >= 200 && response.status < 300) {
+    return {
+      data,
+      'country-package': response.headers.get('country-package'),
+      'country-package-version': response.headers.get('country-package-version'),
+    }
+  }
+  if (data.error) {
+    throw new Error(JSON.stringify(data.error))
+  }
+  throw new Error(JSON.stringify({error: 'Unexpected return code ' + response.status}))
 }
 
 
