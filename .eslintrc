@@ -23,6 +23,7 @@
       "semi": ["error", "never"],
       "space-before-blocks": "error",
       "space-infix-ops": "error",
+      "react/jsx-no-target-blank": ["off"]
   },
   "plugins": [
     "react"

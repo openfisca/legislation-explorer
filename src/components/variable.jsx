@@ -146,7 +146,7 @@ class Variable extends React.Component {
                 {
                   Object.keys(variable.possibleValues).map((keyword) => {
                     return (
-                      <tr>
+                      <tr key={keyword}>
                         <td className="list-entry">
                           <samp>{keyword}</samp>
                         </td>

@@ -51,8 +51,10 @@ class ParameterOrVariablePage extends React.Component {
     }
   };
 
-  componentWillReceiveProps(nextProps) {
-    this.fetchPageContent(nextProps.params.name)
+  componentDidUpdate(prevProps) {
+    if (this.props.params.name != prevProps.params.name) {
+      this.fetchPageContent(this.props.params.name)
+    }
   }
 
   componentDidMount() {

@@ -25,8 +25,10 @@ class SearchBarComponent extends React.Component {
     })
   };
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({inputValue: nextProps.initialValue})
+  componentDidUpdate(prevProps) {
+    if (this.props.initialValue != prevProps.initialValue) {
+      this.setState({inputValue: this.props.initialValue})
+    }
   }
 
   render() {

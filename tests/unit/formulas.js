@@ -1,11 +1,13 @@
 import React from 'react';
 import Formula from '../../src/components/formula'
-import { shallow } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+import { configure, shallow } from 'enzyme';
 import {flatten} from 'ramda'
 import {Link} from 'react-router'
 import should from 'should'
 import fs from 'fs'
 import path from 'path'
+configure({ adapter: new Adapter() });
 
 const variables = {
     rsa: {},
