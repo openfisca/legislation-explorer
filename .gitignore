@@ -4,6 +4,7 @@ webpack-assets.json
 
 # Do not store config. See more at https://12factor.net/config.
 .env
+.env.*
 
 # NPM
 node_modules
