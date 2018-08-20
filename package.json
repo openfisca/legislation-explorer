@@ -50,7 +50,7 @@
     "react-intl": "^2.1.2",
     "react-router": "^3.2.1",
     "serve-favicon": "^2.3.0",
-    "swagger-ui": "~3.17.3",
+    "swagger-ui": "~3.18.1",
     "webpack": "^1.9.11"
   },
   "devDependencies": {
