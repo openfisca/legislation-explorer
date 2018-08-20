@@ -7,9 +7,8 @@ import { flatten, pipe, map, is } from 'ramda'
 import Highlight from 'react-highlight'
 
 const Formula = React.createClass({
-
   propTypes: {
-    startDate: PropTypes.string,
+    startDate: PropTypes.oneOfType([PropTypes.string, PropTypes.oneOf([false])]), // a string or false
     stopDate: PropTypes.string,
     content: PropTypes.string.isRequired,
     source: PropTypes.string.isRequired,
