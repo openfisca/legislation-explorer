@@ -17,6 +17,7 @@ const port = config.port + 1
 
 
 module.exports = {
+  mode: 'development',
   // devtool: "eval", // Transformed code
   devtool: 'source-map', // Original code
   entry: {
@@ -39,38 +40,33 @@ module.exports = {
     fs: 'empty'
   },
   module: {
-    loaders: [
+    rules: [
       {
-        exclude: /(node_modules|public)/,
-        loader: 'babel',
-        query: {
-          'plugins': [
-            ['react-transform', {
-              'transforms': [{
-                'transform': 'react-transform-hmr',
-                'imports': ['react'],
-                'locals': ['module'],
-              }],
-            }],
-          ],
-        },
         test: /\.jsx?$/,
-      },
-      {
-        loader: 'json-loader',
-        test: /\.json$/,
+        exclude: /(node_modules|public)/,
+        use: [{
+          loader: 'babel-loader',
+          options: {
+            plugins: [
+              ['react-transform', {
+                'transforms': [{
+                  'transform': 'react-transform-hmr',
+                  'imports': ['react'],
+                  'locals': ['module'],
+                }]
+              }]
+            ]
+          }
+        }]
       }
-    ],
+    ]
   },
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['.js', '.jsx'],
   },
-  progress: true,
   plugins: [
     // hot reload
     new webpack.HotModuleReplacementPlugin(),
-
-    new webpack.NoErrorsPlugin(),
 
     // print a webpack progress
     new webpack.ProgressPlugin((percentage) => {
@@ -106,6 +102,8 @@ module.exports = {
       {from: 'node_modules/swagger-ui/dist/swagger-ui.css', to: '.'},
     ]),
 
-    function() { this.plugin('done', writeAssets(path.resolve(__dirname, 'webpack-assets.json'))) },
+    function() {
+      this.plugin('done', writeAssets(path.resolve(__dirname, 'webpack-assets.json')).bind(this))
+    },
   ],
 }
