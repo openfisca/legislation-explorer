@@ -6,8 +6,12 @@ import MatomoReactRouter from 'piwik-react-router'
 import React from 'react'
 import { render } from 'react-dom'
 import { addLocaleData, IntlProvider } from 'react-intl'
+import en from 'react-intl/locale-data/de'
+import fr from 'react-intl/locale-data/fr'
 import { Router, useRouterHistory } from 'react-router'
 require('babel-polyfill')
+
+const localeData = { en, fr }
 
 
 // Adapted from: https://github.com/ReactTraining/react-router/issues/394#issuecomment-230116115
@@ -34,7 +38,7 @@ export function renderApp() {
   if (config.matomo)
     history = MatomoReactRouter(config.matomo).connectToHistory(history)
 
-  addLocaleData(require(`react-intl/locale-data/${initialState.locale}`))
+  addLocaleData(localeData[initialState.locale])
 
   render(
     <IntlProvider locale={initialState.locale} key={initialState.locale} messages={initialState.messages[initialState.locale]}>
