@@ -4,10 +4,14 @@ import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 
 import { searchInputId } from './home'
 
-class SearchBarComponent extends React.Component {
+class SearchBar extends React.Component {
   static contextTypes = {
     router: routerShape.isRequired,
-  };
+  }
+
+  static propTypes = {
+    intl: intlShape.isRequired
+  }
 
   state = {inputValue: this.props.initialValue};
 
@@ -18,12 +22,8 @@ class SearchBarComponent extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    this.context.router.push({
-      pathname: '/',
-      query: {q: this.state.inputValue},
-      hash: '#search-input',
-    })
-  };
+    this.props.onSubmit(this.state.inputValue)
+  }
 
   componentDidUpdate(prevProps) {
     if (this.props.initialValue != prevProps.initialValue) {
@@ -56,9 +56,6 @@ class SearchBarComponent extends React.Component {
   }
 }
 
-SearchBarComponent.propTypes = {
-  intl: intlShape.isRequired
-}
 
 
-export default injectIntl(SearchBarComponent)
+export default injectIntl(SearchBar)

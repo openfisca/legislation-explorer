@@ -8,7 +8,7 @@ import DocumentTitle from 'react-document-title'
 import { parameterShape, variableShape } from '../../openfisca-proptypes'
 import List from '../list'
 import config from '../../config'
-import SearchBarComponent from './searchbar'
+import SearchBar from './searchbar'
 export const searchInputId = 'search-input'
 
 class HomePage extends React.Component {
@@ -54,7 +54,15 @@ class HomePage extends React.Component {
       this.setState({inputValue: searchQuery})
       this.setState({is404: location.query.is404})
     }
-  };
+  }
+
+  handleSearchSubmit = (value) => {
+    this.context.router.push({
+      pathname: '/',
+      query: {q: value},
+      hash: '#search-input',
+    })
+  }
 
   render() {
     const inputValue = this.state.inputValue
@@ -85,7 +93,7 @@ class HomePage extends React.Component {
               </p>
             </div>
           }
-          <SearchBarComponent initialValue={inputValue}/>
+          <SearchBar initialValue={inputValue} onSubmit={this.handleSearchSubmit}/>
           <section>
             {
               isEmpty(searchResults)
