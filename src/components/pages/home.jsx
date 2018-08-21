@@ -110,7 +110,7 @@ class SearchResults extends React.Component {
         {item => {
           const {description, itemType, name} = item
           return (
-            <Link key={`${name}-${itemType}`} to={`/${name}`}>
+            <Link key={`${name}-${itemType}`} to={`/${name}?q=${this.props.searchQuery}`}>
               <article style={{margin: '3em 0'}}>
                 <h4>{name}</h4>
                 {description && <p>{description}</p>}
