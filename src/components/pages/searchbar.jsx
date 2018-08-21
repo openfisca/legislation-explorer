@@ -25,6 +25,12 @@ class SearchBar extends React.Component {
     this.props.onSubmit(this.state.inputValue)
   }
 
+  reset = (event) => {
+    event.preventDefault()
+    this.setState({inputValue: ''})
+    this.props.onSubmit('')
+  }
+
   componentDidUpdate(prevProps) {
     if (this.props.initialValue != prevProps.initialValue) {
       this.setState({inputValue: this.props.initialValue})
@@ -32,7 +38,6 @@ class SearchBar extends React.Component {
   }
 
   render() {
-    const inputValue = this.state.inputValue
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
@@ -43,11 +48,12 @@ class SearchBar extends React.Component {
               placeholder={this.props.intl.formatMessage({ id: 'search_placeholder' }) + '…'}
               type="text"
               onChange={this.handleInputChange}
-              value={inputValue}
+              value={this.state.inputValue}
               ref={element => this.searchInput = element}
             />
             <div className="input-group-btn">
               <button className="btn btn-primary" type="submit" ><FormattedMessage id="find"/></button>
+              <button className="btn btn-default" onClick={this.reset}>&#10006;</button>
             </div>
           </div>
         </form>
