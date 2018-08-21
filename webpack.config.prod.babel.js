@@ -63,6 +63,12 @@ module.exports = {
       {from: 'node_modules/swagger-ui/dist/swagger-ui.css', to: '.'},
     ]),
 
+    // Only load syntax highlighting for Python
+    new webpack.ContextReplacementPlugin(
+      /highlight\.js\/lib\/languages$/,
+      new RegExp('^./(python)$')
+    ),
+
     function() { this.plugin('done', writeAssets(path.resolve(__dirname, 'webpack-assets.json')).bind(this)) },
   ],
 }
