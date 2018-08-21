@@ -69,6 +69,12 @@ module.exports = {
       new RegExp('^./(python)$')
     ),
 
+    // Only load locale for Fr and En
+    new webpack.ContextReplacementPlugin(
+      /react-intl\/locale-data$/,
+      new RegExp('^./(fr|en)$')
+    ),
+
     function() { this.plugin('done', writeAssets(path.resolve(__dirname, 'webpack-assets.json')).bind(this)) },
   ],
 }
