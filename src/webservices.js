@@ -5,6 +5,7 @@ import config from './config'
 
 async function fetchJson(url, options) {
   const response = await fetch(url, options)
+    .catch(() => { throw new Error(`Could not fetch '${url}'.`)})
   if (response.status < 200 || response.status >= 300) {
     throw new Error(`'${url}' returned the unexpected return code: '${response.status}'.`)
   }
