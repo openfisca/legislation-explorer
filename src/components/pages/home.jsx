@@ -71,28 +71,7 @@ class HomePage extends React.Component {
     return (
       <DocumentTitle title={(is404 ? this.props.intl.formatMessage({ id: 'elementNotFound' }) + ' — ' : '') + this.props.intl.formatMessage({ id: 'appName' })}>
         <div>
-          {is404 &&
-            <div className="alert alert-info" id="not-found">
-              <h4>
-                <FormattedMessage
-                  id="pageDoesNotExist"
-                  values={{inputValueRef: inputValue}}
-                />
-              </h4>
-              <p>
-                <FormattedMessage
-                  id="notParamNotVariable"
-                  values={{inputValueRef: inputValue}}
-                />
-              </p>
-              <p>
-                <FormattedMessage
-                  id="checkChangelog"
-                  values={{changelogURLLink: <a href={config.changelogURL} rel="noopener" target="_blank">changelog</a>}}
-                />
-              </p>
-            </div>
-          }
+          {is404 && <NotFoundBlock inputValue={inputValue}/>}
           <SearchBar initialValue={inputValue} onSubmit={this.handleSearchSubmit}/>
           <section>
             {
@@ -145,5 +124,27 @@ class SearchResults extends React.Component {
   }
 }
 
+const NotFoundBlock = ({inputValue}) => (
+  <div className="alert alert-info" id="not-found">
+    <h4>
+      <FormattedMessage
+        id="pageDoesNotExist"
+        values={{inputValueRef: inputValue}}
+      />
+    </h4>
+    <p>
+      <FormattedMessage
+        id="notParamNotVariable"
+        values={{inputValueRef: inputValue}}
+      />
+    </p>
+    <p>
+      <FormattedMessage
+        id="checkChangelog"
+        values={{changelogURLLink: <a href={config.changelogURL} rel="noopener" target="_blank">changelog</a>}}
+      />
+    </p>
+  </div>
+)
 
 export default injectIntl(HomePage)
