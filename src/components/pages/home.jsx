@@ -47,8 +47,7 @@ class HomePage extends React.Component {
       if (location.query.q) {
         searchQuery = location.query.q
       }
-
-      if (searchQuery) {
+      if (searchQuery != this.context.searchQuery) {
         this.context.setSearchQuery(searchQuery)
       }
       this.setState({inputValue: searchQuery})
