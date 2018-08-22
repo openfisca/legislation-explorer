@@ -21,6 +21,7 @@ module.exports = {
   devtool: 'source-map', // Original code
   entry: {
     'main': [
+      'babel-polyfill',
       `webpack-dev-server/client?http://${config.host}:${port}`,
       'webpack/hot/only-dev-server',
       './src/client.jsx',

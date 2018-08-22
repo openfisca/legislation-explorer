@@ -59,5 +59,6 @@
   "keyword": "Identifiant",
   "definition":"Définition",
   "rawJSONData": "Donnée brute au format JSON",
-  "loading": "Chargement…"
+  "loading": "Chargement…",
+  "api-error": "Impossible de communiquer avec l'API Web OpenFisca."
 }

@@ -68,6 +68,15 @@ td.list-entry {
 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
 
+
+.alert .glyphicon-alert {
+  margin-right: 0.5em;
+}
+
+.alert h1 {
+  margin-top: 0;
+}
+
 footer {
   margin-top: 10em;
 }
