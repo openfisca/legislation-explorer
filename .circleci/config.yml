@@ -9,6 +9,7 @@ jobs:
       WATAI_TESTS: tests/integration
       SAUCE_USERNAME: openfisca
       # SAUCE_ACCESS_KEY is defined in the CircleCI web UI
+      # DEPLOY_SSH is defined in the CircleCI web UI
       PORT: 2030 # Legislation Explorer ExpressJS server port
 
     steps:
@@ -74,7 +75,7 @@ jobs:
     steps:
       - run:
           name: Deploy app
-          command: ssh -o StrictHostKeyChecking=no deploy-legislation-explorer@fr.openfisca.org
+          command: if [ -n "$DEPLOY_SSH" ]; then ssh -o StrictHostKeyChecking=no $DEPLOY_SSH; fi
 workflows:
   version: 2
   build:
