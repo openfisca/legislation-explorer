@@ -4,10 +4,14 @@ import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 
 import { searchInputId } from './home'
 
-class SearchBarComponent extends React.Component {
+class SearchBar extends React.Component {
   static contextTypes = {
     router: routerShape.isRequired,
-  };
+  }
+
+  static propTypes = {
+    intl: intlShape.isRequired
+  }
 
   state = {inputValue: this.props.initialValue};
 
@@ -18,12 +22,14 @@ class SearchBarComponent extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    this.context.router.push({
-      pathname: '/',
-      query: {q: this.state.inputValue},
-      hash: '#search-input',
-    })
-  };
+    this.props.onSubmit(this.state.inputValue)
+  }
+
+  reset = (event) => {
+    event.preventDefault()
+    this.setState({inputValue: ''})
+    this.props.onSubmit('')
+  }
 
   componentDidUpdate(prevProps) {
     if (this.props.initialValue != prevProps.initialValue) {
@@ -32,7 +38,6 @@ class SearchBarComponent extends React.Component {
   }
 
   render() {
-    const inputValue = this.state.inputValue
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
@@ -43,11 +48,12 @@ class SearchBarComponent extends React.Component {
               placeholder={this.props.intl.formatMessage({ id: 'search_placeholder' }) + '…'}
               type="text"
               onChange={this.handleInputChange}
-              value={inputValue}
+              value={this.state.inputValue}
               ref={element => this.searchInput = element}
             />
             <div className="input-group-btn">
               <button className="btn btn-primary" type="submit" ><FormattedMessage id="find"/></button>
+              <button className="btn btn-default" onClick={this.reset}>&#10006;</button>
             </div>
           </div>
         </form>
@@ -56,9 +62,6 @@ class SearchBarComponent extends React.Component {
   }
 }
 
-SearchBarComponent.propTypes = {
-  intl: intlShape.isRequired
-}
 
 
-export default injectIntl(SearchBarComponent)
+export default injectIntl(SearchBar)

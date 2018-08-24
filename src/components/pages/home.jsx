@@ -8,7 +8,7 @@ import DocumentTitle from 'react-document-title'
 import { parameterShape, variableShape } from '../../openfisca-proptypes'
 import List from '../list'
 import config from '../../config'
-import SearchBarComponent from './searchbar'
+import SearchBar from './searchbar'
 export const searchInputId = 'search-input'
 
 class HomePage extends React.Component {
@@ -47,14 +47,21 @@ class HomePage extends React.Component {
       if (location.query.q) {
         searchQuery = location.query.q
       }
-
-      if (searchQuery) {
+      if (searchQuery != this.context.searchQuery) {
         this.context.setSearchQuery(searchQuery)
       }
       this.setState({inputValue: searchQuery})
       this.setState({is404: location.query.is404})
     }
-  };
+  }
+
+  handleSearchSubmit = (value) => {
+    this.context.router.push({
+      pathname: '/',
+      query: {q: value},
+      hash: '#search-input',
+    })
+  }
 
   render() {
     const inputValue = this.state.inputValue
@@ -63,29 +70,8 @@ class HomePage extends React.Component {
     return (
       <DocumentTitle title={(is404 ? this.props.intl.formatMessage({ id: 'elementNotFound' }) + ' — ' : '') + this.props.intl.formatMessage({ id: 'appName' })}>
         <div>
-          {is404 &&
-            <div className="alert alert-info" id="not-found">
-              <h4>
-                <FormattedMessage
-                  id="pageDoesNotExist"
-                  values={{inputValueRef: inputValue}}
-                />
-              </h4>
-              <p>
-                <FormattedMessage
-                  id="notParamNotVariable"
-                  values={{inputValueRef: inputValue}}
-                />
-              </p>
-              <p>
-                <FormattedMessage
-                  id="checkChangelog"
-                  values={{changelogURLLink: <a href={config.changelogURL} rel="noopener" target="_blank">changelog</a>}}
-                />
-              </p>
-            </div>
-          }
-          <SearchBarComponent initialValue={inputValue}/>
+          {is404 && <NotFoundBlock inputValue={inputValue}/>}
+          <SearchBar initialValue={inputValue} onSubmit={this.handleSearchSubmit}/>
           <section>
             {
               isEmpty(searchResults)
@@ -124,7 +110,7 @@ class SearchResults extends React.Component {
         {item => {
           const {description, itemType, name} = item
           return (
-            <Link key={`${name}-${itemType}`} to={`/${name}`}>
+            <Link key={`${name}-${itemType}`} to={`/${name}?q=${this.props.searchQuery}`}>
               <article style={{margin: '3em 0'}}>
                 <h4>{name}</h4>
                 {description && <p>{description}</p>}
@@ -137,5 +123,27 @@ class SearchResults extends React.Component {
   }
 }
 
+const NotFoundBlock = ({inputValue}) => (
+  <div className="alert alert-info" id="not-found">
+    <h4>
+      <FormattedMessage
+        id="pageDoesNotExist"
+        values={{inputValueRef: inputValue}}
+      />
+    </h4>
+    <p>
+      <FormattedMessage
+        id="notParamNotVariable"
+        values={{inputValueRef: inputValue}}
+      />
+    </p>
+    <p>
+      <FormattedMessage
+        id="checkChangelog"
+        values={{changelogURLLink: <a href={config.changelogURL} rel="noopener" target="_blank">changelog</a>}}
+      />
+    </p>
+  </div>
+)
 
 export default injectIntl(HomePage)
