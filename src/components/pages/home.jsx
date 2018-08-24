@@ -11,35 +11,37 @@ import config from '../../config'
 import SearchBarComponent from './searchbar'
 export const searchInputId = 'search-input'
 
-const HomePage = React.createClass({
-  contextTypes: {
+class HomePage extends React.Component {
+  static contextTypes = {
     router: routerShape.isRequired,
     searchQuery: PropTypes.string.isRequired,
     searchResults: PropTypes.array.isRequired,
     setSearchQuery: PropTypes.func.isRequired,
-  },
-  propTypes: {
+  };
+
+  static propTypes = {
     countryPackageName: PropTypes.string.isRequired,
     countryPackageVersion: PropTypes.string.isRequired,
     intl: intlShape,
     location: locationShape.isRequired,
     parameters: PropTypes.objectOf(parameterShape).isRequired,
     variables: PropTypes.objectOf(variableShape).isRequired,
-  },
+  };
+
+  state = {inputValue: ''};
+
   componentDidMount() {
     this._isMounted = true
     const {router} = this.context
     this.unregisterRouterListen = router.listen(this.locationHasChanged)
-  },
+  }
+
   componentWillUnmount() {
     this._isMounted = false
     this.unregisterRouterListen()
-  },
-  getInitialState() {
-    return {inputValue: ''}
-  },
+  }
 
-  locationHasChanged(location) {
+  locationHasChanged = (location) => {
     if (this._isMounted) {
       let searchQuery = ''
       if (location.query.q) {
@@ -52,7 +54,7 @@ const HomePage = React.createClass({
       this.setState({inputValue: searchQuery})
       this.setState({is404: location.query.is404})
     }
-  },
+  };
 
   render() {
     const inputValue = this.state.inputValue
@@ -88,31 +90,33 @@ const HomePage = React.createClass({
             {
               isEmpty(searchResults)
                 ? <h4>
-                    <FormattedMessage id="noResultsFor"
-                      values={{
-                        input: <code>{inputValue}</code>
-                      }}
-                    />
-                  </h4>
+                  <FormattedMessage id="noResultsFor"
+                    values={{
+                      input: <code>{inputValue}</code>
+                    }}
+                  />
+                </h4>
                 : <SearchResults items={searchResults} searchQuery={searchQuery} />
             }
           </section>
         </div>
       </DocumentTitle>
     )
-  },
-})
+  }
+}
 
-const SearchResults = React.createClass({
-  propTypes: {
+class SearchResults extends React.Component {
+  static propTypes = {
     items: PropTypes.array.isRequired,
     searchQuery: PropTypes.string,
-  },
+  };
+
   shouldComponentUpdate(nextProps) {
     // Optimization: re-render this component only if `searchQuery` changed.
     // If `searchQuery` is the same than on previous rendering, it implies that `items` is the same too.
     return nextProps.searchQuery !== this.props.searchQuery
-  },
+  }
+
   render() {
     const {items} = this.props
     return (
@@ -131,7 +135,7 @@ const SearchResults = React.createClass({
       </List>
     )
   }
-})
+}
 
 
 export default injectIntl(HomePage)

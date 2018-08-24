@@ -9,15 +9,15 @@ import { parameterShape, variableShape } from '../openfisca-proptypes'
 import Formula from './formula'
 import getDayBefore from '../periods'
 
-const Variable = React.createClass({
-  propTypes: {
+class Variable extends React.Component {
+  static propTypes = {
     countryPackageName: PropTypes.string.isRequired,
     countryPackageVersion: PropTypes.string.isRequired,
     intl: intlShape.isRequired,
     parameters: PropTypes.objectOf(parameterShape).isRequired,
     variable: variableShape.isRequired,
     variables: PropTypes.objectOf(variableShape).isRequired,
-  },
+  };
 
   render() {
     const { variable } = this.props
@@ -42,9 +42,9 @@ const Variable = React.createClass({
         </section>
       </DocumentTitle>
     )
-  },
+  }
 
-  renderVariableMetadata(variable) {
+  renderVariableMetadata = (variable) => {
     const entityMessage = {
       famille: 'famille',
       foyer_fiscal: 'foyer fiscal',
@@ -144,18 +144,18 @@ const Variable = React.createClass({
               </thead>
               <tbody>
                 {
-                Object.keys(variable.possibleValues).map((keyword) => {
-                  return (
-                    <tr>
-                      <td className="list-entry">
-                        <samp>{keyword}</samp>
-                      </td>
-                      <td>
-                        <samp>{variable.possibleValues[keyword]}</samp>
-                      </td>
-                    </tr>
-                  )
-                })
+                  Object.keys(variable.possibleValues).map((keyword) => {
+                    return (
+                      <tr key={keyword}>
+                        <td className="list-entry">
+                          <samp>{keyword}</samp>
+                        </td>
+                        <td>
+                          <samp>{variable.possibleValues[keyword]}</samp>
+                        </td>
+                      </tr>
+                    )
+                  })
                 }
               </tbody>
             </table>
@@ -172,7 +172,7 @@ const Variable = React.createClass({
                   <a href={ reference } target="_blank" > { reference } </a>
                 </li>
               )}
-         </ul>)
+          </ul>)
         }
         {keys(variable.formulas).length == 0 &&
           <p>
@@ -186,11 +186,11 @@ const Variable = React.createClass({
             />
           </p>
         }
-    </div>
+      </div>
     )
-  },
+  };
 
-  renderFormulas(formulas) {
+  renderFormulas = (formulas) => {
     const startDates = keys(formulas).sort().reverse()
     const severalFormulas = (startDates.length > 2) || (startDates.length == 2) && formulas[startDates[0]]
     return (
@@ -211,13 +211,13 @@ const Variable = React.createClass({
                 source={formulas[date].source}
                 variables={this.props.variables}
                 parameters={this.props.parameters}
-                />
+              />
             )
           })
         }
       </div>
     )
-  },
-})
+  };
+}
 
 export default injectIntl(Variable)

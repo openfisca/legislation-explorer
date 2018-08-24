@@ -8,13 +8,14 @@ import { parameterShape } from '../openfisca-proptypes'
 import Scale from './scale'
 import getDayBefore from '../periods'
 
-const Parameter = React.createClass({
-  propTypes: {
+class Parameter extends React.Component {
+  static propTypes = {
     countryPackageName: PropTypes.string.isRequired,
     countryPackageVersion: PropTypes.string.isRequired,
     intl: intlShape.isRequired,
     parameter: parameterShape.isRequired,
-  },
+  };
+
   render() {
     const {parameter} = this.props
     const isScale = (! parameter.values)
@@ -45,8 +46,9 @@ const Parameter = React.createClass({
         </section>
       </DocumentTitle>
     )
-  },
-  renderStartStopValue(parameter, startDate, stopDate, value, index) {
+  }
+
+  renderStartStopValue = (parameter, startDate, stopDate, value, index) => {
     return (
       <tr key={index}>
         <td>
@@ -65,8 +67,9 @@ const Parameter = React.createClass({
         </td>
       </tr>
     )
-  },
-  renderStartStopValueTable(parameter, values) {
+  };
+
+  renderStartStopValueTable = (parameter, values) => {
     return (
       <table className="table table-bordered table-hover table-striped">
         <tbody>
@@ -80,8 +83,8 @@ const Parameter = React.createClass({
         </tbody>
       </table>
     )
-  }
-})
+  };
+}
 
 
 export default injectIntl(Parameter)

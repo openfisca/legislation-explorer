@@ -10,59 +10,65 @@ import { searchInputId } from './home'
 import { fetchParameter, fetchVariable } from '../../webservices'
 
 
-const ParameterOrVariablePage = React.createClass({
-  contextTypes: {
+class ParameterOrVariablePage extends React.Component {
+  static contextTypes = {
     router: routerShape.isRequired,
     searchQuery: PropTypes.string.isRequired,
     searchResults: PropTypes.array.isRequired,
-  },
-  propTypes: {
+  };
+
+  static propTypes = {
     countryPackageName: PropTypes.string.isRequired,
     countryPackageVersion: PropTypes.string.isRequired,
     location: locationShape.isRequired,
     params: PropTypes.shape({ name: PropTypes.string.isRequired }).isRequired, // URL params
     parameters: PropTypes.objectOf(parameterShape).isRequired,
     variables: PropTypes.objectOf(variableShape).isRequired,
-  },
-  getInitialState() {
-    return {variable: null, parameter: null, waitingForResponse: true}
-  },
-  fetchPageContent(name) {
+  };
+
+  state = {variable: null, parameter: null, waitingForResponse: true};
+
+  fetchPageContent = (name) => {
     if (this.props.variables[name]) {
       fetchVariable(name)
-      .then(variable => {
-        this.setState({variable: variable.data, waitingForResponse: false})
-      })
-      .catch(error => {
-        this.setState({error: error, waitingForResponse: false})
-      })
+        .then(variable => {
+          this.setState({variable: variable.data, waitingForResponse: false})
+        })
+        .catch(error => {
+          this.setState({error: error, waitingForResponse: false})
+        })
     } else if (this.props.parameters[name]) {
       fetchParameter(name)
-      .then(parameter => {
-        this.setState({parameter: parameter.data, waitingForResponse: false})
-      })
-      .catch(error => {
-        this.setState({error: error, waitingForResponse: false})
-      })
+        .then(parameter => {
+          this.setState({parameter: parameter.data, waitingForResponse: false})
+        })
+        .catch(error => {
+          this.setState({error: error, waitingForResponse: false})
+        })
     } else {
       this.setState({waitingForResponse: false})
       this.handleNotFound()
     }
-  },
-  componentWillReceiveProps(nextProps) {
-    this.fetchPageContent(nextProps.params.name)
-  },
+  };
+
+  componentDidUpdate(prevProps) {
+    if (this.props.params.name != prevProps.params.name) {
+      this.fetchPageContent(this.props.params.name)
+    }
+  }
+
   componentDidMount() {
     this.fetchPageContent(this.props.params.name)
-  },
-  handleNotFound() {
+  }
+
+  handleNotFound = () => {
     const name = this.props.params.name
     return this.context.router.push({
       pathname: '/',
       query: {q: name, is404: true},
       hash: '#not-found',
     })
-  },
+  };
 
   render() {
     const { searchQuery, searchResults } = this.context
@@ -125,8 +131,8 @@ const ParameterOrVariablePage = React.createClass({
         }
       </div>
     )
-  },
-})
+  }
+}
 
 
 export default ParameterOrVariablePage

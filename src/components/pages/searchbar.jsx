@@ -4,32 +4,32 @@ import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 
 import { searchInputId } from './home'
 
-const SearchBarComponent = React.createClass({
-  contextTypes: {
+class SearchBarComponent extends React.Component {
+  static contextTypes = {
     router: routerShape.isRequired,
-  },
+  };
 
-  getInitialState() {
-    return {inputValue: this.props.initialValue}
-  },
+  state = {inputValue: this.props.initialValue};
 
-  handleInputChange(event) {
+  handleInputChange = (event) => {
     this.setState({inputValue: event.target.value})
     this.searchInput.scrollIntoView()
-  },
+  };
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     event.preventDefault()
     this.context.router.push({
       pathname: '/',
       query: {q: this.state.inputValue},
       hash: '#search-input',
     })
-  },
+  };
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({inputValue: nextProps.initialValue})
-  },
+  componentDidUpdate(prevProps) {
+    if (this.props.initialValue != prevProps.initialValue) {
+      this.setState({inputValue: this.props.initialValue})
+    }
+  }
 
   render() {
     const inputValue = this.state.inputValue
@@ -53,8 +53,8 @@ const SearchBarComponent = React.createClass({
         </form>
       </div>
     )
-  },
-})
+  }
+}
 
 SearchBarComponent.propTypes = {
   intl: intlShape.isRequired

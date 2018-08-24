@@ -7,20 +7,33 @@ import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 import { parameterShape, variableShape } from '../openfisca-proptypes'
 import {findParametersAndVariables} from '../search'
 
-const App = React.createClass({
-  childContextTypes: {
+class App extends React.Component {
+  static childContextTypes = {
     searchQuery: PropTypes.string,
     searchResults: PropTypes.array,
     setSearchQuery: PropTypes.func,
-  },
-  propTypes: {
+  }
+
+  static propTypes = {
     children: PropTypes.node.isRequired,
     countryPackageName: PropTypes.string.isRequired,
     countryPackageVersion: PropTypes.string.isRequired,
     location: locationShape.isRequired,
     parameters: PropTypes.objectOf(parameterShape).isRequired,
     variables: PropTypes.objectOf(variableShape).isRequired,
-  },
+  }
+
+  constructor(props) {
+    super(props)
+    const {location, parameters, variables} = props
+    const searchQuery = location.query.q || ''
+
+    this.state = {
+      searchQuery,
+      searchResults: findParametersAndVariables(parameters, variables, searchQuery),
+    }
+  }
+
   getChildContext() {
     const {parameters, variables} = this.props
     return {
@@ -33,18 +46,12 @@ const App = React.createClass({
         })
       },
     }
-  },
-  getInitialState() {
-    const {location, parameters, variables} = this.props
-    const searchQuery = location.query.q || ''
-    return {
-      searchQuery,
-      searchResults: findParametersAndVariables(parameters, variables, searchQuery),
-    }
-  },
-  isCurrentRoute(route) {
+  }
+
+  isCurrentRoute = (route) => {
     return this.props.location.pathname == route
-  },
+  };
+
   render() {
     const {countryPackageName, countryPackageVersion, parameters, variables} = this.props
     return (
@@ -113,8 +120,8 @@ const App = React.createClass({
         </div>
       </DocumentTitle>
     )
-  },
-})
+  }
+}
 
 
 App.propTypes = {
