@@ -1,32 +1,27 @@
 import config from '../config'
 
 import acceptLanguage from 'accept-language'
+import {fromPairs} from 'ramda'
 
 import path from 'path'
-import {readdir} from 'fs'
+import {readdirSync} from 'fs'
 
 
 const DEFAULT_LANGUAGE = 'en'
 
 
 export function loadTranslations(langDir) {
-  var messages = {}
-  readdir(langDir, (err, files) => {
-    if (err) {
-      throw new Error("Unable to load translation files from '" + langDir + "' directory. See following error for more information: " + err)
-    }
-
-    files.forEach(file => {
-      messages[path.basename(file, '.json')] = require(path.resolve(langDir, file))
+  return fromPairs(
+    readdirSync(langDir).map(file => {
+      const lang = path.basename(file, '.json')
+      const messages = Object.assign(
+        {},
+        require(path.resolve(langDir, file)),
+        config.ui[lang]  // load all config-provided locale strings
+      )
+      return [lang, messages]
     })
-
-    // load all config-provided locale strings
-    Object.keys(messages).forEach(lang => {
-      Object.assign(messages[lang], config.ui[lang])
-    })
-  })
-
-  return messages
+  )
 }
 
 
