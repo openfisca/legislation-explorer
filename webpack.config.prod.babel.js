@@ -5,9 +5,11 @@ import webpack from 'webpack'
 
 import config from './src/config'
 import writeAssets from './src/server/write-assets'
+import { loadTranslations } from './src/server/lang'
 
 
 const assetsPath = path.join(__dirname, 'public')
+const supportedLanguages = Object.keys(loadTranslations(path.join(__dirname, './src/assets/lang/')))
 
 module.exports = {
   // devtool: "eval", // Transformed code
@@ -72,7 +74,7 @@ module.exports = {
     // Only load locale for Fr and En
     new webpack.ContextReplacementPlugin(
       /react-intl\/locale-data$/,
-      new RegExp('^./(fr|en)$')
+      new RegExp(`^./(${supportedLanguages.join('|')})$`)
     ),
 
     function() { this.plugin('done', writeAssets(path.resolve(__dirname, 'webpack-assets.json')).bind(this)) },
