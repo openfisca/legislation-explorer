@@ -174,6 +174,12 @@ class Variable extends React.Component {
               )}
           </ul>)
         }
+        { variable.documentation &&
+          (<span><FormattedMessage id="documentationText"/></span>)
+        }
+        { variable.documentation &&
+          (<p>{variable.documentation}</p>)
+        }
         {keys(variable.formulas).length == 0 &&
           <p>
             <FormattedMessage id="noFormulaParagraph"

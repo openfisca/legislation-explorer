@@ -33,6 +33,7 @@
   "defaultValueParagraph": "Its {defaultValueLink} is",
   "defaultValueText": "default value",
   "referencesText": "References:",
+  "documentationText": "Documentation:",
   "aYear": "of a year",
   "aMonth": "of a month",
   "forEternity": "which is the eternity. Its value is constant over time",
