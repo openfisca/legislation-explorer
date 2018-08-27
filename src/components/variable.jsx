@@ -178,7 +178,7 @@ class Variable extends React.Component {
           (<span><FormattedMessage id="documentationText"/></span>)
         }
         { variable.documentation &&
-          (<p>{variable.documentation}</p>)
+          (<p className="documentation">{ variable.documentation.trim() }</p>) 
         }
         {keys(variable.formulas).length == 0 &&
           <p>
