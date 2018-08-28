@@ -26,22 +26,19 @@ module.exports = {
     fs: 'empty'
   },
   module: {
-    loaders: [
+    rules: [
       {
+        test: /\.jsx?$/,
         exclude: /(node_modules|public)/,
-        loader: 'babel',
-        test: /\.(js|jsx)$/,
-      },
-      {
-        loader: 'json-loader',
-        test: /\.json$/,
+        use: [{
+          loader: 'babel-loader'
+        }]
       }
-    ],
+    ]
   },
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['.js', '.jsx'],
   },
-  progress: true,
   plugins: [
 
     // set global vars
@@ -66,15 +63,6 @@ module.exports = {
       {from: 'node_modules/swagger-ui/dist/swagger-ui.css', to: '.'},
     ]),
 
-    // optimizations
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false,
-      },
-    }),
-
-    function() { this.plugin('done', writeAssets(path.resolve(__dirname, 'webpack-assets.json'))) },
+    function() { this.plugin('done', writeAssets(path.resolve(__dirname, 'webpack-assets.json')).bind(this)) },
   ],
 }
