@@ -4,7 +4,7 @@ import { parameterShape, variableShape } from '../openfisca-proptypes'
 import { Link } from 'react-router'
 import { FormattedMessage, FormattedDate } from 'react-intl'
 import { flatten, pipe, map, is } from 'ramda'
-import Highlight from 'react-highlight'
+import Highlight from 'react-highlight/lib/optimized'
 
 class Formula extends React.Component {
 
@@ -32,7 +32,7 @@ class Formula extends React.Component {
             />
           </h3>
         }
-        <Highlight className="python">{this.renderLinkedFormula(content)}</Highlight>
+        <Highlight languages={['python']} className="python">{this.renderLinkedFormula(content)}</Highlight>
         <p>
           <a href={source} rel="noopener" target="_blank"><FormattedMessage id="editThisFormula"/></a>
         </p>
