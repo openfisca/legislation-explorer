@@ -71,7 +71,7 @@ module.exports = {
       new RegExp('^./(python)$')
     ),
 
-    // Only load locale for Fr and En
+    // Only load locale for supported languages
     new webpack.ContextReplacementPlugin(
       /react-intl\/locale-data$/,
       new RegExp(`^./(${supportedLanguages.join('|')})$`)
