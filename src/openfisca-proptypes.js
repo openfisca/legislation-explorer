@@ -7,12 +7,20 @@ const valuesShape = PropTypes.objectOf(PropTypes.oneOfType([
   PropTypes.string,
 ]))
 
+const roleShape = PropTypes.shape({
+  description: PropTypes.string,
+  plural: PropTypes.string,
+  max: PropTypes.number,
+  min: PropTypes.number,
+})
+
+
 export const entityShape = PropTypes.shape({
   id: PropTypes.string,
   description: PropTypes.string,
   normalizedDescription: PropTypes.string,
   documentation: PropTypes.string,
-  roles: PropTypes.string,
+  roles: PropTypes.objectOf(roleShape),
 })
 
 export const parameterShape = PropTypes.shape({
