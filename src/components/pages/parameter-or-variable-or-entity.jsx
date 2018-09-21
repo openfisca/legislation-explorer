@@ -3,14 +3,14 @@ import PropTypes from 'prop-types'
 import { Link, locationShape, routerShape } from 'react-router'
 import { FormattedMessage } from 'react-intl'
 
-import { parameterShape, variableShape } from '../../openfisca-proptypes'
+import { entityShape, parameterShape, variableShape } from '../../openfisca-proptypes'
 import Parameter from '../parameter'
 import Variable from '../variable'
 import { searchInputId } from './home'
-import { fetchParameter, fetchVariable } from '../../webservices'
+import { fetchEntities, fetchParameter, fetchVariable } from '../../webservices'
 
 
-class ParameterOrVariablePage extends React.Component {
+class ParameterOrVariableOrEntityPage extends React.Component {
   static contextTypes = {
     router: routerShape.isRequired,
     searchQuery: PropTypes.string.isRequired,
@@ -22,11 +22,12 @@ class ParameterOrVariablePage extends React.Component {
     countryPackageVersion: PropTypes.string.isRequired,
     location: locationShape.isRequired,
     params: PropTypes.shape({ name: PropTypes.string.isRequired }).isRequired, // URL params
+    entities: PropTypes.objectOf(entityShape).isRequired,
     parameters: PropTypes.objectOf(parameterShape).isRequired,
     variables: PropTypes.objectOf(variableShape).isRequired,
   };
 
-  state = {variable: null, parameter: null, waitingForResponse: true};
+  state = {variable: null, parameter: null, entities: null, waitingForResponse: true};
 
   fetchPageContent = (name) => {
     if (this.props.variables[name]) {
@@ -41,6 +42,14 @@ class ParameterOrVariablePage extends React.Component {
       fetchParameter(name)
         .then(parameter => {
           this.setState({parameter: parameter.data, waitingForResponse: false})
+        })
+        .catch(error => {
+          this.setState({error: error, waitingForResponse: false})
+        })
+    } else if (this.props.entities) {
+      fetchEntities()
+        .then(entities => {
+          this.setState({entities: entities.data, waitingForResponse: false})
         })
         .catch(error => {
           this.setState({error: error, waitingForResponse: false})
@@ -135,4 +144,4 @@ class ParameterOrVariablePage extends React.Component {
 }
 
 
-export default ParameterOrVariablePage
+export default ParameterOrVariableOrEntityPage
