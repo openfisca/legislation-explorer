@@ -5,15 +5,17 @@ import PropTypes from 'prop-types'
 import { keys } from 'ramda'
 
 import config from '../config'
-import { parameterShape, variableShape } from '../openfisca-proptypes'
+import { entityShape, parameterShape, variableShape } from '../openfisca-proptypes'
 import Formula from './formula'
 import getDayBefore from '../periods'
 
 class Variable extends React.Component {
+  //Variable properties include other objects for Formula code highlight.
   static propTypes = {
     countryPackageName: PropTypes.string.isRequired,
     countryPackageVersion: PropTypes.string.isRequired,
     intl: intlShape.isRequired,
+    entities: PropTypes.objectOf(entityShape).isRequired,
     parameters: PropTypes.objectOf(parameterShape).isRequired,
     variable: variableShape.isRequired,
     variables: PropTypes.objectOf(variableShape).isRequired,

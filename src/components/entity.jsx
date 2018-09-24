@@ -1,8 +1,9 @@
 import DocumentTitle from 'react-document-title'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import config from '../config'
 import { entityShape } from '../openfisca-proptypes'
 
 
@@ -11,30 +12,30 @@ class Entity extends React.Component {
     countryPackageName: PropTypes.string.isRequired,
     countryPackageVersion: PropTypes.string.isRequired,
     intl: intlShape.isRequired,
+    entityId: PropTypes.string.isRequired,
     entity: entityShape.isRequired,
   };
 
+  
   render() {
-    const { entity } = this.props
+    const { entityId, entity } = this.props
+    console.log(entityId)
+    console.log(entity)
 
     return (
-      <DocumentTitle title={entity.id + ' — ' + this.props.intl.formatMessage({ id: 'appName' })}>
+      <DocumentTitle title={entityId + ' — ' + this.props.intl.formatMessage({ id: 'appName' })}>
         <section>
-          <h1><code dangerouslySetInnerHTML={{__html: multilineId}}></code></h1>
-          { entitiy.description
-            ? <p className="description">{entitiy.description}</p>
+          <h1><code>{ entityId }</code></h1>
+          { entity.description
+            ? <p className="description">{entity.description}</p>
             : <em><FormattedMessage id="noDescription"/></em>
           }
-          { entitiy.roles
-            ? <p className="roles">{entitiy.roles}</p>
-            : <em><FormattedMessage id="noRoles"/></em>
-          }
-          { entitiy.description
-            ? <p className="description">{entitiy.description}</p>
-            : <em><FormattedMessage id="noDescription"/></em>
+          { entity.roles
+            ? <p className="roles">{entity.roles}</p>
+            : <em><FormattedMessage id="noRole"/></em>
           }
           <hr/>
-          <a rel="external" target="_blank" href={`${config.apiBaseUrl}/entities/${entitiy.id}`}>
+          <a rel="external" target="_blank" href={`${config.apiBaseUrl}/entities`}>
             <FormattedMessage id="rawJSONData"/>
           </a>
         </section>
@@ -42,3 +43,5 @@ class Entity extends React.Component {
     )
   }
 }
+
+export default injectIntl(Entity)

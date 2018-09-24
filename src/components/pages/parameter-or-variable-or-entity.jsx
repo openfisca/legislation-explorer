@@ -4,6 +4,7 @@ import { Link, locationShape, routerShape } from 'react-router'
 import { FormattedMessage } from 'react-intl'
 
 import { entityShape, parameterShape, variableShape } from '../../openfisca-proptypes'
+import Entity from '../entity'
 import Parameter from '../parameter'
 import Variable from '../variable'
 import { searchInputId } from './home'
@@ -27,7 +28,7 @@ class ParameterOrVariableOrEntityPage extends React.Component {
     variables: PropTypes.objectOf(variableShape).isRequired,
   };
 
-  state = {variable: null, parameter: null, entities: null, waitingForResponse: true};
+  state = {variable: null, parameter: null, entityId: null, entity: null, waitingForResponse: true};
 
   fetchPageContent = (name) => {
     if (this.props.variables[name]) {
@@ -46,10 +47,10 @@ class ParameterOrVariableOrEntityPage extends React.Component {
         .catch(error => {
           this.setState({error: error, waitingForResponse: false})
         })
-    } else if (this.props.entities) {
+    } else if (this.props.entities[name]) {
       fetchEntities()
         .then(entities => {
-          this.setState({entities: entities.data, waitingForResponse: false})
+          this.setState({entityId: name, entity: entities.data[name], waitingForResponse: false})
         })
         .catch(error => {
           this.setState({error: error, waitingForResponse: false})
@@ -81,8 +82,8 @@ class ParameterOrVariableOrEntityPage extends React.Component {
 
   render() {
     const { searchQuery, searchResults } = this.context
-    const {countryPackageName, countryPackageVersion, parameters, variables} = this.props
-    const {parameter, variable} = this.state
+    const { countryPackageName, countryPackageVersion, parameters, variables, entities } = this.props
+    const { parameter, variable, entityId, entity } = this.state
     const goBackLocation = {
       pathname: '/',
       query: {q: searchQuery},
@@ -135,6 +136,16 @@ class ParameterOrVariableOrEntityPage extends React.Component {
               parameters={parameters}
               variable={variable}
               variables={variables}
+            />
+          )
+        }
+        {
+          entityId && entity && (
+            <Entity
+              countryPackageName={countryPackageName}
+              countryPackageVersion={countryPackageVersion}
+              entityId={entityId}
+              entity={entity}
             />
           )
         }
