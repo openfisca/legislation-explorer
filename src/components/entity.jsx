@@ -19,19 +19,60 @@ class Entity extends React.Component {
   
   render() {
     const { entityId, entity } = this.props
-    console.log(entityId)
-    console.log(entity)
 
     return (
       <DocumentTitle title={entityId + ' — ' + this.props.intl.formatMessage({ id: 'appName' })}>
         <section>
           <h1><code>{ entityId }</code></h1>
+          {
+            entity.plural
+            ? <span className="message">
+                <FormattedMessage id="plural"/>&nbsp;{ entity.plural }
+              </span>
+            : <em><FormattedMessage id="noPlural"/></em>
+          }
           { entity.description
-            ? <p className="description">{entity.description}</p>
+            ? <p className="description">{ entity.description }</p>
             : <em><FormattedMessage id="noDescription"/></em>
           }
-          { entity.roles
-            ? <p className="roles">{entity.roles}</p>
+          {
+            entity.documentation &&
+            <div>
+              <FormattedMessage id="documentation"/>
+              <span className="message"> { entity.documentation }</span>
+            </div>
+          }
+          {
+            entity.roles  
+            ? (
+              <div>
+                <FormattedMessage id="entityRoles"/>
+                <ul>
+                {
+                  Object.keys(entity.roles).map((roleId, index) => ( 
+                  <li key={ roleId }>
+                    { roleId }
+                    { 
+                      entity.roles[roleId].plural
+                      ? <span className="message">{ entity.roles[roleId].plural }</span>
+                      : <em><FormattedMessage id="noPlural"/></em>
+                    }
+                    { 
+                      entity.roles[roleId].description
+                      ? <span className="message">{ entity.roles[roleId].description }</span>
+                      : <em><FormattedMessage id="noDescription"/></em>
+                    }
+                    { 
+                      entity.roles[roleId].max &&
+                      <div>
+                        <span className="message"><FormattedMessage id="roleMaxPersons"/>&nbsp;{ entity.roles[roleId].max }</span>
+                      </div>
+                    }
+                  </li> 
+                  ))
+                }
+                </ul>
+              </div>)
             : <em><FormattedMessage id="noRole"/></em>
           }
           <hr/>
