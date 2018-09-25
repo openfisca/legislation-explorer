@@ -84,6 +84,7 @@ class ParameterOrVariableOrEntityPage extends React.Component {
     const { searchQuery, searchResults } = this.context
     const { countryPackageName, countryPackageVersion, parameters, variables, entities } = this.props
     const { parameter, variable, entityId, entity } = this.state
+    
     const goBackLocation = {
       pathname: '/',
       query: {q: searchQuery},
