@@ -84,34 +84,38 @@ class Entity extends React.Component {
   renderEntityMetadata = (entity) => {
     return (
       <div>
-        <span className="message"><FormattedMessage
-          id="entityRolesParagraph"
-          values={{
-            entityLink:
-              <a href="https://openfisca.org/doc/person,_entities,_role.html" rel="noopener" target="_blank">
-                <FormattedMessage id="entityText"/>
-              </a>
-        }} /></span>
         {
           entity.roles  
-          ?
-            <table className="table table-bordered table-hover table-striped">
-              <thead>
-                <tr>
-                  <td><FormattedMessage id="entityRoles"/></td>
-                  <td><FormattedMessage id="rolePlural"/></td>
-                  <td><FormattedMessage id="roleDescription"/></td>
-                  <td><FormattedMessage id="roleMaxPersons"/></td>
-                </tr>
-              </thead>
-              <tbody>
-                { 
-                  Object.keys(entity.roles).map((roleId, index) => (
-                      this.renderEntityRole(roleId, entity.roles[roleId])
-                  ))
-                }
-              </tbody>
-            </table>
+          ? <div>
+              <span className="message">
+                <FormattedMessage
+                  id="entityRolesParagraph"
+                  values={{
+                    entityLink:
+                      <a href="https://openfisca.org/doc/person,_entities,_role.html" rel="noopener" target="_blank">
+                        <FormattedMessage id="entityText"/>
+                      </a>
+                  }}
+                />
+              </span>
+              <table className="table table-bordered table-hover table-striped">
+                <thead>
+                  <tr>
+                    <td><FormattedMessage id="entityRoles"/></td>
+                    <td><FormattedMessage id="rolePlural"/></td>
+                    <td><FormattedMessage id="roleDescription"/></td>
+                    <td><FormattedMessage id="roleMaxPersons"/></td>
+                  </tr>
+                </thead>
+                <tbody>
+                  { 
+                    Object.keys(entity.roles).map((roleId, index) => (
+                        this.renderEntityRole(roleId, entity.roles[roleId])
+                    ))
+                  }
+                </tbody>
+              </table>
+            </div>
           : <em><FormattedMessage id="noRole"/></em>
         }
       </div>
