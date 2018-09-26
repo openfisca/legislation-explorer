@@ -1,4 +1,4 @@
-import {addNormalizedDescription, findParametersAndVariables} from '../../src/search'
+import {addNormalizedDescription, findCountryModelItems} from '../../src/search'
 import {equals} from "ramda"
 import assert from "assert"
 import should from "should"
@@ -13,7 +13,7 @@ const parameters = addNormalizedDescription({
 });
 
 describe('Searching a single word', function() {
-    const results = findParametersAndVariables(parameters, {}, 'salaire')
+    const results = findCountryModelItems({}, parameters, {}, 'salaire')
         .map(item => item.name);
     it('should filter variables that don’t contain the query', function() {
         results.should.not.containEql('aah');
@@ -33,7 +33,7 @@ describe('Searching a single word', function() {
 });
 
 describe('Searching several words', function() {
-    const results = findParametersAndVariables(parameters, {}, 'salaire base')
+    const results = findCountryModelItems({}, parameters, {}, 'salaire base')
         .map(item => item.name);
     it('should only return variables that contain all query words', function() {
         results.should.containDeep(['salaire_de_base', 'rsa_base_ressource', 'cotisation']);
