@@ -175,10 +175,10 @@ class Variable extends React.Component {
           </ul>)
         }
         { variable.documentation &&
-          (<span><FormattedMessage id="documentationText"/></span>)
-        }
-        { variable.documentation &&
-          (<p className="documentation">{ variable.documentation.trim() }</p>)
+          (<div>
+            <span><FormattedMessage id="documentationText"/></span>
+            <p className="documentation">{ variable.documentation }</p>
+          </div>)
         }
         {keys(variable.formulas).length == 0 &&
           <p>

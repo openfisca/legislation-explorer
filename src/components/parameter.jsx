@@ -31,10 +31,10 @@ class Parameter extends React.Component {
             : <em><FormattedMessage id="noDescription"/></em>
           }
           { parameter.documentation &&
-            (<span><FormattedMessage id="documentationText"/></span>)
-          }
-          { parameter.documentation &&
-            (<p className="documentation">{ parameter.documentation.trim() }</p>)
+            (<div>
+              <span><FormattedMessage id="documentationText"/></span>
+              <p className="documentation">{ parameter.documentation }</p>
+            </div>)
           }
           <div className="row">
             <div className="col-lg-8">
