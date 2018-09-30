@@ -38,7 +38,7 @@ p.documentation {
   white-space: pre-line;
 }
 
-span.variable-metadata {
+.variable-metadata {
   font-weight: bold;
 }
 

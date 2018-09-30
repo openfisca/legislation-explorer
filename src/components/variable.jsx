@@ -3,6 +3,7 @@ import { FormattedMessage, FormattedDate, FormattedNumber, injectIntl, intlShape
 import React from 'react'
 import PropTypes from 'prop-types'
 import { keys } from 'ramda'
+import {Link} from 'react-router'
 
 import config from '../config'
 import { entityShape, parameterShape, variableShape } from '../openfisca-proptypes'
@@ -47,12 +48,6 @@ class Variable extends React.Component {
   }
 
   renderVariableMetadata = (variable) => {
-    const entityMessage = {
-      famille: 'famille',
-      foyer_fiscal: 'foyer fiscal',
-      individu: 'individu',
-      menage: 'ménage',
-    }
 
     const definitionPeriodMessage = {
       YEAR: <FormattedMessage id="aYear"/>,
@@ -95,9 +90,10 @@ class Variable extends React.Component {
                   <FormattedMessage id="entityText"/>
                 </a>
             }} />&nbsp;
-          <span className="variable-metadata">
-            { entityMessage[variable.entity] }
-          </span>.
+          {/* The next tag should be a Link instead to avoid reloading the app, but it generates an error. Maybe upgrading React Router will solve this? */}
+          <a className="variable-metadata" href={ variable.entity }>
+            { variable.entity }
+          </a>.
         </p>
         <p>
           <FormattedMessage
