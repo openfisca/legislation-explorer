@@ -4,7 +4,7 @@ import {Redirect, Route, IndexRedirect, IndexRoute} from 'react-router'
 import App from './components/app'
 import HomePage from './components/pages/home'
 import SwaggerPage from './components/pages/swagger'
-import CountryModelItemPage from './components/pages/parameter-or-variable-or-entity'
+import CountryModelItemPage from './components/pages/country-model-item'
 
 
 export default (

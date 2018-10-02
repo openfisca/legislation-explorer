@@ -4,8 +4,8 @@ import * as diacritics from 'diacritics'
 function preprocessCountryModelItems(entities, parameters, variables) {
   return flatten(
     [entities, parameters, variables].map(
-      entitiesOrParametersOrVariables => keys(entitiesOrParametersOrVariables).map(
-        itemId => merge(entitiesOrParametersOrVariables[itemId], {name: itemId})
+      countryModelItems => keys(countryModelItems).map(
+        itemId => merge(countryModelItems[itemId], {name: itemId})
       )
     )
   )
