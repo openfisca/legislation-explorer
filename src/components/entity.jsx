@@ -35,7 +35,7 @@ class Entity extends React.Component {
             ? <p className="description">{ entity.description }</p>
             : <em><FormattedMessage id="noDescription"/></em>
           }
-          { this.renderEntityMetadata(entity) }
+          { this.renderRoles(entity.roles) }
           {
             entity.documentation &&
             <div>
@@ -81,11 +81,11 @@ class Entity extends React.Component {
     )
   }
 
-  renderEntityMetadata = (entity) => {
+  renderRoles = (roles) => {
     return (
       <div>
         {
-          entity.roles  
+          roles  
           ? <div>
               <span className="message">
                 <FormattedMessage
@@ -109,8 +109,8 @@ class Entity extends React.Component {
                 </thead>
                 <tbody>
                   { 
-                    Object.keys(entity.roles).map((roleId, index) => (
-                        this.renderEntityRole(roleId, entity.roles[roleId])
+                    Object.keys(roles).map((roleId, index) => (
+                        this.renderEntityRole(roleId, roles[roleId])
                     ))
                   }
                 </tbody>
