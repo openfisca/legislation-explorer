@@ -172,7 +172,7 @@ class Variable extends React.Component {
         }
         { variable.documentation &&
           (<div>
-            <span><FormattedMessage id="documentationText"/></span>
+            <h4 className="message documentation-title"><FormattedMessage id="documentation"/></h4>
             <p className="documentation">{ variable.documentation }</p>
           </div>)
         }

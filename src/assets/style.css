@@ -47,6 +47,9 @@ p.documentation {
   font-weight: bold;
 }
 
+h4.documentation-title {
+  margin-top: 0;
+}
 
 span.message {
   display: block;
@@ -54,14 +57,9 @@ span.message {
   margin-bottom: 1.5em;
 }
 
-pre {
+table pre {
   border: none;
   background: none;
-}
-
-pre.in-roles {
-  font: inherit;
-  padding: 0;
 }
 
 table {
