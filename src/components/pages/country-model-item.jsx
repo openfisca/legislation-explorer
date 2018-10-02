@@ -31,7 +31,10 @@ class CountryModelItemPage extends React.Component {
   state = {variable: null, parameter: null, entityId: null, entity: null, waitingForResponse: true};
 
   fetchPageContent = (name) => {
-    if (this.props.variables[name]) {
+    if (this.props.entities[name]) {
+      this.setState({entityId: name, entity: this.props.entities[name], waitingForResponse: false})
+    
+    } else if (this.props.variables[name]) {
       fetchVariable(name)
         .then(variable => {
           this.setState({variable: variable.data, waitingForResponse: false})
@@ -47,9 +50,6 @@ class CountryModelItemPage extends React.Component {
         .catch(error => {
           this.setState({error: error, waitingForResponse: false})
         })
-    } else if (this.props.entities[name]) {
-      this.setState({entityId: name, entity: this.props.entities[name], waitingForResponse: false})
-
     } else {
       this.setState({waitingForResponse: false})
       this.handleNotFound()
