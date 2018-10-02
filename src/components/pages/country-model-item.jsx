@@ -8,7 +8,7 @@ import Entity from '../entity'
 import Parameter from '../parameter'
 import Variable from '../variable'
 import { searchInputId } from './home'
-import { fetchEntities, fetchParameter, fetchVariable } from '../../webservices'
+import { fetchParameter, fetchVariable } from '../../webservices'
 
 
 class CountryModelItemPage extends React.Component {
@@ -48,13 +48,8 @@ class CountryModelItemPage extends React.Component {
           this.setState({error: error, waitingForResponse: false})
         })
     } else if (this.props.entities[name]) {
-      fetchEntities()
-        .then(entities => {
-          this.setState({entityId: name, entity: entities.data[name], waitingForResponse: false})
-        })
-        .catch(error => {
-          this.setState({error: error, waitingForResponse: false})
-        })
+      this.setState({entityId: name, entity: this.props.entities[name], waitingForResponse: false})
+
     } else {
       this.setState({waitingForResponse: false})
       this.handleNotFound()
