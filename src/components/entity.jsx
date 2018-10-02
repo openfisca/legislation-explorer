@@ -27,10 +27,33 @@ class Entity extends React.Component {
           {
             entity.plural
             ? <span className="inline">
-                <FormattedMessage id="plural"></FormattedMessage>
+                <FormattedMessage id="plural"/>
                 <h5><code>{ entity.plural }</code></h5>
               </span>
             : <em><FormattedMessage id="noPlural"/></em>
+          }
+          {
+            entity.roles
+            ? <FormattedMessage
+                  id="entityIntroduction"
+                  values={{
+                    entityId: entityId,
+                    entityLink:
+                      <a href="http://openfisca.org/doc/person,_entities,_role.html#group-entities" rel="noopener" target="_blank">
+                        <FormattedMessage id="entityGroupType"/>
+                      </a>
+                  }}
+                />
+            : <FormattedMessage
+                  id="entityIntroduction"
+                  values={{
+                    entityId: entityId,
+                    entityLink:
+                      <a href="http://openfisca.org/doc/person,_entities,_role.html#person" rel="noopener" target="_blank">
+                        <FormattedMessage id="entitySingleType"/>
+                      </a>
+                  }}
+                />
           }
           { entity.description
             ? <p className="description">{ entity.description }</p>

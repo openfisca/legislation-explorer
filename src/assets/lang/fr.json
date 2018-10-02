@@ -24,6 +24,9 @@
   "overValue": "Plus de {startValue}",
 
   "entityParagraph" : "Cette {variableLink} s'applique à l'{entityLink}",
+  "entityIntroduction": "'{entityId}' est une {entityLink} du système socio-fiscal.",
+  "entitySingleType": "entité individuelle",
+  "entityGroupType": "entité de groupe",
   "entityRolesParagraph": "Cette {entityLink} définit les rôles suivants :",
   "plural": "Pluriel :",
   "variableText": "variable",
