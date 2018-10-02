@@ -22,10 +22,16 @@ header .openfiscaPresentation p {
   margin-top: 1em;
 }
 
+h4 {
+  font-weight: inherit;
+  font-size: medium;
+  margin-top: 3em;
+}
 
 tr.first-bracket:not(:first-child) > td {
   border-top-width: 5px;
 }
+
 
 /* OpenFisca entiry, variable and parameter description */
 p.description {

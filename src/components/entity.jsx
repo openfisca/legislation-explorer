@@ -39,7 +39,7 @@ class Entity extends React.Component {
           {
             entity.documentation &&
             <div>
-              <span className="message"><FormattedMessage id="documentation"/></span>
+              <h4 className="message"><FormattedMessage id="documentation"/></h4>
               <span className="message">{ entity.documentation }</span>
             </div>
           }
