@@ -33,6 +33,11 @@ p.description {
   margin-top: 3%;
 }
 
+p.documentation {
+  margin-left: 2em;
+  white-space: pre-line;
+}
+
 span.variable-metadata {
   font-weight: bold;
 }
