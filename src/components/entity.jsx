@@ -26,18 +26,21 @@ class Entity extends React.Component {
           <h1><code>{ entityId }</code></h1>
           {
             entity.plural
-            ? <span className="inline">
+            ? <div>
                 <FormattedMessage id="plural"/>
-                <h5><code>{ entity.plural }</code></h5>
-              </span>
+                <code>{ entity.plural }</code>
+              </div>
             : <em><FormattedMessage id="noPlural"/></em>
+          }
+          { entity.description
+            ? <p className="description">{ entity.description }</p>
+            : <em><FormattedMessage id="noDescription"/></em>
           }
           {
             entity.roles
             ? <FormattedMessage
-                  id="entityIntroduction"
+                  id="entityRolesParagraph"
                   values={{
-                    entityId: entityId,
                     entityLink:
                       <a href="http://openfisca.org/doc/person,_entities,_role.html#group-entities" rel="noopener" target="_blank">
                         <FormattedMessage id="entityGroupType"/>
@@ -45,7 +48,7 @@ class Entity extends React.Component {
                   }}
                 />
             : <FormattedMessage
-                  id="entityIntroduction"
+                  id="entitySingleIntroduction"
                   values={{
                     entityId: entityId,
                     entityLink:
@@ -55,16 +58,12 @@ class Entity extends React.Component {
                   }}
                 />
           }
-          { entity.description
-            ? <p className="description">{ entity.description }</p>
-            : <em><FormattedMessage id="noDescription"/></em>
-          }
           { this.renderRoles(entity.roles) }
           {
             entity.documentation &&
             <div>
               <h4 className="message"><FormattedMessage id="documentation"/></h4>
-              <span className="message">{ entity.documentation }</span>
+              <p className="documentation">{ entity.documentation }</p>
             </div>
           }
           <hr/>
@@ -109,38 +108,23 @@ class Entity extends React.Component {
     return (
       <div>
         {
-          roles  
-          ? <div>
-              <span className="message">
-                <pre className="in-roles"><FormattedMessage
-                  id="entityRolesParagraph"
-                  values={{
-                    entityLink:
-                      <a href="https://openfisca.org/doc/person,_entities,_role.html" rel="noopener" target="_blank">
-                        <FormattedMessage id="entityText"/>
-                      </a>
-                  }}
-                /></pre>
-              </span>
-              <table className="table table-bordered table-hover table-striped">
-                <thead>
-                  <tr>
-                    <td><FormattedMessage id="entityRoles"/></td>
-                    <td><FormattedMessage id="rolePlural"/></td>
-                    <td><FormattedMessage id="roleDescription"/></td>
-                    <td><FormattedMessage id="roleMaxPersons"/></td>
-                  </tr>
-                </thead>
-                <tbody>
-                  { 
-                    Object.keys(roles).map((roleId, index) => (
-                        this.renderEntityRole(roleId, roles[roleId])
-                    ))
-                  }
-                </tbody>
-              </table>
-            </div>
-          : <em><FormattedMessage id="noRole"/></em>
+          roles && <table className="table table-bordered table-hover table-striped">
+              <thead>
+                <tr>
+                  <td><FormattedMessage id="entityRoles"/></td>
+                  <td><FormattedMessage id="rolePlural"/></td>
+                  <td><FormattedMessage id="roleDescription"/></td>
+                  <td><FormattedMessage id="roleMaxPersons"/></td>
+                </tr>
+              </thead>
+              <tbody>
+                { 
+                  Object.keys(roles).map((roleId, index) => (
+                      this.renderEntityRole(roleId, roles[roleId])
+                  ))
+                }
+              </tbody>
+            </table>
         }
       </div>
     )

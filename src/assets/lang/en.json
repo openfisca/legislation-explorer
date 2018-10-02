@@ -24,7 +24,7 @@
   "overValue": "Over {startValue}",
 
   "entityParagraph": "This {variableLink} applies to the {entityLink}",
-  "entityIntroduction": "'{entityId}' is a {entityLink} of the tax and benefit system",
+  "entitySingleIntroduction": "This is a {entityLink} of the tax and benefit system.",
   "entitySingleType": "person entity",
   "entityGroupType": "group entity",
   "entityRolesParagraph": "This {entityLink} defines the following roles:",
@@ -33,7 +33,7 @@
   "entityText": "entity",
   "entityRoles": "Roles",
   "roleDescription": "Description",
-  "roleMaxPersons": "Maximal number of persons for this role",
+  "roleMaxPersons": "Maximal number of persons",
   "rolePlural": "Plural",
   "definitionPeriodParagraph": "It has a {definitionPeriodLink}",
   "definitionPeriodText": "definition period",

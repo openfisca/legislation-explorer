@@ -23,7 +23,6 @@ header .openfiscaPresentation p {
 }
 
 h4 {
-  font-weight: inherit;
   font-size: medium;
   margin-top: 3em;
 }
@@ -48,9 +47,6 @@ p.documentation {
   font-weight: bold;
 }
 
-span.inline {
-  display: inline;
-}
 
 span.message {
   display: block;
@@ -68,7 +64,7 @@ pre.in-roles {
   padding: 0;
 }
 
-table.in-metadata {
+table {
   margin-top: 1em;
 }
 
