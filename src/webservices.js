@@ -17,6 +17,9 @@ async function fetchJson(url, options) {
   }
 }
 
+export function fetchEntities(apiBaseUrl = config.apiBaseUrl) {
+  return fetchJson(`${apiBaseUrl}/entities`)
+}
 
 export function fetchParameters(apiBaseUrl = config.apiBaseUrl) {
   return fetchJson(`${apiBaseUrl}/parameters`)

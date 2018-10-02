@@ -1,26 +1,26 @@
 import {ascend, assoc, descend, flatten, isEmpty, keys, map, merge, prop, sortBy, sortWith} from 'ramda'
 import * as diacritics from 'diacritics'
 
-function preprocessParametersAndVariables(parameters, variables) {
+function preprocessCountryModelItems(entities, parameters, variables) {
   return flatten(
-    [parameters, variables].map(
-      parametersOrVariables => keys(parametersOrVariables).map(
-        itemId => merge(parametersOrVariables[itemId], {name: itemId})
+    [entities, parameters, variables].map(
+      countryModelItems => keys(countryModelItems).map(
+        itemId => merge(countryModelItems[itemId], {name: itemId})
       )
     )
   )
 }
 
-export function findParametersAndVariables(parameters, variables, query) {
+export function findCountryModelItems(entities, parameters, variables, query) {
   const normalizedQuery = diacritics.remove(query.toLowerCase())
   const queryWords = normalizedQuery.split(' ')
 
-  const parametersAndVariables = preprocessParametersAndVariables(parameters, variables)
+  const countryModelItems = preprocessCountryModelItems(entities, parameters, variables)
   if (isEmpty(normalizedQuery)) {
-    return sortBy(prop('name'), parametersAndVariables)
+    return sortBy(prop('name'), countryModelItems)
   }
 
-  const matches = parametersAndVariables.reduce(
+  const matches = countryModelItems.reduce(
     (matches, item) => {
       item.matchesInName = 0
       item.indexesSum = 0

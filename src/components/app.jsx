@@ -4,8 +4,8 @@ import PropTypes from 'prop-types'
 import {locationShape, Link} from 'react-router'
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 
-import { parameterShape, variableShape } from '../openfisca-proptypes'
-import {findParametersAndVariables} from '../search'
+import { entityShape, parameterShape, variableShape } from '../openfisca-proptypes'
+import {findCountryModelItems} from '../search'
 
 class App extends React.Component {
   static childContextTypes = {
@@ -19,30 +19,31 @@ class App extends React.Component {
     countryPackageName: PropTypes.string.isRequired,
     countryPackageVersion: PropTypes.string.isRequired,
     location: locationShape.isRequired,
+    entities: PropTypes.objectOf(entityShape).isRequired,
     parameters: PropTypes.objectOf(parameterShape).isRequired,
     variables: PropTypes.objectOf(variableShape).isRequired,
   }
 
   constructor(props) {
     super(props)
-    const {location, parameters, variables} = props
+    const {location, entities, parameters, variables} = props
     const searchQuery = location.query.q || ''
 
     this.state = {
       searchQuery,
-      searchResults: findParametersAndVariables(parameters, variables, searchQuery),
+      searchResults: findCountryModelItems(entities, parameters, variables, searchQuery),
     }
   }
 
   getChildContext() {
-    const {parameters, variables} = this.props
+    const {entities, parameters, variables} = this.props
     return {
       searchQuery: this.state.searchQuery,
       searchResults: this.state.searchResults,
       setSearchQuery: searchQuery => {
         this.setState({
           searchQuery,
-          searchResults: findParametersAndVariables(parameters, variables, searchQuery),
+          searchResults: findCountryModelItems(entities, parameters, variables, searchQuery),
         })
       },
     }
