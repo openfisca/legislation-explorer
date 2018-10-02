@@ -11,7 +11,7 @@ import { searchInputId } from './home'
 import { fetchEntities, fetchParameter, fetchVariable } from '../../webservices'
 
 
-class ParameterOrVariableOrEntityPage extends React.Component {
+class CountryModelItemPage extends React.Component {
   static contextTypes = {
     router: routerShape.isRequired,
     searchQuery: PropTypes.string.isRequired,
@@ -156,4 +156,4 @@ class ParameterOrVariableOrEntityPage extends React.Component {
 }
 
 
-export default ParameterOrVariableOrEntityPage
+export default CountryModelItemPage
