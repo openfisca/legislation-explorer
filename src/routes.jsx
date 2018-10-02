@@ -1,5 +1,5 @@
 import React from 'react'
-import {Redirect, Route, IndexRedirect, IndexRoute} from 'react-router'
+import {Route, IndexRoute} from 'react-router'
 
 import App from './components/app'
 import HomePage from './components/pages/home'

@@ -16,7 +16,7 @@ class Entity extends React.Component {
     entity: entityShape.isRequired,
   };
 
-  
+
   render() {
     const { entityId, entity } = this.props
 
@@ -26,11 +26,11 @@ class Entity extends React.Component {
           <h1><code>{ entityId }</code></h1>
           {
             entity.plural
-            ? <div>
+              ? <div>
                 <FormattedMessage id="plural"/>
                 <code>{ entity.plural }</code>
               </div>
-            : <em><FormattedMessage id="noPlural"/></em>
+              : <em><FormattedMessage id="noPlural"/></em>
           }
           { entity.description
             ? <p className="description">{ entity.description }</p>
@@ -38,25 +38,25 @@ class Entity extends React.Component {
           }
           {
             entity.roles
-            ? <FormattedMessage
-                  id="entityRolesParagraph"
-                  values={{
-                    entityLink:
+              ? <FormattedMessage
+                id="entityRolesParagraph"
+                values={{
+                  entityLink:
                       <a href="http://openfisca.org/doc/person,_entities,_role.html#group-entities" rel="noopener" target="_blank">
                         <FormattedMessage id="entityGroupType"/>
                       </a>
-                  }}
-                />
-            : <FormattedMessage
-                  id="entitySingleIntroduction"
-                  values={{
-                    entityId: entityId,
-                    entityLink:
+                }}
+              />
+              : <FormattedMessage
+                id="entitySingleIntroduction"
+                values={{
+                  entityId: entityId,
+                  entityLink:
                       <a href="http://openfisca.org/doc/person,_entities,_role.html#person" rel="noopener" target="_blank">
                         <FormattedMessage id="entitySingleType"/>
                       </a>
-                  }}
-                />
+                }}
+              />
           }
           { this.renderRoles(entity.roles) }
           {
@@ -80,24 +80,24 @@ class Entity extends React.Component {
       <tr key={ roleId }>
         <td><pre>{ roleId }</pre></td>
         <td>
-          { 
+          {
             role.plural
-            ? <pre>{ role.plural }</pre>
-            : <em><FormattedMessage id="noPlural"/></em>
+              ? <pre>{ role.plural }</pre>
+              : <em><FormattedMessage id="noPlural"/></em>
           }
         </td>
         <td>
-          { 
+          {
             role.description
-            ? <span className="message">{ role.description }</span>
-            : <em><FormattedMessage id="noDescription"/></em>
+              ? <span className="message">{ role.description }</span>
+              : <em><FormattedMessage id="noDescription"/></em>
           }
         </td>
         <td>
-          { 
-            role.max 
-            ? <span className="message">{ role.max }</span> 
-            : <em><FormattedMessage id="noRoleMaxPersons"/></em>
+          {
+            role.max
+              ? <span className="message">{ role.max }</span>
+              : <em><FormattedMessage id="noRoleMaxPersons"/></em>
           }
         </td>
       </tr>
@@ -109,22 +109,22 @@ class Entity extends React.Component {
       <div>
         {
           roles && <table className="table table-bordered table-hover table-striped">
-              <thead>
-                <tr>
-                  <td><FormattedMessage id="entityRoles"/></td>
-                  <td><FormattedMessage id="rolePlural"/></td>
-                  <td><FormattedMessage id="roleDescription"/></td>
-                  <td><FormattedMessage id="roleMaxPersons"/></td>
-                </tr>
-              </thead>
-              <tbody>
-                { 
-                  Object.keys(roles).map((roleId, index) => (
-                      this.renderEntityRole(roleId, roles[roleId])
-                  ))
-                }
-              </tbody>
-            </table>
+            <thead>
+              <tr>
+                <td><FormattedMessage id="entityRoles"/></td>
+                <td><FormattedMessage id="rolePlural"/></td>
+                <td><FormattedMessage id="roleDescription"/></td>
+                <td><FormattedMessage id="roleMaxPersons"/></td>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                Object.keys(roles).map((roleId) => (
+                  this.renderEntityRole(roleId, roles[roleId])
+                ))
+              }
+            </tbody>
+          </table>
         }
       </div>
     )

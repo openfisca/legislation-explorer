@@ -33,7 +33,7 @@ class CountryModelItemPage extends React.Component {
   fetchPageContent = (name) => {
     if (this.props.entities[name]) {
       this.setState({entityId: name, entity: this.props.entities[name], waitingForResponse: false})
-    
+
     } else if (this.props.variables[name]) {
       fetchVariable(name)
         .then(variable => {
@@ -77,9 +77,9 @@ class CountryModelItemPage extends React.Component {
 
   render() {
     const { searchQuery, searchResults } = this.context
-    const { countryPackageName, countryPackageVersion, parameters, variables, entities } = this.props
+    const { countryPackageName, countryPackageVersion, parameters, variables } = this.props
     const { parameter, variable, entityId, entity } = this.state
-    
+
     const goBackLocation = {
       pathname: '/',
       query: {q: searchQuery},

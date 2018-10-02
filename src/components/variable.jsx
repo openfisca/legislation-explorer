@@ -3,10 +3,9 @@ import { FormattedMessage, FormattedDate, FormattedNumber, injectIntl, intlShape
 import React from 'react'
 import PropTypes from 'prop-types'
 import { keys } from 'ramda'
-import {Link} from 'react-router'
 
 import config from '../config'
-import { entityShape, parameterShape, variableShape } from '../openfisca-proptypes'
+import { parameterShape, variableShape } from '../openfisca-proptypes'
 import Formula from './formula'
 import getDayBefore from '../periods'
 

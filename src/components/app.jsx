@@ -54,7 +54,7 @@ class App extends React.Component {
   };
 
   render() {
-    const {countryPackageName, countryPackageVersion, entities, parameters, variables} = this.props
+    const {countryPackageName, countryPackageVersion, parameters, variables} = this.props
     return (
       <DocumentTitle title={this.props.intl.formatMessage({ id: 'appName' })}>
         <div className="container">
