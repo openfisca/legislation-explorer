@@ -33,7 +33,7 @@ tr.first-bracket:not(:first-child) > td {
 }
 
 
-/* OpenFisca entiry, variable and parameter description */
+/* OpenFisca entity, variable and parameter description */
 p.description {
   font-size: large;
   margin-top: 3%;
@@ -46,6 +46,10 @@ p.documentation {
 
 .variable-metadata {
   font-weight: bold;
+}
+
+span.inline {
+  display: inline;
 }
 
 span.message {

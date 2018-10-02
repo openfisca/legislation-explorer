@@ -25,6 +25,7 @@
 
   "entityParagraph" : "Cette {variableLink} s'applique à l'{entityLink}",
   "entityRolesParagraph": "Cette {entityLink} définit les rôles suivants :",
+  "plural": "Pluriel :",
   "variableText": "variable",
   "entityText": "entité",
   "entityRoles": "Rôles",

@@ -26,7 +26,8 @@ class Entity extends React.Component {
           <h1><code>{ entityId }</code></h1>
           {
             entity.plural
-            ? <span>
+            ? <span className="inline">
+                <FormattedMessage id="plural"></FormattedMessage>
                 <h5><code>{ entity.plural }</code></h5>
               </span>
             : <em><FormattedMessage id="noPlural"/></em>
