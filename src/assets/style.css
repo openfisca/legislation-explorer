@@ -59,10 +59,13 @@ span.message {
 }
 
 pre {
-  font: inherit;
-  padding: 0;
   border: none;
   background: none;
+}
+
+pre.in-roles {
+  font: inherit;
+  padding: 0;
 }
 
 table.in-metadata {

@@ -79,11 +79,11 @@ class Entity extends React.Component {
   renderEntityRole = (roleId, role) => {
     return (
       <tr key={ roleId }>
-        <td>{ roleId }</td>
+        <td><pre>{ roleId }</pre></td>
         <td>
           { 
             role.plural
-            ? <span className="message">{ role.plural }</span>
+            ? <pre>{ role.plural }</pre>
             : <em><FormattedMessage id="noPlural"/></em>
           }
         </td>
@@ -112,7 +112,7 @@ class Entity extends React.Component {
           roles  
           ? <div>
               <span className="message">
-                <pre><FormattedMessage
+                <pre className="in-roles"><FormattedMessage
                   id="entityRolesParagraph"
                   values={{
                     entityLink:
