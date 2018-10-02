@@ -12,17 +12,5 @@ export default (
     <IndexRoute component={HomePage} />
     <Route path="swagger" component={SwaggerPage}/>
     <Route path=":name" component={CountryModelItemPage}/>
-    <Route path="parameters">
-      <IndexRedirect to="/" />
-      <Redirect from=":name" to="/:name" />
-    </Route>
-    <Route path="variables">
-      <IndexRedirect to="/" />
-      <Redirect from=":name" to="/:name" />
-    </Route>
-    <Route path="entities">
-      <IndexRedirect to="/" />
-      <Redirect from=":name" to="/:name" />
-    </Route>
   </Route>
 )
