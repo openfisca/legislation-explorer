@@ -16,7 +16,6 @@ class Variable extends React.Component {
     countryPackageName: PropTypes.string.isRequired,
     countryPackageVersion: PropTypes.string.isRequired,
     intl: intlShape.isRequired,
-    entities: PropTypes.objectOf(entityShape).isRequired,
     parameters: PropTypes.objectOf(parameterShape).isRequired,
     variable: variableShape.isRequired,
     variables: PropTypes.objectOf(variableShape).isRequired,
