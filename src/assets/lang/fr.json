@@ -24,7 +24,7 @@
   "overValue": "Plus de {startValue}",
 
   "entityParagraph" : "Cette {variableLink} s'applique à l'{entityLink}",
-  "entityRolesParagraph": "Cette {entityLink} définit les rôles suivants&nbsp;:",
+  "entityRolesParagraph": "Cette {entityLink} définit les rôles suivants :",
   "variableText": "variable",
   "entityText": "entité",
   "entityRoles": "Rôles",
@@ -34,7 +34,7 @@
   "definitionPeriodParagraph": "Elle a une {definitionPeriodLink}",
   "definitionPeriodText": "période de définition",
   "valueTypeParagraph": "Sa valeur est",
-  "allowedValues": "Les valeurs autorisées sont&nbsp;:",
+  "allowedValues": "Les valeurs autorisées sont :",
   "defaultValueParagraph": "Sa {defaultValueLink} est",
   "defaultValueText": "valeur par défaut",
   "referencesText": "Références :",

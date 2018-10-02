@@ -88,7 +88,7 @@ class Entity extends React.Component {
           roles  
           ? <div>
               <span className="message">
-                <FormattedMessage
+                <pre><FormattedMessage
                   id="entityRolesParagraph"
                   values={{
                     entityLink:
@@ -96,7 +96,7 @@ class Entity extends React.Component {
                         <FormattedMessage id="entityText"/>
                       </a>
                   }}
-                />
+                /></pre>
               </span>
               <table className="table table-bordered table-hover table-striped">
                 <thead>
