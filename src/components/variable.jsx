@@ -130,7 +130,7 @@ class Variable extends React.Component {
         {
           variable.possibleValues &&
           (<div>
-            <pre><FormattedMessage id="allowedValues"/></pre>
+            <FormattedMessage id="allowedValues"/>
             <table className="table table-bordered table-hover table-striped in-metadata">
               <thead>
                 <tr>
