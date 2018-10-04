@@ -1,4 +1,4 @@
-aahDependencyTitle = "aah_base"
-enumVariableTitle = "statut_marital"
-enumVariableDefault = /celibataire/
-enumVariableDefinition = "Celibataire"
+variableDependencyTitle = "salary"
+enumVariableTitle = "housing_occupancy_status"
+enumVariableDefault = /tenant/
+enumVariableDefinition = "Free lodger"

@@ -1,12 +1,12 @@
 description: "The search should filter the list.",
 
 steps: [
-  SearchBarComponent.searchFor(aahQuery),
+  SearchBarComponent.searchFor(variableQuery),
   {
-    "AppComponent.firstResultName": aahResultName
+    "AppComponent.firstResultName": variableResultName
   },
-  SearchBarComponent.searchFor(salaireBaseQuery),
+  SearchBarComponent.searchFor(twoWordsVariableQuery),
   {
-    "AppComponent.firstResultName": salaireBaseResultName
+    "AppComponent.firstResultName": twoWordsVariableResultName
   }
 ]

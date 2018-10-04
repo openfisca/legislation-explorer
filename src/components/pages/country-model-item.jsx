@@ -3,14 +3,15 @@ import PropTypes from 'prop-types'
 import { Link, locationShape, routerShape } from 'react-router'
 import { FormattedMessage } from 'react-intl'
 
-import { parameterShape, variableShape } from '../../openfisca-proptypes'
+import { entityShape, parameterShape, variableShape } from '../../openfisca-proptypes'
+import Entity from '../entity'
 import Parameter from '../parameter'
 import Variable from '../variable'
 import { searchInputId } from './home'
 import { fetchParameter, fetchVariable } from '../../webservices'
 
 
-class ParameterOrVariablePage extends React.Component {
+class CountryModelItemPage extends React.Component {
   static contextTypes = {
     router: routerShape.isRequired,
     searchQuery: PropTypes.string.isRequired,
@@ -22,14 +23,18 @@ class ParameterOrVariablePage extends React.Component {
     countryPackageVersion: PropTypes.string.isRequired,
     location: locationShape.isRequired,
     params: PropTypes.shape({ name: PropTypes.string.isRequired }).isRequired, // URL params
+    entities: PropTypes.objectOf(entityShape).isRequired,
     parameters: PropTypes.objectOf(parameterShape).isRequired,
     variables: PropTypes.objectOf(variableShape).isRequired,
   };
 
-  state = {variable: null, parameter: null, waitingForResponse: true};
+  state = {variable: null, parameter: null, entityId: null, entity: null, waitingForResponse: true};
 
   fetchPageContent = (name) => {
-    if (this.props.variables[name]) {
+    if (this.props.entities[name]) {
+      this.setState({entityId: name, entity: this.props.entities[name], waitingForResponse: false})
+
+    } else if (this.props.variables[name]) {
       fetchVariable(name)
         .then(variable => {
           this.setState({variable: variable.data, waitingForResponse: false})
@@ -72,8 +77,9 @@ class ParameterOrVariablePage extends React.Component {
 
   render() {
     const { searchQuery, searchResults } = this.context
-    const {countryPackageName, countryPackageVersion, parameters, variables} = this.props
-    const {parameter, variable} = this.state
+    const { countryPackageName, countryPackageVersion, parameters, variables } = this.props
+    const { parameter, variable, entityId, entity } = this.state
+
     const goBackLocation = {
       pathname: '/',
       query: {q: searchQuery},
@@ -129,10 +135,20 @@ class ParameterOrVariablePage extends React.Component {
             />
           )
         }
+        {
+          entityId && entity && (
+            <Entity
+              countryPackageName={countryPackageName}
+              countryPackageVersion={countryPackageVersion}
+              entityId={entityId}
+              entity={entity}
+            />
+          )
+        }
       </div>
     )
   }
 }
 
 
-export default ParameterOrVariablePage
+export default CountryModelItemPage

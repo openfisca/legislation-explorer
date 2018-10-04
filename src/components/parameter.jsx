@@ -30,6 +30,12 @@ class Parameter extends React.Component {
             ? <p className="description">{parameter.description}</p>
             : <em><FormattedMessage id="noDescription"/></em>
           }
+          { parameter.documentation &&
+            (<div>
+              <h4 className="message documentation-title"><FormattedMessage id="documentation"/></h4>
+              <p className="documentation">{ parameter.documentation }</p>
+            </div>)
+          }
           <div className="row">
             <div className="col-lg-8">
               {

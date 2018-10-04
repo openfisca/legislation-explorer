@@ -10,6 +10,7 @@ import Formula from './formula'
 import getDayBefore from '../periods'
 
 class Variable extends React.Component {
+  //Variable properties include other objects for Formula code highlight.
   static propTypes = {
     countryPackageName: PropTypes.string.isRequired,
     countryPackageVersion: PropTypes.string.isRequired,
@@ -45,12 +46,6 @@ class Variable extends React.Component {
   }
 
   renderVariableMetadata = (variable) => {
-    const entityMessage = {
-      famille: 'famille',
-      foyer_fiscal: 'foyer fiscal',
-      individu: 'individu',
-      menage: 'ménage',
-    }
 
     const definitionPeriodMessage = {
       YEAR: <FormattedMessage id="aYear"/>,
@@ -93,9 +88,10 @@ class Variable extends React.Component {
                   <FormattedMessage id="entityText"/>
                 </a>
             }} />&nbsp;
-          <span className="variable-metadata">
-            { entityMessage[variable.entity] }
-          </span>.
+          {/* The next tag should be a Link instead to avoid reloading the app, but it generates an error. Maybe upgrading React Router will solve this? */}
+          <a className="variable-metadata" href={ variable.entity }>
+            { variable.entity }
+          </a>.
         </p>
         <p>
           <FormattedMessage
@@ -173,6 +169,12 @@ class Variable extends React.Component {
                 </li>
               )}
           </ul>)
+        }
+        { variable.documentation &&
+          (<div>
+            <h4 className="message documentation-title"><FormattedMessage id="documentation"/></h4>
+            <p className="documentation">{ variable.documentation }</p>
+          </div>)
         }
         {keys(variable.formulas).length == 0 &&
           <p>
