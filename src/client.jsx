@@ -1,7 +1,7 @@
 import config from './config'
 import routes from './routes'
 
-import { createHistory } from 'history'
+import { createHashHistory } from 'history/createHashHistory'
 import MatomoReactRouter from 'piwik-react-router'
 import React from 'react'
 import { render } from 'react-dom'
@@ -29,7 +29,7 @@ function hashLinkScroll() {
 export function renderApp() {
   const appMountNode = document.getElementById('app-mount-node')
   const initialState = window.__INITIAL_STATE__
-  let history = useRouterHistory(createHistory)({basename: config.pathname})
+  let history = useRouterHistory(createHashHistory)({basename: config.pathname})
 
   if (config.matomo)
     history = MatomoReactRouter(config.matomo).connectToHistory(history)
