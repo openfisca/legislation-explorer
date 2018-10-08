@@ -43,7 +43,9 @@ export function renderApp() {
         history={history}
         onUpdate={hashLinkScroll}
         routes={routes}
-      />
+      >
+        <Route path="/" component={App} />
+      </Router>
     </IntlProvider>,
     appMountNode
   )
