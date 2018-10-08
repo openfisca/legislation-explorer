@@ -1,7 +1,7 @@
 import {isEmpty} from 'ramda'
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Link, locationShape, routerShape} from 'react-router'
+import {Link, locationShape, routerShape} from 'react-router-dom'
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 import DocumentTitle from 'react-document-title'
 

@@ -1,4 +1,4 @@
-import { routerShape } from 'react-router'
+import { routerShape } from 'react-router-dom'
 import React from 'react'
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 

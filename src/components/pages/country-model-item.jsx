@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link, locationShape, routerShape } from 'react-router'
+import { Link, locationShape, routerShape } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 
 import { entityShape, parameterShape, variableShape } from '../../openfisca-proptypes'

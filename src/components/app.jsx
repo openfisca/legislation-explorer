@@ -1,7 +1,7 @@
 import DocumentTitle from 'react-document-title'
 import React from 'react'
 import PropTypes from 'prop-types'
-import {locationShape, Link} from 'react-router'
+import {locationShape, Link} from 'react-router-dom'
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 
 import { entityShape, parameterShape, variableShape } from '../openfisca-proptypes'
