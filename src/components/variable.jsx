@@ -63,7 +63,7 @@ class Variable extends React.Component {
     function formatDefaultValue(variable) {
       switch (variable.valueType) {
       case 'Date':
-        return <FormattedDate value={ variable.defaultValue } year="numeric" month="2-digit" day="2-digit" />
+        return <FormattedDate value={ variable.defaultValue } year="numeric" month="2-digit" day="2-digit" timeZone="UTC"/>
       case 'Float':
         return <FormattedNumber value={variable.defaultValue} />
       case 'String':

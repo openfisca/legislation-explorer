@@ -60,8 +60,8 @@ class Parameter extends React.Component {
         <td>
           <FormattedMessage id={stopDate ? 'fromToDate' : 'fromDate'}
             values={{
-              startDate: <FormattedDate value={startDate} year="numeric" month="2-digit" day="2-digit" />,
-              stopDate: stopDate && <FormattedDate value={stopDate} year="numeric" month="2-digit" day="2-digit" />
+              startDate: <FormattedDate value={startDate} year="numeric" month="2-digit" day="2-digit" timeZone="UTC"/>,
+              stopDate: stopDate && <FormattedDate value={stopDate} year="numeric" month="2-digit" day="2-digit" timeZone="UTC"/>
             }}
           />
         </td>

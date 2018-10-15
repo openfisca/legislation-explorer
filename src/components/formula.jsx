@@ -26,8 +26,8 @@ class Formula extends React.Component {
           <h3>
             <FormattedMessage id={stopDate ? 'fromToDate' : 'fromDate'}
               values={{
-                startDate: startDate && <FormattedDate value={startDate} year="numeric" month="2-digit" day="2-digit" />,
-                stopDate: stopDate && <FormattedDate value={stopDate} year="numeric" month="2-digit" day="2-digit" />,
+                startDate: startDate && <FormattedDate value={startDate} year="numeric" month="2-digit" day="2-digit" timeZone="UTC"/>,
+                stopDate: stopDate && <FormattedDate value={stopDate} year="numeric" month="2-digit" day="2-digit" timeZone="UTC"/>,
               }}
             />
           </h3>
