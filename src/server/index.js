@@ -17,7 +17,7 @@ function startServer(state) {
   server.use(favicon(path.resolve(__dirname, '../assets/favicon.ico')))
   server.use(express.static(path.resolve(__dirname, '../../public')))
 
-  server.use(handleRender(state))
+  server.use(handleRender(config.pathname, state))
 
   // Generic server errors (e.g. not caught by components)
   server.use((err, req, res, next) => {

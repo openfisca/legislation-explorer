@@ -11,11 +11,11 @@ import routes from '../routes'
 import HtmlDocument from './html-document'
 
 
-export default function handleRender(state) {
+export default function handleRender(basename, state) {
   return function (req, res) {
     state.locale = getLocale(req.headers['accept-language'], state.messages)
 
-    match({routes, location: req.url}, (error, redirectLocation, renderProps) => {
+    match({routes, basename, location: req.url}, (error, redirectLocation, renderProps) => {
       if (error) {
         res.status(500).send(error.message)
       } else if (redirectLocation) {
