@@ -45,7 +45,8 @@ function loadWebpackAssets() {
 
 function renderHtmlDocument(renderProps, state) {
   const appHtml = renderToString(
-    <IntlProvider locale={state.locale} messages={getLocaleMessages(state.locale, state.messages)}>
+    // The following "UTC" indicates that we are not taking timezones into account when formatting dates: "2018-01-01" will always be formatted as 01/01/2018.
+    <IntlProvider locale={state.locale} messages={getLocaleMessages(state.locale, state.messages)} timeZone="UTC">
       <RouterContext
         {...renderProps}
         createElement={(Component, props) => <Component {...props} {...state} />}
