@@ -37,7 +37,8 @@ export function renderApp() {
   addLocaleData(require(`react-intl/locale-data/${initialState.locale}`))
 
   render(
-    <IntlProvider locale={initialState.locale} key={initialState.locale} messages={initialState.messages[initialState.locale]}>
+    // The following "UTC" indicates that we are not taking timezones into account when formatting dates: "2018-01-01" will always be formatted as 01/01/2018.
+    <IntlProvider locale={initialState.locale} key={initialState.locale} messages={initialState.messages[initialState.locale]} timeZone="UTC">
       <Router
         createElement={(Component, props) => <Component {...props} {...initialState} />}
         history={history}
