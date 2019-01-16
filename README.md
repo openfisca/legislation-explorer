@@ -62,12 +62,12 @@ This web app supports [Matomo](https://matomo.org) (ex-Piwik) analytics out of t
 
 - `PATHNAME` defines the path at which the Legislation Explorer is served. Defaults to `/`. For example: `PATHNAME=/legislation` to serve on `https://fr.openfisca.org/legislation`.
 - `HOST`: defines the host on which the app is served. Example: `HOST=192.168.1.1 npm start`. Defaults to `0.0.0.0` (all local interfaces).
-- `PORT` defines the port on which the app is served. Example: `PORT=80 npm start`. Defaults to `2030`.
+- `PORT` defines the port on which the app is served. Example: `PORT=80 npm start`. Defaults to `2020`.
 
 
 ### Development-specific options
 
-- `NODE_ENV` defines if assets should be served minified or with hot module remplacement. Can be either `development` or `production`. Example: `NODE_ENV=production PORT=2030 node index.js`. Prefer using `npm start`.
+- `NODE_ENV` defines if assets should be served minified or with hot module remplacement. Can be either `development` or `production`. Example: `NODE_ENV=production PORT=2020 node index.js`. Prefer using `npm start`.
 
 
 ## Run the server

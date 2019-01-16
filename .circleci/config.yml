@@ -10,7 +10,7 @@ jobs:
       SAUCE_USERNAME: openfisca
       # SAUCE_ACCESS_KEY is defined in the CircleCI web UI
       # DEPLOY_SSH is defined in the CircleCI web UI
-      PORT: 2030 # Legislation Explorer ExpressJS server port
+      PORT: 2020 # Legislation Explorer ExpressJS server port
 
     steps:
       - checkout
