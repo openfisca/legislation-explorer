@@ -73,6 +73,14 @@ class Variable extends React.Component {
       }
     }
 
+    function getEndDate(variable){
+      const dates = keys(variable.formulas).sort().reverse()
+      const firstUnactiveDay = dates.length > 0 ? dates[0] : undefined
+      return variable.formulas[firstUnactiveDay] == null ? new Date(new Date(firstUnactiveDay) -1) : undefined
+    }
+
+    const variableEndDate = getEndDate(variable)
+
     return (
       <div>
         <p>
@@ -106,6 +114,22 @@ class Variable extends React.Component {
             { definitionPeriodMessage[variable.definitionPeriod] }
           </span>.
         </p>
+        {
+          variableEndDate &&
+          (<p>
+            <FormattedMessage
+              id="endDateParagraph"
+              values={{endDateLink:
+                  <a href="https://openfisca.org/doc/coding-the-legislation/40_legislation_evolutions.html#formula-evolution" rel="noopener" target="_blank">
+                    <FormattedMessage id="endDateText"/>
+                  </a>
+              }}
+            />&nbsp;
+            <span className="variable-metadata">
+              <FormattedDate value={ variableEndDate } year="numeric" month="2-digit" day="2-digit" />
+            </span>.
+          </p>)
+        }
         <p>
           <FormattedMessage id="valueTypeParagraph"/>
           <span className="variable-metadata"> {

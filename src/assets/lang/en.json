@@ -37,6 +37,8 @@
   "rolePlural": "Plural",
   "definitionPeriodParagraph": "It has a {definitionPeriodLink}",
   "definitionPeriodText": "definition period",
+  "endDateParagraph": "It has an {endDateLink}",
+  "endDateText": "end of validity date set to",
   "valueTypeParagraph": "Its value is",
   "allowedValues": "The allowed values are:",
   "defaultValueParagraph": "Its {defaultValueLink} is",
