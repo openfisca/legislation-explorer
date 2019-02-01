@@ -73,13 +73,13 @@ class Variable extends React.Component {
       }
     }
 
-    function getEndDate(variable) {
+    const endDate = (variable) => {
       const dates = keys(variable.formulas).sort().reverse()
-      const firstUnactiveDay = dates.length > 0 ? dates[0] : undefined
-      return variable.formulas[firstUnactiveDay] == null ? new Date(new Date(firstUnactiveDay) - 1) : undefined
+      return dates.length > 0 && variable.formulas[dates[0]] == null ?
+        new Date(new Date(dates[0]) - 1)
+        : undefined
     }
-
-    const variableEndDate = getEndDate(variable)
+    const variableEndDate = endDate(variable)
 
     return (
       <div>
