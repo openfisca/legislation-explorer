@@ -22,6 +22,10 @@ header .openfiscaPresentation p {
   margin-top: 1em;
 }
 
+#country-package-info {
+  white-space: nowrap;
+}
+
 h4 {
   font-size: medium;
   margin-top: 3em;
