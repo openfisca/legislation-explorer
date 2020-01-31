@@ -17,7 +17,7 @@ jobs:
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - restore_cache:
-          key: sc-4.4.9
+          key: sc-4.4.12
       - run:
           name: Install app dependencies
           command: npm install
@@ -27,14 +27,14 @@ jobs:
             npm install saucelabs@^1.0.1 --no-save # allow sending Watai results to SauceLabs. Don't save in package.json, as this would change its checksum and mess up the cache.
             if [ -d sc ]; then exit; fi  # sc has already been downloaded
             mkdir sc
-            wget https://saucelabs.com/downloads/sc-4.4.9-linux.tar.gz --directory-prefix sc
-            tar -xzf sc/sc-4.4.9-linux.tar.gz --directory sc
+            wget https://saucelabs.com/downloads/sc-4.4.12-linux.tar.gz --directory-prefix sc
+            tar -xzf sc/sc-4.4.12-linux.tar.gz --directory sc
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - node_modules
       - save_cache:
-          key: sc-4.4.9
+          key: sc-4.4.12
           paths:
             - sc
       - run:
