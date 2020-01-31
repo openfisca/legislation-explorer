@@ -24,7 +24,7 @@ jobs:
       - run:
           name: Install saucelabs
           command: |
-            npm install saucelabs --no-save # allow sending Watai results to SauceLabs. Don't save in package.json, as this would change its checksum and mess up the cache.
+            npm install saucelabs@^1.0.1 --no-save # allow sending Watai results to SauceLabs. Don't save in package.json, as this would change its checksum and mess up the cache.
             if [ -d sc ]; then exit; fi  # sc has already been downloaded
             mkdir sc
             wget https://saucelabs.com/downloads/sc-4.4.9-linux.tar.gz --directory-prefix sc
