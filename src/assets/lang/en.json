@@ -54,7 +54,7 @@
   "ofType": "of type {type}",
   "formulaTitle": "Computation Formula",
   "formulasTitle": "Computation Formulas",
-  "noFormulaParagraph": "It does not have a formula and therefore is {formulaNotComputable}. It can only be used as an input for a computation.",
+  "noFormulaParagraph": "It does not have any formula and therefore is {formulaNotComputable}. It can be used only as an input for computation.",
   "formulaNotComputableText": "not computable",
   "editThisVariable": "Edit this variable",
   "editThisFormula": "Edit this formula",
