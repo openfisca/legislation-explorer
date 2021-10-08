@@ -1,0 +1,33 @@
+legislation_explorer_api_url: https://fr.openfisca.org/api/latest
+legislation_explorer_base_url_path: /legislation
+legislation_explorer_branch_name: master
+legislation_explorer_changelog_url: https://github.com/openfisca/openfisca-france/blob/master/CHANGELOG.md
+legislation_explorer_host: 0.0.0.0
+legislation_explorer_http_port: 2030
+legislation_explorer_repo_url: https://github.com/openfisca/legislation-explorer.git
+legislation_explorer_ui_strings: |
+  {
+    "en":
+      { "countryName": "France", "search_placeholder": "smic, salaire net" },
+    "fr":
+      { "countryName": "France", "search_placeholder": "smic, salaire net" }
+  }
+legislation_explorer_systemd_service_file_path: /etc/systemd/system/legislation-explorer.service
+legislation_explorer_unix_group_name: openfisca
+legislation_explorer_unix_user_name: legislation-explorer
+
+# Nginx
+
+legislation_explorer_host_name: fr.openfisca.org
+
+# Optional: SSL certificate
+# An SSL certificate is issued from Let's Encrypt if `legislation_explorer_enable_ssl` and `legislation_explorer_letsencrypt_email` are both defined.
+legislation_explorer_enable_ssl: no
+legislation_explorer_letsencrypt_email: null
+# Start by testing with staging environment, then switch to production once it works, to avoid reaching Let's Encrypt limits.
+legislation_explorer_letsencrypt_environment: "staging"
+
+# Optional: Matomo tracker
+
+legislation_explorer_matomo_url: null
+legislation_explorer_matomo_site_id: null
