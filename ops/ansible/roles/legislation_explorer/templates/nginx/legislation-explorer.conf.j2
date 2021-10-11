@@ -9,7 +9,7 @@ server {
     access_log /var/log/nginx/{{ legislation_explorer_host_name }}-access.log;
     error_log /var/log/nginx/{{ legislation_explorer_host_name }}-error.log;
 
-    location ~{{ legislation_explorer_base_url_path }}(.*)$ {
+    location ~ ^{{ legislation_explorer_base_url_path }}(.*)$ {
         proxy_pass http://legislation-explorer$1;
         include proxy_params;
     }
