@@ -1,4 +1,4 @@
-legislation_explorer_api_url: https://fr.openfisca.org/api/latest
+legislation_explorer_api_url: http://openfisca-api.example
 legislation_explorer_base_url_path: /legislation
 legislation_explorer_branch_name: master
 legislation_explorer_changelog_url: https://github.com/openfisca/openfisca-france/blob/master/CHANGELOG.md
@@ -18,7 +18,7 @@ legislation_explorer_unix_user_name: legislation-explorer
 
 # Nginx
 
-legislation_explorer_host_name: fr.openfisca.org
+legislation_explorer_host_name: legislation-explorer.example
 
 # Optional: SSL certificate
 # An SSL certificate is issued from Let's Encrypt if `legislation_explorer_enable_ssl` and `legislation_explorer_letsencrypt_email` are both defined.
