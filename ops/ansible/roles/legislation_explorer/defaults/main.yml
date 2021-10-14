@@ -3,7 +3,7 @@ legislation_explorer_base_url_path: /legislation
 legislation_explorer_branch_name: master
 legislation_explorer_changelog_url: https://github.com/openfisca/openfisca-france/blob/master/CHANGELOG.md
 legislation_explorer_host: 127.0.0.1
-legislation_explorer_http_port: 2030
+legislation_explorer_http_port: 8000
 legislation_explorer_repo_url: https://github.com/openfisca/legislation-explorer.git
 legislation_explorer_ui_strings: |
   {
