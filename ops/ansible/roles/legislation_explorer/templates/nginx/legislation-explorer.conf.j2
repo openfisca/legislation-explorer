@@ -11,6 +11,6 @@ server {
 
     location ~ ^{{ legislation_explorer_base_url_path }}(.*)$ {
         proxy_pass http://legislation-explorer$1;
-        include proxy_params;
+        include /etc/nginx/proxy_params;
     }
 }
