@@ -1,4 +1,4 @@
-port = ENV["HOST_PORT"] || 8000
+port = ENV["PORT"] || 8000
 
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/focal64"
