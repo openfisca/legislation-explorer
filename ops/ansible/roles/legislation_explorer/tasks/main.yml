@@ -36,7 +36,7 @@
 
 - name: Clone the Git repository of Legislation Explorer
   ansible.builtin.git:
-    # Discard any local modifications otherwise the task will fail.
+    # Discard any local changes otherwise the task will fail.
     # Sometimes the package-lock.json is modified due to changes in its structure.
     force: yes
     repo: "{{ legislation_explorer_repo_url }}"
@@ -61,7 +61,7 @@
   args:
     chdir: "{{ legislation_explorer_source_dir }}"
 
-- name: Setup the systemd service
+- name: Set up the systemd service
   block:
     - name: Copy the systemd service file
       ansible.builtin.template:
@@ -100,7 +100,7 @@
     state: link
   notify: Reload nginx
 
-- name: Setup SSL
+- name: Set SSL up
   when: legislation_explorer_enable_ssl and legislation_explorer_letsencrypt_email
   block:
     - name: Install Certbot and its Nginx plugin

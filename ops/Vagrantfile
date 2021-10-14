@@ -9,7 +9,7 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: 80, host: port
 
   config.vm.provider :virtualbox do |v|
-    # Building Legislation Explorer takes more than 1024Mb of memory (the default value).
+    # Building Legislation Explorer takes more than the default 1024MB of memory.
     v.memory = 2048
   end
 
