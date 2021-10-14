@@ -103,3 +103,7 @@ Then, build the app, [run the server](#run-the-server), [run a Selenium instance
 ```sh
 npm run test
 ```
+
+## Deploy to production
+
+See the [dedicated guide](./ops/docs/Install-instance.md).
