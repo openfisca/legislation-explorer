@@ -1,4 +1,4 @@
-legislation_explorer_api_url: http://openfisca-api.example
+legislation_explorer_api_url: http://localhost:8000
 legislation_explorer_base_url_path: /legislation
 legislation_explorer_branch_name: master
 legislation_explorer_changelog_url: https://github.com/openfisca/openfisca-france/blob/master/CHANGELOG.md
