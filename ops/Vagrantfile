@@ -30,7 +30,7 @@ Vagrant.configure("2") do |config|
     # Uncomment to define Ansible variables specific to this VM.
     ansible.host_vars = {
       "legislation_explorer" => {
-        "legislation_explorer_host_name" => "legislation-explorer.local"
+        "host_name" => "legislation-explorer.local"
       }
     }
   end

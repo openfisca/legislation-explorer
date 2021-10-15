@@ -1,15 +1,15 @@
 upstream legislation-explorer {
-    server localhost:{{ legislation_explorer_http_port }};
+    server localhost:{{ http_port }};
 }
 
 server {
     listen 80;
-    server_name {{ legislation_explorer_host_name }};
+    server_name {{ host_name }};
 
-    access_log /var/log/nginx/{{ legislation_explorer_host_name }}-access.log;
-    error_log /var/log/nginx/{{ legislation_explorer_host_name }}-error.log;
+    access_log /var/log/nginx/{{ host_name }}-access.log;
+    error_log /var/log/nginx/{{ host_name }}-error.log;
 
-    location ~ ^{{ legislation_explorer_base_url_path }}(.*)$ {
+    location ~ ^{{ base_url_path }}(.*)$ {
         proxy_pass http://legislation-explorer$1;
         include /etc/nginx/proxy_params;
     }

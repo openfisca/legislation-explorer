@@ -20,13 +20,13 @@
 
 - name: Create the Unix group for Legislation Explorer
   ansible.builtin.group:
-    name: "{{ legislation_explorer_unix_group_name }}"
+    name: "{{ unix_group_name }}"
     state: present
 
 - name: Create the Unix user for Legislation Explorer
   ansible.builtin.user:
-    name: "{{ legislation_explorer_unix_user_name }}"
-    group: "{{ legislation_explorer_unix_group_name }}"
+    name: "{{ unix_user_name }}"
+    group: "{{ unix_group_name }}"
     shell: /bin/bash
   register: legislation_explorer_unix_user
 
@@ -39,10 +39,10 @@
     # Discard any local changes otherwise the task will fail.
     # Sometimes the package-lock.json is modified due to changes in its structure.
     force: yes
-    repo: "{{ legislation_explorer_repo_url }}"
+    repo: "{{ repo_url }}"
     dest: "{{ legislation_explorer_source_dir }}"
-    version: "{{ legislation_explorer_branch_name }}"
-  become_user: "{{ legislation_explorer_unix_user_name }}"
+    version: "{{ branch_name }}"
+  become_user: "{{ unix_user_name }}"
 
 - name: Install npm dependencies
   ansible.builtin.npm:
@@ -67,7 +67,7 @@
       ansible.builtin.template:
         backup: yes
         src: systemd/legislation-explorer.service.j2
-        dest: "{{ legislation_explorer_systemd_service_file_path }}"
+        dest: "{{ systemd_service_file_path }}"
 
     - name: Enable and start the systemd service
       ansible.builtin.systemd:
@@ -81,7 +81,7 @@
     return_content: yes
     status_code: 200
     timeout: 120
-    url: "http://localhost:{{ legislation_explorer_http_port }}"
+    url: "http://localhost:{{ http_port }}"
   register: this
   until: this.status == 200
   retries: 5 # times
@@ -91,17 +91,17 @@
   ansible.builtin.template:
     backup: yes
     src: nginx/legislation-explorer.conf.j2
-    dest: "/etc/nginx/sites-available/{{ legislation_explorer_host_name }}.conf"
+    dest: "/etc/nginx/sites-available/{{ host_name }}.conf"
 
 - name: Link the nginx vhost file to the sites-enabled directory of Nginx
   ansible.builtin.file:
-    src: "/etc/nginx/sites-available/{{ legislation_explorer_host_name }}.conf"
-    dest: "/etc/nginx/sites-enabled/{{ legislation_explorer_host_name }}.conf"
+    src: "/etc/nginx/sites-available/{{ host_name }}.conf"
+    dest: "/etc/nginx/sites-enabled/{{ host_name }}.conf"
     state: link
   notify: Reload nginx
 
 - name: Set SSL up
-  when: legislation_explorer_enable_ssl and legislation_explorer_letsencrypt_email
+  when: enable_ssl and letsencrypt_email
   block:
     - name: Install Certbot and its Nginx plugin
       ansible.builtin.apt:
@@ -113,7 +113,7 @@
         update_cache: no
 
     - name: Handle staging environment
-      when: legislation_explorer_letsencrypt_environment == "staging"
+      when: letsencrypt_environment == "staging"
       block:
         - name: Display message when staging environment is used
           ansible.builtin.debug:
@@ -126,9 +126,9 @@
     - name: Reinstall or renew an SSL certificate from Let's Encrypt using the certbot client
       ansible.builtin.command: >
         certbot
-        --non-interactive --email {{ legislation_explorer_letsencrypt_email }} --agree-tos
+        --non-interactive --email {{ letsencrypt_email }} --agree-tos
         --nginx --redirect
-        --domains {{ legislation_explorer_host_name }} --keep-until-expiring
+        --domains {{ host_name }} --keep-until-expiring
         {{ certbot_staging_option | default() }}
       become_user: root
       register: certbot_result
@@ -137,7 +137,7 @@
       ansible.builtin.lineinfile:
         backrefs: yes
         line: '\1\2 http2;\3'
-        path: "/etc/nginx/sites-available/{{ legislation_explorer_host_name }}.conf"
+        path: "/etc/nginx/sites-available/{{ host_name }}.conf"
         regexp: "^(.*)(listen 443 ssl);(.+)$"
       notify: Reload nginx
       tags:
