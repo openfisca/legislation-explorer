@@ -1,5 +1,5 @@
 api_url: http://localhost:8000
-base_url_path: /legislation
+base_url_path: /
 branch_name: master
 changelog_url: https://github.com/openfisca/openfisca-france/blob/master/CHANGELOG.md
 host: 127.0.0.1
