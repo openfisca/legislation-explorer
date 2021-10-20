@@ -6,7 +6,6 @@ ExecStart=/usr/bin/npm start
 WorkingDirectory={{ legislation_explorer_source_dir | quote }}
 User={{ unix_user_name }}
 Group={{ unix_group_name }}
-Restart=always
 
 [Install]
 WantedBy=multi-user.target
