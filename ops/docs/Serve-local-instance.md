@@ -1,6 +1,6 @@
 # Run a local instance of the Legislation Explorer in a virtual machine
 
-By following this guide, you will be able to access the latest version of the Legislation Explorer on your local machine at `http://0.0.0.0:8000/`, without worrying about dependency and stack management, thanks to [Vagrant](https://vagrantup.com) and [Ansible](https://www.ansible.com/).
+By following this guide, you will be able to access the latest version of the Legislation Explorer on your local machine at `http://localhost:8001/`, without worrying about dependency and stack management, thanks to [Vagrant](https://vagrantup.com) and [Ansible](https://www.ansible.com/).
 
 > For information, this guide was written with Ansible 2.11.2 running on Python 3.9.4, Vagrant 2.2.16 and VirtualBox 6.1.22.
 
@@ -41,6 +41,8 @@ ansible [core 2.11.2]
 
 Once the command is done, you should have a virtual machine running the Legislation Explorer.
 
-Thanks to Vagrant port forwarding, the port 80 inside the virtual machine is forwarded to another port on your development machine. You can thus access the Legislation Explorer on your local machine on the `8000` port: just open [`http://0.0.0.0:8000/`](http://0.0.0.0:8000/) in your browser. You can change this port by setting the environment variable `PORT`.
+Thanks to Vagrant port forwarding, the port 80 inside the virtual machine is forwarded to another port on your development machine. You can thus access the Legislation Explorer on your local machine on the `8001` port: just open [`http://localhost:8001/`](http://localhost:8001/) in your browser.
 
-> On such a local virtual machine, the Legislation Explorer is by default served over HTTP instead of HTTPS, as SSL certificates cannot be automatically provisioned by Let’s Encrypt.
+> You can override that port with the `PORT` environment variable: `PORT=8081 vagrant up`.
+
+> On such a local virtual machine, the API is by default served over HTTP instead of HTTPS, as SSL certificates cannot be automatically provisioned by Let’s Encrypt.
