@@ -36,10 +36,10 @@ Vagrant.configure("2") do |config|
 
     ansible.host_vars = {
       "legislation_explorer" => {
-        # Use the API from another local VM.
+        # Use the API served from another local VM:
         "api_url" => "http://#{host_ip_from_guest}:#{api_port}",
 
-        # Use the online API instance serving OpenFisca-France.
+        # Use an online instance of the API, for example the one serving OpenFisca-France:
         # "api_url" => "https://api.fr.openfisca.org/api/latest",
 
         "host" => "0.0.0.0",
