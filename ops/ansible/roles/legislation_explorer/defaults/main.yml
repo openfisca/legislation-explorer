@@ -18,7 +18,7 @@ unix_user_name: legislation-explorer
 
 # Nginx
 
-host_name: legislation-explorer.example
+host_name: localhost
 
 # Optional: SSL certificate
 # An SSL certificate is issued from Let's Encrypt if `enable_ssl` and `letsencrypt_email` are both defined.
