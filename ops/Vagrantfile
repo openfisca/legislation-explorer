@@ -1,9 +1,10 @@
+api_port = ENV["API_PORT"] || 8000
 guest_port = 8001
+host_port = ENV["PORT"] || 8001
 
 # From inside the VM, the IP address of the host is fixed to this value, by convention.
 host_ip_from_guest = "192.168.0.1"
 
-host_port = ENV["PORT"] || 8001
 
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/focal64"
@@ -36,7 +37,7 @@ Vagrant.configure("2") do |config|
     ansible.host_vars = {
       "legislation_explorer" => {
         # Use the API from another local VM.
-        "api_url" => "http://#{host_ip_from_guest}:8000",
+        "api_url" => "http://#{host_ip_from_guest}:#{api_port}",
 
         # Use the online API instance serving OpenFisca-France.
         # "api_url" => "https://api.fr.openfisca.org/api/latest",
