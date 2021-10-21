@@ -1,7 +1,0 @@
-all:
-  hosts:
-    target.ip.or.domain.com: # define here the target machine’s IP or domain name
-      ansible_user: root # define here the username to use when connecting over SSH
-      # adjust the variables defined in `ansible/roles/legislation_explorer/defaults/main.yml` below:
-      api_url: https://my-openfisca-api.example/api/latest
-      host_name: my-legislation-explorer.example
