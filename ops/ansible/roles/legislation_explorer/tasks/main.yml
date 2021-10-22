@@ -52,7 +52,6 @@
 
 - name: Copy the environment file for Legislation Explorer
   ansible.builtin.template:
-    backup: yes
     src: systemd/legislation-explorer.env.j2
     dest: "{{ legislation_explorer_source_dir }}/.env"
 
@@ -65,7 +64,6 @@
   block:
     - name: Copy the systemd service file
       ansible.builtin.template:
-        backup: yes
         src: systemd/legislation-explorer.service.j2
         dest: "{{ systemd_service_file_path }}"
 
@@ -89,7 +87,6 @@
 
 - name: Copy the nginx vhost file to the sites-available directory of Nginx
   ansible.builtin.template:
-    backup: yes
     src: nginx/legislation-explorer.conf.j2
     dest: "/etc/nginx/sites-available/{{ host_name }}.conf"
 
