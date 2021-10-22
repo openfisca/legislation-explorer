@@ -125,7 +125,8 @@
         certbot
         --non-interactive --email {{ letsencrypt_email }} --agree-tos
         --nginx --redirect
-        --domains {{ host_name }} --keep-until-expiring
+        --domain {{ host_name }}
+        --keep-until-expiring
         {{ certbot_staging_option | default() }}
       become_user: root
       register: certbot_result
