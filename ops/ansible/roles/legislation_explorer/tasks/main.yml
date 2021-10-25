@@ -98,7 +98,7 @@
   notify: Reload nginx
 
 - name: Set SSL up
-  when: enable_ssl and letsencrypt_email
+  when: letsencrypt_email
   block:
     - name: Install Certbot and its Nginx plugin
       ansible.builtin.apt:
