@@ -6,5 +6,5 @@ all:
       host_name: fr.openfisca.org
       base_path: /legislation
 
-      api_url: https://fr.openfisca.org/api/latest
+      api_url: https://api.fr.openfisca.org/api/latest
       port: 8100
