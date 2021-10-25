@@ -3,7 +3,7 @@ all:
     vps-60ea1664.openfisca.org:
       ansible_user: root
 
-      host_name: fr.openfisca.org
+      host_name: legislation.fr.openfisca.org
       base_path: /legislation
 
       api_url: https://api.fr.openfisca.org/api/latest
