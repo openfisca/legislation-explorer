@@ -65,7 +65,7 @@
     - name: Copy the systemd service file
       ansible.builtin.template:
         src: systemd/legislation-explorer.service.j2
-        dest: "{{ systemd_service_file_path }}"
+        dest: "{{ systemd_service_file }}"
 
     - name: Enable and start the systemd service
       ansible.builtin.systemd:
@@ -79,7 +79,7 @@
     return_content: yes
     status_code: 200
     timeout: 120
-    url: "http://localhost:{{ http_port }}"
+    url: "http://localhost:{{ port }}"
   register: this
   until: this.status == 200
   retries: 5 # times

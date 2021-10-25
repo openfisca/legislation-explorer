@@ -1,9 +1,9 @@
 api_url: http://localhost:8000
-base_url_path: /
+base_path: /
 branch_name: master
 changelog_url: https://github.com/openfisca/openfisca-france/blob/master/CHANGELOG.md
 host: 127.0.0.1
-http_port: 8001
+port: 8001
 repo_url: https://github.com/openfisca/legislation-explorer.git
 ui_strings: |
   {
@@ -12,7 +12,7 @@ ui_strings: |
     "fr":
       { "countryName": "France", "search_placeholder": "smic, salaire net" }
   }
-systemd_service_file_path: /etc/systemd/system/legislation-explorer.service
+systemd_service_file: /etc/systemd/system/legislation-explorer.service
 unix_group_name: openfisca
 unix_user_name: legislation-explorer
 

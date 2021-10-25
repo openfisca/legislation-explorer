@@ -4,7 +4,7 @@ all:
       ansible_user: root
 
       host_name: fr.openfisca.org
-      base_url_path: /legislation
+      base_path: /legislation
 
       api_url: https://fr.openfisca.org/api/latest
-      http_port: 8100
+      port: 8100

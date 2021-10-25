@@ -1,5 +1,5 @@
 upstream legislation-explorer {
-    server localhost:{{ http_port }};
+    server localhost:{{ port }};
 }
 
 server {
@@ -9,7 +9,7 @@ server {
     access_log /var/log/nginx/{{ host_name }}-access.log;
     error_log /var/log/nginx/{{ host_name }}-error.log;
 
-    location ~ ^{{ base_url_path }}(.*)$ {
+    location ~ ^{{ base_path }}(.*)$ {
         proxy_pass http://legislation-explorer$1;
         include /etc/nginx/proxy_params;
     }

@@ -50,7 +50,7 @@ all:
 2. Navigate to the freshly downloaded folder: `cd legislation-explorer`.
 3. Type the following command: `ansible-playbook --inventory ansible/inventories/YOUR_INVENTORY.yml ansible/site.yml`.
 
-Once the command is done, your target machine should run the Legislation Explorer. Just open `http://HOST_NAME/` in your browser. You can change the port and path through the configuration file, by changing the variables `base_url_path` or `http_port`.
+Once the command is done, your target machine should run the Legislation Explorer. Just open `http://HOST_NAME/` in your browser. You can change the port and path through the configuration file, by changing the variables `base_path` or `port`.
 
 ### Optional: enable Matomo
 
