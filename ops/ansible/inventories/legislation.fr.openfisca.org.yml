@@ -8,3 +8,6 @@ all:
 
       api_url: https://api.fr.openfisca.org/api/latest
       port: 8100
+
+      letsencrypt_email: contact@openfisca.org
+      letsencrypt_environment: production
