@@ -6,9 +6,9 @@ all:
       host_name: legislation.fr.openfisca.org
       base_path: /legislation
 
-      api_url: https://api.fr.openfisca.org/api/latest
       port: 8100
 
+      api_url: https://api.fr.openfisca.org/latest
       letsencrypt_email: contact@openfisca.org
       letsencrypt_environment: production
 
