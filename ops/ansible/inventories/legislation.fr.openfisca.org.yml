@@ -4,7 +4,6 @@ all:
       ansible_user: root
 
       host_name: legislation.fr.openfisca.org
-      base_path: /legislation
 
       port: 8100
 
