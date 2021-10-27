@@ -4,10 +4,10 @@ all:
       ansible_user: root
 
       host_name: legislation.fr.openfisca.org
-
       port: 8100
 
       api_url: https://api.fr.openfisca.org/latest
+
       letsencrypt_email: contact@openfisca.org
       letsencrypt_environment: production
 
