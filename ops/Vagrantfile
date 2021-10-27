@@ -40,7 +40,7 @@ Vagrant.configure("2") do |config|
         "api_url" => "http://#{host_ip_from_guest}:#{api_port}",
 
         # Use an online instance of the API, for example the one serving OpenFisca-France:
-        # "api_url" => "https://api.fr.openfisca.org/api/latest",
+        # "api_url" => "https://api.fr.openfisca.org/latest",
 
         "host" => "0.0.0.0",
         "port" => guest_port,
