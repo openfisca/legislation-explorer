@@ -68,7 +68,7 @@
         daemon_reload: yes
         enabled: yes
         state: restarted
-        name: legislation-explorer
+        name: "{{ systemd_service_file | basename }}"
 
 - name: Check that Legislation Explorer is actually started
   ansible.builtin.uri:
