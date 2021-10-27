@@ -26,6 +26,7 @@ matomo_url: null
 matomo_site_id: null
 
 # Fully managed by Ansible, you should not need to edit this unless you have a naming collision
+source_dir: "/home/{{ unix_user_name }}/legislation-explorer"
 systemd_service_file: /etc/systemd/system/legislation-explorer.service
 unix_group_name: openfisca
 unix_user_name: legislation-explorer

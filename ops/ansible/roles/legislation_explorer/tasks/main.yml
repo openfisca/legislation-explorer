@@ -30,10 +30,6 @@
     shell: /bin/bash
   register: unix_user
 
-- name: Define a directory to clone Legislation Explorer to
-  ansible.builtin.set_fact:
-    source_dir: "{{ unix_user.home }}/legislation-explorer"
-
 - name: Clone the Git repository of Legislation Explorer
   ansible.builtin.git:
     # Discard any local changes otherwise the task will fail.
