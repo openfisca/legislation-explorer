@@ -43,7 +43,7 @@ function loadWebpackAssets() {
 }
 
 
-function trimEndSlash(value) {
+function trimTrailingSlashes(value) {
   return value.replace(/\/+$/, '')
 }
 
@@ -59,7 +59,7 @@ function renderHtmlDocument(renderProps, state) {
     </IntlProvider>
   )
   const webpackAssets = loadWebpackAssets()
-  const pathname = trimEndSlash(process.env.PATHNAME || '/')
+  const pathname = trimTrailingSlashes(process.env.PATHNAME || '/')
 
   // Add external CSS copied to the public directory by CopyWebpackPlugin in webpack config.
   const bootstrapCss = process.env.NODE_ENV === 'production'
