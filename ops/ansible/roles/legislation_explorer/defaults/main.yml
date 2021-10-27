@@ -8,9 +8,9 @@ host_name: localhost
 ui_strings: |
   {
     "en":
-      { "countryName": "France", "search_placeholder": "smic, salaire net" },
+      { "countryName": "Demo", "search_placeholder": "salary, disposable income" },
     "fr":
-      { "countryName": "France", "search_placeholder": "smic, salaire net" }
+      { "countryName": "Demo", "search_placeholder": "salary, disposable income" }
   }
 
 repo_url: https://github.com/openfisca/legislation-explorer.git
