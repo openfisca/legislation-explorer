@@ -28,11 +28,11 @@
     name: "{{ unix_user_name }}"
     group: "{{ unix_group_name }}"
     shell: /bin/bash
-  register: legislation_explorer_unix_user
+  register: unix_user
 
 - name: Define a directory to clone Legislation Explorer to
   ansible.builtin.set_fact:
-    legislation_explorer_source_dir: "{{ legislation_explorer_unix_user.home }}/legislation-explorer"
+    source_dir: "{{ unix_user.home }}/legislation-explorer"
 
 - name: Clone the Git repository of Legislation Explorer
   ansible.builtin.git:
@@ -40,25 +40,25 @@
     # Sometimes the package-lock.json is modified due to changes in its structure.
     force: yes
     repo: "{{ repo_url }}"
-    dest: "{{ legislation_explorer_source_dir }}"
+    dest: "{{ source_dir }}"
     version: "{{ branch_name }}"
   become_user: "{{ unix_user_name }}"
 
 - name: Install npm dependencies
   ansible.builtin.npm:
-    path: "{{ legislation_explorer_source_dir }}"
+    path: "{{ source_dir }}"
     production: yes
     state: present
 
 - name: Copy the environment file for Legislation Explorer
   ansible.builtin.template:
     src: systemd/legislation-explorer.env.j2
-    dest: "{{ legislation_explorer_source_dir }}/.env"
+    dest: "{{ source_dir }}/.env"
 
 - name: Build the application
   ansible.builtin.command: npm run build
   args:
-    chdir: "{{ legislation_explorer_source_dir }}"
+    chdir: "{{ source_dir }}"
 
 - name: Set up the systemd service
   block:
