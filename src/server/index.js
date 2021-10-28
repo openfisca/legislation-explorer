@@ -38,8 +38,12 @@ function startServer(state) {
   server.listen(config.port, config.host, () => console.log(`Server listening on http://${config.host}:${config.port}/`))
 }
 
-console.log('Fetching variables and parameters on Web API...')
+console.log('Fetching initial data from Web API...')
 Promise.all([fetchEntities(), fetchParameters(), fetchVariables(), fetchSwagger()])
+  .catch(error => {
+    console.error('Could not fetch initial data from Web API, abort')
+    throw error
+  })
   .then(([entitiesResponse, parametersResponse, variablesResponse, swaggerResponse]) => {
     console.log('Starting server...')
 
@@ -68,9 +72,4 @@ Promise.all([fetchEntities(), fetchParameters(), fetchVariables(), fetchSwagger(
       messages: messages,
     }
     startServer(state)
-  }, error => {
-    console.log('error:', error)
-  })
-  .catch((error) => {
-    console.log('Top-level error:', error)
   })
