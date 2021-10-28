@@ -1,9 +1,9 @@
 api_url: http://localhost:8000
 app_host: 127.0.0.1
+app_port: 8001
 base_path: /
 changelog_url: https://github.com/openfisca/openfisca-france/blob/master/CHANGELOG.md
 host_name: localhost
-port: 8001
 ui_strings: |
   {
     "en":

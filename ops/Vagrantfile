@@ -34,7 +34,7 @@ Vagrant.configure("2") do |config|
       "legislation_explorer" => {
         "api_url" => api_url,
         "app_host" => "0.0.0.0",
-        "port" => guest_port,
+        "app_port" => guest_port,
       }
     }
   end
