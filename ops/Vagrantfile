@@ -33,7 +33,7 @@ Vagrant.configure("2") do |config|
     ansible.host_vars = {
       "legislation_explorer" => {
         "api_url" => api_url,
-        "host" => "0.0.0.0",
+        "app_host" => "0.0.0.0",
         "port" => guest_port,
       }
     }
