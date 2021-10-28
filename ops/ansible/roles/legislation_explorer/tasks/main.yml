@@ -105,16 +105,10 @@
         state: present
         update_cache: no
 
-    - name: Handle staging environment
+    - name: Use Let's Encrypt staging environment
       when: letsencrypt_environment == "staging"
-      block:
-        - name: Display message when staging environment is used
-          ansible.builtin.debug:
-            msg: Let's Encrypt staging environment will be used
-
-        - name: Define certbot --staging option
-          ansible.builtin.set_fact:
-            certbot_staging_option: "--staging"
+      ansible.builtin.set_fact:
+        certbot_staging_option: "--staging"
 
     - name: Reinstall or renew an SSL certificate from Let's Encrypt using the certbot client
       ansible.builtin.command: >
