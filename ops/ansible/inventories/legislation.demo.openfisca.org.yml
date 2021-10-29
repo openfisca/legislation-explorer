@@ -3,9 +3,9 @@ all:
     vps-60ea1664.openfisca.org:
       ansible_user: root
 
-      host_name: legislation.demo.openfisca.org
       api_url: https://api.demo.openfisca.org/latest
       app_port: 8101
+
       country_code: demo
       ui_strings: |
         {
@@ -15,8 +15,12 @@ all:
             { "countryName": "Demo", "search_placeholder": "salary, disposable income" }
         }
 
-      letsencrypt_email: contact@openfisca.org
-      letsencrypt_environment: production
-
       matomo_url: https://stats.data.gouv.fr/piwik.php
       matomo_site_id: 4
+
+      # Reverse proxy
+
+      host_name: legislation.demo.openfisca.org
+
+      letsencrypt_email: contact@openfisca.org
+      letsencrypt_environment: production

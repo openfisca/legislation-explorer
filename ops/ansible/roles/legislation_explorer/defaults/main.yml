@@ -1,10 +1,7 @@
 api_url: http://localhost:8000
 app_host: 127.0.0.1
 app_port: 8001
-base_path: /
 changelog_url: https://github.com/openfisca/openfisca-france/blob/master/CHANGELOG.md
-country_code: demo
-host_name: localhost
 ui_strings: |
   {
     "en":
@@ -15,6 +12,10 @@ ui_strings: |
 
 repo_url: https://github.com/openfisca/legislation-explorer.git
 branch: master
+
+# Reverse proxy
+host_name: localhost
+base_path: /
 
 # Optional: SSL certificate
 # An SSL certificate is issued from Let's Encrypt if `letsencrypt_email` is defined.
