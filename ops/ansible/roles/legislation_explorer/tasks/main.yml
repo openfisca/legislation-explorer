@@ -37,7 +37,7 @@
     force: yes
     repo: "{{ repo_url }}"
     dest: "{{ source_dir }}"
-    version: "{{ branch_name }}"
+    version: "{{ branch }}"
   become_user: "{{ unix_user_name }}"
 
 - name: Install npm dependencies

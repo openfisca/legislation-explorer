@@ -13,7 +13,7 @@ ui_strings: |
   }
 
 repo_url: https://github.com/openfisca/legislation-explorer.git
-branch_name: master
+branch: master
 
 # Optional: SSL certificate
 # An SSL certificate is issued from Let's Encrypt if `letsencrypt_email` is defined.
