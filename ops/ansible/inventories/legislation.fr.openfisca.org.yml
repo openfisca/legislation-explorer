@@ -6,7 +6,6 @@ all:
       api_url: https://api.fr.openfisca.org/latest
       app_port: 8100
 
-      country_code: fr
       ui_strings: |
         {
           "en":

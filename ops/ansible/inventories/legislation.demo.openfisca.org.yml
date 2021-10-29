@@ -6,7 +6,6 @@ all:
       api_url: https://api.demo.openfisca.org/latest
       app_port: 8101
 
-      country_code: demo
       ui_strings: |
         {
           "en":
