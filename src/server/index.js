@@ -68,8 +68,6 @@ Promise.all([fetchEntities(), fetchParameters(), fetchVariables(), fetchSwagger(
       messages: messages,
     }
     startServer(state)
-  }, error => {
-    console.log('error:', error)
   })
   .catch((error) => {
     throw error
