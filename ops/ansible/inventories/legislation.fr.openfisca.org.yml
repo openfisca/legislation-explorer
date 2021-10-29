@@ -17,6 +17,9 @@ all:
       matomo_url: https://stats.data.gouv.fr/piwik.php
       matomo_site_id: 4
 
+      source_dir: legislation-explorer-fr # relative to the home directory
+      systemd_service_file_name: legislation-explorer-fr.service
+
       # Reverse proxy
 
       host_name: legislation.fr.openfisca.org
