@@ -22,7 +22,7 @@ all:
 
       # Reverse proxy
 
-      host_name: legislation.demo.openfisca.org
+      reverse_proxy_host_name: legislation.demo.openfisca.org
 
       letsencrypt_email: contact@openfisca.org
       letsencrypt_environment: production

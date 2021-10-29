@@ -49,4 +49,4 @@ Thanks to Vagrant port forwarding, the port 80 inside the virtual machine is for
 
 > On such a local virtual machine, the application is by default served over HTTP instead of HTTPS, as SSL certificates cannot be automatically provisioned by Let’s Encrypt.
 
-> The `base_path` variable won't have any effect when using this local virtual machine setup. When using Vagrant, by default the app is accessed directly, with no reverse proxy.
+> The `reverse_proxy_base_path` variable won't have any effect when using this local virtual machine setup. When using Vagrant, by default the app is accessed directly, with no reverse proxy.

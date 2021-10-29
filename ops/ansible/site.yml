@@ -4,3 +4,4 @@
   hosts: all
   roles:
     - legislation_explorer
+    - reverse_proxy

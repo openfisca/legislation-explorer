@@ -12,7 +12,6 @@
         name:
           - acl # Provides "setfacl" command, used by Ansible to become another Unix user
           - git
-          - nginx
           - nodejs=10.19.0~dfsg-3ubuntu1
           - npm=6.14.4+ds-1ubuntu2
         state: present
@@ -52,7 +51,7 @@
 
 - name: Copy the environment file for Legislation Explorer
   ansible.builtin.template:
-    src: systemd/legislation-explorer.env.j2
+    src: legislation-explorer.env.j2
     dest: "{{ source_dir_path }}/.env"
 
 - name: Build the application
@@ -64,7 +63,7 @@
   block:
     - name: Copy the systemd service file
       ansible.builtin.template:
-        src: systemd/legislation-explorer.service.j2
+        src: legislation-explorer.service.j2
         dest: "/etc/systemd/system/{{ systemd_service_file_name }}"
 
     - name: Enable and start the systemd service
@@ -84,54 +83,3 @@
   until: this.status == 200
   retries: 5 # times
   delay: 5 # Every 5 seconds
-
-- name: Copy the nginx vhost file to the sites-available directory of Nginx
-  ansible.builtin.template:
-    src: nginx/legislation-explorer.conf.j2
-    dest: "/etc/nginx/sites-available/{{ host_name }}.conf"
-
-- name: Link the nginx vhost file to the sites-enabled directory of Nginx
-  ansible.builtin.file:
-    src: "/etc/nginx/sites-available/{{ host_name }}.conf"
-    dest: "/etc/nginx/sites-enabled/{{ host_name }}.conf"
-    state: link
-  notify: Reload nginx
-
-- name: Set SSL up
-  when: letsencrypt_email
-  block:
-    - name: Install Certbot and its Nginx plugin
-      ansible.builtin.apt:
-        install_recommends: no
-        name:
-          - certbot
-          - python3-certbot-nginx
-        state: present
-        update_cache: no
-
-    - name: Use Let's Encrypt staging environment
-      when: letsencrypt_environment == "staging"
-      ansible.builtin.set_fact:
-        certbot_staging_option: "--staging"
-
-    - name: Reinstall or renew an SSL certificate from Let's Encrypt using the certbot client
-      ansible.builtin.command: >
-        certbot
-        --non-interactive --email {{ letsencrypt_email }} --agree-tos
-        --nginx --redirect
-        --domain {{ host_name }}
-        --cert-name {{ host_name }}
-        --keep-until-expiring
-        {{ certbot_staging_option | default() }}
-      become_user: root
-      register: certbot_result
-
-    - name: Enable HTTP/2
-      ansible.builtin.lineinfile:
-        backrefs: yes
-        line: '\1\2 http2;\3'
-        path: "/etc/nginx/sites-available/{{ host_name }}.conf"
-        regexp: "^(.*)(listen 443 ssl);(.+)$"
-      notify: Reload nginx
-      tags:
-        - http2
