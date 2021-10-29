@@ -70,5 +70,6 @@ Promise.all([fetchEntities(), fetchParameters(), fetchVariables(), fetchSwagger(
     startServer(state)
   })
   .catch((error) => {
+    process.exitCode = 1
     throw error
   })
