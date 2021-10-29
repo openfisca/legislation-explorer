@@ -3,7 +3,7 @@ Description=OpenFisca Legislation Explorer
 
 [Service]
 ExecStart=/usr/bin/npm start
-WorkingDirectory={{ source_dir | quote }}
+WorkingDirectory={{ source_dir_path | quote }}
 User={{ unix_user_name }}
 Group={{ unix_group_name }}
 
