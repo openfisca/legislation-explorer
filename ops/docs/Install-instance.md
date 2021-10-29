@@ -31,7 +31,7 @@ ansible [core 2.11.2]
 
 Ansible defines configuration of target machines in files constituting an _inventory_. In order to install the Legislation Explorer on the correct target machine, you will need to write such an inventory.
 
-An inventory template is stored as a YAML file in the [`inventories`](../ansible/inventories/) directory.
+Inventories are stored as YAML files in the [`inventories`](../ansible/inventories/) directory.
 
 ```yaml
 # in ansible/inventories/YOUR_INVENTORY.yml
@@ -39,7 +39,7 @@ all:
   hosts:
     target.ip.or.domain.com: # define here the target machine’s IP or domain name
       ansible_user: root # define here the username to use when connecting over SSH
-      # adjust the variables defined in `ansible/roles/legislation_explorer/defaults/main.yml` below:
+      # adjust the variables defined in `ansible/roles/*/defaults/main.yml` below:
       api_url: https://my-openfisca-api.example/
       host_name: my-legislation-explorer.example
 ```
@@ -50,7 +50,7 @@ all:
 2. Navigate to the freshly downloaded folder: `cd legislation-explorer`.
 3. Type the following command: `ansible-playbook --inventory ansible/inventories/YOUR_INVENTORY.yml ansible/site.yml`.
 
-Once the command is done, your target machine should run the Legislation Explorer. Just open `http://HOST_NAME/` in your browser. You can change the port and path through the configuration file, by changing the variables `base_path` or `app_port`.
+Once the command is done, your target machine should run the Legislation Explorer. Just open `http://HOST_NAME/` in your browser. You can change the port and path through the configuration file, by changing the variables `app_port` or `base_path`.
 
 ### Optional: enable Matomo
 

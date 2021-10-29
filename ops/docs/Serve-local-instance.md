@@ -33,13 +33,7 @@ ansible [core 2.11.2]
    …
 ```
 
-## 4. Run OpenFisca Web API
-
-The Legislation Explorer fetches its data from the OpenFisca Web API.
-
-You can either run the OpenFisca Web API using another local virtual machine (cf [openfisca-ops](https://github.com/openfisca/openfisca-ops)), or change the `api_url` variable in the `Vagrantfile` to any URL serving the API.
-
-## 5. Install and start the Legislation Explorer
+## 4. Install and start the Legislation Explorer
 
 1. Clone (or download) the `legislation-explorer` repository: `https://github.com/openfisca/legislation-explorer.git`.
 2. Navigate to the freshly downloaded folder: `cd legislation-explorer`.
@@ -51,4 +45,8 @@ Thanks to Vagrant port forwarding, the port 80 inside the virtual machine is for
 
 > You can override that port with the `PORT` environment variable: `PORT=8081 vagrant up`.
 
-> On such a local virtual machine, the API is by default served over HTTP instead of HTTPS, as SSL certificates cannot be automatically provisioned by Let’s Encrypt.
+> You can override the API URL with the `API_URL` environment variable: `API_URL=https://api.demo.openfisca.org/latest vagrant up`.
+
+> On such a local virtual machine, the application is by default served over HTTP instead of HTTPS, as SSL certificates cannot be automatically provisioned by Let’s Encrypt.
+
+> The `base_path` variable won't have any effect when using this local virtual machine setup. When using Vagrant, by default the app is accessed directly, with no reverse proxy.
