@@ -4,9 +4,8 @@ all:
       ansible_user: root
 
       host_name: legislation.demo.openfisca.org
-      port: 8101
-
       api_url: https://api.demo.openfisca.org/latest
+      app_port: 8101
       country_code: demo
       ui_strings: |
         {
