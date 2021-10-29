@@ -1,0 +1,61 @@
+- name: Install the reverse-proxy
+  when: reverse_proxy_host_name
+  block:
+    - name: Install the Nginx Ubuntu package
+      ansible.builtin.apt:
+        install_recommends: no
+        name:
+          - nginx
+        state: present
+        update_cache: no
+
+    - name: Copy the nginx vhost file to the sites-available directory of Nginx
+      ansible.builtin.template:
+        src: legislation-explorer.conf.j2
+        dest: "/etc/nginx/sites-available/{{ nginx_conf_file_name }}"
+
+    - name: Link the nginx vhost file to the sites-enabled directory of Nginx
+      ansible.builtin.file:
+        src: "/etc/nginx/sites-available/{{ nginx_conf_file_name }}"
+        dest: "/etc/nginx/sites-enabled/{{ nginx_conf_file_name }}"
+        state: link
+      notify: Reload nginx
+
+    - name: Set SSL up
+      when: letsencrypt_email
+      block:
+        - name: Install Certbot and its Nginx plugin
+          ansible.builtin.apt:
+            install_recommends: no
+            name:
+              - certbot
+              - python3-certbot-nginx
+            state: present
+            update_cache: no
+
+        - name: Use Let's Encrypt staging environment
+          when: letsencrypt_environment == "staging"
+          ansible.builtin.set_fact:
+            certbot_staging_option: "--staging"
+
+        - name: Issue or renew an SSL certificate with Let's Encrypt
+          ansible.builtin.command: >
+            certbot
+            --non-interactive --email {{ letsencrypt_email }} --agree-tos
+            --nginx --redirect
+            --cert-name {{ reverse_proxy_host_name }}
+            --domain {{ reverse_proxy_host_name }}
+            --keep-until-expiring
+            {{ certbot_staging_option | default() }}
+          become_user: root
+          register: certbot_result
+
+        - name: Enable HTTP/2
+          ansible.builtin.lineinfile:
+            backrefs: yes
+            line: '\1\2 http2;\3'
+            path: "/etc/nginx/sites-available/{{ nginx_conf_file_name }}"
+            regexp: "^(.*)(listen 443 ssl);(.+)$"
+          notify: Reload nginx
+          tags:
+            - http2

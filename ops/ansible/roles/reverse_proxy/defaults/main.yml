@@ -1,0 +1,11 @@
+# To activate the Nginx reverse proxy, set `reverse_proxy_host_name` to the host name it will listen to
+reverse_proxy_host_name: null
+reverse_proxy_base_path: /
+
+# Optional: SSL certificate
+# An SSL certificate is issued from Let's Encrypt if `letsencrypt_email` is defined.
+letsencrypt_email: null
+letsencrypt_environment: staging # switch to `production` only after testing to avoid reaching your Let's Encrypt quota
+
+# Fully managed by Ansible, you should not need to edit this unless you have a naming collision
+nginx_conf_file_name: "{{ reverse_proxy_host_name }}.conf"

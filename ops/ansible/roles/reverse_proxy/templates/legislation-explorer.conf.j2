@@ -1,0 +1,12 @@
+server {
+    listen 80;
+    server_name {{ reverse_proxy_host_name }};
+
+    access_log /var/log/nginx/{{ reverse_proxy_host_name }}-access.log;
+    error_log /var/log/nginx/{{ reverse_proxy_host_name }}-error.log;
+
+    location ~ ^{{ reverse_proxy_base_path }}(.*)$ {
+        proxy_pass http://127.0.0.1:{{ app_port }}/$1;
+        include /etc/nginx/proxy_params;
+    }
+}

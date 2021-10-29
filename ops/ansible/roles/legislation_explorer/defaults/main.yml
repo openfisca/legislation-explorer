@@ -13,15 +13,6 @@ ui_strings: |
 repo_url: https://github.com/openfisca/legislation-explorer.git
 branch: master
 
-# Reverse proxy
-host_name: localhost
-base_path: /
-
-# Optional: SSL certificate
-# An SSL certificate is issued from Let's Encrypt if `letsencrypt_email` is defined.
-letsencrypt_email: null
-letsencrypt_environment: staging # switch to `production` after testing to avoid reaching your Let's Encrypt quota
-
 # Optional: Matomo tracker
 # See more on https://github.com/openfisca/openfisca-tracker
 matomo_url: null

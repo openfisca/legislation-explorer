@@ -41,7 +41,7 @@ all:
       ansible_user: root # define here the username to use when connecting over SSH
       # adjust the variables defined in `ansible/roles/*/defaults/main.yml` below:
       api_url: https://my-openfisca-api.example/
-      host_name: my-legislation-explorer.example
+      reverse_proxy_host_name: my-legislation-explorer.example
 ```
 
 ## 4. Install and start the Legislation Explorer
@@ -50,7 +50,7 @@ all:
 2. Navigate to the freshly downloaded folder: `cd legislation-explorer`.
 3. Type the following command: `ansible-playbook --inventory ansible/inventories/YOUR_INVENTORY.yml ansible/site.yml`.
 
-Once the command is done, your target machine should run the Legislation Explorer. Just open `http://HOST_NAME/` in your browser. You can change the port and path through the configuration file, by changing the variables `app_port` or `base_path`.
+Once the command is done, your target machine should run the Legislation Explorer. Just open `http://HOST_NAME/` in your browser. You can change the port and path through the configuration file, by changing the variables `app_port` or `reverse_proxy_base_path`.
 
 ### Optional: enable Matomo
 
