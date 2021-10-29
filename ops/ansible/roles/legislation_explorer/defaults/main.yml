@@ -1,0 +1,32 @@
+api_url: http://localhost:8000
+app_host: 127.0.0.1
+app_port: 8001
+base_path: /
+changelog_url: https://github.com/openfisca/openfisca-france/blob/master/CHANGELOG.md
+host_name: localhost
+ui_strings: |
+  {
+    "en":
+      { "countryName": "France", "search_placeholder": "smic, salaire net" },
+    "fr":
+      { "countryName": "France", "search_placeholder": "smic, salaire net" }
+  }
+
+repo_url: https://github.com/openfisca/legislation-explorer.git
+branch: master
+
+# Optional: SSL certificate
+# An SSL certificate is issued from Let's Encrypt if `letsencrypt_email` is defined.
+letsencrypt_email: null
+letsencrypt_environment: staging # switch to `production` after testing to avoid reaching your Let's Encrypt quota
+
+# Optional: Matomo tracker
+# See more on https://github.com/openfisca/openfisca-tracker
+matomo_url: null
+matomo_site_id: null
+
+# Fully managed by Ansible, you should not need to edit this unless you have a naming collision
+source_dir: "/home/{{ unix_user_name }}/legislation-explorer"
+systemd_service_file: /etc/systemd/system/legislation-explorer.service
+unix_group_name: openfisca
+unix_user_name: legislation-explorer

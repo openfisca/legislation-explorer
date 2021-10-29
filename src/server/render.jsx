@@ -43,6 +43,11 @@ function loadWebpackAssets() {
 }
 
 
+function trimTrailingSlashes(value) {
+  return value.replace(/\/+$/, '')
+}
+
+
 function renderHtmlDocument(renderProps, state) {
   const appHtml = renderToString(
     // The following "UTC" indicates that we are not taking timezones into account when formatting dates: "2018-01-01" will always be formatted as 01/01/2018.
@@ -54,7 +59,7 @@ function renderHtmlDocument(renderProps, state) {
     </IntlProvider>
   )
   const webpackAssets = loadWebpackAssets()
-  const pathname = process.env.PATHNAME || ''
+  const pathname = trimTrailingSlashes(process.env.PATHNAME || '/')
 
   // Add external CSS copied to the public directory by CopyWebpackPlugin in webpack config.
   const bootstrapCss = process.env.NODE_ENV === 'production'

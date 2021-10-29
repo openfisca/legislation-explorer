@@ -1,0 +1,6 @@
+---
+- name: Install OpenFisca Legislation Explorer
+  become: yes
+  hosts: all
+  roles:
+    - legislation_explorer

@@ -1,0 +1,139 @@
+- name: Install Ubuntu packages
+  block:
+    - name: Update the cache of Ubuntu packages
+      ansible.builtin.apt:
+        update_cache: yes
+      tags:
+        - apt-update-cache
+
+    - name: Install Ubuntu packages
+      ansible.builtin.apt:
+        install_recommends: no
+        name:
+          - acl # Provides "setfacl" command, used by Ansible to become another Unix user
+          - git
+          - nginx
+          - nodejs=10.19.0~dfsg-3ubuntu1
+          - npm=6.14.4+ds-1ubuntu2
+        state: present
+        update_cache: no
+
+- name: Create the Unix group for Legislation Explorer
+  ansible.builtin.group:
+    name: "{{ unix_group_name }}"
+    state: present
+
+- name: Create the Unix user for Legislation Explorer
+  ansible.builtin.user:
+    name: "{{ unix_user_name }}"
+    group: "{{ unix_group_name }}"
+    shell: /bin/bash
+  register: unix_user
+
+- name: Clone the Git repository of Legislation Explorer
+  ansible.builtin.git:
+    # Discard any local changes otherwise the task will fail.
+    # Sometimes the package-lock.json is modified due to changes in its structure.
+    force: yes
+    repo: "{{ repo_url }}"
+    dest: "{{ source_dir }}"
+    version: "{{ branch }}"
+  become_user: "{{ unix_user_name }}"
+
+- name: Install npm dependencies
+  ansible.builtin.npm:
+    path: "{{ source_dir }}"
+    production: yes
+    state: present
+
+- name: Copy the environment file for Legislation Explorer
+  ansible.builtin.template:
+    src: systemd/legislation-explorer.env.j2
+    dest: "{{ source_dir }}/.env"
+
+- name: Build the application
+  ansible.builtin.command: npm run build
+  args:
+    chdir: "{{ source_dir }}"
+
+- name: Set up the systemd service
+  block:
+    - name: Copy the systemd service file
+      ansible.builtin.template:
+        src: systemd/legislation-explorer.service.j2
+        dest: "{{ systemd_service_file }}"
+
+    - name: Enable and start the systemd service
+      ansible.builtin.systemd:
+        daemon_reload: yes
+        enabled: yes
+        state: restarted
+        name: legislation-explorer
+
+- name: Check that Legislation Explorer is actually started
+  ansible.builtin.uri:
+    return_content: yes
+    status_code: 200
+    timeout: 120
+    url: "http://localhost:{{ app_port }}"
+  register: this
+  until: this.status == 200
+  retries: 5 # times
+  delay: 5 # Every 5 seconds
+
+- name: Copy the nginx vhost file to the sites-available directory of Nginx
+  ansible.builtin.template:
+    src: nginx/legislation-explorer.conf.j2
+    dest: "/etc/nginx/sites-available/{{ host_name }}.conf"
+
+- name: Link the nginx vhost file to the sites-enabled directory of Nginx
+  ansible.builtin.file:
+    src: "/etc/nginx/sites-available/{{ host_name }}.conf"
+    dest: "/etc/nginx/sites-enabled/{{ host_name }}.conf"
+    state: link
+  notify: Reload nginx
+
+- name: Set SSL up
+  when: letsencrypt_email
+  block:
+    - name: Install Certbot and its Nginx plugin
+      ansible.builtin.apt:
+        install_recommends: no
+        name:
+          - certbot
+          - python3-certbot-nginx
+        state: present
+        update_cache: no
+
+    - name: Handle staging environment
+      when: letsencrypt_environment == "staging"
+      block:
+        - name: Display message when staging environment is used
+          ansible.builtin.debug:
+            msg: Let's Encrypt staging environment will be used
+
+        - name: Define certbot --staging option
+          ansible.builtin.set_fact:
+            certbot_staging_option: "--staging"
+
+    - name: Reinstall or renew an SSL certificate from Let's Encrypt using the certbot client
+      ansible.builtin.command: >
+        certbot
+        --non-interactive --email {{ letsencrypt_email }} --agree-tos
+        --nginx --redirect
+        --domain {{ host_name }}
+        --cert-name {{ host_name }}
+        --keep-until-expiring
+        {{ certbot_staging_option | default() }}
+      become_user: root
+      register: certbot_result
+
+    - name: Enable HTTP/2
+      ansible.builtin.lineinfile:
+        backrefs: yes
+        line: '\1\2 http2;\3'
+        path: "/etc/nginx/sites-available/{{ host_name }}.conf"
+        regexp: "^(.*)(listen 443 ssl);(.+)$"
+      notify: Reload nginx
+      tags:
+        - http2

@@ -1,0 +1,11 @@
+[Unit]
+Description=OpenFisca Legislation Explorer
+
+[Service]
+ExecStart=/usr/bin/npm start
+WorkingDirectory={{ source_dir | quote }}
+User={{ unix_user_name }}
+Group={{ unix_group_name }}
+
+[Install]
+WantedBy=multi-user.target
