@@ -30,45 +30,49 @@
     shell: /bin/bash
   register: unix_user
 
+- name: Define the path of the source directory
+  ansible.builtin.set_fact:
+    source_dir_path: "{{ unix_user.home }}/{{ source_dir }}"
+
 - name: Clone the Git repository of Legislation Explorer
   ansible.builtin.git:
     # Discard any local changes otherwise the task will fail.
     # Sometimes the package-lock.json is modified due to changes in its structure.
     force: yes
     repo: "{{ repo_url }}"
-    dest: "{{ source_dir }}"
+    dest: "{{ source_dir_path }}"
     version: "{{ branch }}"
   become_user: "{{ unix_user_name }}"
 
 - name: Install npm dependencies
   ansible.builtin.npm:
-    path: "{{ source_dir }}"
+    path: "{{ source_dir_path }}"
     production: yes
     state: present
 
 - name: Copy the environment file for Legislation Explorer
   ansible.builtin.template:
     src: systemd/legislation-explorer.env.j2
-    dest: "{{ source_dir }}/.env"
+    dest: "{{ source_dir_path }}/.env"
 
 - name: Build the application
   ansible.builtin.command: npm run build
   args:
-    chdir: "{{ source_dir }}"
+    chdir: "{{ source_dir_path }}"
 
 - name: Set up the systemd service
   block:
     - name: Copy the systemd service file
       ansible.builtin.template:
         src: systemd/legislation-explorer.service.j2
-        dest: "{{ systemd_service_file }}"
+        dest: "/etc/systemd/system/{{ systemd_service_file_name }}"
 
     - name: Enable and start the systemd service
       ansible.builtin.systemd:
         daemon_reload: yes
         enabled: yes
         state: restarted
-        name: legislation-explorer
+        name: "{{ systemd_service_file_name }}"
 
 - name: Check that Legislation Explorer is actually started
   ansible.builtin.uri:
@@ -105,16 +109,10 @@
         state: present
         update_cache: no
 
-    - name: Handle staging environment
+    - name: Use Let's Encrypt staging environment
       when: letsencrypt_environment == "staging"
-      block:
-        - name: Display message when staging environment is used
-          ansible.builtin.debug:
-            msg: Let's Encrypt staging environment will be used
-
-        - name: Define certbot --staging option
-          ansible.builtin.set_fact:
-            certbot_staging_option: "--staging"
+      ansible.builtin.set_fact:
+        certbot_staging_option: "--staging"
 
     - name: Reinstall or renew an SSL certificate from Let's Encrypt using the certbot client
       ansible.builtin.command: >

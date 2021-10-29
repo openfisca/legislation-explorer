@@ -3,13 +3,26 @@ all:
     vps-60ea1664.openfisca.org:
       ansible_user: root
 
-      host_name: legislation.fr.openfisca.org
+      api_url: https://api.fr.openfisca.org/latest
       app_port: 8100
 
-      api_url: https://api.fr.openfisca.org/latest
-
-      letsencrypt_email: contact@openfisca.org
-      letsencrypt_environment: production
+      ui_strings: |
+        {
+          "en":
+            { "countryName": "France", "search_placeholder": "smic, salaire net" },
+          "fr":
+            { "countryName": "France", "search_placeholder": "smic, salaire net" }
+        }
 
       matomo_url: https://stats.data.gouv.fr/piwik.php
       matomo_site_id: 4
+
+      source_dir: legislation-explorer-fr # relative to the home directory
+      systemd_service_file_name: legislation-explorer-fr.service
+
+      # Reverse proxy
+
+      host_name: legislation.fr.openfisca.org
+
+      letsencrypt_email: contact@openfisca.org
+      letsencrypt_environment: production
