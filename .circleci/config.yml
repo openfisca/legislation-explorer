@@ -49,7 +49,7 @@ jobs:
           background: true
       - run:
           name: Start Sauce Connect
-          command: cd sc/sc-*-linux && ./bin/sc --user $SAUCE_USERNAME --api-key $SAUCE_ACCESS_KEY --tunnel-identifier "circle-$CIRCLE_BUILD_NUM-$CIRCLE_NODE_INDEX" --readyfile ~/sauce_is_ready > /tmp/sauce_log.txt
+          command: cd sc/sc-*-linux && ./bin/sc --user $SAUCE_USERNAME --api-key $SAUCE_ACCESS_KEY --tunnel-name "circle-$CIRCLE_BUILD_NUM-$CIRCLE_NODE_INDEX" --readyfile ~/sauce_is_ready > /tmp/sauce_log.txt
           background: true
       - run:
           name: Wait for Sauce Connect
