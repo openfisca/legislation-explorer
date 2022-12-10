@@ -1,0 +1,10 @@
+[ignore]
+<PROJECT_ROOT>/.*
+!<PROJECT_ROOT>/src/utils/periods.js
+!<PROJECT_ROOT>/src/utils/search.js
+
+[libs]
+flow-typed
+
+[options]
+all=true

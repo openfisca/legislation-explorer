@@ -23,6 +23,13 @@ export const entityShape = PropTypes.shape({
   roles: PropTypes.objectOf(roleShape),
 })
 
+export const locationShape = PropTypes.shape({
+  pathname: PropTypes.string.isRequired,
+  search: PropTypes.string.isRequired,
+  hash: PropTypes.string.isRequired,
+  state: PropTypes.object
+})
+
 export const parameterShape = PropTypes.shape({
   id: PropTypes.string,
   description: PropTypes.string,
@@ -30,6 +37,19 @@ export const parameterShape = PropTypes.shape({
   normalizedDescription: PropTypes.string,
   values: valuesShape,
   brackets: PropTypes.objectOf(valuesShape),
+})
+
+export const routerShape = PropTypes.shape({
+  action: PropTypes.string.isRequired,
+  location: locationShape.isRequired,
+  push: PropTypes.func.isRequired,
+  replace: PropTypes.func.isRequired,
+  go: PropTypes.func.isRequired,
+  goBack: PropTypes.func.isRequired,
+  goForward: PropTypes.func.isRequired,
+  canGo: PropTypes.func,
+  block: PropTypes.func.isRequired,
+  listen: PropTypes.func.isRequired
 })
 
 export const variableShape = PropTypes.shape({

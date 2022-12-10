@@ -4,6 +4,7 @@
 .idea
 .project
 .vscode
+flow-typed
 node_modules
 npm-debug.log
 ops/.vagrant
