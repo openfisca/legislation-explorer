@@ -1,7 +1,8 @@
 [ignore]
 <PROJECT_ROOT>/.*
+!<PROJECT_ROOT>/src/utils/client.js
 !<PROJECT_ROOT>/src/utils/periods.js
-!<PROJECT_ROOT>/src/utils/findCountryModelItems.test.js
+!<PROJECT_ROOT>/src/utils/search.js
 
 [libs]
 flow-typed

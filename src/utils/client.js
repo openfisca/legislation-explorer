@@ -1,3 +1,5 @@
+import type {BrowserHistory} from 'flow-typed/npm/history_v4.x.x'
+
 import ReactPiwik from 'react-piwik'
 import {createBrowserHistory} from 'history'
 
@@ -15,18 +17,28 @@ const hashLinkScroll = (): void => {
   }
 
   else {
-    const id = hash.replace(/[^\-#0-9a-z]/gi, '')
+    const id = hash.replace(/[^0-9a-z-]/gi, '')
     const element = document.getElementById(id)
     if (element) element.scrollIntoView({ behavior: 'smooth' })
   }
 }
 
-const createHistory = ({ pathname, matomo }) => {
-  const history = createBrowserHistory({ basename: pathname })
-
-  if (!matomo) {
-    return history
+/**
+ * Creates a history object with the given options.
+ *
+ * @param {Object} options - The options for creating the history object.
+ * @param {string} [options.basename] - The base URL path.
+ * @param {Object} [options.matomo] - The Matomo configuration.
+ * @returns {BrowserHistory} The history object that was created.
+ */
+const createHistory = (
+  { basename, matomo }: {
+    basename?: string,
+    matomo?: { [key: string]: string | number },
   }
+): BrowserHistory => {
+  const history = createBrowserHistory({ basename })
+  if (!matomo) return history
 
   const piwik = new ReactPiwik({
     url: matomo.url,
