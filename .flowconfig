@@ -1,7 +1,7 @@
 [ignore]
 <PROJECT_ROOT>/.*
 !<PROJECT_ROOT>/src/utils/client.js
-!<PROJECT_ROOT>/src/utils/periods.js
+!<PROJECT_ROOT>/src/utils/periods.ts
 !<PROJECT_ROOT>/src/utils/search.js
 
 [libs]
