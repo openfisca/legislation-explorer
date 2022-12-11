@@ -2,7 +2,7 @@ import config from '../config'
 
 import { loadTranslations } from './lang'
 import handleRender from './render'
-import { addNormalizedDescription } from '../utils/search'
+import search from '../utils/search'
 import { fetchEntities, fetchParameters, fetchVariables, fetchSwagger } from '../webservices'
 
 import express from 'express'
@@ -45,15 +45,15 @@ Promise.all([fetchEntities(), fetchParameters(), fetchVariables(), fetchSwagger(
 
     const normalizedEntities = map(
       assoc('itemType', 'entity'),
-      addNormalizedDescription(entitiesResponse.data)
+      search.addNormalizedDescription(entitiesResponse.data)
     )
     const normalizedParameters = map(
       assoc('itemType', 'parameter'),
-      addNormalizedDescription(parametersResponse.data)
+      search.addNormalizedDescription(parametersResponse.data)
     )
     const normalizedVariables = map(
       assoc('itemType', 'variable'),
-      addNormalizedDescription(variablesResponse.data)
+      search.addNormalizedDescription(variablesResponse.data)
     )
 
     const messages = loadTranslations(path.join(__dirname, '../assets/lang/'))

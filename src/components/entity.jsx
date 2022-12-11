@@ -4,7 +4,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import config from '../config'
-import { entityShape } from '../openfisca-proptypes'
+import { entityShape } from '../utils/proptypes'
 
 
 class Entity extends React.Component {

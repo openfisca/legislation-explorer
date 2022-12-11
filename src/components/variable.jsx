@@ -5,9 +5,9 @@ import PropTypes from 'prop-types'
 import { keys } from 'ramda'
 
 import config from '../config'
-import { parameterShape, variableShape } from '../openfisca-proptypes'
+import { parameterShape, variableShape } from '../utils/proptypes'
 import Formula from './formula'
-import getDayBefore from '../periods'
+import getDayBefore from '../utils/periods'
 
 class Variable extends React.Component {
   //Variable properties include other objects for Formula code highlight.
