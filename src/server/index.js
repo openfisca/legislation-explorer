@@ -2,7 +2,7 @@ import config from '../config'
 
 import { loadTranslations } from './lang'
 import handleRender from './render'
-import { addNormalizedDescription } from '../search'
+import { addNormalizedDescription } from '../utils/search'
 import { fetchEntities, fetchParameters, fetchVariables, fetchSwagger } from '../webservices'
 
 import express from 'express'

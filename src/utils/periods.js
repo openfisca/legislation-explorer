@@ -1,5 +1,5 @@
-const ONE_DAY = 86400000 // in ms
 const LENGTH = 'YYYY-MM-DD'.length
+const ONE_DAY = 86400000 // in ms
 
 /**
  * Returns the date that occurred one day before the input date.

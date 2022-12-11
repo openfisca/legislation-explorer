@@ -51,6 +51,7 @@
     "react-highlight": "^0.12.0",
     "react-intl": "^2.7.1",
     "react-piwik": "^1.12.0",
+    "react-router": "^5.3.4",
     "react-router-dom": "^5.3.4",
     "serve-favicon": "^2.3.0",
     "swagger-ui": "^3.52.5",
@@ -59,6 +60,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^8.2.6",
+    "chai": "^4.3.7",
     "concurrently": "^3.6.1",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.6.0",
@@ -66,10 +68,12 @@
     "eslint-plugin-react": "^7.11.1",
     "flow-bin": "^0.195.1",
     "flow-typed": "^3.8.0",
+    "jsdom": "^20.0.3",
     "mocha": "^5.2.0",
     "piping": "^1.0.0-rc.3",
     "react-transform-hmr": "^1.0.4",
     "should": "^13.2.3",
+    "sinon": "^15.0.0",
     "watai": "^0.7.0",
     "webpack-dev-server": "^3.1.14",
     "webpack-error-notification": "^0.1.8"

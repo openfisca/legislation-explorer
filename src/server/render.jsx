@@ -3,7 +3,7 @@
 
 import React from 'react'
 import {renderToString, renderToStaticMarkup} from 'react-dom/server'
-import {match, RouterContext} from 'react-router'
+import {match, RouterContext} from 'react-router-dom'
 import {IntlProvider} from 'react-intl'
 
 import {getLocale, getLocaleMessages} from './lang'

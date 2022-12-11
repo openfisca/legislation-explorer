@@ -1,5 +1,5 @@
-import diacritics from 'diacritics'
 import * as ramda from 'ramda'
+import diacritics from 'diacritics'
 
 
 type Item = {
@@ -119,7 +119,11 @@ const normalise = (
 ): { [key: string]: any } => {
   if (!description) return {}
   const lowerCase = description.toLowerCase()
-  return {...map, normalizedDescription: diacritics.remove(lowerCase)}
+  return {
+    ...map,
+    description,
+    normalizedDescription: diacritics.remove(lowerCase),
+  }
 }
 
 
@@ -135,7 +139,7 @@ const normalise = (
  * @param {string} query - The query to search for.
  * @returns {Item[]} - A list of items that match the given query.
  */
-export const findCountryModelItems = (
+const findCountryModelItems = (
   entities: Items,
   parameters: Items,
   variables: Items,
@@ -163,8 +167,11 @@ export const findCountryModelItems = (
  * @param {Object[]} objects - An array of objects to be updated.
  * @return {Object[]} An array of objects with `normalizedDescription`.
  */
-export const addNormalizedDescription = (
+const addNormalizedDescription = (
   objects: { [key: string]: any }[]
 ): { [key: string]: any }[] => {
   return ramda.map(object => normalise(object), objects)
 }
+
+
+export default {findCountryModelItems,  addNormalizedDescription}

@@ -3,7 +3,7 @@ import Formula from '../../src/components/formula'
 import Adapter from 'enzyme-adapter-react-16';
 import { configure, shallow } from 'enzyme';
 import {flatten} from 'ramda'
-import {Link} from 'react-router'
+import {Link} from 'react-router-dom'
 import should from 'should'
 import fs from 'fs'
 import path from 'path'
