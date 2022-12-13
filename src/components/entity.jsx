@@ -14,7 +14,7 @@ class Entity extends React.Component {
     intl: intlShape.isRequired,
     entityId: PropTypes.string.isRequired,
     entity: entityShape.isRequired,
-  };
+  }
 
 
   render() {

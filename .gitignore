@@ -6,15 +6,16 @@ webpack-assets.json
 .env
 .env.*
 
-# NPM
+# NPM et al.
+flow-typed
 node_modules
 npm-debug.log
 
 # Ops
-
 ops/.vagrant
 
 # IDEs
+.idea
 .vscode
 .project
 

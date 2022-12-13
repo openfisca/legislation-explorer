@@ -4,17 +4,15 @@
 import path from 'path'
 
 import CopyWebpackPlugin from 'copy-webpack-plugin'
-import ErrorNotificationPlugin from 'webpack-error-notification'
 import webpack from 'webpack'
 
+import WriteAssetsPlugin from './src/server/write-assets'
 import config from './src/config'
-import writeAssets from './src/server/write-assets'
-
 
 const assetsPath = path.resolve(__dirname, 'public')
+const webpackAssetsPath = path.resolve(__dirname, 'webpack-assets.json')
 
 const port = config.port + 1
-
 
 module.exports = {
   mode: 'development',
@@ -22,22 +20,14 @@ module.exports = {
   devtool: 'source-map', // Original code
   entry: {
     'main': [
-      'babel-polyfill',
       `webpack-dev-server/client?http://${config.host}:${port}`,
-      'webpack/hot/only-dev-server',
       './src/client.jsx',
     ],
   },
   output: {
     path: assetsPath,
-    filename: '[name]-bundle-[hash].js',
+    filename: '[name]-bundle-[contenthash].js',
     publicPath: `http://${config.host}:${port}/`,
-  },
-  target: 'web',
-
-  // yaml-js has a reference to `fs`, this is a workaround
-  node: {
-    fs: 'empty'
   },
   module: {
     rules: [
@@ -47,27 +37,20 @@ module.exports = {
         use: [{
           loader: 'babel-loader',
           options: {
-            plugins: [
-              ['react-transform', {
-                'transforms': [{
-                  'transform': 'react-transform-hmr',
-                  'imports': ['react'],
-                  'locals': ['module'],
-                }]
-              }]
-            ]
-          }
-        }]
-      }
-    ]
+            plugins: [],
+          },
+        }],
+      },
+    ],
   },
   resolve: {
     extensions: ['.js', '.jsx'],
+    fallback: {
+      fs: false,
+      stream: false,
+    },
   },
   plugins: [
-    // hot reload
-    new webpack.HotModuleReplacementPlugin(),
-
     // print a webpack progress
     new webpack.ProgressPlugin((percentage) => {
       if (percentage === 1) {
@@ -75,18 +58,11 @@ module.exports = {
       }
     }),
 
-    new ErrorNotificationPlugin(process.platform === 'linux' && function(msg) {
-      if (!this.lastBuildSucceeded) {
-        require('child_process').exec('notify-send --hint=int:transient:1 Webpack ' + msg)
-      }
-    }),
-
     new webpack.DefinePlugin({
       'process.env': {
         API_URL: JSON.stringify(config.apiBaseUrl),
-        CHANGELOG_URL: JSON.stringify(config.changelogUrl),
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
         PATHNAME: JSON.stringify(config.pathname),
+        CHANGELOG_URL: JSON.stringify(config.changelogUrl),
       }
     }),
 
@@ -94,16 +70,16 @@ module.exports = {
       React: 'react', // For babel JSX transformation which generates React.createElement.
     }),
 
-    new CopyWebpackPlugin([
-      // 'to' values are relative to the public directory configured by output.path
-      {from: 'src/assets/style.css', to: '.'},
-      {from: 'node_modules/bootstrap/dist', to: 'bootstrap'},
-      {from: 'node_modules/highlight.js/styles/github-gist.css', to: '.'},
-      {from: 'node_modules/swagger-ui/dist/swagger-ui.css', to: '.'},
-    ]),
+    new CopyWebpackPlugin({
+      patterns: [
+        {from: 'src/assets/style.css', to: '.'},
+        {from: 'node_modules/bootstrap/dist', to: 'bootstrap'},
+        {from: 'node_modules/highlight.js/styles/github-gist.css', to: '.'},
+        {from: 'node_modules/swagger-ui/dist/swagger-ui.css', to: '.'},
+      ],
+    }),
 
-    function() {
-      this.plugin('done', writeAssets(path.resolve(__dirname, 'webpack-assets.json')).bind(this))
-    },
+    new WriteAssetsPlugin(webpackAssetsPath),
   ],
 }
+

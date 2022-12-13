@@ -18,7 +18,7 @@ class Variable extends React.Component {
     parameters: PropTypes.objectOf(parameterShape).isRequired,
     variable: variableShape.isRequired,
     variables: PropTypes.objectOf(variableShape).isRequired,
-  };
+  }
 
   render() {
     const { variable } = this.props
@@ -214,7 +214,7 @@ class Variable extends React.Component {
         }
       </div>
     )
-  };
+  }
 
   renderFormulas = (formulas) => {
     const startDates = keys(formulas).sort().reverse()
@@ -243,7 +243,7 @@ class Variable extends React.Component {
         }
       </div>
     )
-  };
+  }
 }
 
 export default injectIntl(Variable)

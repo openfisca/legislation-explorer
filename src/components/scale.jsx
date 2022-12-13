@@ -7,7 +7,7 @@ import { parameterShape } from '../openfisca-proptypes'
 class Scale extends React.Component {
   static propTypes = {
     parameter: parameterShape.isRequired,
-  };
+  }
 
   render() {
     const {brackets} = this.props.parameter

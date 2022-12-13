@@ -7,7 +7,7 @@ class List extends React.Component {
     keyProperty: PropTypes.string,
     type: PropTypes.string,
     items: PropTypes.array.isRequired,
-  };
+  }
 
   render() {
     const {children, keyProperty, items, type} = this.props

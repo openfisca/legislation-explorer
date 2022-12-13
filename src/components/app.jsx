@@ -51,7 +51,7 @@ class App extends React.Component {
 
   isCurrentRoute = (route) => {
     return this.props.location.pathname == route
-  };
+  }
 
   render() {
     const {countryPackageName, countryPackageVersion, parameters, variables} = this.props

@@ -16,7 +16,7 @@ class CountryModelItemPage extends React.Component {
     router: routerShape.isRequired,
     searchQuery: PropTypes.string.isRequired,
     searchResults: PropTypes.array.isRequired,
-  };
+  }
 
   static propTypes = {
     countryPackageName: PropTypes.string.isRequired,
@@ -26,9 +26,9 @@ class CountryModelItemPage extends React.Component {
     entities: PropTypes.objectOf(entityShape).isRequired,
     parameters: PropTypes.objectOf(parameterShape).isRequired,
     variables: PropTypes.objectOf(variableShape).isRequired,
-  };
+  }
 
-  state = {variable: null, parameter: null, entityId: null, entity: null, waitingForResponse: true};
+  state = {variable: null, parameter: null, entityId: null, entity: null, waitingForResponse: true}
 
   fetchPageContent = (name) => {
     if (this.props.entities[name]) {
@@ -54,7 +54,7 @@ class CountryModelItemPage extends React.Component {
       this.setState({waitingForResponse: false})
       this.handleNotFound()
     }
-  };
+  }
 
   componentDidUpdate(prevProps) {
     if (this.props.params.name != prevProps.params.name) {
@@ -73,7 +73,7 @@ class CountryModelItemPage extends React.Component {
       query: {q: name, is404: true},
       hash: '#not-found',
     })
-  };
+  }
 
   render() {
     const { searchQuery, searchResults } = this.context

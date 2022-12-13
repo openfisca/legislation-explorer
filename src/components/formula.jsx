@@ -15,7 +15,7 @@ class Formula extends React.Component {
     source: PropTypes.string.isRequired,
     parameters: PropTypes.objectOf(parameterShape).isRequired,
     variables: PropTypes.objectOf(variableShape).isRequired,
-  };
+  }
 
   render() {
     const { startDate, stopDate, content, source } = this.props
@@ -43,17 +43,17 @@ class Formula extends React.Component {
   link = (variable) => {
     return <Link key={ variable + Math.random() } to={ variable }
       data-toggle="popover" title={ this.props.variables[variable].description }>{ variable }</Link>
-  };
+  }
 
   linkParam = (parameter, linkText) => {
     return <Link key={parameter + Math.random()} to={parameter}
       data-toggle="popover" title={this.props.parameters[parameter].description}>{ linkText }</Link>
-  };
+  }
 
   isVariable = (substring) => {
     // Ignore every text that isn't a single word like a variable must be:
     return (! substring.includes(' ') && this.props.variables[substring])
-  };
+  }
 
   splitAndLinkVariables = (text, separator) => {
     // Only split strings, as trying to split JSX Links would raise an error
@@ -69,7 +69,7 @@ class Formula extends React.Component {
       }
       return substring
     })
-  };
+  }
 
   splitAndLinkParams = (text) => {
     const recordedParamNodes = []
@@ -132,7 +132,7 @@ class Formula extends React.Component {
         return substrings
       }
     })
-  };
+  }
 
   // Change every OpenFisca parameter and variable in the formula by a link to the variable page:
   renderLinkedFormula = (formula) => {
@@ -149,7 +149,7 @@ class Formula extends React.Component {
       }),
       flatten
     )(formula)
-  };
+  }
 }
 
 export default Formula

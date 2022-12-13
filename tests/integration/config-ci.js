@@ -10,7 +10,7 @@ var capabilities = [
     platformName: 'Android',
     platformVersion: '7.0'
   }
-  ][process.env.CIRCLE_NODE_INDEX];
+][process.env.CIRCLE_NODE_INDEX]
 
 module.exports = {
   seleniumServerURL: {

@@ -13,12 +13,12 @@ class SearchBar extends React.Component {
     intl: intlShape.isRequired
   }
 
-  state = {inputValue: this.props.initialValue};
+  state = {inputValue: this.props.initialValue}
 
   handleInputChange = (event) => {
     this.setState({inputValue: event.target.value})
     this.searchInput.scrollIntoView()
-  };
+  }
 
   handleSubmit = (event) => {
     event.preventDefault()

@@ -1,26 +1,26 @@
 import url from 'url'
-
 import webpack from 'webpack'
 import WebpackDevServer from 'webpack-dev-server'
 
 import webpackDevConfig from '../../webpack.config.dev'
 
-
 const publicURL = url.parse(webpackDevConfig.output.publicPath)
 
-new WebpackDevServer(webpack(webpackDevConfig), {
+const options = {
+  host: publicURL.hostname,
+  port: publicURL.port,
+  headers: {'Access-Control-Allow-Origin': '*'},
   historyApiFallback: true,
-  hot: true,
-  noInfo: true,
-  publicPath: webpackDevConfig.output.publicPath,
-  stats: { colors: true },
-  quiet: true,
-  headers: {
-    'Access-Control-Allow-Origin': '*',
-  },
-}).listen(publicURL.port, publicURL.hostname, function (err) {
-  if (err)
-    return console.error(err)
+  static: {publicPath: webpackDevConfig.output.publicPath}
+}
 
-  console.log(`Webpack development server listening on ${webpackDevConfig.output.publicPath}`)
+const compiler = webpack({
+  ...webpackDevConfig,
+  stats: 'errors-only',
+})
+
+new WebpackDevServer(options, compiler).start().then(() => {
+  console.log(`Webpack development server listening on ${publicURL}`)
+}).catch((err) => {
+  console.error(err)
 })

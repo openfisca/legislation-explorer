@@ -3,29 +3,25 @@ import path from 'path'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 import webpack from 'webpack'
 
+import WriteAssetsPlugin from './src/server/write-assets'
 import config from './src/config'
-import writeAssets from './src/server/write-assets'
-import { loadTranslations } from './src/server/lang'
-
+import {loadTranslations} from './src/server/lang'
 
 const assetsPath = path.join(__dirname, 'public')
+const webpackAssetsPath = path.resolve(__dirname, 'webpack-assets.json')
+
 const supportedLanguages = Object.keys(loadTranslations(path.join(__dirname, './src/assets/lang/')))
 
 module.exports = {
   // devtool: "eval", // Transformed code
   devtool: 'source-map', // Original code
   entry: {
-    'main': ['babel-polyfill', './src/client.jsx'],
+    'main': ['./src/client.jsx'],
   },
   output: {
     path: assetsPath,
-    filename: '[name]-[hash].js',
+    filename: '[name]-[contenthash].js',
     publicPath: config.pathname.endsWith('/') ? config.pathname : `${config.pathname}/`
-  },
-  target: 'web',
-  // yaml-js has a reference to `fs`, this is a workaround
-  node: {
-    fs: 'empty'
   },
   module: {
     rules: [
@@ -40,16 +36,18 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.jsx'],
+    fallback: {
+      fs: false,
+      stream: false,
+    },
   },
   plugins: [
-
     // set global vars
     new webpack.DefinePlugin({
       'process.env': {
         API_URL: JSON.stringify(config.apiBaseUrl),
-        CHANGELOG_URL: JSON.stringify(config.changelogUrl),
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
         PATHNAME: JSON.stringify(config.pathname),
+        CHANGELOG_URL: JSON.stringify(config.changelogUrl),
       },
     }),
 
@@ -57,13 +55,14 @@ module.exports = {
       React: 'react', // For babel JSX transformation which generates React.createElement.
     }),
 
-    new CopyWebpackPlugin([
-      // 'to' values are relative to the public directory configured by output.path
-      {from: 'src/assets/style.css', to: '.'},
-      {from: 'node_modules/bootstrap/dist', to: 'bootstrap'},
-      {from: 'node_modules/highlight.js/styles/github-gist.css', to: '.'},
-      {from: 'node_modules/swagger-ui/dist/swagger-ui.css', to: '.'},
-    ]),
+    new CopyWebpackPlugin({
+      patterns: [
+        {from: 'src/assets/style.css', to: '.'},
+        {from: 'node_modules/bootstrap/dist', to: 'bootstrap'},
+        {from: 'node_modules/highlight.js/styles/github-gist.css', to: '.'},
+        {from: 'node_modules/swagger-ui/dist/swagger-ui.css', to: '.'},
+      ],
+    }),
 
     // Only load syntax highlighting for Python
     new webpack.ContextReplacementPlugin(
@@ -77,6 +76,6 @@ module.exports = {
       new RegExp(`^./(${supportedLanguages.join('|')})$`)
     ),
 
-    function() { this.plugin('done', writeAssets(path.resolve(__dirname, 'webpack-assets.json')).bind(this)) },
+    new WriteAssetsPlugin(webpackAssetsPath),
   ],
 }
