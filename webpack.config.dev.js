@@ -75,7 +75,7 @@ module.exports = {
       }
     }),
 
-    new ErrorNotificationPlugin(process.platform === 'linux' && function(msg) {
+    new ErrorNotificationPlugin(process.platform === 'linux' && function (msg) {
       if (!this.lastBuildSucceeded) {
         require('child_process').exec('notify-send --hint=int:transient:1 Webpack ' + msg)
       }
@@ -102,7 +102,7 @@ module.exports = {
       {from: 'node_modules/swagger-ui/dist/swagger-ui.css', to: '.'},
     ]),
 
-    function() {
+    function () {
       this.plugin('done', writeAssets(path.resolve(__dirname, 'webpack-assets.json')).bind(this))
     },
   ],

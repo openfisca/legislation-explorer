@@ -17,7 +17,7 @@ class HomePage extends React.Component {
     searchQuery: PropTypes.string.isRequired,
     searchResults: PropTypes.array.isRequired,
     setSearchQuery: PropTypes.func.isRequired,
-  };
+  }
 
   static propTypes = {
     countryPackageName: PropTypes.string.isRequired,
@@ -27,9 +27,9 @@ class HomePage extends React.Component {
     entities: PropTypes.objectOf(entityShape).isRequired,
     parameters: PropTypes.objectOf(parameterShape).isRequired,
     variables: PropTypes.objectOf(variableShape).isRequired,
-  };
+  }
 
-  state = {inputValue: ''};
+  state = {inputValue: ''}
 
   componentDidMount() {
     this._isMounted = true
@@ -96,7 +96,7 @@ class SearchResults extends React.Component {
   static propTypes = {
     items: PropTypes.array.isRequired,
     searchQuery: PropTypes.string,
-  };
+  }
 
   shouldComponentUpdate(nextProps) {
     // Optimization: re-render this component only if `searchQuery` changed.

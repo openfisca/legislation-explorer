@@ -14,7 +14,7 @@ class Parameter extends React.Component {
     countryPackageVersion: PropTypes.string.isRequired,
     intl: intlShape.isRequired,
     parameter: parameterShape.isRequired,
-  };
+  }
 
   render() {
     const {parameter} = this.props
@@ -73,7 +73,7 @@ class Parameter extends React.Component {
         </td>
       </tr>
     )
-  };
+  }
 
   renderStartStopValueTable = (parameter, values) => {
     return (
@@ -89,7 +89,7 @@ class Parameter extends React.Component {
         </tbody>
       </table>
     )
-  };
+  }
 }
 
 

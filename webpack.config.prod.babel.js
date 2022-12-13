@@ -5,7 +5,7 @@ import webpack from 'webpack'
 
 import config from './src/config'
 import writeAssets from './src/server/write-assets'
-import { loadTranslations } from './src/server/lang'
+import {loadTranslations} from './src/server/lang'
 
 
 const assetsPath = path.join(__dirname, 'public')
@@ -77,6 +77,8 @@ module.exports = {
       new RegExp(`^./(${supportedLanguages.join('|')})$`)
     ),
 
-    function() { this.plugin('done', writeAssets(path.resolve(__dirname, 'webpack-assets.json')).bind(this)) },
+    function () {
+      this.plugin('done', writeAssets(path.resolve(__dirname, 'webpack-assets.json')).bind(this))
+    },
   ],
 }
