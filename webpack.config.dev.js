@@ -22,7 +22,6 @@ module.exports = {
   devtool: 'source-map', // Original code
   entry: {
     'main': [
-      'babel-polyfill',
       `webpack-dev-server/client?http://${config.host}:${port}`,
       'webpack/hot/only-dev-server',
       './src/client.jsx',
@@ -45,7 +44,7 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /(node_modules|public)/,
         use: [{
-          loader: 'babel-loader',
+          loader: '@babel/loader',
           options: {
             plugins: [
               ['react-transform', {

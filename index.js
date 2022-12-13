@@ -1,8 +1,5 @@
-// Load polyfills, before running the server
-require('babel-polyfill')
-
 // Register babel to have ES6 support on the server
-require('babel-register')
+require('@babel/register')
 
 // Intl in node
 // const areIntlLocalesSupported = require("intl-locales-supported")

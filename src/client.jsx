@@ -7,7 +7,6 @@ import React from 'react'
 import { render } from 'react-dom'
 import { addLocaleData, IntlProvider } from 'react-intl'
 import { Router, useRouterHistory } from 'react-router'
-require('babel-polyfill')
 
 
 // Adapted from: https://github.com/ReactTraining/react-router/issues/394#issuecomment-230116115

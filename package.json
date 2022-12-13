@@ -7,7 +7,7 @@
     "clean": "rm -rf public",
     "dev": "concurrently --kill-others 'npm run dev:app-server' 'npm run dev:webpack-dev-server'",
     "dev:app-server": "NODE_ENV=development node --require dotenv/config index.js",
-    "dev:webpack-dev-server": "node --require dotenv/config --require babel-register src/server/webpack-dev-server.js",
+    "dev:webpack-dev-server": "node --require dotenv/config --require @babel/register src/server/webpack-dev-server.js",
     "lint": "eslint --ext .js,.jsx .",
     "format": "npm run lint -- --fix",
     "start": "NODE_ENV=production node --require dotenv/config index.js",

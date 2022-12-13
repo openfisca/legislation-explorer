@@ -15,7 +15,7 @@ module.exports = {
   // devtool: "eval", // Transformed code
   devtool: 'source-map', // Original code
   entry: {
-    'main': ['babel-polyfill', './src/client.jsx'],
+    'main': ['./src/client.jsx'],
   },
   output: {
     path: assetsPath,
