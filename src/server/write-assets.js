@@ -37,10 +37,14 @@ const writeAssets = (compiler, assets) => {
   }
 }
 
-const WriteAssetsPlugin = (assets) => ({
-  apply: (compiler) => {
-    compiler.hooks.done.tap('WriteAssetsPlugin', writeAssets(compiler, assets))
+class WriteAssetsPlugin {
+  constructor(assets) {
+    this.assets = assets
   }
-})
+
+  apply(compiler) {
+    compiler.hooks.done.tap('WriteAssetsPlugin', writeAssets(compiler, this.assets))
+  }
+}
 
 export default WriteAssetsPlugin
