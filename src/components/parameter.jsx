@@ -4,9 +4,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import config from '../config'
-import { parameterShape } from '../openfisca-proptypes'
+import { parameterShape } from '../utils/proptypes'
 import Scale from './scale'
-import getDayBefore from '../periods'
+import getDayBefore from '../utils/periods'
 
 class Parameter extends React.Component {
   static propTypes = {

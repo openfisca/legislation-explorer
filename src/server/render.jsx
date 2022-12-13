@@ -2,9 +2,10 @@
 // to the client
 
 import React from 'react'
-import {renderToString, renderToStaticMarkup} from 'react-dom/server'
-import {match, RouterContext} from 'react-router'
 import {IntlProvider} from 'react-intl'
+import {RouterContext} from 'react-router'
+import {match} from 'react-router'
+import {renderToString, renderToStaticMarkup} from 'react-dom/server'
 
 import {getLocale, getLocaleMessages} from './lang'
 import routes from '../routes'

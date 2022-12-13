@@ -1,22 +1,12 @@
-# Build
-public
-webpack-assets.json
-
-# Do not store config. See more at https://12factor.net/config.
+.DS_Store
 .env
 .env.*
-
-# NPM
+.idea
+.project
+.vscode
+flow-typed
 node_modules
 npm-debug.log
-
-# Ops
-
 ops/.vagrant
-
-# IDEs
-.vscode
-.project
-
-# OS
-.DS_Store
+public
+webpack-assets.json

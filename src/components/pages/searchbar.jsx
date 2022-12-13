@@ -1,7 +1,7 @@
-import { routerShape } from 'react-router'
 import React from 'react'
 import {FormattedMessage, injectIntl, intlShape} from 'react-intl'
 
+import { routerShape } from '../../utils/proptypes'
 import { searchInputId } from './home'
 
 class SearchBar extends React.Component {

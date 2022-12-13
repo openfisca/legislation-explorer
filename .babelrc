@@ -1,6 +1,7 @@
 {
   "presets": [
     "es2015",
+    "flow",
     "react",
     "stage-0"
   ]

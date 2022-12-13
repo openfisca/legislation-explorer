@@ -1,10 +1,10 @@
-# CircleCI 2.0 configuration file. See <https://circleci.com/docs/2.0/language-python/>.
-version: 2
+version: 2.1
+
 jobs:
   build:
     parallelism: 4
     docker:
-      - image: circleci/node:10-browsers
+        - image: circleci/node:10-browsers
     environment:
       WATAI_TESTS: tests/integration
       SAUCE_USERNAME: openfisca
@@ -17,7 +17,7 @@ jobs:
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - restore_cache:
-          key: sc-4.6.4
+          key: sc-4.8.2
       - run:
           name: Install app dependencies
           command: npm install
@@ -27,14 +27,14 @@ jobs:
             npm install saucelabs@^1.5.0 --no-save # allow sending Watai results to SauceLabs. Don't save in package.json, as this would change its checksum and mess up the cache.
             if [ -d sc ]; then exit; fi  # sc has already been downloaded
             mkdir sc
-            wget https://saucelabs.com/downloads/sc-4.6.4-linux.tar.gz --directory-prefix sc
-            tar -xzf sc/sc-4.6.4-linux.tar.gz --directory sc
+            wget https://saucelabs.com/downloads/sc-4.8.2-linux.tar.gz --directory-prefix sc
+            tar -xzf sc/sc-4.8.2-linux.tar.gz --directory sc
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - node_modules
       - save_cache:
-          key: sc-4.6.4
+          key: sc-4.8.2
           paths:
             - sc
       - run:
@@ -49,7 +49,7 @@ jobs:
           background: true
       - run:
           name: Start Sauce Connect
-          command: cd sc/sc-*-linux && ./bin/sc --user $SAUCE_USERNAME --api-key $SAUCE_ACCESS_KEY --tunnel-identifier "circle-$CIRCLE_BUILD_NUM-$CIRCLE_NODE_INDEX" --readyfile ~/sauce_is_ready > /tmp/sauce_log.txt
+          command: cd sc/sc-*-linux && ./bin/sc --user $SAUCE_USERNAME --api-key $SAUCE_ACCESS_KEY --tunnel-name "circle-$CIRCLE_BUILD_NUM-$CIRCLE_NODE_INDEX" --readyfile ~/sauce_is_ready > /tmp/sauce_log.txt
           background: true
       - run:
           name: Wait for Sauce Connect
@@ -69,15 +69,17 @@ jobs:
       - store_artifacts:
           path: /tmp/sauce_log.txt
           destination: sauce-log
+
   deploy:
     docker:
       - image: circleci/node:8-jessie-browsers
+
     steps:
       - run:
           name: Deploy app
           command: if [ -n "$DEPLOY_SSH" ]; then ssh -o StrictHostKeyChecking=no $DEPLOY_SSH; fi
+
 workflows:
-  version: 2
   build:
     jobs:
       - build
