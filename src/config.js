@@ -3,7 +3,7 @@ let config = new Object(null)
 config.apiBaseUrl = process.env.API_URL || 'http://0.0.0.0:5000'
 config.changelogUrl = process.env.CHANGELOG_URL
 
-config.pathname = process.env.PATHNAME || ''
+config.pathname = process.env.PATHNAME || '/'
 config.host = process.env.HOST || '0.0.0.0'
 config.port = parseInt(process.env.PORT) || 2020
 
