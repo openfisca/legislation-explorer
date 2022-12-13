@@ -42,9 +42,12 @@ function loadWebpackAssets() {
   return webpackAssets
 }
 
-
-function trimTrailingSlashes(value) {
+const trimTrailingSlashes = (value) => {
   return value.replace(/\/+$/, '')
+}
+
+const trimLeadingSlashes = (value) => {
+  return value.replace(/^\/+/, '')
 }
 
 
@@ -76,7 +79,9 @@ function renderHtmlDocument(renderProps, state) {
   if (process.env.NODE_ENV === 'development') {
     const webpackDevConfig = require('../../webpack.config.dev')
 
-    externalCss = externalCss.map(file => `${webpackDevConfig.output.publicPath}${file}`)
+    externalCss = externalCss
+      .map(file => trimLeadingSlashes(file))
+      .map(file => `${webpackDevConfig.output.publicPath}${file}`)
   }
   const css = webpackAssets.main.css.concat(externalCss)
   const html = renderToStaticMarkup(
