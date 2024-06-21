@@ -26,3 +26,5 @@ all:
 
       letsencrypt_email: contact@openfisca.org
       letsencrypt_environment: production
+
+      autorestart_frequency: "*-*-* 01:10:00"

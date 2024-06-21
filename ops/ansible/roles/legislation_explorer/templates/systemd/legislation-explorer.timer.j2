@@ -1,0 +1,10 @@
+[Unit]
+Description=Restart OpenFisca Legislation Explorer
+
+[Timer]
+OnCalendar={{ autorestart_frequency }}
+Persistent=true
+Unit={{ systemd_service_file_name }}
+
+[Install]
+WantedBy=timers.target
