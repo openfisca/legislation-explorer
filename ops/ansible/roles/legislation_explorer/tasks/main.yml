@@ -67,12 +67,24 @@
         src: systemd/legislation-explorer.service.j2
         dest: "/etc/systemd/system/{{ systemd_service_file_name }}"
 
+    - name: Copy the systemd timer file
+      ansible.builtin.template:
+        src: systemd/legislation-explorer.timer.j2
+        dest: "/etc/systemd/system/{{ systemd_timer_file_name }}"
+
     - name: Enable and start the systemd service
       ansible.builtin.systemd:
         daemon_reload: yes
         enabled: yes
         state: restarted
         name: "{{ systemd_service_file_name }}"
+
+    - name: Enable and start the systemd timer
+      ansible.builtin.systemd:
+        daemon_reload: yes
+        enabled: yes
+        state: started
+        name: "{{ systemd_timer_file_name }}"
 
 - name: Check that Legislation Explorer is actually started
   ansible.builtin.uri:
