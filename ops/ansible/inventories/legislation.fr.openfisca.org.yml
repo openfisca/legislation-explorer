@@ -1,7 +1,7 @@
 all:
   hosts:
-    vps-60ea1664.openfisca.org:
-      ansible_user: root
+    vps-7d4f7fd9.vps.ovh.net:
+      ansible_user: openfisca
 
       api_url: https://api.fr.openfisca.org/latest
       app_port: 8100

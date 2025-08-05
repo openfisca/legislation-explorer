@@ -13,10 +13,27 @@
           - acl # Provides "setfacl" command, used by Ansible to become another Unix user
           - git
           - nginx
-          - nodejs=10.19.0~dfsg-3ubuntu1
-          - npm=6.14.4+ds-1ubuntu2
         state: present
         update_cache: no
+
+    - name: Add NodeSource Node.js 10.x repo
+      ansible.builtin.apt_key:
+        url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+        state: present
+
+    - name: Add Node.js 10.x apt repository
+      ansible.builtin.apt_repository:
+        repo: deb https://deb.nodesource.com/node_10.x focal main
+        state: present
+        filename: nodesource
+
+    - name: Install Node.js 10
+      ansible.builtin.apt:
+        name:
+          - nodejs=10.24.1-deb-1nodesource1
+        state: present
+        force: yes
+        update_cache: yes
 
 - name: Create the Unix group for Legislation Explorer
   ansible.builtin.group:
